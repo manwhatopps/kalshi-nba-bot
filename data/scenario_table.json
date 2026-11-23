@@ -1,0 +1,284 @@
+{
+ "made": "2026-11-23T23:45:53+00:00",
+ "scenarios": {
+  "pullup_drop": {
+   "player": "pull-up three shooter",
+   "defense": "drop-style defense (concedes pull-up jumpers, protects the rim and stays home on shooters)",
+   "col": "drop",
+   "stat": "pts",
+   "series": [
+    "KXNBAPTS",
+    "KXNBA3PT"
+   ],
+   "real_diff": -0.043115676968523996,
+   "real_z": -2.9270124487890494,
+   "same_sign": true,
+   "mk_diff": -0.011147870727325733,
+   "mk_z": -0.6224752269545752,
+   "stats": {
+    "pts": {
+     "diff": -0.043115676968523996,
+     "z": -2.9270124487890494,
+     "same_sign": true
+    },
+    "fg3m": {
+     "diff": -0.09124663129023515,
+     "z": -3.2966106063827065,
+     "same_sign": true
+    },
+    "pu3": {
+     "diff": 0.047467092477188784,
+     "z": 2.0985944407547907,
+     "same_sign": true
+    }
+   },
+   "def_pts_hi": 0.9763873544943732,
+   "def_pts_lo": 1.0270553980201242,
+   "games": 2647,
+   "markets": 7991
+  },
+  "pullup_pu3": {
+   "player": "pull-up three shooter",
+   "defense": "defense that concedes pull-up threes",
+   "col": "c_pu3",
+   "stat": "pts",
+   "series": [
+    "KXNBAPTS",
+    "KXNBA3PT"
+   ],
+   "real_diff": -0.00851174760498602,
+   "real_z": -0.5689003650938428,
+   "same_sign": false,
+   "mk_diff": -0.003616803880630067,
+   "mk_z": -0.20409482864055836,
+   "stats": {
+    "pts": {
+     "diff": -0.00851174760498602,
+     "z": -0.5689003650938428,
+     "same_sign": false
+    },
+    "fg3m": {
+     "diff": -0.025829029648634632,
+     "z": -0.9579948417472277,
+     "same_sign": true
+    },
+    "pu3": {
+     "diff": 0.0466432035135782,
+     "z": 2.054961237233813,
+     "same_sign": false
+    }
+   },
+   "def_pts_hi": 1.0121235010314393,
+   "def_pts_lo": 0.9968903831399816,
+   "games": 2648,
+   "markets": 7983
+  },
+  "spotup_cs3": {
+   "player": "spot-up shooter",
+   "defense": "defense that concedes catch-and-shoot threes (helps off shooters)",
+   "col": "c_cs3",
+   "stat": "pts",
+   "series": [
+    "KXNBAPTS",
+    "KXNBA3PT"
+   ],
+   "real_diff": 0.06963132780169817,
+   "real_z": 3.5363898888368963,
+   "same_sign": true,
+   "mk_diff": 0.014677940394306267,
+   "mk_z": 0.6074201807709204,
+   "stats": {
+    "pts": {
+     "diff": 0.06963132780169817,
+     "z": 3.5363898888368963,
+     "same_sign": true
+    },
+    "fg3m": {
+     "diff": 0.18833532717823348,
+     "z": 5.2982867748093625,
+     "same_sign": true
+    },
+    "cs3": {
+     "diff": 0.15918886705443927,
+     "z": 8.143283869007506,
+     "same_sign": true
+    }
+   },
+   "def_pts_hi": 1.0109563929122545,
+   "def_pts_lo": 0.9933180486444252,
+   "games": 2641,
+   "markets": 2979
+  },
+  "driver_lane": {
+   "player": "driver",
+   "defense": "defense that concedes drives",
+   "col": "c_drives",
+   "stat": "pts",
+   "series": [
+    "KXNBAPTS"
+   ],
+   "real_diff": -0.022879690025200586,
+   "real_z": -2.077520522829691,
+   "same_sign": true,
+   "mk_diff": -0.003171094114110866,
+   "mk_z": -0.21905280905080285,
+   "stats": {
+    "pts": {
+     "diff": -0.022879690025200586,
+     "z": -2.077520522829691,
+     "same_sign": true
+    },
+    "drives": {
+     "diff": 0.03016045943096697,
+     "z": 2.9624249260385294,
+     "same_sign": true
+    },
+    "fta": {
+     "diff": 0.005821675775797595,
+     "z": 0.20256452243595105,
+     "same_sign": false
+    }
+   },
+   "def_pts_hi": 1.0120783217087623,
+   "def_pts_lo": 0.9935053640272753,
+   "games": 4741,
+   "markets": 6883
+  },
+  "rim_soft": {
+   "player": "rim finisher",
+   "defense": "defense that concedes shots at the rim",
+   "col": "c_rim",
+   "stat": "pts",
+   "series": [
+    "KXNBAPTS"
+   ],
+   "real_diff": 0.0738030417200863,
+   "real_z": 3.1534638665495773,
+   "same_sign": true,
+   "mk_diff": 0.043041996276970626,
+   "mk_z": 1.5287769275576617,
+   "stats": {
+    "pts": {
+     "diff": 0.0738030417200863,
+     "z": 3.1534638665495773,
+     "same_sign": true
+    },
+    "rim": {
+     "diff": 0.16820641016492197,
+     "z": 6.276677489953069,
+     "same_sign": true
+    }
+   },
+   "def_pts_hi": 1.039219095515658,
+   "def_pts_lo": 0.9784847393381415,
+   "games": 1951,
+   "markets": 1591
+  },
+  "post_allowed": {
+   "player": "post scorer",
+   "defense": "defense that concedes post touches",
+   "col": "c_post",
+   "stat": "pts",
+   "series": [
+    "KXNBAPTS"
+   ],
+   "real_diff": 0.04108123299015068,
+   "real_z": 1.367167890781967,
+   "same_sign": false,
+   "mk_diff": -0.08170820400232165,
+   "mk_z": -2.4355905348350038,
+   "stats": {
+    "pts": {
+     "diff": 0.04108123299015068,
+     "z": 1.367167890781967,
+     "same_sign": false
+    },
+    "post": {
+     "diff": 0.16720304393719898,
+     "z": 3.9675113325144693,
+     "same_sign": false
+    }
+   },
+   "def_pts_hi": 1.0280283936092893,
+   "def_pts_lo": 0.977398036229901,
+   "games": 711,
+   "markets": 1259
+  },
+  "maker_passing": {
+   "player": "playmaker",
+   "defense": "defense that concedes assisted looks (the opposite end: switching, isolation-forcing)",
+   "col": "c_pot_ast",
+   "stat": "ast",
+   "series": [
+    "KXNBAAST"
+   ],
+   "real_diff": 0.0667211043520396,
+   "real_z": 3.5384892376999457,
+   "same_sign": true,
+   "mk_diff": 0.038996678941063886,
+   "mk_z": 1.6791378170930613,
+   "stats": {
+    "ast": {
+     "diff": 0.0667211043520396,
+     "z": 3.5384892376999457,
+     "same_sign": true
+    },
+    "pot_ast": {
+     "diff": 0.08737383762724017,
+     "z": 3.132995124585027,
+     "same_sign": true
+    }
+   },
+   "def_pts_hi": 1.0349428774169749,
+   "def_pts_lo": 0.9661996787776193,
+   "games": 1983,
+   "markets": 2752
+  }
+ },
+ "exposure": {
+  "x_pts": {
+   "stat": "pts",
+   "q33": -0.018959392063768527,
+   "q67": 0.02575462683841585,
+   "diff_last": 0.07217987386080468,
+   "z_last": 7.52561523890862,
+   "diff_this": 0.011120758966970429,
+   "z_this": 0.5848988282673061,
+   "price_z_last": 2.2956817914961922,
+   "price_z_this": -0.0236417731261203
+  },
+  "x_3pt": {
+   "stat": "fg3m",
+   "q33": -0.03453385680474229,
+   "q67": 0.037051433595082874,
+   "diff_last": 0.11824113681200608,
+   "z_last": 4.3938961146630975,
+   "diff_this": -0.025825777934585015,
+   "z_this": -0.37753743934214495,
+   "price_z_last": 0.7193123740199233,
+   "price_z_this": 0.27965256677217315
+  },
+  "x_ast": {
+   "stat": "ast",
+   "q33": -0.0337363794681812,
+   "q67": 0.026231710694729637,
+   "diff_last": 0.11816698042131239,
+   "z_last": 7.573911481640324,
+   "diff_this": 0.044042949976515526,
+   "z_this": 1.4753352003037026,
+   "price_z_last": -0.1729167013368707,
+   "price_z_this": 0.1992695297181834
+  },
+  "x_reb": {
+   "stat": "reb",
+   "q33": -0.06575811214905358,
+   "q67": 0.031848934395426465,
+   "diff_last": 0.04001010827716943,
+   "z_last": 3.521838746718674,
+   "diff_this": 0.07826990438343907,
+   "z_this": 3.2207545214037583,
+   "price_z_last": -1.0852637671755814,
+   "price_z_this": -0.3441312083246176
+  }
+ }
+}

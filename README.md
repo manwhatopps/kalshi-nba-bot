@@ -73,6 +73,7 @@ python -m bot degen --why                  # degen mode: big-payout UNDER cards,
 python -m bot slip --why                   # tonight's plan as placeable slips; saves data/slips/<date>.json and .html
 python -m bot slip --check                 # re-price the saved slips right before placing
 python -m bot slip --quote                 # needs your key: create the combos on Kalshi, print real quotes vs the walk-away line
+python -m bot scenarios                    # player type vs defensive style (NBA shot diets, NFL man/zone): real? priced?
 python -m bot combos                       # 118k real Kalshi combos: shapes, hit rate vs leg prices, what buyers paid
 python -m bot styles                       # play-style profile of all 30 NBA teams (pace, shot mix, what each defense allows)
 python -m bot matchup                      # test: do matchup/style factors add anything to Kalshi's price?
@@ -202,3 +203,5 @@ trading + grading · `bot/backtest.py` calibration.
 | raycast/extensions `kalshi` | Source of the `op_market_ticker` link parameter. |
 | jsteng19/kalshi-combos-research (no licence) | Claims combo takers overpaid about 3c on average over 8.9M combos. Unverified; our own price sample is the check. |
 | ntfy.sh | Optional phone push for live slips (`SLIP_NOTIFY_URL`). |
+| gabriel1200/player_sheets `game_report/all_games` (no licence) | Player-level tracking per game (pull-up and catch-and-shoot threes, zones, drives, post touches). Source of every player's shot diet. Downloaded at run time, not committed. |
+| nflverse `pbp_participation` + `pbp` (CC-BY-SA / CC-BY, coverage charted by FTN) | Man/zone call on every dropback, 2024-2025. 2026 is published after the season. |

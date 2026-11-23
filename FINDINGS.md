@@ -460,6 +460,68 @@ public order-book endpoint (`GET /markets/orderbooks`, 100 markets per call, eve
   line. `--live` accepts only above that line and inside the stake caps. Not yet run against an
   account: there is no key on this machine.
 
+## 19. Scenarios: player type against defensive style (`python -m bot scenarios`)
+
+The question: does a certain kind of player have a real advantage against a certain kind of defense
+(a pull-up three shooter against drop coverage, a receiver against man or zone), and can it be bet?
+Two separate tests for every scenario: is the advantage **real** in the box score, and is it already
+**priced** by Kalshi. All walk-forward.
+
+**NBA.** Player-level tracking for every game of 2025-26 and 2026-27 (gabriel1200/player_sheets:
+pull-up and catch-and-shoot threes, shots by zone, drives, post touches, potential assists).
+Each player's shot diet is his previous 15 games. What a defense concedes is what its opponents
+took divided by what those same players normally take, over its previous 15 games, so it is
+adjusted for who it played. 23,073 player-games and 67,650 settled prop markets. Each row compares
+the same kind of player against the top third of defenses on the measure vs the bottom third.
+
+| scenario | what happened (per minute, vs own norm) | real? | overs vs Kalshi's price |
+|---|---|---|---|
+| pull-up three shooter vs drop-style defense | pull-up threes +4.7% (z 2.1), but points -4.3% (z -2.9), threes made -9.1% (z -3.3) | more looks, FEWER points | -1.1 pts (z -0.6): priced |
+| pull-up three shooter vs defense conceding pull-up threes | pull-up threes +4.7%, points -0.9% (z -0.6) | no | priced |
+| spot-up shooter vs defense conceding catch-and-shoot threes | threes made +18.8% (z 5.3), points +7.0% (z 3.5) | yes, strong | +1.5 pts (z 0.6): priced |
+| rim finisher vs defense conceding shots at the rim | rim shots +16.8% (z 6.3), points +7.4% (z 3.2) | yes | +4.3 pts (z 1.5): not established |
+| playmaker vs defense conceding assisted looks (vs switching) | assists +6.7% (z 3.5) | yes | +3.9 pts (z 1.7): not established |
+| driver vs defense conceding drives | drives +3.0% (z 3.0), points -2.3% (z -2.1) | more drives, not more points | priced |
+| post scorer vs defense conceding post touches | post touches +16.7%, points +4.1% (z 1.4) | not proven | overs did WORSE, -8.2 pts (z -2.4), both seasons |
+
+What this says:
+* **The drop-coverage idea is half right.** Against drop-style defenses pull-up shooters do get more
+  pull-up threes. They also score less and make fewer threes. Drop coverage concedes the pull-up on
+  purpose because it is the least efficient shot, and the defenses that play this way concede 2.4%
+  fewer points overall. More looks is not more points.
+* **Some matchup advantages are real and large**: spot-up shooters against defenses that help off
+  shooters, rim finishers against soft rims, playmakers against defenses that allow ball movement.
+* **Kalshi's price already contains them.** No scenario shows overs beating the price with |z| > 2
+  in both seasons. Shot-diet exposure for every player at once: the favourable third out-produced
+  the unfavourable third by 7.2% in points last season (z 7.5) and 1.1% this season (z 0.6). After
+  the price it added a little last season (z 2.3) and nothing this season (z 0.0), so it is not
+  established. Rebounds: +4.0% and +7.8% (real in both seasons), nothing after the price.
+* The one result against the price runs the wrong way for the story: post scorers in "good post
+  matchups" were overpriced in both seasons. With seven scenarios tested, one z of -2.4 is weak
+  evidence; it is recorded, not bet.
+
+**NFL.** Every charted dropback of 2024 and 2025 (nflverse, coverage charted by FTN): the defense's
+man or zone call, who was on the field, who caught what. 2,487 receiver-games in 2025 with 150+
+charted routes of history, and 6,375 settled Kalshi receiving markets.
+* A receiver's man-vs-zone split is mostly noise: first half of 2025 against second half,
+  correlation +0.20 across 103 receivers.
+* A defense's coverage is moderately predictable: previous-8-game man share against what it then
+  played, correlation +0.43.
+* Man-beaters did not do better against man-heavy defenses (-9.1% vs zone-heavy, z -1.4, the wrong
+  direction). Zone-beaters against zone-heavy: +9.8% (z 1.3). Coverage exposure for all receivers:
+  +2.0% (z 0.5). Nothing is distinguishable from zero.
+* Against Kalshi's price, overs in the "favourable coverage" third did WORSE than in the
+  unfavourable third (-4.5 points, z -1.7; -0.142 per standard deviation after the price, z -2.9).
+  Betting the man/zone story would have lost in 2025. One season, so not a rule either way.
+* Coverage charting for 2026 is published only after the season, so none of this can be applied
+  to this year's games.
+
+**How it is used.** Every NBA leg now prints its scenario (`slip --why`, the slip page): the player's
+type from his own shot diet, where tonight's defense ranks on the measure that matters for him, what
+happened historically, and whether it is priced. A scenario counts toward dropping or keeping a leg
+only if the box-score effect clears 3 standard errors with the same sign in both seasons. It is a
+reason, not an edge: the measured edge is still zero after Kalshi's price.
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is
@@ -478,4 +540,8 @@ public order-book endpoint (`GET /markets/orderbooks`, 100 markets per call, eve
 * Kalshi accepts all-UNDER prop cards as one combo. Same-game legs hit together more often than
   their prices multiplied (1.0x at one leg per game, 1.7x at five or more), so a slip's odds are
   only as good as its legs are unrelated. What buyers paid for real combos is still being measured.
+* Player type against defensive style is real in the box score for some pairings (spot-up shooters,
+  rim finishers, playmakers) and absent or reversed for others (pull-up shooters against drop
+  coverage score less; receiver man/zone splits are mostly noise). Kalshi's price already contains
+  the real ones.
 * No real money has been placed.

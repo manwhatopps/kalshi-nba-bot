@@ -170,3 +170,28 @@ def test_order_book_pricing():
     assert B.buy(bk, "no", 5.0, 0.54)["contracts"] == 5                      # the limit stops the walk
     p = B.max_price_for_payout(100)                                          # $1 must return $100 after the fee
     assert abs(p + 0.07 * p * (1 - p) - 0.01) < 1e-9 and p < 0.01
+
+
+def test_scenarios_never_look_ahead():
+    import numpy as np
+    import pandas as pd
+    from bot import scenarios as S
+    rng = np.random.default_rng(0)
+    rows = []
+    for g in range(12):                      # 4 teams, 2 players each, 12 game days
+        for t, o in (("AAA", "BBB"), ("BBB", "AAA"), ("CCC", "DDD"), ("DDD", "CCC")):
+            for k in range(2):
+                r = dict(player_id=f"{t}{k}", name=f"{t}{k}", name_key=f"{t}{k}".lower(), team=t, opp=o, game_id=g * 10 + (t in ("CCC", "DDD")),
+                         game_date=pd.Timestamp("2026-01-01") + pd.Timedelta(days=g), season="this season", min=30.0)
+                r.update({c: float(rng.integers(1, 9)) for c in S.TYPES})
+                rows.append(r)
+    p = pd.DataFrame(rows).sort_values(["player_id", "game_date"]).reset_index(drop=True)
+    a = S.build(p)
+    q = p.copy()
+    late = q.game_date >= pd.Timestamp("2026-01-09")
+    q.loc[late, S.TYPES] = q.loc[late, S.TYPES] * 50                         # change only the last games
+    b = S.build(q)
+    early = a.game_date <= pd.Timestamp("2026-01-09")                        # what was known on or before that day must not move
+    cols = ["r_pu3", "c_pu3", "c_rim", "x_pts", "drop"]
+    pd.testing.assert_frame_equal(a.loc[early, cols].reset_index(drop=True), b.loc[early, cols].reset_index(drop=True))
+    assert a.r_pu3.notna().sum() > 0 and a.c_pu3.notna().sum() > 0

@@ -19,6 +19,9 @@ bets them. Any change to the logic must be judged there, season by season, not o
 `python -m bot slip` turns the plan into placeable slips (exact market, side, contracts, limit, walk-away
 payout, Kalshi combo-rule check); `--quote`/`--live` need the owner's key and obey the stake caps.
 
+`python -m bot scenarios` tests player type against defensive style (real in the box score? priced by Kalshi?)
+and writes `data/scenario_table.json`, which the leg explanations quote. New scenario ideas go there first.
+
 ## Rules
 - **Paper only.** Never place real orders (`place --live`, `slip --quote --live`) unless the owner explicitly says to in the
   current conversation, with a stake limit. Defaults: `KALSHI_ENV=demo`, $2 per combo, $10 per day.
@@ -41,4 +44,4 @@ Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xe
 blocks cloud IPs; the Hugging Face game-log dataset is the stats source.
 
 ## Tests
-`python -m pytest -q tests` (11 tests, ~3 s).
+`python -m pytest -q tests` (12 tests, ~3 s).

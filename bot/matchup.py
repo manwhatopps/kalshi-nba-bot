@@ -195,8 +195,14 @@ def context(logs: pd.DataFrame | None = None) -> dict:
     except Exception as e:
         print(f"  (tracking data unavailable: {e})")
         schemes = pd.DataFrame()
+    try:
+        from . import scenarios
+        scen = scenarios.current()
+    except Exception as e:
+        print(f"  (scenario data unavailable: {e})")
+        scen = None
     return dict(last=last, role=lambda k: r_now.get(k) or r_old.get(k), prof=prof, dvr=dv, last_game=last_game,
-                schemes=schemes)
+                schemes=schemes, scen=scen)
 
 
 def explain(ctx: dict, title: str, series: str, ticker: str, game: str, side: str, price: float) -> dict:
@@ -208,7 +214,8 @@ def explain(ctx: dict, title: str, series: str, ticker: str, game: str, side: st
     away, home = game[-6:-3], game[-3:]
     if kteam not in (away, home):
         return dict(lines=["no context (team not matched)"], pro=0, con=0)
-    team, opp = (KALSHI_TO_LOG_TEAM.get(t, t) for t in (kteam, home if kteam == away else away))
+    kteam_opp = home if kteam == away else away                  # Kalshi's own abbreviation (the tracking data uses the same)
+    team, opp = (KALSHI_TO_LOG_TEAM.get(t, t) for t in (kteam, kteam_opp))
     g = ctx["last"].get((name, team))
     if g is None or len(g) < 5:
         return dict(lines=["fewer than 5 recent games on file: no form to judge"], pro=0, con=0)
@@ -250,6 +257,16 @@ def explain(ctx: dict, title: str, series: str, ticker: str, game: str, side: st
         implied_over = 1 - price if under else price
         diff = cleared / len(l10) - implied_over
         vote(diff < 0 if abs(diff) > 0.10 else None)
+    if ctx.get("scen"):
+        # player type against this defense's style: is the advantage real in the box score, and is it priced?
+        try:
+            from . import scenarios
+            sl, sv = scenarios.leg_lines(ctx["scen"], name, kteam_opp, series)
+            lines.extend(sl)
+            for v_ in sv:
+                vote(v_)
+        except Exception as e:
+            lines.append(f"(scenario check failed: {e})")
     m3, m10 = g.minutes.tail(3).mean(), l10.minutes.mean()
     if abs(m3 / m10 - 1) > 0.12:
         lines.append(f"minutes {'down' if m3 < m10 else 'up'}: {m3:.0f} a game over the last 3 vs {m10:.0f} over the last 10")
