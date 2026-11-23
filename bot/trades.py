@@ -117,14 +117,24 @@ PHASES = ["early (3h+ before)", "last 3h before", "in-game", "late / after"]
 KEYS = ["league", "series", "game", "phase", "cents", "taker_side", "result"]
 
 
-def aggregate(results: pd.DataFrame | None = None) -> pd.DataFrame:
+AGG_DAYS = config.DATA_DIR / "agg_days.json"
+
+
+def aggregate(results: pd.DataFrame | None = None, rebuild: bool = False) -> pd.DataFrame:
     """Day by day (memory-safe): join fills to results and collapse to
-    (market type, game, phase, price in cents, taker side, result) -> fills / contracts / capped contracts."""
+    (market type, game, phase, price in cents, taker side, result) -> fills / contracts / capped contracts.
+    Incremental: only day files not already folded in are processed, so it works on a fresh machine
+    that has the committed summary but not the raw trade files."""
+    import json
     results = results if results is not None else pd.read_parquet(RESULTS)
     r = results[results.result.isin(["yes", "no"])][["ticker", "series", "league", "game", "result", "tipoff"]]
-    parts = []
+    done = set() if rebuild or not (AGG.exists() and AGG_DAYS.exists()) else set(json.loads(AGG_DAYS.read_text()))
+    parts = [pd.read_parquet(AGG)] if done else []
     for f in sorted(TRADES_DIR.glob("2*.parquet")):
+        if f.stem in done:
+            continue
         t = pd.read_parquet(f).merge(r, on="ticker", how="inner")
+        done.add(f.stem)
         if t.empty:
             continue
         mins = (t.created_time - t.tipoff).dt.total_seconds() / 60
@@ -135,6 +145,7 @@ def aggregate(results: pd.DataFrame | None = None) -> pd.DataFrame:
         parts.append(g.reset_index())
     a = pd.concat(parts, ignore_index=True).groupby(KEYS, observed=True)[["n", "contracts", "cap100"]].sum().reset_index()
     a.to_parquet(AGG, index=False)
+    AGG_DAYS.write_text(json.dumps(sorted(done)))
     return a
 
 
@@ -177,14 +188,21 @@ def role_table(a: pd.DataFrame, role: str, weight: str = "n", by: str = "phase",
 
 
 def first_touch(thresholds=(0.85, 0.90, 0.95, 0.97), results: pd.DataFrame | None = None,
-                phase_minutes=(0, 150)) -> pd.DataFrame:
+                phase_minutes=(0, 150), rebuild: bool = False) -> pd.DataFrame:
     """A rule you can actually follow: in each market, buy ONE contract the first time a taker
     could buy either side at >= threshold during the game (first in-game fill at that price).
     One row per (market, side, threshold) with the entry price and whether it won."""
     results = results if results is not None else pd.read_parquet(RESULTS)
+    import json
     r = results[results.result.isin(["yes", "no"])][["ticker", "series", "league", "game", "result", "tipoff"]]
-    best = None
+    FT, FT_DAYS = config.DATA_DIR / "first_touch.parquet", config.DATA_DIR / "first_touch_days.json"
+    cols = ["ticker", "taker_side", "created_time", "cost", "mins", "series", "league", "game", "result", "threshold"]
+    seen = set(json.loads(FT_DAYS.read_text())) if (FT.exists() and FT_DAYS.exists() and not rebuild) else set()
+    best = pd.read_parquet(FT)[cols] if seen else None
     for f in sorted(TRADES_DIR.glob("2*.parquet")):
+        if f.stem in seen:
+            continue
+        seen.add(f.stem)
         t = pd.read_parquet(f).merge(r, on="ticker", how="inner")
         mins = (t.created_time - t.tipoff).dt.total_seconds() / 60
         t = t[(mins >= phase_minutes[0]) & (mins < phase_minutes[1])]
@@ -206,7 +224,8 @@ def first_touch(thresholds=(0.85, 0.90, 0.95, 0.97), results: pd.DataFrame | Non
             best = best.loc[i].reset_index(drop=True)
     best["win"] = (best.taker_side == best.result).astype(float)
     best["net"] = best.win - best.cost - TAKER_FEE * best.cost * (1 - best.cost)
-    best.to_parquet(config.DATA_DIR / "first_touch.parquet", index=False)
+    best.to_parquet(FT, index=False)
+    FT_DAYS.write_text(json.dumps(sorted(seen)))
     return best
 
 

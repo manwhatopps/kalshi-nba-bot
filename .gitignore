@@ -13,3 +13,5 @@ data/history_download.log
 !data/fills_agg.parquet
 !data/first_touch.parquet
 !data/results.parquet
+!data/agg_days.json
+!data/first_touch_days.json

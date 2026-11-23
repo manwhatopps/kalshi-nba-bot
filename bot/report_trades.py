@@ -13,6 +13,7 @@ from .kalshi import data_client
 
 pd.set_option("display.width", 230)
 pd.set_option("display.max_rows", 300)
+DISCOVERED_THROUGH = "2026-11-21"
 PROPS = ("KXNBAPTS", "KXNBAREB", "KXNBAAST", "KXNBA3PT", "KXNBAPRA", "KXNBASTL", "KXNBABLK", "KXNBASTOCK",
          "KXNBA2D", "KXNBA3D", "KXNFLTD", "KXNFLREC", "KXNFLRSH", "KXNFLPASS", "KXNFLFIRSTTD", "KXNFLRR")
 
@@ -70,4 +71,8 @@ def run(args):
         ml = ml.assign(half=np.where(ml.date < nights[len(nights) // 2], "first half of season", "second half"))
         print("\nMoneyline only, split by half of the season (each game appears twice: YES one team / NO the other):")
         print(_fmt(T.touch_table(ml, ["threshold", "half"])))
+        # The rule was found on games through 2026-11-21. Everything after is a genuine out-of-sample test.
+        new = ml[ml.date > pd.Timestamp(DISCOVERED_THROUGH)]
+        print(f"\nOUT-OF-SAMPLE (games after {DISCOVERED_THROUGH}, i.e. after the rule was found):")
+        print(_fmt(T.touch_table(new, ["threshold"])) if len(new) else "  no games yet - this fills in as new days of trades arrive")
     return a, ft
