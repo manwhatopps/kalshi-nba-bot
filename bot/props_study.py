@@ -174,3 +174,104 @@ def touch_summary(ft: pd.DataFrame, keys: list[str], min_bets: int = 60) -> pd.D
                                               roi=g.net.sum() / g.cost.sum(), se=se, t=g.net.sum() / g.cost.sum() / se,
                                               mins=g.mins.mean()))
     return pd.DataFrame(rows)
+
+
+# ---------------------------------------------------------------- pre-game prices per market (for card backtests)
+def pregame_prices(trades_dir, results: pd.DataFrame, out, window_min: int = 180) -> pd.DataFrame:
+    """Per prop market: the last price a taker paid for the OVER (yes) and for the UNDER (no) in the
+    final `window_min` minutes before tip-off. Those are the leg prices a pre-game card would pay."""
+    import json
+    days_f = out.with_name(out.stem + "_days.json")
+    r = results[results.result.isin(["yes", "no"]) & results.series.isin(list(STAT))][
+        ["ticker", "series", "league", "game", "result", "tipoff"]]
+    seen = set(json.loads(days_f.read_text())) if (out.exists() and days_f.exists()) else set()
+    best = pd.read_parquet(out) if seen else None
+    for f in sorted(trades_dir.glob("2*.parquet")):
+        if f.stem in seen:
+            continue
+        seen.add(f.stem)
+        t = pd.read_parquet(f).merge(r, on="ticker", how="inner")
+        if t.empty:
+            continue
+        mins = (t.created_time - t.tipoff).dt.total_seconds() / 60
+        t = t[(mins >= -window_min) & (mins < 0)]
+        if t.empty:
+            continue
+        t["cost"] = np.where(t.taker_side == "yes", t.yes_price, 1 - t.yes_price).astype(float).round(2)
+        y = t.loc[t.groupby(["ticker", "taker_side"]).created_time.idxmax(),
+                  ["ticker", "taker_side", "created_time", "cost", "series", "league", "game", "result"]]
+        best = y if best is None else pd.concat([best, y])
+        best = best.loc[best.groupby(["ticker", "taker_side"]).created_time.idxmax()].reset_index(drop=True)
+    best.to_parquet(out, index=False)
+    days_f.write_text(json.dumps(sorted(seen)))
+    return best
+
+
+FAVOURED = ["NBA double-double", "NBA triple-double", "NBA blocks", "NBA steals", "NBA threes"]   # unders that leaned positive pre-game in both seasons
+
+
+def load_pre() -> pd.DataFrame:
+    from .favorites import slate_date
+    parts = []
+    for season, f in (("last season", "prop_pre_prior.parquet"), ("this season", "prop_pre.parquet")):
+        fp = config.DATA_DIR / f
+        if fp.exists():
+            parts.append(pd.read_parquet(fp).assign(season=season))
+    d = pd.concat(parts, ignore_index=True)
+    d["stat"] = d.series.map(STAT)
+    d["pick"] = np.where(d.taker_side == "yes", "OVER", "UNDER")
+    d["win"] = (d.taker_side == d.result).astype(float)
+    d["event"] = d.series + "-" + d.game                      # Kalshi allows one leg per event in a combo
+    d["date"] = d.game.map(slate_date)
+    return d.dropna(subset=["date"])
+
+
+def card_backtest(d: pd.DataFrame, target: float, lo: float = 0.50, hi: float = 0.75, samples: int = 300,
+                  max_per_game: int = 3, seed: int = 4) -> dict | None:
+    """Deal random legal pre-game cards from one night's real legs until the payout target is reached;
+    return how often every leg hit vs how often it needed to."""
+    rng = np.random.default_rng(seed)
+    pool = d[(d.cost >= lo) & (d.cost < hi)]
+    hits, prices, nlegs, nights = [], [], [], 0
+    for _, night in pool.groupby("date"):
+        ev, gm, c, w = night.event.values, night.game.values, night.cost.values, night.win.values
+        got = 0
+        for _ in range(samples):
+            order = rng.permutation(len(night))
+            seen_e, per_g, price, ok, n = set(), {}, 1.0, True, 0
+            for i in order:
+                if ev[i] in seen_e or per_g.get(gm[i], 0) >= max_per_game:
+                    continue
+                seen_e.add(ev[i]); per_g[gm[i]] = per_g.get(gm[i], 0) + 1
+                price *= c[i]; ok = ok and w[i] > 0; n += 1
+                if price <= 1 / target:
+                    break
+            if price <= 1 / target:
+                hits.append(float(ok)); prices.append(price); nlegs.append(n); got += 1
+        nights += got > 0
+    if not hits:
+        return None
+    h, p = np.array(hits), np.array(prices)
+    return dict(nights=nights, cards=len(h), legs=float(np.mean(nlegs)), fair_payout=float((1 / p).mean()),
+                hit_rate=float(h.mean()), needed=float(p.mean()), keep=float(h.mean() / p.mean()),
+                one_in=float(1 / h.mean()) if h.mean() > 0 else float("inf"))
+
+
+def card_report(samples: int = 300):
+    pd.set_option("display.width", 230)
+    d = load_pre()
+    d = d[d.league == "NBA"]
+    print(f"\nPRE-GAME LOTTERY CARDS built from real NBA prop legs priced 50-75c, both seasons "
+          f"({d.date.nunique()} nights). keep = how often the card hit / how often it needed to (1.00 = fair bet).")
+    rows = []
+    for name, sel in (("all OVERS (what most people build)", d.pick == "OVER"),
+                      ("all UNDERS", d.pick == "UNDER"),
+                      ("UNDERS on double-doubles, triple-doubles, blocks, steals, threes", (d.pick == "UNDER") & d.stat.isin(FAVOURED))):
+        for target in (50, 200, 1000):
+            for season in ("last season", "this season"):
+                r = card_backtest(d[sel & (d.season == season)], target, samples=samples)
+                if r:
+                    rows.append(dict(card=name, target=f"{target}x", season=season, nights=r["nights"], legs=round(r["legs"], 1),
+                                     fair_payout=f"{r['fair_payout']:,.0f}x", hits_1_in=f"{r['one_in']:,.0f}",
+                                     needed_1_in=f"{1 / r['needed']:,.0f}", keep=round(r["keep"], 2)))
+    print(pd.DataFrame(rows).to_string(index=False))

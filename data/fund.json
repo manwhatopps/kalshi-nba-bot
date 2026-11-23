@@ -14,5 +14,19 @@
  "max_concurrent_pct": 0.5,
  "stop_loss_pct": 0.3,
  "z": 1.64,
- "max_stake_per_bet": 5.0
+ "max_stake_per_bet": 5.0,
+ "degen_mode": [
+  [
+   10,
+   1000
+  ],
+  [
+   5,
+   1000
+  ],
+  [
+   5,
+   5000
+  ]
+ ]
 }

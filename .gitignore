@@ -13,6 +13,10 @@ data/history_download.log
 !data/fills_agg.parquet
 !data/first_touch.parquet
 !data/results.parquet
+!data/prop_pre.parquet
+!data/prop_pre_days.json
+!data/prop_pre_prior.parquet
+!data/prop_pre_prior_days.json
 !data/prop_touch.parquet
 !data/prop_touch_days.json
 !data/prop_touch_prior.parquet

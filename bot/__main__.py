@@ -180,6 +180,9 @@ def main():
     sub.add_parser("props", help="player props across two seasons: overs/unders, prop types, price bands")
     wf = sub.add_parser("walk", help="walk-forward backtest of the fund's logic on all downloaded data (no hindsight)")
     wf.add_argument("--max-stake", type=float, default=5.0)
+    dg = sub.add_parser("degen", help="degen mode: biggest-payout UNDER cards the data can defend, with honest odds (paper)")
+    dg.add_argument("--tickets", default="", help='JSON list of [stake, goal], e.g. "[[10,1000],[5,1000],[5,5000]]"')
+    dg.add_argument("--hours", type=float, default=14)
     sub.add_parser("settle")
     sub.add_parser("report")
     b = sub.add_parser("backtest")
@@ -213,6 +216,9 @@ def main():
         print(f"\n  live-scan weights saved (fitted on {w['n']:,} legs): market {w['w_mid']:.2f}, model {w['w_model']:.2f}")
     elif cmd == "trades":
         from .report_trades import run
+        run(args)
+    elif cmd == "degen":
+        from .degen import run
         run(args)
     elif cmd == "walk":
         from .walkforward import report

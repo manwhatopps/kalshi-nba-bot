@@ -46,6 +46,7 @@ def refresh(since: date):
     T.first_touch()
     from . import props_study
     props_study.first_in_band(T.TRADES_DIR, pd.read_parquet(T.RESULTS), T.config.DATA_DIR / "prop_touch.parquet")
+    props_study.pregame_prices(T.TRADES_DIR, pd.read_parquet(T.RESULTS), T.config.DATA_DIR / "prop_pre.parquet")
 
 
 def run(args):

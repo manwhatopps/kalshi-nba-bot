@@ -296,6 +296,36 @@ bet per market, first fill at 35-80c): 449 bets before activation at +12.1%, 605
 What the logic would bet tonight: double-double unders at 35-80c, and (tracked without money) NFL
 first-touchdown unders at 65-80c. The broad unders no longer pass.
 
+## 16. Degen mode: what a big-payout card should be built from (`python -m bot degen`)
+Pre-game, one leg per market at the last price a buyer paid in the final 3 hours, legs priced 50-75c:
+
+| | last season | this season |
+|---|---|---|
+| NBA overs: paid / hit | 60.8c / 57.3% | 61.6c / 60.5% |
+| NBA unders: paid / hit | 60.2c / 61.4% | 60.9c / 60.6% |
+| NFL overs: paid / hit | 60.1c / 55.0% | 60.9c / 56.4% |
+| NFL unders: paid / hit | 60.9c / 60.3% | 60.7c / 61.6% |
+
+Overs hit 1-5 points less often than they cost; unders hit about what they cost. Of 145 pre-game
+prop angles, the 17 where buyers beat the price in both seasons are all unders (none individually
+significant). Random legal lottery cards dealt from each night's real legs (216 nights):
+
+| card built from | ~50x, last / this season | ~200x | ~1,000x |
+|---|---|---|---|
+| overs | kept 82% / 86% of fair value | 63% / 103% | 46% / 65% |
+| unders | kept 92% / 99% | 62% / 130% | 21% / 260% |
+
+At ~50x unders are clearly the better build. At 200x and 1,000x cards hit so rarely that two seasons
+cannot rank anything (the same recipe scores 0.2 and 2.6). A narrower "double-double, triple-double,
+blocks, steals, threes unders only" card did NOT beat plain unders and is not used.
+
+Degen mode therefore builds all-under cards from 50-75c legs on tight books, one leg per event, with
+a 25% cushion between the fair payout and the payout the ticket needs. **No card has a positive
+expected value.** Honest odds for the default nightly set ($10 -> $1,000, $5 -> $1,000, $5 -> $5,000):
+about a 1.4% chance per night that one hits, about 9% over a week for $140 of tickets. From a $100
+bankroll the chance of reaching $1,000 in a week cannot exceed about 10% by any method (at fair odds
+it equals bankroll / target), and it is lower after the market maker's cut.
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is
