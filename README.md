@@ -69,6 +69,10 @@ python -m bot history --days 35            # download settled markets + pre-game
 python -m bot favorites                    # test "many legs at 90c+" (add --when live1 for in-game)
 python -m bot models                       # score all model types vs Kalshi's price; fit live weights
 python -m bot card --legs 50 --min-price 0.90   # tonight's favorites card (YES and NO legs), paper
+python -m bot trades [--download]          # every fill this season: takers vs makers, first-touch rule
+python -m bot watch                        # live paper-trade of the NBA in-game moneyline 95c rule
+python -m bot bankroll --bankroll 100 --stake 2   # streaks, chance of profit, Kelly stake, bets to prove
+python -m bot edges                        # scan leg types for real edges (split-sample + FDR control)
 python -m bot mixes                        # which mix of leg prices is most efficient at each payout
 python -m bot mix --targets 5 10 25        # tonight's efficient mixes: few 50-72c legs (paper)
 python -m bot sims                         # 20,000-simulation hit rates next to Kalshi's price
@@ -123,3 +127,20 @@ tend to hit together.
 `bot/model.py` projections + joint simulation · `bot/combos.py` pricing + search ·
 `bot/odds.py` sportsbook de-vig · `bot/execute.py` RFQ execution · `bot/ledger.py` paper
 trading + grading · `bot/backtest.py` calibration.
+
+## Vetted resources (what each is for)
+
+| Need | Resource | Used here? |
+|---|---|---|
+| Every Kalshi fill with taker side | Hugging Face `TimeSeventeen/Kalshi` (daily parquet, no licence: private analysis only) | yes, `bot/trades.py` |
+| Maker/taker methodology | `Jon-Becker/prediction-market-analysis` (MIT), `src/analysis/kalshi/*` | method replicated on NBA/NFL |
+| Combo pricing evidence | `jsteng19/kalshi-combos-research` (no licence, read only) | cited in FINDINGS |
+| False-discovery control | `statsmodels.stats.multitest.multipletests` | yes, `bot/edges.py` |
+| Reality check / SPA / block bootstrap | `arch.bootstrap` (`SPA`, `RealityCheck`, `StationaryBootstrap`) | next: for strategy families |
+| Deflated Sharpe, purged CV | `skfolio` (`deflated_sharpe_ratio`, `CombinatorialPurgedCV`) | next |
+| Sequential "has it proven itself yet" tests | Wald SPRT (own code, `bot/bankroll.py`); `confseq`, `ville` for anytime-valid intervals | yes (SPRT) |
+| Kelly, drawdown simulation | own code cross-checked against `wdm0006/keeks` (MIT); correlated-bet Kelly per `cvxgrp/kelly_code` (GPL, method only) | yes, `bot/bankroll.py` |
+| Resting-order quoting | `rodlaf/KalshiMarketMaker` (MIT, Avellaneda-Stoikov; no sports results published) | reference for a future maker module |
+| NFL data | `nflreadpy` (MIT): injuries, depth charts, snap counts, play-by-play | not yet |
+| NBA lineups / injuries | `stats.nba.com/js/data/leaders/00_daily_lineups_YYYYMMDD.json`; `nbainjuries` (MIT, needs Java) | not yet |
+| Published evidence | Moskowitz 2021 (line moves reverse; not profitable after costs); Kalshi Research 2026 (profit and forecasting skill largely unrelated) | informs what NOT to build |

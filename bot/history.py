@@ -16,10 +16,14 @@ import pandas as pd
 from . import config
 from .kalshi import Kalshi, data_client
 
+import os
 HIST_DIR = config.DATA_DIR / "history"
 HIST_DIR.mkdir(parents=True, exist_ok=True)
+# v2 files add an "early" snapshot (>= 3h before tip-off); they replace v1 files series by series
+HIST_V2 = config.DATA_DIR / "history_v2"
+HIST_V2.mkdir(parents=True, exist_ok=True)
 
-NBA_SERIES = ["KXNBAGAME", "KXNBAPTS", "KXNBAREB", "KXNBAAST", "KXNBA3PT", "KXNBASPREAD", "KXNBATOTAL",
+NBA_SERIES = ["KXNBAREB", "KXNBAAST", "KXNBA3PT", "KXNBASPREAD", "KXNBATOTAL", "KXNBAPTS", "KXNBAGAME",
               "KXNBAPRA", "KXNBASTL", "KXNBABLK", "KXNBASTOCK", "KXNBA2D", "KXNBA3D", "KXNBATEAMTOTAL",
               "KXNBA1H", "KXNBA1HSPREAD", "KXNBA1HTOTAL", "KXNBA1Q", "KXNBA1QSPREAD", "KXNBA1QTOTAL"]
 NFL_SERIES = ["KXNFLGAME", "KXNFLSPREAD", "KXNFLTOTAL", "KXNFLTEAMTOTAL", "KXNFLTD", "KXNFLRECYDS",
@@ -54,7 +58,7 @@ def _candles(k: Kalshi, tickers: list[str], start: datetime, end: datetime) -> d
 
 
 def download_series(k: Kalshi, series: str, since: datetime, league: str = "NBA", workers: int = 1) -> pd.DataFrame:
-    path = HIST_DIR / f"{series}.parquet"
+    path = HIST_V2 / f"{series}.parquet"
     old = pd.read_parquet(path) if path.exists() else None
     if old is not None and len(old):
         since = max(since, pd.Timestamp(old.close_time.max()).to_pydatetime() - timedelta(days=1))
@@ -72,7 +76,7 @@ def download_series(k: Kalshi, series: str, since: datetime, league: str = "NBA"
             floor_strike=_f(m.get("floor_strike")), strike_type=m.get("strike_type", ""),
             open_time=_ts(m.get("open_time")), close_time=_ts(m.get("close_time")), tipoff=tip,
             volume=_f(m.get("volume_fp")), pre_bid=None, pre_ask=None, pre_last=None, pre_ts=None,
-            live1_bid=None, live1_ask=None, live2_bid=None, live2_ask=None)
+            live1_bid=None, live1_ask=None, live2_bid=None, live2_ask=None, early_bid=None, early_ask=None)
     # Candle calls cost 50 rate-limit tokens each regardless of size, so pack 100 markets per call:
     # sort by tip-off and let one call span every tip-off in its chunk (same evening).
     # only markets listed before tip-off (in-game re-strikes are skipped: thousands per night)
@@ -91,38 +95,49 @@ def download_series(k: Kalshi, series: str, since: datetime, league: str = "NBA"
         lo, hi = job[0]["tipoff"], job[-1]["tipoff"]
         for attempt in range(3):
             try:
-                return _candles(k, [r["ticker"] for r in job], lo - timedelta(hours=5),
+                return _candles(k, [r["ticker"] for r in job], lo - timedelta(hours=6),
                                 hi + timedelta(hours=2, minutes=5))
             except Exception:
                 time.sleep(2 * (attempt + 1))
         return {}
 
-    with ThreadPoolExecutor(workers) as ex:
-        for res in ex.map(work, jobs):
-            for t, allc in res.items():
-                r = rows[t]
-                cutoff = r["tipoff"].timestamp()
-                for name, hrs in (("live1", 1), ("live2", 2)):  # in-game snapshots ~1h and ~2h after tip
-                    lc = [c for c in allc if cutoff + (hrs - 1) * 3600 + 60 < c["end_period_ts"] <= cutoff + hrs * 3600 + 60]
-                    if lc:
-                        r[name + "_bid"] = _f(lc[-1].get("yes_bid", {}).get("close_dollars"))
-                        r[name + "_ask"] = _f(lc[-1].get("yes_ask", {}).get("close_dollars"))
-                cs = [c for c in allc if c["end_period_ts"] <= cutoff + 60]
-                if not cs or not (r["open_time"] < r["tipoff"]):
-                    continue
-                c = cs[-1]
-                r["pre_bid"] = _f(c.get("yes_bid", {}).get("close_dollars"))
-                r["pre_ask"] = _f(c.get("yes_ask", {}).get("close_dollars"))
-                p = c.get("price", {})
-                r["pre_last"] = _f(p.get("close_dollars") or p.get("previous_dollars"))
-                r["pre_ts"] = datetime.fromtimestamp(c["end_period_ts"], timezone.utc)
-    df = pd.DataFrame(rows.values())
-    if old is not None and len(old):
-        df = pd.concat([old[~old.ticker.isin(df.ticker)], df], ignore_index=True) if len(df) else old
-    if len(df):
-        df.to_parquet(path, index=False)
-    return df
+    def save(upto=None):
+        done = [r for r in rows.values() if upto is None or r["tipoff"] <= upto]
+        df = pd.DataFrame(done)
+        if old is not None and len(old):
+            df = pd.concat([old[~old.ticker.isin(df.ticker)], df], ignore_index=True) if len(df) else old
+        if len(df):
+            tmp = path.with_suffix(".tmp")
+            df.to_parquet(tmp, index=False)
+            tmp.replace(path)
+        return df
 
+    for ji, job in enumerate(jobs):
+        res = work(job)
+        for t, allc in res.items():
+            r = rows[t]
+            cutoff = r["tipoff"].timestamp()
+            for name, hrs in (("live1", 1), ("live2", 2)):  # in-game snapshots ~1h and ~2h after tip
+                lc = [c for c in allc if cutoff + (hrs - 1) * 3600 + 60 < c["end_period_ts"] <= cutoff + hrs * 3600 + 60]
+                if lc:
+                    r[name + "_bid"] = _f(lc[-1].get("yes_bid", {}).get("close_dollars"))
+                    r[name + "_ask"] = _f(lc[-1].get("yes_ask", {}).get("close_dollars"))
+            ec = [c for c in allc if c["end_period_ts"] <= cutoff - 3 * 3600 + 60]   # >= 3h before tip-off
+            if ec:
+                r["early_bid"] = _f(ec[-1].get("yes_bid", {}).get("close_dollars"))
+                r["early_ask"] = _f(ec[-1].get("yes_ask", {}).get("close_dollars"))
+            cs = [c for c in allc if c["end_period_ts"] <= cutoff + 60]
+            if not cs:
+                continue
+            c = cs[-1]
+            r["pre_bid"] = _f(c.get("yes_bid", {}).get("close_dollars"))
+            r["pre_ask"] = _f(c.get("yes_ask", {}).get("close_dollars"))
+            p = c.get("price", {})
+            r["pre_last"] = _f(p.get("close_dollars") or p.get("previous_dollars"))
+            r["pre_ts"] = datetime.fromtimestamp(c["end_period_ts"], timezone.utc)
+        if ji % 15 == 14 and ji + 1 < len(jobs):   # checkpoint: a restart resumes from here
+            save(upto=jobs[ji][-1]["tipoff"] - timedelta(hours=13))
+    return save()
 
 def download(days: int = 45, leagues=("NBA", "NFL")):
     k = data_client()
@@ -140,7 +155,8 @@ def download(days: int = 45, leagues=("NBA", "NFL")):
 
 
 def load(league: str | None = None) -> pd.DataFrame:
-    fs = sorted(HIST_DIR.glob("*.parquet"))
+    v2 = {f.name: f for f in HIST_V2.glob("*.parquet")}
+    fs = sorted(list(v2.values()) + [f for f in HIST_DIR.glob("*.parquet") if f.name not in v2])
     if not fs:
         raise SystemExit("no history yet: run `python -m bot history`")
     df = pd.concat([pd.read_parquet(f) for f in fs], ignore_index=True)

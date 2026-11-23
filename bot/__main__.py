@@ -141,6 +141,21 @@ def main():
     si.add_argument("--min-price", type=float, default=0.50)
     si.add_argument("--max-price", type=float, default=0.80)
     si.add_argument("--show", type=int, default=30)
+    bk = sub.add_parser("bankroll", help="what to expect: streaks, chance of profit, Kelly stake, bets to prove a strategy")
+    bk.add_argument("--bankroll", type=float, default=config.BANKROLL)
+    bk.add_argument("--stake", type=float, default=config.MAX_STAKE_PER_COMBO)
+    bk.add_argument("--bets", type=int, default=200)
+    bk.add_argument("--maker-cut", type=float, default=0.10)
+    bk.add_argument("--league", default="NBA")
+    ed = sub.add_parser("edges", help="scan every leg type for a real hit-rate advantage (split-sample + FDR control)")
+    ed.add_argument("--league", default="NBA")
+    tr = sub.add_parser("trades", help="trade-level study: how takers vs resting orders really did (all market types)")
+    tr.add_argument("--download", action="store_true", help="fetch missing days + results first")
+    tr.add_argument("--since", default="2026-10-20")
+    tr.add_argument("--league", default="NBA")
+    wt = sub.add_parser("watch", help="live paper-trade: NBA moneyline first touch of 95c during games")
+    wt.add_argument("--hours", type=float, default=8)
+    wt.add_argument("--thresholds", type=float, nargs="+", default=[0.95])
     sub.add_parser("settle")
     sub.add_parser("report")
     b = sub.add_parser("backtest")
@@ -172,6 +187,22 @@ def main():
         ensemble.report(ensemble.stack_walk_forward(df))
         w = ensemble.fit_live_weights(df)
         print(f"\n  live-scan weights saved (fitted on {w['n']:,} legs): market {w['w_mid']:.2f}, model {w['w_model']:.2f}")
+    elif cmd == "trades":
+        from .report_trades import run
+        run(args)
+    elif cmd == "watch":
+        from .watch import run
+        run(thresholds=tuple(args.thresholds), hours=args.hours)
+    elif cmd == "edges":
+        from . import edges, history
+        edges.run(history.load(args.league))
+    elif cmd == "bankroll":
+        from . import bankroll, history
+        try:
+            hist = history.load(args.league)
+        except SystemExit:
+            hist = None
+        bankroll.run(hist, args.bankroll, args.stake, args.bets, args.maker_cut)
     elif cmd == "mix":
         from .report_fav import mix
         mix(args)
@@ -200,6 +231,8 @@ def main():
     elif cmd == "settle":
         print(f"settled {ledger.settle(data_client())} rows")
         ledger.report()
+        from .watch import settle as settle_live
+        settle_live(data_client())
     elif cmd == "report":
         ledger.report()
     elif cmd == "backtest":

@@ -37,7 +37,10 @@ def legs_table(hist: pd.DataFrame, when: str = "pre", max_spread: float = 0.15, 
     ok = bid.notna() & ask.notna() & (ask > bid) & ((ask - bid) <= max_spread)
     df = df[ok]
     bid, ask = df[f"{when}_bid"], df[f"{when}_ask"]
-    if basis == "mid":
+    if basis == "maker":   # resting order that gets filled at our own price: YES at the bid, NO at 1-ask
+        yes = df[bid > 0].assign(side="yes", cost=bid[bid > 0], win=(df.result[bid > 0] == "yes"))
+        no = df[ask < 1].assign(side="no", cost=1 - ask[ask < 1], win=(df.result[ask < 1] == "no"))
+    elif basis == "mid":
         mid = (bid + ask) / 2
         yes = df.assign(side="yes", cost=mid, win=(df.result == "yes"))
         no = df.assign(side="no", cost=1 - mid, win=(df.result == "no"))

@@ -96,9 +96,67 @@ use it (plus each leg type's settled hit rate) rather than the simulation.
   largely unrelated. `python -m bot social` shows what is visible; it uses an undocumented website
   API, so it is for occasional manual use and is not part of the daily run.
 
+## 7. Every fill this season: who actually made money?
+Source: all 45.2M NBA/NFL fills on Kalshi from 2026-10-20 to 2026-11-21 (27.8M NBA fills, 248 games,
+36 market types), each one graded against the settled result (`python -m bot trades`). Every fill is
+two real bets: the taker who paid the quote and the maker whose resting order was hit.
+ROI after fees, every fill counted once, errors clustered by game.
+
+| NBA, price paid | taker, pre-game (last 3h) | taker, in-game | maker, in-game |
+|---|---|---|---|
+| under 10c | -45% | -46% | -24% |
+| 10-20c | -34% | -21% | -7% |
+| 35-50c | +3% (noise) | -1% | +2% (noise) |
+| 50-65c | -4% | -5.3% | -2% |
+| 80-90c | +4% (noise) | -0.1% | +2% (noise) |
+| 90-95c | +3.3% | +0.7% (noise) | +2.5% |
+| 95-99c | -0.6% | **+0.7%** | **+1.9%** |
+| 99c | -0.2% | +0.3% | +0.7% |
+
+* Long shots are the worst bet on the board for everyone: under-10c fills lost 21-46%.
+* In-game fills at 95-99c were positive for both sides, 5-9 standard errors from zero, in both
+  halves of the season. But that is an average over fills, and blowouts produce thousands of safe
+  fills late in games. See the next section for what a followable rule earned.
+
+## 8. A rule you can follow: buy once, the first time a market touches the price in-game
+
+| NBA market | threshold | bets | games | avg price | won | losses | ROI after fee |
+|---|---|---|---|---|---|---|---|
+| moneyline | 90c | 474 | 216 | 0.901 | 93.0% | 33 | +2.6% (+/-1.7) |
+| moneyline | 95c | 426 | 203 | 0.950 | 97.9% | 9 | **+2.7% (+/-1.0)** |
+| moneyline | 97c | 398 | 193 | 0.970 | 99.0% | 4 | +1.8% (+/-0.7) |
+| spreads | 95c | 28,520 | 236 | 0.966 | 97.1% | 821 | +0.3% (+/-0.2) |
+| totals | 95c | 40,926 | 236 | 0.965 | 96.6% | 1,374 | -0.1% (+/-0.2) |
+| player props | 95c | 68,187 | 236 | 0.967 | 96.6% | 2,288 | -0.2% (+/-0.1) |
+| all markets | 95c | 145,879 | 236 | 0.966 | 96.7% | 4,831 | -0.1% (+/-0.1) |
+
+(+/- is one standard error. Moneyline bets count each game twice: YES one team / NO the other.)
+
+* Across all markets the followable rule is flat to slightly negative: the fill-level "edge" in
+  section 7 was mostly garbage-time fills.
+* One segment survives: **NBA in-game moneylines at 95c+**. A team priced 95c won 97.9% of the
+  time. Positive in both halves of the season (+1.4%, +3.9%), but it rests on ~200 games and 9
+  losses, and it is the best of 20 segments tested, so treat it as a lead, not a fact.
+  NFL (59 games) shows nothing reliable.
+* `python -m bot watch` now paper-trades exactly this rule live, at the real ask, every game night.
+
+## 9. Bankroll reality (`python -m bot bankroll`)
+$100 bankroll, $2 per card, 200 cards, using the measured per-leg cost plus a 10% maker cut:
+5x cards from mid-priced legs end ahead 13% of the time; 25x cards 18%; 95c+ stacks 0%. Kelly sizing
+says $0 on every combo type (none is +EV). It takes ~500 cards at 5x, ~1,200 at 10x and ~12,700 at
+100x before results can tell a winning card strategy from a losing one, so a handful of hits or
+misses proves nothing either way.
+
+## 10. Segment scan with multiple-testing control (`python -m bot edges`)
+42 leg types (market x side x price band x snapshot) tested on quote data with a discovery half and
+an untouched confirmation half and Benjamini-Hochberg false-discovery control: 0 passed.
+
 ## Bottom line
-A 50-leg favorites combo is the least efficient shape tested. The most efficient is 3-8 legs priced
-35-80c on tight books, bought only when the quote is within ~10% of the legs' mid value: that is
-close to a fair bet with a 5-35x payout. Nothing tested so far has a positive expected value as a
-combo buyer. The bot keeps paper-trading every strategy daily so this can be re-judged on more
-data, and it will not place real money on a strategy whose backtest is negative.
+* Buying combos is at best a fair bet. The efficient shape is 3-8 legs priced 35-80c on tight books,
+  bought only when the quote is within ~10% of the legs' mid value. 50 legs at 90c+ is the least
+  efficient shape tested. Long shots under 20c are the worst bet on the board.
+* Kalshi's price is a better "will it hit" predictor than any model or simulation tested.
+* The one lead with positive expected value is a single bet, not a combo: NBA in-game moneyline
+  favorites at 95c+ (+2.7% +/- 1.0% over ~200 games). It is being paper-traded live.
+* No real money has been placed. Nothing here justifies real stakes on combos; the moneyline rule
+  needs more games (and a live paper record) before it does.

@@ -10,3 +10,6 @@ data/*
 !data/stack_weights.json
 !data/corr_priors.json
 data/history_download.log
+!data/fills_agg.parquet
+!data/first_touch.parquet
+!data/results.parquet
