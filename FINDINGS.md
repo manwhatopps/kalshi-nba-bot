@@ -151,6 +151,32 @@ misses proves nothing either way.
 42 leg types (market x side x price band x snapshot) tested on quote data with a discovery half and
 an untouched confirmation half and Benjamini-Hochberg false-discovery control: 0 passed.
 
+## 11. The fund: how the bankroll is allocated (`python -m bot fund`)
+The bot is run as one bankroll with three sleeves, not as a pick list.
+
+* **Core** (default 50%): single bets on graded edges, counted one bet per game.
+  | edge | bets | lost | won | avg price | break-even | per $1 | grade |
+  |---|---|---|---|---|---|---|---|
+  | NBA in-game moneyline, first touch of 95c | 203 | 5 | 97.5% | 95.1c | 95.4% | +2.3% | B candidate |
+  | NBA in-game moneyline, first touch of 97c | 193 | 2 | 99.0% | 97.0c | 97.2% | +1.8% | B candidate |
+  | NBA in-game moneyline, first touch of 90c | 216 | 17 | 92.1% | 90.1c | 90.7% | +1.5% | C unproven |
+  | NFL in-game moneyline, first touch of 95c | 36 | 2 | 94.4% | 95.0c | 95.3% | -0.9% | C unproven |
+
+  Grades: A = confirmed on games after discovery; B = positive even at the low end of its error
+  range but not yet confirmed; C = no money. Kelly on the 97c rule's measured win rate is 63% of
+  bankroll; on the low end of its error range it is 19%. The plan stakes the cautious figure per
+  bet, capped so the whole sleeve covers the night's expected triggers (the rule fires in ~82% of
+  games), instead of putting the sleeve on one game: same expected profit, far less risk.
+* **Degen** (default two $5 tickets aiming at $1,000 and $10,000): fewest fairly-priced legs that
+  reach the payout, with a minimum acceptable quote. Fixed cost, never sized up.
+* **Reserve**: the rest, never deployed.
+
+Simulated over 60 game nights from $100 (lottery tickets assumed to return half of fair value):
+with the edge as measured, the core alone ends at a median of about $171; adding $10 of tickets
+every night ends at about $0 in every scenario, because $600 of tickets cannot be carried by a core
+that makes ~$1 a night. Tickets bought only out of profits keep the fund near $100 with a 1-2%
+chance of a big hit.
+
 ## Bottom line
 * Buying combos is at best a fair bet. The efficient shape is 3-8 legs priced 35-80c on tight books,
   bought only when the quote is within ~10% of the legs' mid value. 50 legs at 90c+ is the least
@@ -158,5 +184,7 @@ an untouched confirmation half and Benjamini-Hochberg false-discovery control: 0
 * Kalshi's price is a better "will it hit" predictor than any model or simulation tested.
 * The one lead with positive expected value is a single bet, not a combo: NBA in-game moneyline
   favorites at 95c+ (+2.7% +/- 1.0% over ~200 games). It is being paper-traded live.
+* The fund structure (section 11) puts money only on graded edges, keeps lottery tickets a small
+  fixed cost, and is being paper-traded with dollar stakes.
 * No real money has been placed. Nothing here justifies real stakes on combos; the moneyline rule
   needs more games (and a live paper record) before it does.

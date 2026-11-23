@@ -167,6 +167,11 @@ def main():
     be.add_argument("--hours", type=float, default=30, help="only games starting within this many hours")
     be.add_argument("--game", default="", help="only this game, e.g. DALUTA (same-game card: raise --per-game)")
     be.add_argument("--groups", nargs="+", default=["1 moneyline", "4 player props", "2 spreads", "3 totals"])
+    fu = sub.add_parser("fund", help="tonight's allocation for the whole bankroll: core edge bets + capped lottery sleeve")
+    fu.add_argument("--set", nargs="*", help='change settings, e.g. --set bankroll=100 core_pct=0.5 "degen_tickets=[[5,1000],[5,10000]]"')
+    fu.add_argument("--nights", type=int, default=60)
+    fu.add_argument("--hours", type=float, default=14)
+    fu.add_argument("--degen-keep", type=float, default=0.5)
     sub.add_parser("settle")
     sub.add_parser("report")
     b = sub.add_parser("backtest")
@@ -200,6 +205,9 @@ def main():
         print(f"\n  live-scan weights saved (fitted on {w['n']:,} legs): market {w['w_mid']:.2f}, model {w['w_model']:.2f}")
     elif cmd == "trades":
         from .report_trades import run
+        run(args)
+    elif cmd == "fund":
+        from .report_fund import run
         run(args)
     elif cmd == "best":
         from .report_fav import best

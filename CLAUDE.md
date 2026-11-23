@@ -3,6 +3,12 @@
 Research + paper-trading bot for Kalshi NBA/NFL markets. Read `FINDINGS.md` before changing strategy code:
 it records what the backtests on Kalshi's own settled markets and 45M real fills actually show.
 
+## What this is
+A fund, not a pick list: one bankroll split into a CORE sleeve (single bets on data-graded edges, Kelly-sized
+from the low end of the edge's error range until confirmed), a small fixed DEGEN sleeve (lottery combos), and
+a RESERVE. `python -m bot fund` prints the plan; settings live in `data/fund.json`. Edges are graded A/B/C in
+`bot/fund.py` from `data/first_touch.parquet`; only A and B get money.
+
 ## Rules
 - **Paper only.** Never place real orders (`place --live`) unless the owner explicitly says to in the
   current conversation, with a stake limit. Defaults: `KALSHI_ENV=demo`, $2 per combo, $10 per day.

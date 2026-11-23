@@ -29,6 +29,7 @@ pgrep -f "bot watch" > /dev/null || (setsid nohup python -m bot watch --hours 14
   echo "# Kalshi sports bot — $(date -u '+%F %H:%M UTC')"
   echo; echo "Data refresh: $(grep -c 'NBA/NFL fills' .refresh.out) new day(s) of trades added."
   sec "Yesterday graded" 25 python -m bot settle
+  sec "THE FUND: tonight's allocation and what to expect" 90 python -m bot fund
   sec "Every fill this season: the first-touch rule (NBA)" 60 bash -c "python -m bot trades | sed -n '/A RULE YOU CAN FOLLOW/,\$p'"
   sec "Do the models beat Kalshi? (settled props)" 16 python -m bot models
   sec "Favorites strategy on quote history" 70 python -m bot favorites --samples 100
