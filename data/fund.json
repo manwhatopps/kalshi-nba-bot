@@ -13,5 +13,6 @@
  ],
  "max_concurrent_pct": 0.5,
  "stop_loss_pct": 0.3,
- "z": 1.64
+ "z": 1.64,
+ "max_stake_per_bet": 5.0
 }

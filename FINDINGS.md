@@ -1,6 +1,6 @@
 # What the data says so far (2026-11-23)
 
-> **Read sections 12 and 14 first.** The moneyline "edge" found on this season's games (sections 8
+> **Read sections 12, 14 and 15 first.** The moneyline "edge" found on this season's games (sections 8
 > and 11) lost money on 1,268 games from Kalshi's prior-season archive. A player-prop rule (section
 > 14) is positive in both seasons separately and is the fund's one graded candidate.
 
@@ -261,10 +261,47 @@ In the simulator, with $5 fillable per bet, $100 becomes $638 over the 172-night
 $2 per bet); without a liquidity cap the simulator shows absurd growth, which is why the cap exists.
 `python -m bot watch` paper-trades the rule live and records the size on offer at each entry.
 
+## 15. Walk-forward backtest of the fund's logic (`python -m bot walk`)
+A backtest of the decision process itself, on data already downloaded, with no hindsight. On each of
+345 nights (April 2025 - November 2026) the bot sees only earlier nights. From 142 candidate rules
+(prop type x over/under x price band, plus moneyline first-touch rules; 422,900 candidate bets) it
+activates a rule only if its past record has 150+ bets over 60+ games and a return that is positive
+even 3 standard errors below its estimate, stakes a quarter of the cautious Kelly bet (at most $5
+per bet), and takes the real result.
+
+| bar for activating a rule | rules used | bets | return on stakes | worst drawdown |
+|---|---|---|---|---|
+| any positive record | 66 | 47,311 | +1.5% | $3,368 |
+| positive by 1.64 std errors | 31 | 29,178 | +2.4% | $2,169 |
+| positive by 3 std errors | 12 | 16,187 | +3.5% | $738 |
+| positive by 4 std errors | 8 | 6,935 | +3.5% | $211 |
+
+* A stricter bar means fewer rules, a better return per dollar and much smaller drawdowns. At the
+  loose bar 14 of 31 activated rules lost money afterwards.
+* **By season, at the 3-standard-error bar: last season +9.7% on $27,749 staked; this season -1.1% on
+  $36,790.** The logic found the unders on points, threes, rebounds and assists by itself last
+  season and they paid; this season it kept betting them on their lifetime record after they stopped
+  working (points under 35-50c: -4.4%; rebounds under: -5.9%).
+* A recency check (the rule must also be profitable over its last 20 nights) only moves this season
+  from -1.1% to between -1.2% and +0.7%. It is now part of the logic, but it is a patch, not a cure.
+* The dollar totals assume $5 fills on every bet, about 47 bets a night. With $1 per bet the whole
+  history earns $585; with no cap the backtest shows $29,000, which is not achievable.
+
+**The double-double under, without hindsight.** The logic activated it on 2026-04-01. Counting only
+bets after that date: 369 bets over 200 games, won 64.8% against a 55.3% average cost, **+17.1%
+(t = 3.8)**; positive in the rest of last season and in this season. In the fund's registry (one
+bet per market, first fill at 35-80c): 449 bets before activation at +12.1%, 605 bets after at
++15.6%. Graded A; stakes are capped at $5 per bet for liquidity.
+
+What the logic would bet tonight: double-double unders at 35-80c, and (tracked without money) NFL
+first-touchdown unders at 65-80c. The broad unders no longer pass.
+
 ## Bottom line
-* **One graded candidate:** the in-game NBA double-double under (+11.5% and +14.9% in two separate
-  seasons). It is small-capacity and not yet tested on games after discovery; it is being
-  paper-traded live with the fund's core sleeve.
+* **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
+  sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is
+  small-capacity (about $5 per market) and is being paper-traded live with the fund's core sleeve.
+* **The logic as a whole** made +9.7% on stakes last season and -1.1% this season: most of what it
+  found last season has stopped working, so past results are not a promise.
 * **Do not buy prop overs in-game.** They lost in both seasons, both sports and every price band.
 * The in-game moneyline rule that looked best this season lost on 1,268 archived games and is
   graded "failed". Every rule is graded on games it was not found on.

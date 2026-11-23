@@ -25,7 +25,7 @@ from .trades import TAKER_FEE
 
 CFG = config.DATA_DIR / "fund.json"
 DEFAULT = dict(bankroll=100.0, core_pct=0.50, degen_tickets=[[5, 1000], [5, 10000]], max_concurrent_pct=0.50,
-               stop_loss_pct=0.30, z=1.64)
+               stop_loss_pct=0.30, z=1.64, max_stake_per_bet=5.0)   # $5: about what these thin markets fill
 DISCOVERED_THROUGH = "2026-11-21"
 
 
@@ -55,7 +55,10 @@ def _per_game(ft: pd.DataFrame, league: str, series: str, th: float) -> pd.DataF
     return d.sort_values("created_time").groupby("game").first()   # the two tickers of a game are one bet
 
 
-PROP_DISCOVERED_THROUGH = "2026-11-21"     # the prop rules were found using BOTH seasons up to this day
+# The walk-forward logic (bot/walkforward.py), seeing only earlier nights, first activated the
+# double-double under on this date. Bets after it are out-of-sample for that mechanical selection.
+DD_ACTIVATED = "2026-04-01"
+DD_BANDS = ["0.35-0.50", "0.50-0.65", "0.65-0.80"]
 
 
 def _stats(g: pd.DataFrame, z: float) -> dict:
@@ -77,7 +80,7 @@ def _stats(g: pd.DataFrame, z: float) -> dict:
 
 def dd_under_bets() -> pd.DataFrame:
     """NBA double-double UNDER: one bet per market, the first in-game fill where the under (NO) could be
-    bought at 50-80c. Both seasons."""
+    bought at 35-80c (the bands the walk-forward logic has active). Both seasons."""
     from .favorites import slate_date
     parts = []
     for season, f in (("last season", "prop_touch_prior.parquet"), ("this season", "prop_touch.parquet")):
@@ -85,7 +88,7 @@ def dd_under_bets() -> pd.DataFrame:
         if not fp.exists():
             continue
         t = pd.read_parquet(fp)
-        t = t[(t.series == "KXNBA2D") & (t.taker_side == "no") & t.band.isin(["0.50-0.65", "0.65-0.80"])]
+        t = t[(t.series == "KXNBA2D") & (t.taker_side == "no") & t.band.isin(DD_BANDS)]
         t = t.loc[t.groupby("ticker").created_time.idxmin()].assign(season=season)
         parts.append(t)
     if not parts:
@@ -126,10 +129,10 @@ def edge_registry(z: float = 1.64) -> pd.DataFrame:
                               fwd=g[g.date > cut], note="found on this season only"))
     dd = dd_under_bets()
     if len(dd):
-        cut = pd.Timestamp(PROP_DISCOVERED_THROUGH)
-        cands.append(dict(id="dd_under", label="NBA in-game double-double UNDER, first fill at 50-80c", league="NBA",
-                          threshold=0.0, found=dd[dd.date <= cut], ind=dd[dd.date > cut], arch=0, fwd=dd[dd.date > cut],
-                          note="found using both seasons; positive in each separately"))
+        cut = pd.Timestamp(DD_ACTIVATED)
+        cands.append(dict(id="dd_under", label="NBA in-game double-double UNDER, first fill at 35-80c", league="NBA",
+                          threshold=0.0, found=dd[dd.date < cut], ind=dd[dd.date >= cut], arch=0, fwd=dd[dd.date >= cut],
+                          note=f"the walk-forward logic activated it on {DD_ACTIVATED} from earlier nights only"))
     rows = []
     for c in cands:
         d, i = _stats(c["found"], z), _stats(c["ind"], z)
@@ -138,7 +141,7 @@ def edge_registry(z: float = 1.64) -> pd.DataFrame:
             grade = "A confirmed" if i["lb"] > i["cost"] else "C failed on independent games"
         else:
             grade = "B candidate" if d["lb"] > d["cost"] else "C unproven"
-        use = alls if grade[0] == "A" else d
+        use = i if grade[0] == "A" else d      # once confirmed, size from the independent games only
         nights = c["found"].date.nunique() if "date" in c["found"] else 1
         seas = ""
         if "season" in c["found"].columns:

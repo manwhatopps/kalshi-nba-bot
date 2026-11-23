@@ -4,7 +4,8 @@ Polls Kalshi once a minute during games and logs a paper entry, at the real quot
 a rule's condition is met in a market:
 
   ml95 / ml97   NBA moneyline: either side can be bought at >= 95c / 97c
-  dd_under      NBA double-double: the UNDER (NO) can be bought at 50-80c
+  dd_under      NBA double-double: the UNDER (NO) can be bought at 35-80c
+  nfl_firsttd_under   NFL first touchdown: the UNDER (NO) at 65-80c (tracked, no money)
 
 Only the fund's primary graded edge gets a dollar stake; everything else is tracked at $0 so each
 rule keeps building an out-of-sample record. The displayed size at the quote is recorded too, which
@@ -24,7 +25,8 @@ LOG = config.DATA_DIR / "ledger" / "live_rules.csv"
 FIELDS = ["ts", "rule", "ticker", "side", "price", "size_shown", "mins_into_game", "title", "stake", "result", "pnl", "unit"]
 RULES = [dict(id="ml95_nba", series="KXNBAGAME", kind="touch", th=0.95),
          dict(id="ml97_nba", series="KXNBAGAME", kind="touch", th=0.97),
-         dict(id="dd_under", series="KXNBA2D", kind="band", side="no", lo=0.50, hi=0.80)]
+         dict(id="dd_under", series="KXNBA2D", kind="band", side="no", lo=0.35, hi=0.80),
+         dict(id="nfl_firsttd_under", series="KXNFLFIRSTTD", kind="band", side="no", lo=0.65, hi=0.80)]
 
 
 def _f(x):
@@ -44,7 +46,8 @@ def fund_stake(k) -> tuple[str, float]:
         if e is None:
             return "", 0.0
         core = cfg["core_pct"] * cfg["bankroll"]
-        return e.id, round(min(fund.stake_fraction(e) * cfg["bankroll"], core / max(e.per_night, 1)), 2)
+        return e.id, round(min(fund.stake_fraction(e) * cfg["bankroll"], core / max(e.per_night, 1),
+                               cfg.get("max_stake_per_bet", 5.0)), 2)
     except Exception as ex:
         print(f"! fund stake unavailable: {ex}", flush=True)
         return "", 0.0

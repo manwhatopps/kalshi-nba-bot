@@ -178,6 +178,8 @@ def main():
     sm.add_argument("--rule", default="", help="'dd_under' to replay the double-double under rule")
     sm.add_argument("--max-stake", type=float, default=float("inf"), help="dollars fillable per bet (liquidity cap)")
     sub.add_parser("props", help="player props across two seasons: overs/unders, prop types, price bands")
+    wf = sub.add_parser("walk", help="walk-forward backtest of the fund's logic on all downloaded data (no hindsight)")
+    wf.add_argument("--max-stake", type=float, default=5.0)
     sub.add_parser("settle")
     sub.add_parser("report")
     b = sub.add_parser("backtest")
@@ -212,6 +214,9 @@ def main():
     elif cmd == "trades":
         from .report_trades import run
         run(args)
+    elif cmd == "walk":
+        from .walkforward import report
+        report(args.max_stake)
     elif cmd == "props":
         from .props_study import run
         run()

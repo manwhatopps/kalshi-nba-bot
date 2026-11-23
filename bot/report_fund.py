@@ -71,22 +71,35 @@ def run(args):
     else:
         frac = fund.stake_fraction(e)
         exp_tr = e.game_share * games if e.id != "dd_under" else e.per_night * games / 7.0
-        per = min(frac * B, core / max(exp_tr, 1)) if games else frac * B
+        per = min(frac * B, core / max(exp_tr, 1), cfg["max_stake_per_bet"]) if games else min(frac * B, cfg["max_stake_per_bet"])
         win_ret = 1 / e.cost - 1
         print(f"   Edge used: {e.edge}  [{e.grade}]")
         print(f"   Kelly on the measured win rate: {e.kelly_full:.0%} of bankroll ({_money(e.kelly_full * B)}).  "
               f"Kelly on the low end of its error range: {e.kelly_safe:.0%} ({_money(e.kelly_safe * B)}).")
         print(f"   NBA games tonight: {games}.  Expected bets: about {exp_tr:.0f}.")
         if e.id == "dd_under":
-            print("   LIQUIDITY WARNING: these are thin markets. This season a typical market saw about $5 of unders bought at "
-                  "these prices, so stakes above a few dollars per market may not fill at the tested price.")
-        print(f"   PLAN: {_money(per)} on each trigger, never more than {_money(core)} at risk at once.")
+            print("   LIQUIDITY: thin markets. A typical one saw about $5 of unders bought at these prices this season; "
+                  "the live watcher records the size actually on offer.")
+        print(f"   PLAN: {_money(per)} on each bet (capped at {_money(cfg['max_stake_per_bet'])} for liquidity), "
+              f"never more than {_money(core)} at risk at once.")
         print(f"         Each win makes {_money(per * win_ret)}; each loss costs {_money(per)}.  "
               f"Expected profit tonight: {_money(exp_tr * per * e.edge_pct)} if the edge is real, $0 if it is not.")
         one_loss = 1 - e.won
         print(f"   The whole {_money(core)} on ONE bet instead: expected profit {_money(core * e.edge_pct)}, but a "
               f"{one_loss:.1%} chance of losing all {_money(core)} on that one bet. Spread over ~{max(exp_tr, 1):.0f} bets, "
               f"losing that much needs nearly every one of them to fail.")
+
+    try:
+        from .walkforward import active_now
+        act = active_now()
+        act = act[act.passes_lifetime]
+        print("\n   WHAT THE WALK-FORWARD LOGIC WOULD BET TONIGHT (record to date; must be positive 3 std errors down AND over its last 20 nights):")
+        for a in act.itertuples():
+            flag = "ACTIVE" if a.passes_recent else "paused (recent form negative)"
+            print(f"     {flag:30s} {a.rule:38s} {a.bets:5d} bets, {a.ret:+.1%} lifetime, {a.last_20_nights:+.1%} last 20 nights, "
+                  f"{a.this_season:+.1%} this season")
+    except Exception as ex:
+        print(f"   (walk-forward status unavailable: {ex})")
 
     print("\n3) DEGEN SLEEVE (lottery tickets: fixed cost, never sized up)")
     run_id = uuid.uuid4().hex[:8]

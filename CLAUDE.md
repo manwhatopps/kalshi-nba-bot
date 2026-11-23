@@ -10,7 +10,10 @@ a RESERVE. `python -m bot fund` prints the plan; settings live in `data/fund.jso
 `bot/fund.py` from `data/first_touch.parquet`; only A and B get money. A rule is graded on games it was NOT
 found on (the prior-season archive plus games since discovery). As of 2026-11-23 the moneyline rules grade
 C (failed on the archive) and one prop rule grades B: the in-game NBA double-double UNDER at 50-80c
-(`fund.dd_under_bets`, from `data/prop_touch*.parquet`). Props matter as much as game lines: test both. `python -m bot sim` replays real nights in
+(`fund.dd_under_bets`, from `data/prop_touch*.parquet`). Props matter as much as game lines: test both.
+`python -m bot walk` (`bot/walkforward.py`) is the honest test of the whole logic: each night it sees only
+earlier nights, activates rules whose record clears 3 standard errors plus a 20-night recency check, and
+bets them. Any change to the logic must be judged there, season by season, not on a hand-picked rule. `python -m bot sim` replays real nights in
 `bot/sim_env.py` (gymnasium `FundEnv`) to compare staking policies; any new rule must survive it.
 
 ## Rules

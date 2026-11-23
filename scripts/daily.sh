@@ -31,6 +31,7 @@ pkill -f "bot watch" 2>/dev/null; sleep 1   # restart so the watcher picks up to
   echo; echo "Data refresh: $(grep -c 'NBA/NFL fills' .refresh.out) new day(s) of trades added."
   sec "Yesterday graded" 25 python -m bot settle
   sec "THE FUND: tonight's allocation and what to expect" 90 python -m bot fund
+  sec "WALK-FORWARD BACKTEST of the fund's logic (no hindsight)" 80 python -m bot walk
   sec "SIMULATOR: double-double under rule, \$5 fillable per bet" 40 python -m bot sim --rule dd_under --max-stake 5 --episodes 150
   sec "SIMULATOR: moneyline 95c rule (failed rule, for reference)" 40 python -m bot sim --episodes 100
   sec "Every fill this season: the first-touch rule (NBA)" 60 bash -c "python -m bot trades | sed -n '/A RULE YOU CAN FOLLOW/,\$p'"
