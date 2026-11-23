@@ -17,7 +17,7 @@ number below gets re-run automatically as they arrive (`scripts/daily.sh`).
 | walk-forward stack of all four | 0.1643 |
 
 The stacker puts 0.96 of its weight on Kalshi's price and 0.05 on the model. Betting the stacker
-against real quotes after fees: 423 bets, ROI -6.4% (+/- 9.2%). The live scanner now uses these
+against real quotes after fees: 423 bets, ROI -6.4% (95% interval +/- 9.2%). The live scanner now uses these
 learned weights, so it reports no value legs unless the evidence changes.
 
 ## 2. Does "many legs at 90c+" work?  Not at the prices you can actually pay.
@@ -35,7 +35,7 @@ Win rate vs price, pre-game (`python -m bot favorites`):
   are fairly priced (edges within +/-1-2%, not significant).
 * Whole cards (150 random legal cards per night, payout = product of leg prices, the best case):
   10 legs at 0.90+ hit 43.6% of the time vs 54.0% needed -> ROI -21%. At mid prices the same cards
-  are roughly break-even (-10% +/- 9.5%).
+  are roughly break-even (-10%, standard error 9.5%).
 * A 50-leg card multiplies the per-leg cost 50 times: 2% per leg leaves 0.98^50 = 36% of fair value.
 * Independent research agrees: on 72M Kalshi trades, takers at 90-99c earn -0.3% before fees and
   makers +1.8% (Becker 2025); on 8.9M Kalshi combos, makers keep about 2-3c per combo and favorite
