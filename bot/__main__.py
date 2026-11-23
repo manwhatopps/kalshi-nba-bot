@@ -121,6 +121,26 @@ def main():
     c.add_argument("--per-game", type=int, default=8)
     c.add_argument("--include-live", action="store_true")
     c.add_argument("--naive", action="store_true", help="just take the highest-priced legs")
+    mx = sub.add_parser("mix", help="tonight's efficient mixes: few mid-priced legs to a target payout (paper)")
+    mx.add_argument("--league", default="NBA")
+    mx.add_argument("--targets", type=float, nargs="+", default=[5, 10, 25])
+    mx.add_argument("--lo", type=float, default=0.50)
+    mx.add_argument("--hi", type=float, default=0.72)
+    mx.add_argument("--per-game", type=int, default=2)
+    mx.add_argument("--max-spread", type=float, default=0.04)
+    mx.add_argument("--include-live", action="store_true")
+    eff = sub.add_parser("mixes", help="backtest which mix of leg prices is most efficient at each payout")
+    eff.add_argument("--league", default="NBA")
+    eff.add_argument("--samples", type=int, default=150)
+    so = sub.add_parser("social", help="read-only: Kalshi leaderboard + named trades in tonight's markets")
+    so.add_argument("--period", default="monthly")
+    so.add_argument("--top", type=int, default=100)
+    so.add_argument("--series", default="KXNBAGAME,KXNBAPTS,KXNBAREB,KXNBAAST,KXNBA3PT")
+    so.add_argument("--show", type=int, default=25)
+    si = sub.add_parser("sims", help="20,000-simulation hit rates for tonight's player props next to Kalshi's price")
+    si.add_argument("--min-price", type=float, default=0.50)
+    si.add_argument("--max-price", type=float, default=0.80)
+    si.add_argument("--show", type=int, default=30)
     sub.add_parser("settle")
     sub.add_parser("report")
     b = sub.add_parser("backtest")
@@ -152,6 +172,28 @@ def main():
         ensemble.report(ensemble.stack_walk_forward(df))
         w = ensemble.fit_live_weights(df)
         print(f"\n  live-scan weights saved (fitted on {w['n']:,} legs): market {w['w_mid']:.2f}, model {w['w_model']:.2f}")
+    elif cmd == "mix":
+        from .report_fav import mix
+        mix(args)
+    elif cmd == "mixes":
+        from . import history, mixes
+        mixes.run(history.load(args.league), "taker", samples=args.samples)
+    elif cmd == "social":
+        from .report_fav import social
+        social(args)
+    elif cmd == "sims":
+        a = ap.parse_args(["scan", "--no-topup", "--top", "0"])
+        res = build(a)
+        if res:
+            props = [l for l in res["legs"] if l.kind == "prop" and l.p_model is not None
+                     and args.min_price <= l.yes_ask <= args.max_price and l.spread <= 0.05 and l.yes_bid > 0]
+            from .combos import blend
+            props.sort(key=lambda l: l.p_model, reverse=True)
+            print(f"\n{len(props)} props priced {args.min_price:.2f}-{args.max_price:.2f}. 'sims' = share of 20,000 simulated "
+                  f"games where it hit; 'best est.' weights sims and price the way history says to.")
+            print(f"  {'prop':46s} {'sims':>5s} {'Kalshi':>7s} {'best est.':>9s}")
+            for l in props[:args.show]:
+                print(f"  {l.title[:46]:46s} {l.p_model:5.0%} {l.mid:7.0%} {blend(l):9.0%}")
     elif cmd == "card":
         from .report_fav import card
         card(args)

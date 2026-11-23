@@ -48,8 +48,57 @@ Win rate vs price, pre-game (`python -m bot favorites`):
 * Pre-game YES legs at 0.90-0.95 on points props: +2.7% at mid (n=118, +/-4%). Too small to trust;
   re-check once rebounds/assists/threes history is in.
 
+## 4. Which mix of legs is the sweet spot?  Mid-priced legs, few of them.
+Per leg at the price you pay (`python -m bot mixes`), and what is left of fair value after stacking
+that kind of leg to a ~10x payout:
+
+| leg price | legs | paid | hit | legs needed for 10x | fair value kept at 10x |
+|---|---|---|---|---|---|
+| 35-50c | 3,400 | 0.420 | 0.407 | 2.7 | 92% |
+| 50-60c | 2,020 | 0.545 | 0.531 | 3.8 | 91% |
+| 60-70c | 2,115 | 0.645 | 0.635 | 5.3 | 92% |
+| 70-80c | 2,234 | 0.745 | 0.739 | 7.8 | 94% |
+| 80-90c | 2,684 | 0.848 | 0.831 | 14.0 | 76% |
+| 90-95c | 1,587 | 0.920 | 0.907 | 27.5 | 69% |
+| 95-99c | 1,274 | 0.968 | 0.936 | 70.0 | 10% |
+
+Every band loses 1-3 cents per leg; expensive legs just need far more legs to reach the same payout,
+so they pay that cost many more times. Whole cards dealt at random from settled nights agree:
+50-70c cards at ~5x and ~10x hit 16.1% and 7.6% of the time against 15.4% and 7.7% needed (fair
+within noise); bigger payouts kept 60-95% with wide error bars.
+
+The combo shared at kalshi.com/s/m/KXMVECROSSCATEGORY-S2026CW5OA5GGJYZDICS3/SOLPKKFPB is this kind
+of mix (8 NHL legs at 47-79c). Its legs are worth 57x at mid prices; it last traded at 50x, i.e.
+buyers paid ~14% over the legs' value. `python -m bot mix` prints that ceiling for every card.
+
+## 5. "Will it hit?" — does the simulation know more than the price?  No.
+9,530 settled points props, grouped by how the 20,000-run simulation compared with Kalshi's price:
+
+| simulation vs price | legs | Kalshi price | simulation said | actually hit |
+|---|---|---|---|---|
+| much lower | 979 | 51.6% | 35.0% | 50.1% |
+| lower | 1,367 | 42.5% | 35.9% | 43.3% |
+| agree | 3,814 | 34.8% | 34.9% | 34.0% |
+| higher | 2,087 | 37.7% | 44.3% | 38.1% |
+| much higher | 1,283 | 35.9% | 51.3% | 35.9% |
+
+Legs hit at the rate Kalshi's price implies whatever the simulation says; last-10-game hit rates
+show the same thing. The price is the best "will it hit" number available, so the card builders
+use it (plus each leg type's settled hit rate) rather than the simulation.
+
+## 6. Rotobot and copy trading
+* Rotobot publicly describes simulating each game 10,000 times and reporting how often each prop
+  clears (no published track record found). `python -m bot sims` does the same with 20,000
+  correlated runs per game; it was rebuilt from the public description, not from their code.
+* Kalshi's public leaderboard is readable, but all 12 top Sports traders checked hide their
+  holdings and only ~10% of trades in the public feed carry a name (0 of 91 named trades tonight
+  came from the top 100). Kalshi's own research (Oct 2026) found profit and forecasting skill are
+  largely unrelated. `python -m bot social` shows what is visible; it uses an undocumented website
+  API, so it is for occasional manual use and is not part of the daily run.
+
 ## Bottom line
-A 50-leg favorites combo is a fair-to-slightly-unfair lottery ticket: it hits about as rarely as
-its payout implies, minus trading costs. Nothing tested so far has a positive expected value as a
+A 50-leg favorites combo is the least efficient shape tested. The most efficient is 3-8 legs priced
+35-80c on tight books, bought only when the quote is within ~10% of the legs' mid value: that is
+close to a fair bet with a 5-35x payout. Nothing tested so far has a positive expected value as a
 combo buyer. The bot keeps paper-trading every strategy daily so this can be re-judged on more
 data, and it will not place real money on a strategy whose backtest is negative.

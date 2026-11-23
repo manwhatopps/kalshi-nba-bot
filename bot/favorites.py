@@ -196,11 +196,12 @@ def live_legs(k, league: str = "NBA", hours_ahead: float = 30, include_live: boo
             if not (0 <= bid < ask <= 1) or ask - bid > max_spread:
                 continue
             base = dict(ticker=m["ticker"], event_ticker=m["event_ticker"], series=s, title=m.get("title", ""),
-                        game=m["event_ticker"].split("-")[1], tipoff=tip, live=live)
+                        game=m["event_ticker"].split("-")[1], tipoff=tip, live=live, spread=ask - bid)
+            mid = (bid + ask) / 2
             if ask < 1:
-                rows.append(base | dict(side="yes", cost=ask))
+                rows.append(base | dict(side="yes", cost=ask, mid=mid))
             if bid > 0:
-                rows.append(base | dict(side="no", cost=1 - bid))
+                rows.append(base | dict(side="no", cost=1 - bid, mid=1 - mid))
     return pd.DataFrame(rows)
 
 
@@ -213,3 +214,22 @@ def build_card(legs_now: pd.DataFrame, hist_legs: pd.DataFrame, n_legs: int = 50
     c["net_edge"] = c.p_hat - c.cost - c.cost.map(fee)
     c = c.sort_values("net_edge" if smart else "cost", ascending=False)
     return _pick(c, min(n_legs, c.event_ticker.nunique()), per_game)
+
+
+def build_mix(legs_now: pd.DataFrame, hist_legs: pd.DataFrame, target: float, lo: float, hi: float,
+              per_game: int = 2, max_spread: float = 0.04, skip: int = 0) -> pd.DataFrame | None:
+    """Fewest tight-book legs in [lo, hi) that reach `target` payout, preferring the leg types that
+    have historically hit most often relative to their price (learned from settled markets)."""
+    c = legs_now[(legs_now.cost >= lo) & (legs_now.cost < hi) & (legs_now.spread <= max_spread)].copy()
+    if c.empty:
+        return None
+    c["p_hat"] = WalkForward().fit(hist_legs).predict(c) if len(hist_legs) else c.cost
+    c = c.sort_values(c.columns[0]).assign(score=c.p_hat - c.cost).sort_values("score", ascending=False).iloc[skip:]
+    ev, gm, keep, cost = set(), {}, [], 1.0
+    for i, (e, g, k) in enumerate(zip(c.event_ticker.values, c.game.values, c.cost.values)):
+        if e in ev or gm.get(g, 0) >= per_game:
+            continue
+        ev.add(e); gm[g] = gm.get(g, 0) + 1; keep.append(i); cost *= k
+        if cost <= 1 / target:
+            return c.iloc[keep]
+    return None

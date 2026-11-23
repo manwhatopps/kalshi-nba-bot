@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 
 from . import history, ledger
-from .favorites import (backtest_cards, build_card, calibration, legs_table, live_legs, sweep)
+from .favorites import (backtest_cards, build_card, build_mix, calibration, legs_table, live_legs, sweep)
 from .kalshi import data_client, fee
 
 pd.set_option("display.width", 220)
@@ -90,3 +90,62 @@ def card(args):
     print(f"  est. EV per $1        : {p_ind / (price + fee(min(price, .999))) - 1:+.1%}  before any combo-maker margin")
     ledger.log_card(uuid.uuid4().hex[:8], c, f"card{len(c)}", p_ind, price,
                     note=f"min_price={args.min_price}")
+
+
+def mix(args):
+    """Tonight's most efficient mixes: few mid-priced legs to a target payout."""
+    k = data_client()
+    now = live_legs(k, args.league, include_live=args.include_live, max_spread=0.06)
+    if now.empty:
+        print("no open legs")
+        return
+    try:
+        hist_legs = legs_table(history.load(args.league))
+    except SystemExit:
+        hist_legs = pd.DataFrame()
+    run_id = uuid.uuid4().hex[:8]
+    print(f"\n{args.league}: {len(now):,} legs scanned, {now.game.nunique()} games. "
+          f"Legs priced {args.lo:.2f}-{args.hi:.2f}, books no wider than {args.max_spread * 100:.0f}c.")
+    for target in args.targets:
+        c = build_mix(now, hist_legs, target, args.lo, args.hi, args.per_game, args.max_spread)
+        if c is None:
+            print(f"\n~{target:g}x: not enough tight-book legs in that price range tonight")
+            continue
+        ask, mid, p = float(np.prod(c.cost)), float(np.prod(c.mid)), float(np.prod(c.p_hat))
+        print(f"\n~{target:g}x CARD: {len(c)} legs")
+        for r in c.itertuples():
+            print(f"   {r.side.upper():3s} {r.cost:.2f}  hits about {r.p_hat:.0%}  {r.title[:64]}  [{r.ticker}]")
+        print(f"   chance every leg hits : about {p:.1%}  (1 in {1 / p:.0f})")
+        print(f"   legs are worth        : {mid:.4f} at mid prices = {1 / mid:.1f}x")
+        print(f"   a fair-ish quote      : up to {mid * 1.10:.4f} ({1 / (mid * 1.10):.1f}x). Above that the maker's cut is over 10%.")
+        ledger.log_card(run_id, c, f"mix{target:g}x", p, mid * 1.10, note=f"{args.lo}-{args.hi}")
+
+
+def social(args):
+    """Read-only look at Kalshi's public leaderboard and the named trades in tonight's markets."""
+    import time
+    import requests
+    S = "https://api.elections.kalshi.com/v1/social"
+    s = requests.Session()
+    s.headers["User-Agent"] = "Mozilla/5.0"
+    lb = s.get(S + "/leaderboard", params=dict(metric_name="projected_pnl", time_period=args.period,
+                                               limit=args.top, category="Sports"), timeout=30).json()
+    rank = {x["nickname"]: x["rank"] for x in lb.get("rank_list", []) if x.get("nickname")}
+    print(f"Top {len(rank)} Sports traders by {args.period} profit loaded.")
+    rows = []
+    for series in args.series.split(","):
+        time.sleep(1.0)
+        t = s.get(S + "/trades", params=dict(series_ticker=series, page_size=100), timeout=30).json()
+        for x in t.get("trades", []):
+            n = x.get("taker_nickname")
+            if n:
+                rows.append(dict(trader=n, rank=rank.get(n), series=series, ticker=x["ticker"],
+                                 side=x.get("taker_side"), action=x.get("taker_action"),
+                                 price=x.get("price_dollars"), contracts=x.get("count"), time=x.get("create_date", "")[:16]))
+    df = pd.DataFrame(rows)
+    if df.empty:
+        print("No named trades in the latest pages (most traders keep their activity private).")
+        return
+    top = df[df["rank"].notna()]
+    print(f"{len(df)} named trades found; {len(top)} by leaderboard traders.")
+    print((top if len(top) else df).sort_values("time", ascending=False).head(args.show).to_string(index=False))

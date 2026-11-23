@@ -18,7 +18,7 @@ python -m bot history --days 4 > /dev/null 2>&1 || true     # top up settled mar
   python -m bot models 2>&1 | tail -16
   echo '```'; echo; echo '## Favorites strategy on all history'; echo '```'
   python -m bot favorites --samples 100 2>&1 | tail -70
-  echo '```'; echo; echo "## Tonight's favorites cards (paper)"; echo '```'
+XX
   python -m bot card --legs 10 --min-price 0.90 2>&1 | tail -18
   python -m bot card --legs 20 --min-price 0.90 2>&1 | tail -5
   python -m bot card --legs 50 --min-price 0.90 2>&1 | tail -5

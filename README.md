@@ -69,6 +69,10 @@ python -m bot history --days 35            # download settled markets + pre-game
 python -m bot favorites                    # test "many legs at 90c+" (add --when live1 for in-game)
 python -m bot models                       # score all model types vs Kalshi's price; fit live weights
 python -m bot card --legs 50 --min-price 0.90   # tonight's favorites card (YES and NO legs), paper
+python -m bot mixes                        # which mix of leg prices is most efficient at each payout
+python -m bot mix --targets 5 10 25        # tonight's efficient mixes: few 50-72c legs (paper)
+python -m bot sims                         # 20,000-simulation hit rates next to Kalshi's price
+python -m bot social                       # read-only leaderboard + named trades (manual use)
 bash scripts/daily.sh                      # all of the above + dated report in reports/
 ```
 
