@@ -31,14 +31,21 @@ RESULTS = config.DATA_DIR / "results.parquet"
 TAKER_FEE, MAKER_FEE = 0.07, 0.0175
 
 
-def fetch_day(d: date) -> int | None:
+PRIOR_DIR = config.DATA_DIR / "trades_prior"      # last season's fills, kept apart from this season's
+PRIOR_RESULTS = config.DATA_DIR / "results_prior.parquet"
+PRIOR_TOUCH = config.DATA_DIR / "first_touch_prior.parquet"
+
+
+def fetch_day(d: date, out_dir=None) -> int | None:
     """Download one UTC day, keep NBA/NFL fills. Returns rows kept (None if the day isn't published)."""
     import pyarrow.compute as pc
     import pyarrow.dataset as ds
-    out = TRADES_DIR / f"{d:%Y_%m_%d}.parquet"
+    out_dir = out_dir or TRADES_DIR
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out = out_dir / f"{d:%Y_%m_%d}.parquet"
     if out.exists():
         return -1
-    raw = TRADES_DIR / f"_raw_{d:%Y_%m_%d}.parquet"
+    raw = out_dir / f"_raw_{d:%Y_%m_%d}.parquet"
     r = requests.get(HF.format(d=f"{d:%Y_%m_%d}"), stream=True, timeout=600)
     if r.status_code == 404:
         return None
@@ -57,13 +64,13 @@ def fetch_day(d: date) -> int | None:
     return len(df)
 
 
-def download(start: date, end: date | None = None):
+def download(start: date, end: date | None = None, out_dir=None):
     end = end or (datetime.now(timezone.utc).date() - timedelta(days=1))
     d = start
     while d <= end:
         t0 = time.time()
         try:
-            n = fetch_day(d)
+            n = fetch_day(d, out_dir)
             msg = "already have" if n == -1 else ("not published yet" if n is None else f"{n:,} NBA/NFL fills")
         except Exception as e:
             msg = f"FAILED {e}"
@@ -188,18 +195,20 @@ def role_table(a: pd.DataFrame, role: str, weight: str = "n", by: str = "phase",
 
 
 def first_touch(thresholds=(0.85, 0.90, 0.95, 0.97), results: pd.DataFrame | None = None,
-                phase_minutes=(0, 150), rebuild: bool = False) -> pd.DataFrame:
+                phase_minutes=(0, 150), rebuild: bool = False, trades_dir=None, out=None) -> pd.DataFrame:
     """A rule you can actually follow: in each market, buy ONE contract the first time a taker
     could buy either side at >= threshold during the game (first in-game fill at that price).
     One row per (market, side, threshold) with the entry price and whether it won."""
     results = results if results is not None else pd.read_parquet(RESULTS)
     import json
     r = results[results.result.isin(["yes", "no"])][["ticker", "series", "league", "game", "result", "tipoff"]]
-    FT, FT_DAYS = config.DATA_DIR / "first_touch.parquet", config.DATA_DIR / "first_touch_days.json"
+    trades_dir = trades_dir or TRADES_DIR
+    FT = out or (config.DATA_DIR / "first_touch.parquet")
+    FT_DAYS = FT.with_name(FT.stem + "_days.json")
     cols = ["ticker", "taker_side", "created_time", "cost", "mins", "series", "league", "game", "result", "threshold"]
     seen = set(json.loads(FT_DAYS.read_text())) if (FT.exists() and FT_DAYS.exists() and not rebuild) else set()
     best = pd.read_parquet(FT)[cols] if seen else None
-    for f in sorted(TRADES_DIR.glob("2*.parquet")):
+    for f in sorted(trades_dir.glob("2*.parquet")):
         if f.stem in seen:
             continue
         seen.add(f.stem)
@@ -279,3 +288,29 @@ def expected_hit(league: str, series: str, cost: float, calib: dict) -> float:
     lo = max([x for x in CAL_BANDS[:-1] if x <= cost], default=None)
     c = calib.get(f"{league}|{group(series)}|{lo:.2f}") if lo is not None else None
     return float(min(max(cost + (c["shrunk"] if c else 0.0), 0.01), 0.995))
+
+
+def fetch_results_historical(k: Kalshi, series_list: list[str], out=None) -> pd.DataFrame:
+    """Results + scheduled starts for markets Kalshi has moved to its historical archive (last season)."""
+    out = out or PRIOR_RESULTS
+    rows = []
+    for s in series_list:
+        league = "NFL" if s.startswith("KXNFL") else "NBA"
+        try:
+            ms = list(k.paginate("/historical/markets", "markets", {"series_ticker": s, "limit": 1000}, max_pages=2000))
+        except Exception as e:
+            print(f"  ! {s}: {e}", flush=True)
+            continue
+        for m in ms:
+            occ = _ts(m.get("occurrence_datetime") or m.get("expected_expiration_time"))
+            if not occ or "-" not in m["event_ticker"]:
+                continue
+            rows.append(dict(ticker=m["ticker"], event_ticker=m["event_ticker"], series=s, league=league,
+                             game=m["event_ticker"].split("-")[1], title=m.get("title", ""),
+                             result=m.get("result", ""), floor_strike=_f(m.get("floor_strike")),
+                             open_time=_ts(m.get("open_time")), close_time=_ts(m.get("close_time")),
+                             tipoff=occ - START_OFFSET[league]))
+        print(f"  {s:18s} {len(ms):7d} archived markets", flush=True)
+        if rows:
+            pd.DataFrame(rows).drop_duplicates("ticker").to_parquet(out, index=False)
+    return pd.read_parquet(out) if out.exists() else pd.DataFrame()

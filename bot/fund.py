@@ -55,12 +55,31 @@ def _per_game(ft: pd.DataFrame, league: str, series: str, th: float) -> pd.DataF
     return d.sort_values("created_time").groupby("game").first()   # the two tickers of a game are one bet
 
 
+def _stats(g: pd.DataFrame, z: float) -> dict:
+    n = len(g)
+    if n == 0:
+        return dict(n=0, won=float("nan"), price=float("nan"), cost=float("nan"), edge=float("nan"),
+                    se=float("nan"), lb=float("nan"), lost=0)
+    p, price = g.win.mean(), g.cost.mean()
+    se = math.sqrt(max(p * (1 - p), 1e-9) / n)
+    c = cost_with_fee(price)
+    return dict(n=n, won=p, price=price, cost=c, edge=p / c - 1, se=se, lb=p - z * se, lost=int((1 - g.win).sum()))
+
+
 def edge_registry(z: float = 1.64) -> pd.DataFrame:
+    """Every candidate rule, measured on three separate sets of games:
+         discovery    this season through the day the rule was found (where it looked good)
+         independent  games the rule was NOT found on: the whole prior-season archive plus every
+                      game since discovery
+       A rule is graded on the independent games, because a rule picked as the best of many will
+       always look good where it was found."""
     from .favorites import slate_date
+    from .trades import PRIOR_TOUCH
     fp = config.DATA_DIR / "first_touch.parquet"
     if not fp.exists():
         return pd.DataFrame()
     ft = pd.read_parquet(fp)
+    prior = pd.read_parquet(PRIOR_TOUCH) if PRIOR_TOUCH.exists() else ft.iloc[0:0]
     games_all = ft[ft.league == "NBA"].game.nunique()
     rows = []
     for league, series, th, label in (("NBA", "KXNBAGAME", 0.95, "NBA in-game moneyline, first touch of 95c"),
@@ -71,23 +90,25 @@ def edge_registry(z: float = 1.64) -> pd.DataFrame:
         if len(g) < 20:
             continue
         g = g.assign(date=[slate_date(x) for x in g.index])
-        ins, oos = g[g.date <= pd.Timestamp(DISCOVERED_THROUGH)], g[g.date > pd.Timestamp(DISCOVERED_THROUGH)]
-        n, p, price = len(ins), ins.win.mean(), ins.cost.mean()
-        se = math.sqrt(max(p * (1 - p), 1e-9) / n)
-        c = cost_with_fee(price)
-        lb = p - z * se
-        on, op = len(oos), (oos.win.mean() if len(oos) else float("nan"))
-        if on >= 100 and op - z * math.sqrt(max(op * (1 - op), 1e-9) / on) > cost_with_fee(oos.cost.mean()):
-            grade = "A confirmed"
-        elif lb > c:
-            grade = "B candidate"
+        disc = g[g.date <= pd.Timestamp(DISCOVERED_THROUGH)]
+        fwd = g[g.date > pd.Timestamp(DISCOVERED_THROUGH)]
+        arch = _per_game(prior, league, series, th)
+        ind = pd.concat([arch[["win", "cost"]], fwd[["win", "cost"]]])
+        d, i, alls = _stats(disc, z), _stats(ind, z), _stats(pd.concat([disc[["win", "cost"]], ind]), z)
+        if i["n"] >= 100:
+            grade = "A confirmed" if i["lb"] > i["cost"] else "C failed on independent games"
         else:
-            grade = "C unproven"
-        rows.append(dict(edge=label, league=league, threshold=th, bets=n, losses=int((1 - ins.win).sum()), won=p,
-                         price=price, cost=c, edge_pct=p / c - 1, se=se, lower_bound=lb, kelly_full=kelly(p, price),
-                         kelly_safe=kelly(lb, price), grade=grade, new_bets=on, new_won=op,
-                         per_night=n / max(ins.date.nunique(), 1),
-                         game_share=n / games_all if league == "NBA" else float("nan")))
+            grade = "B candidate" if d["lb"] > d["cost"] else "C unproven"
+        use = alls if grade[0] == "A" else d
+        rows.append(dict(edge=label, league=league, threshold=th, bets=d["n"], losses=d["lost"], won=d["won"],
+                         price=d["price"], cost=d["cost"], edge_pct=d["edge"], se=d["se"], lower_bound=d["lb"],
+                         ind_bets=i["n"], ind_losses=i["lost"], ind_won=i["won"], ind_cost=i["cost"],
+                         ind_edge=i["edge"], ind_z=(i["won"] - i["cost"]) / i["se"] if i["n"] else float("nan"),
+                         arch_bets=len(arch), new_bets=len(fwd), new_won=fwd.win.mean() if len(fwd) else float("nan"),
+                         all_bets=alls["n"], all_won=alls["won"], all_edge=alls["edge"],
+                         kelly_full=kelly(use["won"], use["price"]), kelly_safe=kelly(use["lb"], use["price"]),
+                         grade=grade, per_night=d["n"] / max(disc.date.nunique(), 1),
+                         game_share=d["n"] / games_all if league == "NBA" else float("nan")))
     return pd.DataFrame(rows)
 
 

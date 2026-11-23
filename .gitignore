@@ -13,6 +13,11 @@ data/history_download.log
 !data/fills_agg.parquet
 !data/first_touch.parquet
 !data/results.parquet
+!data/results_prior.parquet
+!data/first_touch_prior.parquet
+!data/first_touch_prior_days.json
+!data/fills_agg_prior.parquet
+data/prior_download*.log
 !data/fund.json
 !data/leg_calibration.json
 !data/combo_sample.parquet

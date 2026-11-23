@@ -97,3 +97,22 @@ def test_live_games_excluded():
                     _m("KXNBAGAME-26NOV23PORPHI-PHI", "Philadelphia wins", occurrence_datetime=later)]
     legs = fetch_legs(K(), series=("KXNBAGAME",))
     assert [l.ticker for l in legs] == ["KXNBAGAME-26NOV23PORPHI-PHI"]
+
+
+def test_fund_env_follows_gymnasium_api_and_cash_is_flat():
+    import pandas as pd
+    from gymnasium.utils.env_checker import check_env
+    from bot.sim_env import FundEnv, cash, evaluate
+    t0 = pd.Timestamp("2026-01-01", tz="UTC")
+    games = pd.DataFrame([dict(date=pd.Timestamp("2026-01-01") + pd.Timedelta(days=d), pool="x", game=f"g{d}{i}",
+                               created_time=t0 + pd.Timedelta(days=d, minutes=10 * i),
+                               resolve=t0 + pd.Timedelta(days=d, minutes=10 * i + 30), cost=0.95, win=float(i != 0 or d % 4))
+                          for d in range(12) for i in range(4)])
+    check_env(FundEnv(games, seed=1), skip_render_check=True)
+    r = evaluate(dict(games=games, episode_nights=10), cash, episodes=5)
+    assert r["median_end"] == 100 and r["bets"] == 0
+
+
+def test_kelly_is_zero_at_or_below_break_even():
+    from bot.fund import cost_with_fee, kelly
+    assert kelly(cost_with_fee(0.95), 0.95) == 0 and kelly(0.94, 0.95) == 0 and kelly(0.99, 0.95) > 0.5

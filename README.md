@@ -69,6 +69,7 @@ python -m bot history --days 35            # download settled markets + pre-game
 python -m bot favorites                    # test "many legs at 90c+" (add --when live1 for in-game)
 python -m bot models                       # score all model types vs Kalshi's price; fit live weights
 python -m bot card --legs 50 --min-price 0.90   # tonight's favorites card (YES and NO legs), paper
+python -m bot sim                          # FundEnv simulator: replay 1,471 real games, compare staking policies
 python -m bot fund                         # THE FUND: tonight's allocation (core edge bets, lottery sleeve, reserve)
 python -m bot fund --set bankroll=250 core_pct=0.4   # change the fund's settings
 python -m bot trades [--download]          # every fill this season: takers vs makers, first-touch rule
@@ -145,4 +146,8 @@ trading + grading · `bot/backtest.py` calibration.
 | Resting-order quoting | `rodlaf/KalshiMarketMaker` (MIT, Avellaneda-Stoikov; no sports results published) | reference for a future maker module |
 | NFL data | `nflreadpy` (MIT): injuries, depth charts, snap counts, play-by-play | not yet |
 | NBA lineups / injuries | `stats.nba.com/js/data/leaders/00_daily_lineups_YYYYMMDD.json`; `nbainjuries` (MIT, needs Java) | not yet |
+| Simulation environment | `gymnasium` (MIT): `bot/sim_env.py` `FundEnv` replays real game nights; passes `check_env` | yes |
+| Prior-season data | Kalshi `/historical/markets` + the same Hugging Face daily fills back to April 2025 | yes, the independent test in FINDINGS 12 |
+| Other simulators reviewed | `oddsgym` (stale, soccer), `keeks` (bankroll sim), NautilusTrader (Kalshi adapter still beta), `Oddpool/PredictionMarketBench` (4 Kalshi order-book episodes), `hftbacktest` (needs order-book data we don't have) | no: none replay Kalshi sports history |
+| NBA score-by-time data | Hugging Face `cdechoch/nba-data-archive` (play-by-play with wall-clock times, Apache-2.0) | next: tie entries to score and clock |
 | Published evidence | Moskowitz 2021 (line moves reverse; not profitable after costs); Kalshi Research 2026 (profit and forecasting skill largely unrelated) | informs what NOT to build |

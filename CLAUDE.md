@@ -7,7 +7,10 @@ it records what the backtests on Kalshi's own settled markets and 45M real fills
 A fund, not a pick list: one bankroll split into a CORE sleeve (single bets on data-graded edges, Kelly-sized
 from the low end of the edge's error range until confirmed), a small fixed DEGEN sleeve (lottery combos), and
 a RESERVE. `python -m bot fund` prints the plan; settings live in `data/fund.json`. Edges are graded A/B/C in
-`bot/fund.py` from `data/first_touch.parquet`; only A and B get money.
+`bot/fund.py` from `data/first_touch.parquet`; only A and B get money. A rule is graded on games it was NOT
+found on (the prior-season archive in `data/first_touch_prior.parquet` plus games since discovery); as of
+2026-11-23 every rule grades C and the core sleeve holds cash. `python -m bot sim` replays real nights in
+`bot/sim_env.py` (gymnasium `FundEnv`) to compare staking policies; any new rule must survive it.
 
 ## Rules
 - **Paper only.** Never place real orders (`place --live`) unless the owner explicitly says to in the
@@ -31,4 +34,4 @@ Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xe
 blocks cloud IPs; the Hugging Face game-log dataset is the stats source.
 
 ## Tests
-`python -m pytest -q tests` (6 tests, ~2 s).
+`python -m pytest -q tests` (8 tests, ~2 s).

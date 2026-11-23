@@ -172,6 +172,10 @@ def main():
     fu.add_argument("--nights", type=int, default=60)
     fu.add_argument("--hours", type=float, default=14)
     fu.add_argument("--degen-keep", type=float, default=0.5)
+    sm = sub.add_parser("sim", help="replay real game nights in the FundEnv simulator and compare staking policies")
+    sm.add_argument("--threshold", type=float, default=0.95)
+    sm.add_argument("--episodes", type=int, default=400)
+    sm.add_argument("--nights", type=int, default=60)
     sub.add_parser("settle")
     sub.add_parser("report")
     b = sub.add_parser("backtest")
@@ -206,6 +210,9 @@ def main():
     elif cmd == "trades":
         from .report_trades import run
         run(args)
+    elif cmd == "sim":
+        from .sim_env import run
+        run(args.threshold, args.episodes, args.nights)
     elif cmd == "fund":
         from .report_fund import run
         run(args)

@@ -44,11 +44,13 @@ def run(args):
         print("   none yet: run `python -m bot trades --download`")
         return
     for e in reg.itertuples():
-        new = f"{e.new_bets} new bets, {e.new_won:.1%} won" if e.new_bets else "no new games yet"
-        print(f"   [{e.grade}] {e.edge}: {e.bets} bets, {e.losses} lost, won {e.won:.1%} at {e.price * 100:.1f}c "
-              f"(break-even {e.cost:.1%}) -> {e.edge_pct:+.1%} per $1. Since discovery: {new}.")
-    print("   A = confirmed on games after discovery.  B = positive even at the low end of its error range, "
-          "not yet confirmed.  C = not distinguishable from zero: no money.")
+        print(f"   [{e.grade}] {e.edge}")
+        print(f"       where it was found : {e.bets} bets, {e.losses} lost, won {e.won:.1%} (break-even {e.cost:.1%}) -> {e.edge_pct:+.1%} per $1")
+        if e.ind_bets:
+            print(f"       independent games  : {e.ind_bets} bets ({e.arch_bets} from last season's archive, {e.new_bets} since discovery), "
+                  f"{e.ind_losses} lost, won {e.ind_won:.1%} (break-even {e.ind_cost:.1%}) -> {e.ind_edge:+.1%} per $1")
+    print("   A = holds on games it was not found on.  B = looks good, too few independent games to judge.  "
+          "C = fails or is indistinguishable from zero: no money.")
 
     e = primary_edge(reg)
     k = data_client()
@@ -61,7 +63,8 @@ def run(args):
 
     print("\n2) CORE SLEEVE")
     if e is None:
-        print("   No edge is graded A or B, so the core sleeve stays in cash tonight.")
+        print("   No edge is graded A or B, so the core sleeve stays in CASH tonight. That is the system working:")
+        print("   the rule that looked best this season lost money on last season's 1,200+ games.")
         frac, exp_tr = 0.0, 0.0
     else:
         frac = fund.stake_fraction(e)

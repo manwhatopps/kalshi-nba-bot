@@ -1,5 +1,8 @@
 # What the data says so far (2026-11-23)
 
+> **Read section 12 first.** The one "edge" found on this season's games (sections 8 and 11) was
+> re-tested on 1,268 games from Kalshi's prior-season archive and lost money. No edge is confirmed.
+
 Tested on Kalshi's own settled NBA markets, 2026-10-20 to 2026-11-22 (33 nights, 248 games).
 Loaded so far: moneylines + player points (13,635 markets, 23,374 priced legs). Rebounds, assists,
 threes, spreads, totals, other props and NFL are still downloading (Kalshi rate limit); every
@@ -177,14 +180,58 @@ every night ends at about $0 in every scenario, because $600 of tickets cannot b
 that makes ~$1 a night. Tickets bought only out of profits keep the fund near $100 with a 1-2%
 chance of a big hit.
 
+## 12. The archive test: the core edge fails on last season's games
+Kalshi's archive has every NBA moneyline back to the April 2025 playoffs (1,449 games) and NFL back
+to August 2025 (414 games). All fills for those markets were pulled (56.9M) and the same first-touch
+rule replayed, one bet per game.
+
+| rule | where it was found (this season) | independent games (archive) | verdict |
+|---|---|---|---|
+| NBA first touch of 95c | 203 bets, won 97.5%, +2.3% | 1,268 bets, 77 lost, won 93.9% vs 95.4% break-even, **-1.6%** | failed |
+| NBA first touch of 97c | 193 bets, won 99.0%, +1.8% | 1,225 bets, 48 lost, won 96.1% vs 97.3%, **-1.2%** | failed |
+| NBA first touch of 90c | 216 bets, won 92.1%, +1.5% | 1,348 bets, 154 lost, won 88.6% vs 90.9%, **-2.6%** | failed |
+| NFL first touch of 95c | 36 bets, won 94.4%, -0.9% | 198 bets, 17 lost, won 91.4% vs 95.5%, **-4.2%** | failed |
+
+The 2025-26 regular season alone (1,114 games) gave -0.8% at 95c; both playoff runs were worse.
+This season's +2.3% was the best of 20 segments on 203 games - a lucky sample, as the archive
+shows. Edges are now graded on games they were NOT found on (`bot/fund.py`); all four grade
+"C failed", so the fund's core sleeve holds cash.
+
+Other patterns re-checked on the archive, one bet per game: pre-game NBA favorites at 88-99c won
+93.6% of 125 games against a 92.0% break-even (+1.7%, well inside noise); pre-game favorites at
+50-70c lost 7.7% as buyers. Fill-level, resting orders filled at 95-99c in-game were positive in
+both seasons (+1.8% archive, +1.9% this season), but that is an average over fills, not yet a rule
+with a fill simulation - the same trap section 8 fell into.
+
+## 13. The simulator (`python -m bot sim`)
+`bot/sim_env.py` is a gymnasium environment (passes `check_env`) that replays 1,471 real NBA games
+on 278 nights: entries in the order they happened, money locked until each game ends, reward = log
+growth. Policies compared from $100:
+
+| policy | this season's nights (60, reshuffled) | last season's nights (60, reshuffled) | everything in order (278 nights) |
+|---|---|---|---|
+| stay in cash | $100 | $100 | $100 |
+| 50% of bankroll on one bet a night | $24 | $24 | $1 |
+| 20% per trigger | $220 | $39 | $3 |
+| 6% per trigger | $164 | $72 | $33 |
+| 2% per trigger | $118 | $91 | $72 |
+| evidence-based Kelly (bets only once its own record clears break-even) | $100 | $100 | $100 |
+| 6% per trigger + $10 of lottery tickets nightly | $1 | $1 | $1 |
+
+(Median ending bankroll.) The same policy that turns $100 into $220 on this season's nights turns
+it into $39 on last season's: sizing cannot rescue a rule without an edge. The evidence-based
+policy never bet on the archive and so never lost. Concentrating half the bankroll on one bet a
+night loses even on the favourable sample, because a single miss halves the fund.
+
 ## Bottom line
-* Buying combos is at best a fair bet. The efficient shape is 3-8 legs priced 35-80c on tight books,
-  bought only when the quote is within ~10% of the legs' mid value. 50 legs at 90c+ is the least
-  efficient shape tested. Long shots under 20c are the worst bet on the board.
-* Kalshi's price is a better "will it hit" predictor than any model or simulation tested.
-* The one lead with positive expected value is a single bet, not a combo: NBA in-game moneyline
-  favorites at 95c+ (+2.7% +/- 1.0% over ~200 games). It is being paper-traded live.
-* The fund structure (section 11) puts money only on graded edges, keeps lottery tickets a small
-  fixed cost, and is being paper-traded with dollar stakes.
-* No real money has been placed. Nothing here justifies real stakes on combos; the moneyline rule
-  needs more games (and a live paper record) before it does.
+* **No edge is confirmed.** The in-game moneyline rule that looked best this season lost on 1,268
+  archived games. Every rule is now graded on games it was not found on, and all four fail.
+* Kalshi's price is a better "will it hit" predictor than any model or simulation tested, and buyers
+  lose a little in nearly every price band; long shots under 20c lose the most.
+* Combos are at best a fair bet: 3-8 legs priced 35-80c on tight books, bought within ~10% of the
+  legs' mid value. 50 legs at 90c+ is the least efficient shape tested. Big lottery combos sold at
+  about 15% of fair value in the one large example checked.
+* The fund keeps its core sleeve in cash until a rule passes the independent-games test, and treats
+  lottery tickets as a fixed cost. In the simulator, staying in cash beats every staking plan over
+  the full history.
+* No real money has been placed.
