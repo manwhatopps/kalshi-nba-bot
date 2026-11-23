@@ -252,7 +252,8 @@ def build_best(legs_now: pd.DataFrame, calib: dict, league: str, target: float, 
     c = c[c.group.isin(groups)]
     if c.empty:
         return None
-    c["p_hat"] = [expected_hit(league, s, k, calib) for s, k in zip(c.series, c.cost)]
+    lg = c.league if "league" in c.columns else pd.Series(league, index=c.index)
+    c["p_hat"] = [expected_hit(l, s, k, calib) for l, s, k in zip(lg, c.series, c.cost)]
     c["value"] = np.log(c.p_hat / c.cost)                 # > 0 means this kind of leg hits more than it costs
     c = c.sort_values(["value", "cost"], ascending=[False, False])
     ev, gm, keep, cost = set(), {}, [], 1.0
