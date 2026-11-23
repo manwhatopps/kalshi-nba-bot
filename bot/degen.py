@@ -37,7 +37,10 @@ def under_form() -> dict:
 
 
 def candidates(k, leagues=("NBA", "NFL"), hours: float = 14, lo: float = 0.50, hi: float = 0.75,
-               max_spread: float = 0.03) -> pd.DataFrame:
+               max_spread: float = 0.03, rules: dict | None = None) -> pd.DataFrame:
+    """`rules` = Kalshi's combo rules from slips.collection_rules: {event: (yes_only, max legs from that event)}.
+    With them, legs Kalshi would refuse are dropped and several players from one prop group may be used
+    (Kalshi allows that for player props; 60% of real combos do it). Without them: one leg per event."""
     from .favorites import live_legs
     from .props_study import STAT
     parts = []
@@ -53,6 +56,14 @@ def candidates(k, leagues=("NBA", "NFL"), hours: float = 14, lo: float = 0.50, h
     c["form"] = c.series.map(form).fillna(0.0)
     c["p_hat"] = (c.mid + c.form).clip(0.02, 0.98)             # mid price nudged by that prop type's record
     c["stat"] = c.series.map(STAT)
+    c["player"] = c.ticker.str.split("-").str[2]
+    if rules:
+        c = c[[e in rules and not (rules[e][0] and s != "yes") for e, s in zip(c.event_ticker, c.side)]].copy()
+        c["ev_max"] = [rules[e][1] or 99 for e in c.event_ticker]
+    else:
+        c["ev_max"] = 1
+    if c.empty:
+        return c
     # the logical chain for every NBA leg: recent form vs the line, minutes, defense-vs-role, pace, rest
     try:
         from . import matchup
@@ -76,15 +87,17 @@ def build(c: pd.DataFrame, need: float, skip: set | None = None, max_per_game: i
     c = c[~c.ticker.isin(skip or set())].copy()
     c["_r"] = rng.random(len(c))
     c = c.sort_values(["chain", "form", "spread", "_r"], ascending=[False, False, True, True])
-    ev, gm, st, keep, price, thr = set(), {}, {}, [], 1.0, CUSHION / need
+    ev, who, gm, st, keep, price, thr = {}, set(), {}, {}, [], 1.0, CUSHION / need
     rows = list(c.itertuples())
 
-    def ok(r):
-        return not (r.event_ticker in ev or gm.get(r.game, 0) >= max_per_game or st.get(r.series, 0) >= max_per_stat)
+    def ok(r):      # Kalshi's per-event limit, one leg per player (so legs stay close to independent), spread over games
+        return not (ev.get(r.event_ticker, 0) >= getattr(r, "ev_max", 1) or (r.game, r.player) in who
+                    or gm.get(r.game, 0) >= max_per_game or st.get(r.series, 0) >= max_per_stat)
 
     def take(i, r):
         nonlocal price
-        ev.add(r.event_ticker); gm[r.game] = gm.get(r.game, 0) + 1; st[r.series] = st.get(r.series, 0) + 1
+        ev[r.event_ticker] = ev.get(r.event_ticker, 0) + 1; who.add((r.game, r.player))
+        gm[r.game] = gm.get(r.game, 0) + 1; st[r.series] = st.get(r.series, 0) + 1
         keep.append(i); price *= r.mid
 
     for i, r in enumerate(rows):

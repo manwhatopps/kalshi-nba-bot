@@ -16,8 +16,11 @@ earlier nights, activates rules whose record clears 3 standard errors plus a 20-
 bets them. Any change to the logic must be judged there, season by season, not on a hand-picked rule. `python -m bot sim` replays real nights in
 `bot/sim_env.py` (gymnasium `FundEnv`) to compare staking policies; any new rule must survive it.
 
+`python -m bot slip` turns the plan into placeable slips (exact market, side, contracts, limit, walk-away
+payout, Kalshi combo-rule check); `--quote`/`--live` need the owner's key and obey the stake caps.
+
 ## Rules
-- **Paper only.** Never place real orders (`place --live`) unless the owner explicitly says to in the
+- **Paper only.** Never place real orders (`place --live`, `slip --quote --live`) unless the owner explicitly says to in the
   current conversation, with a stake limit. Defaults: `KALSHI_ENV=demo`, $2 per combo, $10 per day.
 - Never commit `.env`, `*.pem`, or API keys. Kalshi keys are RSA files that must stay on the owner's machine.
 - Report results as measured, including negative ones. A strategy only counts if it holds out-of-sample.
@@ -38,4 +41,4 @@ Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xe
 blocks cloud IPs; the Hugging Face game-log dataset is the stats source.
 
 ## Tests
-`python -m pytest -q tests` (8 tests, ~2 s).
+`python -m pytest -q tests` (10 tests, ~3 s).

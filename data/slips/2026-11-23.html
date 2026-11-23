@@ -1,0 +1,526 @@
+<title>Tonight's Slips</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;600&family=Space+Grotesk:wght@500;700&display=swap">
+<style>
+/* layout: one narrow column of ticket stubs; the walk-away line is the loudest thing on each ticket */
+:root{
+  --bg:#edf0f4; --card:#ffffff; --ink:#16202b; --muted:#5b6878; --line:#d3dae3; --soft:#f4f6f9;
+  --accent:#2447d6; --accent-ink:#ffffff; --good:#0f7a4d; --warn:#9a5b00; --bad:#b3261e; --hold:#fff4d6; --hold-ink:#4d3a00;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#10151c; --card:#19212b; --ink:#e8edf3; --muted:#9aa7b6; --line:#2c3846; --soft:#141b24;
+  --accent:#8aa2ff; --accent-ink:#0c1220; --good:#55c996; --warn:#e9b455; --bad:#ff8a80; --hold:#3a3012; --hold-ink:#ffe9a8; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#10151c; --card:#19212b; --ink:#e8edf3; --muted:#9aa7b6; --line:#2c3846; --soft:#141b24;
+  --accent:#8aa2ff; --accent-ink:#0c1220; --good:#55c996; --warn:#e9b455; --bad:#ff8a80; --hold:#3a3012; --hold-ink:#ffe9a8; color-scheme:dark }
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.45}
+.wrap{max-width:680px;margin:0 auto;padding-block:20px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance}
+h1{font-size:1.7rem;letter-spacing:-.01em} h2{font-size:1.15rem;margin-top:10px} h3{font-size:1.25rem}
+p{margin:0} .muted{color:var(--muted)} .small{font-size:.86rem} .num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.notice{background:var(--hold);color:var(--hold-ink);border-radius:10px;padding:10px 12px;font-size:.9rem}
+.sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sum div{background:var(--card);padding:10px 12px;min-width:0} .sum b{display:block;font-family:var(--mono);font-size:1.05rem}
+.sum span{font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.slip{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.head{padding:14px 14px 12px;display:flex;flex-direction:column;gap:6px}
+.tag{font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{font-family:var(--body);font-size:.72rem;font-weight:600;letter-spacing:.03em;border-radius:99px;padding:2px 8px;border:1px solid currentColor}
+.pill.good{color:var(--good)} .pill.warn{color:var(--warn)} .pill.bad{color:var(--bad)}
+.walk{border-left:4px solid var(--accent);background:var(--soft);padding:9px 11px;font-weight:600}
+.walk small{display:block;font-weight:400;color:var(--muted)}
+.facts{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.86rem;color:var(--muted)} .facts b{color:var(--ink);font-family:var(--mono);font-weight:500}
+.perf{height:0;border-top:2px dashed var(--line);margin:0 -1px;position:relative}
+.perf::before,.perf::after{content:"";position:absolute;top:-9px;width:16px;height:16px;border-radius:50%;background:var(--bg);border:1px solid var(--line)}
+.perf::before{left:-9px} .perf::after{right:-9px}
+.game{padding:10px 14px 4px;font-size:.74rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.leg{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:2px 8px;align-items:start;padding:8px 14px;border-top:1px solid var(--line)}
+.leg input{width:22px;height:22px;margin:1px 0 0;accent-color:var(--accent)}
+.leg label{font-weight:600;min-width:0;overflow-wrap:anywhere} .leg .px{font-family:var(--mono);text-align:right}
+.leg .sub{grid-column:2 / 4;font-size:.84rem;color:var(--muted);display:flex;flex-wrap:wrap;gap:2px 12px;min-width:0}
+.leg.done label{text-decoration:line-through;color:var(--muted)}
+.leg details{grid-column:2 / 4;font-size:.84rem;color:var(--muted)} .leg summary{cursor:pointer;color:var(--accent)} .leg ul{margin:4px 0 2px;padding-left:18px}
+a{color:var(--accent)} a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.foot{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;justify-content:space-between;padding:10px 14px;border-top:1px solid var(--line);background:var(--soft);font-size:.86rem}
+button{font:600 .86rem var(--body);background:var(--accent);color:var(--accent-ink);border:0;border-radius:8px;padding:8px 12px;cursor:pointer}
+.order{display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;padding:0 14px 12px;font-size:.9rem}
+.order dt{color:var(--muted)} .order dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.tick{font-family:var(--mono);font-size:.78rem;color:var(--muted);overflow-wrap:anywhere}
+.expired .walk{border-left-color:var(--bad)}
+@media (prefers-reduced-motion:no-preference){ .leg label{transition:color .15s} }
+</style>
+<main class="wrap" data-slate="2026-11-23">
+  <header>
+    <p class="tag">PAPER SLIPS · MADE 6:21 PM ET</p>
+    <h1>Slips for Mon Nov 23</h1>
+  </header>
+  <p class="notice">Nothing here has been placed. Prices move after this page is made, so check the price or payout Kalshi shows against the limit on each slip before you confirm.</p>
+  <div class="sum">
+    <div><span>Bankroll</span><b>$100</b></div>
+    <div><span>Single bets</span><b>$5 each</b></div>
+    <div><span>Cards tonight</span><b>$20</b></div>
+  </div>
+  <h2>Single bets</h2>
+  <p class="muted small">The one rule that held up on games it was not found on: NBA double-double unders bought during the game at 35–80¢. At most $50 at risk at once.</p>
+  
+<article class="slip" id="C1">
+  <div class="head">
+    <div class="tag"><span>C1 · SINGLE BET</span><span class="pill warn">Place from tip-off, 7:00 pm ET</span></div>
+    <h3>Donovan Clingan: NO double double</h3>
+    <p class="muted small">Portland vs Philadelphia</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Donovan Clingan: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">8</span> contracts, pay no more than <span class="num">56¢</span> each (seen 54¢, 300 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.62</span> with fee. Pays <span class="num">$8</span> if it wins (+$3.38).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 197 bets, won 73.1%, needed 59.5% (+22.8% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23porphi?op_market_ticker=KXNBA2D-26NOV23PORPHI-PORDCLINGAN23" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23PORPHI-PORDCLINGAN23</span></div>
+</article>
+<article class="slip" id="C2">
+  <div class="head">
+    <div class="tag"><span>C2 · SINGLE BET</span><span class="pill warn">Place from tip-off, 7:00 pm ET</span></div>
+    <h3>Moussa Diabaté: NO double double</h3>
+    <p class="muted small">Memphis vs Charlotte</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Moussa Diabaté: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">78¢</span> each (seen 76¢, 45 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.76</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.24).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23memcha?op_market_ticker=KXNBA2D-26NOV23MEMCHA-CHAMDIABATE14" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23MEMCHA-CHAMDIABATE14</span></div>
+</article>
+<article class="slip" id="C3">
+  <div class="head">
+    <div class="tag"><span>C3 · SINGLE BET</span><span class="pill warn">Place from tip-off, 7:00 pm ET</span></div>
+    <h3>Naz Reid: NO double double</h3>
+    <p class="muted small">Memphis vs Charlotte</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Naz Reid: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">72¢</span> each (seen 70¢, 31 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.41</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.59).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23memcha?op_market_ticker=KXNBA2D-26NOV23MEMCHA-CHANREID0" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23MEMCHA-CHANREID0</span></div>
+</article>
+<article class="slip" id="C4">
+  <div class="head">
+    <div class="tag"><span>C4 · SINGLE BET</span><span class="pill warn">Place from tip-off, 7:00 pm ET</span></div>
+    <h3>Deni Avdija: NO double double</h3>
+    <p class="muted small">Portland vs Philadelphia</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Deni Avdija: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">79¢</span> each (seen 78¢, 30 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.81</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.19).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23porphi?op_market_ticker=KXNBA2D-26NOV23PORPHI-PORDAVDIJA8" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23PORPHI-PORDAVDIJA8</span></div>
+</article>
+<article class="slip" id="C5">
+  <div class="head">
+    <div class="tag"><span>C5 · SINGLE BET</span><span class="pill warn">Place from tip-off, 7:00 pm ET</span></div>
+    <h3>LeBron James: NO double double</h3>
+    <p class="muted small">Portland vs Philadelphia</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;LeBron James: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">79¢</span> each (seen 79¢, 1 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.81</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.19).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23porphi?op_market_ticker=KXNBA2D-26NOV23PORPHI-PHILJAMES23" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23PORPHI-PHILJAMES23</span></div>
+</article>
+<article class="slip" id="C6">
+  <div class="head">
+    <div class="tag"><span>C6 · SINGLE BET</span><span class="pill warn">Place from tip-off, 7:30 pm ET</span></div>
+    <h3>Rudy Gobert: NO double double</h3>
+    <p class="muted small">Brooklyn vs Minnesota</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Rudy Gobert: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">71¢</span> each (seen 69¢, 58 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.35</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.65).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23bknmin?op_market_ticker=KXNBA2D-26NOV23BKNMIN-MINRGOBERT27" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23BKNMIN-MINRGOBERT27</span></div>
+</article>
+<article class="slip" id="C7">
+  <div class="head">
+    <div class="tag"><span>C7 · SINGLE BET</span><span class="pill warn">Place from tip-off, 7:30 pm ET</span></div>
+    <h3>Isaiah Hartenstein: NO double double</h3>
+    <p class="muted small">Oklahoma City vs Indiana</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Isaiah Hartenstein: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">70¢</span> each (seen 68¢, 53 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.29</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.71).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23okcind?op_market_ticker=KXNBA2D-26NOV23OKCIND-OKCIHARTENSTEIN55" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23OKCIND-OKCIHARTENSTEIN55</span></div>
+</article>
+<article class="slip" id="C8">
+  <div class="head">
+    <div class="tag"><span>C8 · SINGLE BET</span><span class="pill warn">Place from tip-off, 7:30 pm ET</span></div>
+    <h3>Ivica Zubac: NO double double</h3>
+    <p class="muted small">Oklahoma City vs Indiana</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Ivica Zubac: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">75¢</span> each (seen 73¢, 40 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.58</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.42).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23okcind?op_market_ticker=KXNBA2D-26NOV23OKCIND-INDIZUBAC40" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23OKCIND-INDIZUBAC40</span></div>
+</article>
+<article class="slip" id="C9">
+  <div class="head">
+    <div class="tag"><span>C9 · SINGLE BET</span><span class="pill warn">Place from tip-off, 7:30 pm ET</span></div>
+    <h3>Scottie Barnes: NO double double</h3>
+    <p class="muted small">Milwaukee vs Toronto</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Scottie Barnes: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">76¢</span> each (seen 74¢, 21 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.64</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.36).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23miltor?op_market_ticker=KXNBA2D-26NOV23MILTOR-TORSBARNES4" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23MILTOR-TORSBARNES4</span></div>
+</article>
+<article class="slip" id="C10">
+  <div class="head">
+    <div class="tag"><span>C10 · SINGLE BET</span><span class="pill warn">Place from tip-off, 8:00 pm ET</span></div>
+    <h3>Jarrett Allen: NO double double</h3>
+    <p class="muted small">Cleveland vs Chicago</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Jarrett Allen: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">8</span> contracts, pay no more than <span class="num">60¢</span> each (seen 58¢, 89 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.94</span> with fee. Pays <span class="num">$8</span> if it wins (+$3.06).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 197 bets, won 73.1%, needed 59.5% (+22.8% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23clechi?op_market_ticker=KXNBA2D-26NOV23CLECHI-CLEJALLEN31" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23CLECHI-CLEJALLEN31</span></div>
+</article>
+<article class="slip" id="C11">
+  <div class="head">
+    <div class="tag"><span>C11 · SINGLE BET</span><span class="pill warn">Reserve: over the sleeve cap</span></div>
+    <h3>James Harden: NO double double</h3>
+    <p class="muted small">Cleveland vs Chicago</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;James Harden: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">79¢</span> each (seen 78¢, 48 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.81</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.19).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23clechi?op_market_ticker=KXNBA2D-26NOV23CLECHI-CLEJHARDEN1" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23CLECHI-CLEJHARDEN1</span></div>
+</article>
+<article class="slip" id="C12">
+  <div class="head">
+    <div class="tag"><span>C12 · SINGLE BET</span><span class="pill warn">Reserve: over the sleeve cap</span></div>
+    <h3>Josh Giddey: NO double double</h3>
+    <p class="muted small">Cleveland vs Chicago</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Josh Giddey: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">8</span> contracts, pay no more than <span class="num">60¢</span> each (seen 58¢, 16 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.94</span> with fee. Pays <span class="num">$8</span> if it wins (+$3.06).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 197 bets, won 73.1%, needed 59.5% (+22.8% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23clechi?op_market_ticker=KXNBA2D-26NOV23CLECHI-CHIJGIDDEY3" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23CLECHI-CHIJGIDDEY3</span></div>
+</article>
+<article class="slip" id="C13">
+  <div class="head">
+    <div class="tag"><span>C13 · SINGLE BET</span><span class="pill warn">Reserve: over the sleeve cap</span></div>
+    <h3>Alperen Sengun: NO double double</h3>
+    <p class="muted small">Los Angeles C vs Houston</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Alperen Sengun: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">9</span> contracts, pay no more than <span class="num">53¢</span> each (seen 51¢, 29 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.93</span> with fee. Pays <span class="num">$9</span> if it wins (+$4.07).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 197 bets, won 73.1%, needed 59.5% (+22.8% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23lachou?op_market_ticker=KXNBA2D-26NOV23LACHOU-HOUASENGUN28" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23LACHOU-HOUASENGUN28</span></div>
+</article>
+<article class="slip" id="C14">
+  <div class="head">
+    <div class="tag"><span>C14 · SINGLE BET</span><span class="pill warn">Reserve: over the sleeve cap</span></div>
+    <h3>Stephon Castle: NO double double</h3>
+    <p class="muted small">San Antonio vs Sacramento</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Stephon Castle: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">75¢</span> each (seen 73¢, 78 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.58</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.42).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23sassac?op_market_ticker=KXNBA2D-26NOV23SASSAC-SASSCASTLE5" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23SASSAC-SASSCASTLE5</span></div>
+</article>
+<article class="slip" id="C15">
+  <div class="head">
+    <div class="tag"><span>C15 · SINGLE BET</span><span class="pill warn">Reserve: over the sleeve cap</span></div>
+    <h3>Domantas Sabonis: NO double double</h3>
+    <p class="muted small">San Antonio vs Sacramento</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Domantas Sabonis: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">10</span> contracts, pay no more than <span class="num">44¢</span> each (seen 42¢, 60 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.58</span> with fee. Pays <span class="num">$10</span> if it wins (+$5.42).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 139 bets, won 48.9%, needed 43.8% (+11.7% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23sassac?op_market_ticker=KXNBA2D-26NOV23SASSAC-SACDSABONIS11" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23SASSAC-SACDSABONIS11</span></div>
+</article>
+<article class="slip" id="C16">
+  <div class="head">
+    <div class="tag"><span>C16 · SINGLE BET</span><span class="pill warn">Reserve: over the sleeve cap</span></div>
+    <h3>Walker Kessler: NO double double</h3>
+    <p class="muted small">Utah vs Los Angeles L</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Walker Kessler: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">9</span> contracts, pay no more than <span class="num">51¢</span> each (seen 49¢, 53 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.75</span> with fee. Pays <span class="num">$9</span> if it wins (+$4.25).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 139 bets, won 48.9%, needed 43.8% (+11.7% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23utalal?op_market_ticker=KXNBA2D-26NOV23UTALAL-LALWKESSLER14" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23UTALAL-LALWKESSLER14</span></div>
+</article>
+<article class="slip" id="C17">
+  <div class="head">
+    <div class="tag"><span>C17 · SINGLE BET</span><span class="pill warn">Reserve: over the sleeve cap</span></div>
+    <h3>Keyonte George: NO double double</h3>
+    <p class="muted small">Utah vs Los Angeles L</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Keyonte George: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">79¢</span> each (seen 79¢, 21 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.81</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.19).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23utalal?op_market_ticker=KXNBA2D-26NOV23UTALAL-UTAKGEORGE3" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23UTALAL-UTAKGEORGE3</span></div>
+</article>
+<article class="slip" id="C18">
+  <div class="head">
+    <div class="tag"><span>C18 · SINGLE BET</span><span class="pill warn">Reserve: over the sleeve cap</span></div>
+    <h3>Mo Bamba: NO double double</h3>
+    <p class="muted small">Utah vs Los Angeles L</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Mo Bamba: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">6</span> contracts, pay no more than <span class="num">73¢</span> each (seen 71¢, 16 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.47</span> with fee. Pays <span class="num">$6</span> if it wins (+$1.53).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 269 bets, won 84.0%, needed 74.7% (+12.5% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23utalal?op_market_ticker=KXNBA2D-26NOV23UTALAL-UTAMBAMBA44" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23UTALAL-UTAMBAMBA44</span></div>
+</article>
+<article class="slip" id="C19">
+  <div class="head">
+    <div class="tag"><span>C19 · SINGLE BET</span><span class="pill warn">Reserve: over the sleeve cap</span></div>
+    <h3>Luka Dončić: NO double double</h3>
+    <p class="muted small">Utah vs Los Angeles L</p>
+  </div>
+  <dl class="order">
+    <dt>Press</dt><dd>NO on &quot;Luka Dončić: Double Double&quot;</dd>
+    <dt>Size</dt><dd><span class="num">7</span> contracts, pay no more than <span class="num">63¢</span> each (seen 61¢, 12 offered)</dd>
+    <dt>Money</dt><dd><span class="num">$4.53</span> with fee. Pays <span class="num">$7</span> if it wins (+$2.47).</dd>
+    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Why</dt><dd>This price band since the rule switched on: 197 bets, won 73.1%, needed 59.5% (+22.8% per $1).</dd>
+  </dl>
+  <div class="foot"><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23utalal?op_market_ticker=KXNBA2D-26NOV23UTALAL-LALLDONCIC77" target="_blank" rel="noopener">Open this market</a><span class="tick">KXNBA2D-26NOV23UTALAL-LALLDONCIC77</span></div>
+</article><p class="muted small">83 more double-double markets are outside the range now and may enter it during play. The live watcher logs those as they happen.</p>
+  <h2>Lottery cards</h2>
+  <p class="muted small">Built from unders priced 50–75¢ on tight markets. Every card has a negative expected value. Tick each leg as you add it to the combo in Kalshi.</p>
+  
+<article class="slip" id="T1" data-expires="2026-11-24T00:00:00+00:00" data-late="A game has started: build a new card">
+  <div class="head">
+    <div class="tag"><span>T1 · LOTTERY CARD · 10 LEGS</span><span class="pill warn" data-state>Good until 7:00 pm ET</span><span class="pill good">Fits Kalshi's combo rules</span></div>
+    <h3>$10 to win $1,000</h3>
+    <p class="walk">Place only if Kalshi shows a payout of $1,000 or more for $10.
+      <small>That is 100×. If the payout shown is lower, skip this card. Do not add legs to chase it.</small></p>
+    <div class="facts"><span>Legs worth <b>125×</b></span><span>Hits about <b>1 in 120</b></span>
+      <span>Expected loss <b>$1.70</b></span><span><b>5</b> games</span></div>
+  </div>
+  <div class="perf"></div>
+  <div class="game"><span>Memphis vs Charlotte</span><span>tips 7:00 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T1-0"><label for="T1-0">Brandon Miller UNDER 4 assists</label><span class="px">57¢</span>
+    <div class="sub"><span>NO on &quot;Brandon Miller: 4+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-CHABMILLER24-4" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 2.8 assists over his last 10; reached 4+ in 4 of them (40%); the price implies 43%</li><li>role: role player. MEM has allowed that role 94% of its usual assists (stingy)</li><li>MEM defense ranks 9 of 30; game pace slow (-1.8 possessions vs average); MEM: ball-movement offense; crashes the offensive glass; switch-style defense (few assists allowed); top offense</li><li>MEM shots allowed: 27% at the rim, 9% mid-range, 41% threes</li><li>MEM forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T1-1"><label for="T1-1">Ty Jerome UNDER 6 assists</label><span class="px">58¢</span>
+    <div class="sub"><span>NO on &quot;Ty Jerome: 6+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-MEMTJEROME2-6" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 5.3 assists over his last 10; reached 6+ in 4 of them (40%); the price implies 42%</li><li>role: primary scorer. CHA has allowed that role 94% of its usual assists (stingy)</li><li>CHA defense ranks 19 of 30; game pace slow (-1.8 possessions vs average); CHA: plays slow; three-point heavy offense; crashes the offensive glass; cleans the defensive glass; weak offense</li><li>CHA shots allowed: 27% at the rim, 10% mid-range, 44% threes</li><li>CHA forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T1-2"><label for="T1-2">Naz Reid UNDER 4 assists</label><span class="px">71¢</span>
+    <div class="sub"><span>NO on &quot;Naz Reid: 4+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-CHANREID0-4" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 2.6 assists over his last 10; reached 4+ in 2 of them (20%); the price implies 29%</li><li>role: role player. MEM has allowed that role 94% of its usual assists (stingy)</li><li>MEM defense ranks 9 of 30; game pace slow (-1.8 possessions vs average); MEM: ball-movement offense; crashes the offensive glass; switch-style defense (few assists allowed); top offense</li><li>MEM shots allowed: 27% at the rim, 9% mid-range, 41% threes</li><li>MEM forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses</li></ul></details></div><div class="game"><span>Portland vs Philadelphia</span><span>tips 7:00 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T1-3"><label for="T1-3">Tyrese Maxey UNDER 30 points</label><span class="px">70¢</span>
+    <div class="sub"><span>NO on &quot;Tyrese Maxey: 30+ points&quot;</span><a href="https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23porphi?op_market_ticker=KXNBAPTS-26NOV23PORPHI-PHITMAXEY0-30" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 24.6 points over his last 10; reached 30+ in 1 of them (10%); the price implies 30%</li><li>role: primary scorer. POR has allowed that role 96% of its usual points (stingy)</li><li>POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)</li><li>POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T1-4"><label for="T1-4">Jaylen Brown UNDER 4 assists</label><span class="px">57¢</span>
+    <div class="sub"><span>NO on &quot;Jaylen Brown: 4+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23porphi?op_market_ticker=KXNBAAST-26NOV23PORPHI-PHIJBROWN7-4" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 3.1 assists over his last 10; reached 4+ in 5 of them (50%); the price implies 43%</li><li>role: primary scorer. POR has allowed that role 89% of its usual assists (stingy)</li><li>POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)</li><li>POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane</li><li>POR forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T1-5"><label for="T1-5">LeBron James UNDER 35 combined points, rebounds, and assists</label><span class="px">64¢</span>
+    <div class="sub"><span>NO on &quot;LeBron James: 35+ combined points, rebounds, and assists&quot;</span><a href="https://kalshi.com/markets/kxnbapra/m/kxnbapra-26nov23porphi?op_market_ticker=KXNBAPRA-26NOV23PORPHI-PHILJAMES23-35" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 29.8 points + rebounds + assists over his last 10; reached 35+ in 1 of them (10%); the price implies 36%</li><li>role: playmaking guard. POR has allowed that role 97% of its usual points / rebounds / assists (stingy)</li><li>POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)</li><li>POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane</li></ul></details></div><div class="game"><span>Brooklyn vs Minnesota</span><span>tips 7:30 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T1-6"><label for="T1-6">Danny Wolf UNDER 6 rebounds</label><span class="px">57¢</span>
+    <div class="sub"><span>NO on &quot;Danny Wolf: 6+ rebounds&quot;</span><a href="https://kalshi.com/markets/kxnbareb/m/kxnbareb-26nov23bknmin?op_market_ticker=KXNBAREB-26NOV23BKNMIN-BKNDWOLF2-6" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 5.6 rebounds over his last 10; reached 6+ in 5 of them (50%); the price implies 43%</li><li>minutes down: 20 a game over the last 3 vs 23 over the last 10</li><li>role: role player. MIN has allowed that role 94% of its usual rebounds (stingy)</li><li>MIN defense ranks 1 of 30; MIN: isolation-heavy offense; defense runs shooters off the line; top defense</li><li>MIN shots allowed: 33% at the rim, 8% mid-range, 40% threes; switch-style: forces isolation, few assisted looks</li></ul></details></div><div class="game"><span>Oklahoma City vs Indiana</span><span>tips 7:30 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T1-7"><label for="T1-7">Bennett Stirtz UNDER 10 points</label><span class="px">54¢</span>
+    <div class="sub"><span>NO on &quot;Bennett Stirtz: 10+ points&quot;</span><a href="https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23okcind?op_market_ticker=KXNBAPTS-26NOV23OKCIND-OKCBSTIRTZ14-10" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 9.6 points over his last 10; reached 10+ in 5 of them (50%); the price implies 46%</li><li>role: spot-up shooter. IND has allowed that role 95% of its usual points (stingy)</li><li>IND defense ranks 20 of 30</li><li>IND shots allowed: 25% at the rim, 12% mid-range, 45% threes; keeps drivers out of the lane</li></ul></details></div><div class="game"><span>Los Angeles C vs Houston</span><span>tips 8:30 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T1-8"><label for="T1-8">Alperen Sengun UNDER 2 steals</label><span class="px">67¢</span>
+    <div class="sub"><span>NO on &quot;Alperen Sengun: 2+ steals&quot;</span><a href="https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov23lachou?op_market_ticker=KXNBASTL-26NOV23LACHOU-HOUASENGUN28-2" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 0.9 steals over his last 10; reached 2+ in 2 of them (20%); the price implies 33%</li><li>minutes down: 27 a game over the last 3 vs 33 over the last 10</li><li>role: primary scorer. LAC has allowed that role 83% of its usual steals (stingy)</li><li>LAC defense ranks 24 of 30; game pace slow (-1.3 possessions vs average)</li><li>LAC shots allowed: 29% at the rim, 10% mid-range, 41% threes; runs shooters off the line</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T1-9"><label for="T1-9">Darius Garland UNDER 2 steals</label><span class="px">73¢</span>
+    <div class="sub"><span>NO on &quot;Darius Garland: 2+ steals&quot;</span><a href="https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov23lachou?op_market_ticker=KXNBASTL-26NOV23LACHOU-LACDGARLAND10-2" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 0.6 steals over his last 10; reached 2+ in 1 of them (10%); the price implies 27%</li><li>role: primary scorer. HOU has allowed that role 98% of its usual steals (average)</li><li>HOU defense ranks 8 of 30; game pace slow (-1.3 possessions vs average); HOU: plays slow; crashes the offensive glass; switch-style defense (few assists allowed); rim protection (blocks); top offense</li><li>HOU shots allowed: 27% at the rim, 11% mid-range, 44% threes; leaves shooters open</li></ul></details></div>
+  <div class="foot"><span data-count></span><button type="button" data-copy="copy-T1">Copy legs</button></div>
+  <pre id="copy-T1" hidden style="margin:0;padding:10px 14px;white-space:pre-wrap;font-size:.8rem">$10 to win $1,000 or more. Skip if the payout shown is lower.
+Memphis vs Charlotte: NO on &quot;Brandon Miller: 4+ assists&quot;
+Memphis vs Charlotte: NO on &quot;Ty Jerome: 6+ assists&quot;
+Memphis vs Charlotte: NO on &quot;Naz Reid: 4+ assists&quot;
+Portland vs Philadelphia: NO on &quot;Tyrese Maxey: 30+ points&quot;
+Portland vs Philadelphia: NO on &quot;Jaylen Brown: 4+ assists&quot;
+Portland vs Philadelphia: NO on &quot;LeBron James: 35+ combined points, rebounds, and assists&quot;
+Brooklyn vs Minnesota: NO on &quot;Danny Wolf: 6+ rebounds&quot;
+Oklahoma City vs Indiana: NO on &quot;Bennett Stirtz: 10+ points&quot;
+Los Angeles C vs Houston: NO on &quot;Alperen Sengun: 2+ steals&quot;
+Los Angeles C vs Houston: NO on &quot;Darius Garland: 2+ steals&quot;</pre>
+</article>
+<article class="slip" id="T2" data-expires="2026-11-24T00:00:00+00:00" data-late="A game has started: build a new card">
+  <div class="head">
+    <div class="tag"><span>T2 · LOTTERY CARD · 12 LEGS</span><span class="pill warn" data-state>Good until 7:00 pm ET</span><span class="pill good">Fits Kalshi's combo rules</span></div>
+    <h3>$5 to win $1,000</h3>
+    <p class="walk">Place only if Kalshi shows a payout of $1,000 or more for $5.
+      <small>That is 200×. If the payout shown is lower, skip this card. Do not add legs to chase it.</small></p>
+    <div class="facts"><span>Legs worth <b>272×</b></span><span>Hits about <b>1 in 252</b></span>
+      <span>Expected loss <b>$1.04</b></span><span><b>5</b> games</span></div>
+  </div>
+  <div class="perf"></div>
+  <div class="game"><span>Memphis vs Charlotte</span><span>tips 7:00 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T2-0"><label for="T2-0">Brandon Miller UNDER 2 steals</label><span class="px">72¢</span>
+    <div class="sub"><span>NO on &quot;Brandon Miller: 2+ steals&quot;</span><a href="https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov23memcha?op_market_ticker=KXNBASTL-26NOV23MEMCHA-CHABMILLER24-2" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 1.1 steals over his last 10; reached 2+ in 3 of them (30%); the price implies 28%</li><li>role: role player. MEM has allowed that role 90% of its usual steals (stingy)</li><li>MEM defense ranks 9 of 30; game pace slow (-1.8 possessions vs average); MEM: ball-movement offense; crashes the offensive glass; switch-style defense (few assists allowed); top offense</li><li>MEM shots allowed: 27% at the rim, 9% mid-range, 41% threes</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T2-1"><label for="T2-1">Zach Edey UNDER 10 points</label><span class="px">60¢</span>
+    <div class="sub"><span>NO on &quot;Zach Edey: 10+ points&quot;</span><a href="https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23memcha?op_market_ticker=KXNBAPTS-26NOV23MEMCHA-MEMZEDEY14-10" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 10.0 points over his last 10; reached 10+ in 5 of them (50%); the price implies 40%</li><li>role: rim big. CHA has allowed that role 96% of its usual points (stingy)</li><li>CHA defense ranks 19 of 30; game pace slow (-1.8 possessions vs average); CHA: plays slow; three-point heavy offense; crashes the offensive glass; cleans the defensive glass; weak offense</li><li>CHA shots allowed: 27% at the rim, 10% mid-range, 44% threes</li></ul></details></div><div class="game"><span>Portland vs Philadelphia</span><span>tips 7:00 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T2-2"><label for="T2-2">VJ Edgecombe UNDER 15 points</label><span class="px">60¢</span>
+    <div class="sub"><span>NO on &quot;VJ Edgecombe: 15+ points&quot;</span><a href="https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23porphi?op_market_ticker=KXNBAPTS-26NOV23PORPHI-PHIVEDGECOMBE77-15" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 15.2 points over his last 10; reached 15+ in 5 of them (50%); the price implies 40%</li><li>role: role player. POR has allowed that role 91% of its usual points (stingy)</li><li>POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)</li><li>POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T2-3"><label for="T2-3">LeBron James UNDER 8 assists</label><span class="px">62¢</span>
+    <div class="sub"><span>NO on &quot;LeBron James: 8+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23porphi?op_market_ticker=KXNBAAST-26NOV23PORPHI-PHILJAMES23-8" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 7.1 assists over his last 10; reached 8+ in 5 of them (50%); the price implies 38%</li><li>role: playmaking guard. POR has allowed that role 89% of its usual assists (stingy)</li><li>POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)</li><li>POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane</li><li>POR forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses</li></ul></details></div><div class="game"><span>Milwaukee vs Toronto</span><span>tips 7:30 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T2-4"><label for="T2-4">Jaime Jaquez Jr. UNDER 4 assists</label><span class="px">68¢</span>
+    <div class="sub"><span>NO on &quot;Jaime Jaquez Jr.: 4+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23miltor?op_market_ticker=KXNBAAST-26NOV23MILTOR-MILJJAQUEZ24-4" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 2.9 assists over his last 10; reached 4+ in 3 of them (30%); the price implies 32%</li><li>minutes down: 23 a game over the last 3 vs 26 over the last 10</li><li>role: role player. TOR has allowed that role 93% of its usual assists (stingy)</li><li>TOR defense ranks 18 of 30; TOR: defense fouls a lot; pressure defense (forces turnovers)</li><li>TOR shots allowed: 30% at the rim, 11% mid-range, 43% threes</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T2-5"><label for="T2-5">Nate Ament UNDER 2 assists</label><span class="px">72¢</span>
+    <div class="sub"><span>NO on &quot;Nate Ament: 2+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23miltor?op_market_ticker=KXNBAAST-26NOV23MILTOR-MILNAMENT15-2" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 0.6 assists over his last 10; reached 2+ in 0 of them (0%); the price implies 28%</li><li>role: role player. TOR has allowed that role 93% of its usual assists (stingy)</li><li>TOR defense ranks 18 of 30; TOR: defense fouls a lot; pressure defense (forces turnovers)</li><li>TOR shots allowed: 30% at the rim, 11% mid-range, 43% threes</li><li>TOR forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses</li></ul></details></div><div class="game"><span>Oklahoma City vs Indiana</span><span>tips 7:30 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T2-6"><label for="T2-6">Ajay Mitchell UNDER 2 steals</label><span class="px">65¢</span>
+    <div class="sub"><span>NO on &quot;Ajay Mitchell: 2+ steals&quot;</span><a href="https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov23okcind?op_market_ticker=KXNBASTL-26NOV23OKCIND-OKCAMITCHELL25-2" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 0.9 steals over his last 10; reached 2+ in 2 of them (20%); the price implies 35%</li><li>role: playmaking guard. IND has allowed that role 90% of its usual steals (stingy)</li><li>IND defense ranks 20 of 30</li><li>IND shots allowed: 25% at the rim, 12% mid-range, 45% threes; keeps drivers out of the lane</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T2-7"><label for="T2-7">Pascal Siakam UNDER 25 points</label><span class="px">66¢</span>
+    <div class="sub"><span>NO on &quot;Pascal Siakam: 25+ points&quot;</span><a href="https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23okcind?op_market_ticker=KXNBAPTS-26NOV23OKCIND-INDPSIAKAM43-25" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 22.5 points over his last 10; reached 25+ in 3 of them (30%); the price implies 34%</li><li>role: primary scorer. OKC has allowed that role 92% of its usual points (stingy)</li><li>OKC defense ranks 6 of 30; OKC: attacks inside the arc; isolation-heavy offense; defense gives up threes; defense avoids fouls; top defense</li><li>OKC shots allowed: 25% at the rim, 11% mid-range, 49% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T2-8"><label for="T2-8">Isaiah Hartenstein UNDER 10 points</label><span class="px">54¢</span>
+    <div class="sub"><span>NO on &quot;Isaiah Hartenstein: 10+ points&quot;</span><a href="https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23okcind?op_market_ticker=KXNBAPTS-26NOV23OKCIND-OKCIHARTENSTEIN55-10" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 7.4 points over his last 10; reached 10+ in 2 of them (20%); the price implies 46%</li><li>role: versatile big / forward. IND has allowed that role 97% of its usual points (stingy)</li><li>IND defense ranks 20 of 30</li><li>IND shots allowed: 25% at the rim, 12% mid-range, 45% threes; keeps drivers out of the lane</li></ul></details></div><div class="game"><span>Los Angeles C vs Houston</span><span>tips 8:30 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T2-9"><label for="T2-9">Alperen Sengun: NO double double</label><span class="px">51¢</span>
+    <div class="sub"><span>NO on &quot;Alperen Sengun: Double Double&quot;</span><a href="https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23lachou?op_market_ticker=KXNBA2D-26NOV23LACHOU-HOUASENGUN28" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>had a double-double in 9 of his last 20 games (45%); the price implies 49%</li><li>minutes down: 27 a game over the last 3 vs 33 over the last 10</li><li>role: primary scorer. LAC has allowed that role 94% of its usual rebounds / assists (stingy)</li><li>LAC defense ranks 24 of 30; game pace slow (-1.3 possessions vs average)</li><li>LAC shots allowed: 29% at the rim, 10% mid-range, 41% threes; runs shooters off the line</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T2-10"><label for="T2-10">Amen Thompson UNDER 4 assists</label><span class="px">61¢</span>
+    <div class="sub"><span>NO on &quot;Amen Thompson: 4+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23lachou?op_market_ticker=KXNBAAST-26NOV23LACHOU-HOUATHOMPSON1-4" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 2.5 assists over his last 10; reached 4+ in 2 of them (20%); the price implies 39%</li><li>role: versatile big / forward. LAC has allowed that role 94% of its usual assists (stingy)</li><li>LAC defense ranks 24 of 30; game pace slow (-1.3 possessions vs average)</li><li>LAC shots allowed: 29% at the rim, 10% mid-range, 41% threes; runs shooters off the line</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T2-11"><label for="T2-11">Max Strus UNDER 6 rebounds</label><span class="px">74¢</span>
+    <div class="sub"><span>NO on &quot;Max Strus: 6+ rebounds&quot;</span><a href="https://kalshi.com/markets/kxnbareb/m/kxnbareb-26nov23lachou?op_market_ticker=KXNBAREB-26NOV23LACHOU-LACMSTRUSSF-6" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 3.8 rebounds over his last 9; reached 6+ in 1 of them (11%); the price implies 26%</li><li>minutes up: 27 a game over the last 3 vs 24 over the last 10</li><li>role: spot-up shooter. HOU has allowed that role 90% of its usual rebounds (stingy)</li><li>HOU defense ranks 8 of 30; game pace slow (-1.3 possessions vs average); HOU: plays slow; crashes the offensive glass; switch-style defense (few assists allowed); rim protection (blocks); top offense</li><li>HOU shots allowed: 27% at the rim, 11% mid-range, 44% threes; leaves shooters open</li></ul></details></div>
+  <div class="foot"><span data-count></span><button type="button" data-copy="copy-T2">Copy legs</button></div>
+  <pre id="copy-T2" hidden style="margin:0;padding:10px 14px;white-space:pre-wrap;font-size:.8rem">$5 to win $1,000 or more. Skip if the payout shown is lower.
+Memphis vs Charlotte: NO on &quot;Brandon Miller: 2+ steals&quot;
+Memphis vs Charlotte: NO on &quot;Zach Edey: 10+ points&quot;
+Portland vs Philadelphia: NO on &quot;VJ Edgecombe: 15+ points&quot;
+Portland vs Philadelphia: NO on &quot;LeBron James: 8+ assists&quot;
+Milwaukee vs Toronto: NO on &quot;Jaime Jaquez Jr.: 4+ assists&quot;
+Milwaukee vs Toronto: NO on &quot;Nate Ament: 2+ assists&quot;
+Oklahoma City vs Indiana: NO on &quot;Ajay Mitchell: 2+ steals&quot;
+Oklahoma City vs Indiana: NO on &quot;Pascal Siakam: 25+ points&quot;
+Oklahoma City vs Indiana: NO on &quot;Isaiah Hartenstein: 10+ points&quot;
+Los Angeles C vs Houston: NO on &quot;Alperen Sengun: Double Double&quot;
+Los Angeles C vs Houston: NO on &quot;Amen Thompson: 4+ assists&quot;
+Los Angeles C vs Houston: NO on &quot;Max Strus: 6+ rebounds&quot;</pre>
+</article>
+<article class="slip" id="T3" data-expires="2026-11-24T00:00:00+00:00" data-late="A game has started: build a new card">
+  <div class="head">
+    <div class="tag"><span>T3 · LOTTERY CARD · 13 LEGS</span><span class="pill warn" data-state>Good until 7:00 pm ET</span><span class="pill good">Fits Kalshi's combo rules</span></div>
+    <h3>$5 to win $5,000</h3>
+    <p class="walk">Place only if Kalshi shows a payout of $5,000 or more for $5.
+      <small>That is 1,000×. If the payout shown is lower, skip this card. Do not add legs to chase it.</small></p>
+    <div class="facts"><span>Legs worth <b>1,262×</b></span><span>Hits about <b>1 in 1,222</b></span>
+      <span>Expected loss <b>$0.91</b></span><span><b>8</b> games</span></div>
+  </div>
+  <div class="perf"></div>
+  <div class="game"><span>Memphis vs Charlotte</span><span>tips 7:00 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T3-0"><label for="T3-0">Jaylen Wells UNDER 10 points</label><span class="px">50¢</span>
+    <div class="sub"><span>NO on &quot;Jaylen Wells: 10+ points&quot;</span><a href="https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23memcha?op_market_ticker=KXNBAPTS-26NOV23MEMCHA-MEMJWELLS0-10" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 10.2 points over his last 10; reached 10+ in 4 of them (40%); the price implies 50%</li><li>role: spot-up shooter. CHA has allowed that role 94% of its usual points (stingy)</li><li>CHA defense ranks 19 of 30; game pace slow (-1.8 possessions vs average); CHA: plays slow; three-point heavy offense; crashes the offensive glass; cleans the defensive glass; weak offense</li><li>CHA shots allowed: 27% at the rim, 10% mid-range, 44% threes</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T3-1"><label for="T3-1">Royce O&#x27;Neale UNDER 2 assists</label><span class="px">52¢</span>
+    <div class="sub"><span>NO on &quot;Royce O&#x27;Neale: 2+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-CHARONEALE00-2" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 0.9 assists over his last 10; reached 2+ in 2 of them (20%); the price implies 48%</li><li>role: spot-up shooter. MEM has allowed that role 103% of its usual assists (generous)</li><li>MEM defense ranks 9 of 30; game pace slow (-1.8 possessions vs average); MEM: ball-movement offense; crashes the offensive glass; switch-style defense (few assists allowed); top offense</li><li>MEM shots allowed: 27% at the rim, 9% mid-range, 41% threes</li><li>MEM forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T3-2"><label for="T3-2">Cedric Coward UNDER 4 assists</label><span class="px">62¢</span>
+    <div class="sub"><span>NO on &quot;Cedric Coward: 4+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-MEMCCOWARD23-4" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 3.9 assists over his last 10; reached 4+ in 8 of them (80%); the price implies 38%</li><li>role: role player. CHA has allowed that role 90% of its usual assists (stingy)</li><li>CHA defense ranks 19 of 30; game pace slow (-1.8 possessions vs average); CHA: plays slow; three-point heavy offense; crashes the offensive glass; cleans the defensive glass; weak offense</li><li>CHA shots allowed: 27% at the rim, 10% mid-range, 44% threes</li><li>CHA forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses</li></ul></details></div><div class="game"><span>Portland vs Philadelphia</span><span>tips 7:00 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T3-3"><label for="T3-3">Anfernee Simons UNDER 2 assists</label><span class="px">59¢</span>
+    <div class="sub"><span>NO on &quot;Anfernee Simons: 2+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23porphi?op_market_ticker=KXNBAAST-26NOV23PORPHI-PHIASIMONS5-2" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 1.2 assists over his last 10; reached 2+ in 5 of them (50%); the price implies 41%</li><li>minutes up: 30 a game over the last 3 vs 21 over the last 10</li><li>role: spot-up shooter. POR has allowed that role 91% of its usual assists (stingy)</li><li>POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)</li><li>POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T3-4"><label for="T3-4">Tyrese Maxey UNDER 3 threes</label><span class="px">50¢</span>
+    <div class="sub"><span>NO on &quot;Tyrese Maxey: 3+ threes&quot;</span><a href="https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov23porphi?op_market_ticker=KXNBA3PT-26NOV23PORPHI-PHITMAXEY0-3" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 2.6 threes over his last 10; reached 3+ in 6 of them (60%); the price implies 50%</li><li>role: primary scorer. POR has allowed that role 90% of its usual threes (stingy)</li><li>POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)</li><li>POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T3-5"><label for="T3-5">LeBron James UNDER 2 threes</label><span class="px">62¢</span>
+    <div class="sub"><span>NO on &quot;LeBron James: 2+ threes&quot;</span><a href="https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov23porphi?op_market_ticker=KXNBA3PT-26NOV23PORPHI-PHILJAMES23-2" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 0.9 threes over his last 10; reached 2+ in 3 of them (30%); the price implies 38%</li><li>role: playmaking guard. POR has allowed that role 93% of its usual threes (stingy)</li><li>POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)</li><li>POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane</li></ul></details></div><div class="game"><span>Milwaukee vs Toronto</span><span>tips 7:30 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T3-6"><label for="T3-6">Jaime Jaquez Jr. UNDER 15 points</label><span class="px">68¢</span>
+    <div class="sub"><span>NO on &quot;Jaime Jaquez Jr.: 15+ points&quot;</span><a href="https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23miltor?op_market_ticker=KXNBAPTS-26NOV23MILTOR-MILJJAQUEZ24-15" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 13.3 points over his last 10; reached 15+ in 4 of them (40%); the price implies 32%</li><li>minutes down: 23 a game over the last 3 vs 26 over the last 10</li><li>role: role player. TOR has allowed that role 93% of its usual points (stingy)</li><li>TOR defense ranks 18 of 30; TOR: defense fouls a lot; pressure defense (forces turnovers)</li><li>TOR shots allowed: 30% at the rim, 11% mid-range, 43% threes</li></ul></details></div>
+  <div class="leg"><input type="checkbox" id="T3-7"><label for="T3-7">Myles Turner UNDER 2 threes</label><span class="px">55¢</span>
+    <div class="sub"><span>NO on &quot;Myles Turner: 2+ threes&quot;</span><a href="https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov23miltor?op_market_ticker=KXNBA3PT-26NOV23MILTOR-MILMTURNER3-2" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 1.5 threes over his last 10; reached 2+ in 3 of them (30%); the price implies 45%</li><li>role: versatile big / forward. TOR has allowed that role 93% of its usual threes (stingy)</li><li>TOR defense ranks 18 of 30; TOR: defense fouls a lot; pressure defense (forces turnovers)</li><li>TOR shots allowed: 30% at the rim, 11% mid-range, 43% threes</li></ul></details></div><div class="game"><span>Phoenix vs New Orleans</span><span>tips 8:00 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T3-8"><label for="T3-8">Jeremiah Fears UNDER 6 assists</label><span class="px">50¢</span>
+    <div class="sub"><span>NO on &quot;Jeremiah Fears: 6+ assists&quot;</span><a href="https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23phxnop?op_market_ticker=KXNBAAST-26NOV23PHXNOP-NOPJFEARS0-6" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 6.0 assists over his last 10; reached 6+ in 4 of them (40%); the price implies 50%</li><li>role: playmaking guard. PHX has allowed that role 95% of its usual assists (stingy)</li><li>PHX defense ranks 21 of 30</li><li>PHX shots allowed: 28% at the rim, 10% mid-range, 44% threes</li><li>PHX forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses</li></ul></details></div><div class="game"><span>Cincinnati vs Washington</span><span>tips 8:15 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T3-9"><label for="T3-9">Chig Okonkwo UNDER 1 touchdowns</label><span class="px">74¢</span>
+    <div class="sub"><span>NO on &quot;Chig Okonkwo: 1+ touchdowns&quot;</span><a href="https://kalshi.com/markets/kxnfltd/m/kxnfltd-26nov23cinwas?op_market_ticker=KXNFLTD-26NOV23CINWAS-WASCOKONKWO85-1" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>NFL leg: no style model yet</li></ul></details></div><div class="game"><span>Los Angeles C vs Houston</span><span>tips 8:30 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T3-10"><label for="T3-10">Jabari Smith Jr. UNDER 15 points</label><span class="px">55¢</span>
+    <div class="sub"><span>NO on &quot;Jabari Smith Jr.: 15+ points&quot;</span><a href="https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23lachou?op_market_ticker=KXNBAPTS-26NOV23LACHOU-HOUJSMITH10-15" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 13.3 points over his last 10; reached 15+ in 3 of them (30%); the price implies 45%</li><li>role: role player. LAC has allowed that role 95% of its usual points (stingy)</li><li>LAC defense ranks 24 of 30; game pace slow (-1.3 possessions vs average)</li><li>LAC shots allowed: 29% at the rim, 10% mid-range, 41% threes; runs shooters off the line</li></ul></details></div><div class="game"><span>San Antonio vs Sacramento</span><span>tips 10:00 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T3-11"><label for="T3-11">De&#x27;Andre Hunter UNDER 3 threes</label><span class="px">67¢</span>
+    <div class="sub"><span>NO on &quot;De&#x27;Andre Hunter: 3+ threes&quot;</span><a href="https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov23sassac?op_market_ticker=KXNBA3PT-26NOV23SASSAC-SACDHUNTER15-3" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 2.2 threes over his last 10; reached 3+ in 3 of them (30%); the price implies 33%</li><li>role: role player. SAN has allowed that role 90% of its usual threes (stingy)</li><li>SAN defense ranks 3 of 30; SAN: defense runs shooters off the line; defense avoids fouls; cleans the defensive glass; rim protection (blocks); top defense; top offense</li><li>SAN shots allowed: 26% at the rim, 14% mid-range, 38% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line</li></ul></details></div><div class="game"><span>Utah vs Los Angeles L</span><span>tips 10:00 pm ET</span></div>
+  <div class="leg"><input type="checkbox" id="T3-12"><label for="T3-12">Ace Bailey UNDER 15 points</label><span class="px">59¢</span>
+    <div class="sub"><span>NO on &quot;Ace Bailey: 15+ points&quot;</span><a href="https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23utalal?op_market_ticker=KXNBAPTS-26NOV23UTALAL-UTAABAILEY19-15" target="_blank" rel="noopener">open</a></div><details><summary>Why this leg</summary><ul><li>averaging 13.4 points over his last 10; reached 15+ in 5 of them (50%); the price implies 41%</li><li>minutes down: 25 a game over the last 3 vs 30 over the last 10</li><li>role: role player. LAL has allowed that role 93% of its usual points (stingy)</li><li>LAL defense ranks 13 of 30; LAL: gets to the line; isolation-heavy offense; defense gives up threes; defense fouls a lot; defense allows assisted looks; weak on the defensive glass; pressure defense (forces turnovers); rim protection (blocks); top offense</li><li>LAL shots allowed: 24% at the rim, 7% mid-range, 49% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed</li></ul></details></div>
+  <div class="foot"><span data-count></span><button type="button" data-copy="copy-T3">Copy legs</button></div>
+  <pre id="copy-T3" hidden style="margin:0;padding:10px 14px;white-space:pre-wrap;font-size:.8rem">$5 to win $5,000 or more. Skip if the payout shown is lower.
+Memphis vs Charlotte: NO on &quot;Jaylen Wells: 10+ points&quot;
+Memphis vs Charlotte: NO on &quot;Royce O&#x27;Neale: 2+ assists&quot;
+Memphis vs Charlotte: NO on &quot;Cedric Coward: 4+ assists&quot;
+Portland vs Philadelphia: NO on &quot;Anfernee Simons: 2+ assists&quot;
+Portland vs Philadelphia: NO on &quot;Tyrese Maxey: 3+ threes&quot;
+Portland vs Philadelphia: NO on &quot;LeBron James: 2+ threes&quot;
+Milwaukee vs Toronto: NO on &quot;Jaime Jaquez Jr.: 15+ points&quot;
+Milwaukee vs Toronto: NO on &quot;Myles Turner: 2+ threes&quot;
+Phoenix vs New Orleans: NO on &quot;Jeremiah Fears: 6+ assists&quot;
+Cincinnati vs Washington: NO on &quot;Chig Okonkwo: 1+ touchdowns&quot;
+Los Angeles C vs Houston: NO on &quot;Jabari Smith Jr.: 15+ points&quot;
+San Antonio vs Sacramento: NO on &quot;De&#x27;Andre Hunter: 3+ threes&quot;
+Utah vs Los Angeles L: NO on &quot;Ace Bailey: 15+ points&quot;</pre>
+</article>
+  <p class="muted small">Chances treat the legs as independent. Links open the market group on kalshi.com; if one does not, search the player's name in the app.</p>
+</main>
+<script>
+(function(){
+  var slate=document.documentElement.querySelector('[data-slate]').dataset.slate, key='slips-'+slate, st={};
+  try{ st=JSON.parse(localStorage.getItem(key)||'{}') }catch(e){}
+  function save(){ try{ localStorage.setItem(key,JSON.stringify(st)) }catch(e){} }
+  function count(slip){ var b=slip.querySelectorAll('.leg input'), n=0; b.forEach(function(x){ if(x.checked) n++ });
+    var out=slip.querySelector('[data-count]'); if(out) out.textContent=n+' of '+b.length+' added'; }
+  document.querySelectorAll('.leg input').forEach(function(x){
+    if(st[x.id]){ x.checked=true; x.closest('.leg').classList.add('done') }
+    x.addEventListener('change',function(){ st[x.id]=x.checked; save(); x.closest('.leg').classList.toggle('done',x.checked); count(x.closest('.slip')) });
+  });
+  document.querySelectorAll('.slip').forEach(count);
+  document.querySelectorAll('[data-copy]').forEach(function(b){ b.addEventListener('click',function(){
+    var t=document.getElementById(b.dataset.copy), text=t.textContent, done=function(){ var o=b.textContent; b.textContent='Copied'; setTimeout(function(){ b.textContent=o },1500) };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done,function(){ t.hidden=false; var r=document.createRange(); r.selectNodeContents(t); var s=getSelection(); s.removeAllRanges(); s.addRange(r) }) }
+    else { t.hidden=false }
+  }) });
+  function clock(){ var now=Date.now(); document.querySelectorAll('[data-expires]').forEach(function(s){
+    var p=s.querySelector('[data-state]'); if(!p) return;
+    if(now>=Date.parse(s.dataset.expires)){ s.classList.add('expired'); p.className='pill bad'; p.textContent=s.dataset.late } }) }
+  clock(); setInterval(clock,30000);
+})();
+</script>

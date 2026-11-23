@@ -133,3 +133,26 @@ def test_team_styles_use_only_earlier_games():
     pd_a = a[a.game_id == gid][cols].values
     pd_b = b[b.game_id == gid][cols].values
     assert np.allclose(pd_a, pd_b, equal_nan=True)
+
+
+def test_slips_rules_sizes_and_wording():
+    import pandas as pd
+    from bot import degen, slips
+    rules = {"KXNBAPTS-G": (False, None), "KXNBAGAME-G": (True, 1), "KXNBATOTAL-G": (False, 1)}
+    leg = lambda t, ev, side: dict(ticker=t, event_ticker=ev, side=side)
+    assert slips.legal([leg("a", "KXNBAPTS-G", "no"), leg("b", "KXNBAPTS-G", "no")], rules) == []      # props: both sides, many per event
+    assert any("YES" in p for p in slips.legal([leg("a", "KXNBAGAME-G", "no"), leg("b", "KXNBAPTS-G", "no")], rules))
+    assert any("at most 1" in p for p in slips.legal([leg("a", "KXNBATOTAL-G", "yes"), leg("b", "KXNBATOTAL-G", "no")], rules))
+    assert any("not offered" in p for p in slips.legal([leg("a", "KXNHLGAME-G", "yes"), leg("b", "KXNBAPTS-G", "no")], rules))
+    n, cost, profit = slips.contracts_for(5.0, 0.56)
+    assert n == 8 and cost <= 5.0 and abs(profit - (n - cost)) < 1e-9
+    assert slips.contracts_for(5.0, 0.56)[0] + 1 > 5.0 / (0.56 + 0.07 * 0.56 * 0.44) - 1      # no room for a ninth
+    assert slips.pick_text("Patrick Williams: 15+ points", "no") == "Patrick Williams UNDER 15 points"
+    assert slips.pick_text("Tre Jones: Double Double", "no") == "Tre Jones: NO double double"
+    # the card builder honours Kalshi's per-event limit and never uses one player twice
+    rows = [dict(ticker=f"KXNBAPTS-G{g}-P{i}-10", event_ticker=f"KXNBAPTS-G{g}", series="KXNBAPTS", game=f"G{g}", player=f"P{i}",
+                 mid=0.6, spread=0.01, chain=0, form=0.0, ev_max=99) for g in range(4) for i in range(3)]
+    rows += [dict(ticker="KXNBAREB-G0-P0-5", event_ticker="KXNBAREB-G0", series="KXNBAREB", game="G0", player="P0",
+                  mid=0.6, spread=0.0, chain=5, form=0.0, ev_max=99)]
+    card = degen.build(pd.DataFrame(rows), need=20, max_per_game=3, max_per_stat=12)
+    assert card is not None and not card.duplicated(["game", "player"]).any() and card.groupby("game").size().max() <= 3

@@ -32,6 +32,10 @@ data/prior_download*.log
 !data/leg_calibration.json
 !data/combo_sample.parquet
 !data/agg_days.json
+!data/slips/
+data/slips/latest.html
+!data/combo_prices.parquet
+data/combo_prices.log
 !data/first_touch_days.json
 .section.out
 .refresh.out

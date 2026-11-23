@@ -53,6 +53,20 @@ def fund_stake(k) -> tuple[str, float]:
         return "", 0.0
 
 
+def notify(title: str, body: str, link: str = "") -> None:
+    """Optional phone push for a staked slip. Set SLIP_NOTIFY_URL to an ntfy topic URL you chose
+    (https://ntfy.sh/<your-topic>, or your own server); unset = no push. Never raises."""
+    import os
+    url = os.getenv("SLIP_NOTIFY_URL", "")
+    if not url:
+        return
+    try:
+        import requests
+        requests.post(url, data=body.encode(), headers={"Title": title, **({"Click": link} if link else {})}, timeout=10)
+    except Exception as ex:
+        print(f"! notify failed: {ex}", flush=True)
+
+
 def _seen() -> set:
     if not LOG.exists() or LOG.stat().st_size == 0:
         return set()
@@ -66,7 +80,13 @@ def run(hours: float = 8, every: int = 60, league: str = "NBA"):
     paid_rule, stake = fund_stake(k)
     print(f"fund plan: ${stake} per bet on '{paid_rule or 'nothing (core in cash)'}'; other rules tracked at $0", flush=True)
     seen, end = _seen(), time.time() + hours * 3600
-    staked_games = set()
+    staked_games, open_stakes = set(), []          # open_stakes: (time placed, dollars) still at risk
+    try:
+        from . import fund
+        _c = fund.load_cfg()
+        sleeve = _c["core_pct"] * _c["bankroll"]
+    except Exception:
+        sleeve = 50.0
     new = not LOG.exists() or LOG.stat().st_size == 0
     with open(LOG, "a", newline="") as f:
         w = csv.DictWriter(f, FIELDS)
@@ -103,14 +123,26 @@ def run(hours: float = 8, every: int = 60, league: str = "NBA"):
                                 continue
                             seen.add(key)
                             unit = (r["id"], game) if r["kind"] == "touch" else key   # a moneyline game is one bet
-                            st = stake if (r["id"] == paid_rule and unit not in staked_games) else 0.0
+                            open_stakes = [(t, d) for t, d in open_stakes if (now - t).total_seconds() < 150 * 60]
+                            room = sleeve - sum(d for _, d in open_stakes) >= stake      # never more than the core sleeve at risk
+                            st = stake if (r["id"] == paid_rule and unit not in staked_games and room) else 0.0
                             staked_games.add(unit)
+                            if st:
+                                open_stakes.append((now, st))
                             w.writerow(dict(ts=now.isoformat(timespec="seconds"), rule=r["id"], ticker=m["ticker"], side=side,
                                             price=round(price, 2), size_shown=size, mins_into_game=round(mins),
                                             title=m.get("title", ""), stake=st, result="", pnl="", unit=""))
                             f.flush()
                             print(f"{now:%H:%M} PAPER {r['id']} {side.upper()} {m['ticker']} at {price:.2f} "
                                   f"(size shown {size:.0f}, stake ${st})", flush=True)
+                            if st:
+                                from .slips import contracts_for, market_url, pick_text
+                                lim = round(min(price + 0.02, r.get("hi", 1.0) - 0.01), 2)
+                                n, cost, _ = contracts_for(st, lim)
+                                notify(f"SLIP: {pick_text(m.get('title', ''), side)}",
+                                       f"BUY {side.upper()} {n} contracts, pay no more than {lim * 100:.0f}c each (${cost:.2f} with fee). "
+                                       f"Seen {price * 100:.0f}c, {size:.0f} offered, {round(mins)} min into the game. Paper rule {r['id']}.",
+                                       market_url(m["ticker"]))
             time.sleep(every)
 
 

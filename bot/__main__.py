@@ -155,6 +155,17 @@ def main():
     tr.add_argument("--league", default="NBA")
     wt = sub.add_parser("watch", help="live paper-trade every registry rule during games (no orders)")
     wt.add_argument("--hours", type=float, default=8)
+    cb = sub.add_parser("combos", help="study of real Kalshi combos: shapes, hit rates vs leg prices, what buyers paid")
+    cb.add_argument("--prices", action="store_true", help="fetch what buyers paid (slow: one call per combo, resumable)")
+    sl = sub.add_parser("slip", help="tonight's plan as placeable slips: exact markets, sizes, limits, walk-away payouts (paper)")
+    sl.add_argument("--hours", type=float, default=14)
+    sl.add_argument("--tickets", default="", help='JSON list of [stake, target] pairs; default: degen_mode in data/fund.json')
+    sl.add_argument("--why", action="store_true", help="print the reasoning under every ticket leg")
+    sl.add_argument("--check", action="store_true", help="re-price the saved slips right before placing")
+    sl.add_argument("--quote", action="store_true", help="needs your API key: create the combos on Kalshi and get real quotes")
+    sl.add_argument("--live", action="store_true", help="with --quote: accept a quote that beats the walk-away line, within the caps")
+    sl.add_argument("--slate", default="", help="slate date YYYY-MM-DD for --check/--quote (default: latest saved)")
+    sl.add_argument("--log", action="store_true", help="record the tickets as paper combos in the ledger")
     be = sub.add_parser("best", help="statistically most probable combos tonight, by payout target (paper)")
     be.add_argument("--league", default="NBA")
     be.add_argument("--targets", type=float, nargs="+", default=[3, 5, 10, 25])
@@ -240,6 +251,15 @@ def main():
                   .sort_values("a_three").to_string())
         except Exception as e:
             print(f"(tracking data unavailable: {e})")
+    elif cmd == "combos":
+        from . import combo_study as cs
+        if args.prices:
+            from .kalshi import data_client
+            cs.fetch_prices(data_client(), cs.pick_for_pricing())
+        cs.report()
+    elif cmd == "slip":
+        from .slips import run
+        run(args)
     elif cmd == "degen":
         from .degen import run
         run(args)

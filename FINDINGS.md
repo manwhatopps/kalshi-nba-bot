@@ -386,6 +386,65 @@ So the chain is context, not an edge. Degen cards print it for every leg (`--why
 the line, minutes trend, role and what this defense gives that role, pace, opponent defense, rest.
 It is used only to drop legs where it clearly points to the over and to order otherwise-equal legs.
 
+## 18. From picks to slips (`python -m bot slip`, `python -m bot combos`)
+
+A pick becomes a bet only when it names the exact market and side, the size, the worst price worth
+paying, how long that holds, and passes Kalshi's own rules. Measured on 2026-11-23:
+
+**Kalshi's combo rules, read from its combo collection (`/multivariate_event_collections`).**
+All three open collections carry the same 2,538 events and the same rules.
+* Player props (points, rebounds, assists, threes, steals, blocks, PRA, double-double) can be
+  combined on either side, and any number of legs may come from one prop group. An all-UNDER card
+  is therefore a legal combo.
+* Moneyline, first-half and first-quarter winners are YES-only. Spreads and totals take both sides
+  but one leg per game.
+* A combo needs at least 2 legs. Creating one needs the owner's API key; the price comes from a
+  request-for-quote to market makers. The old "lookup" endpoint was removed in August 2026.
+* The earlier card builder allowed one leg per event. That was stricter than Kalshi: it now uses
+  Kalshi's own limit and keeps one leg per player instead, so legs stay close to independent.
+
+**What 118,133 real combos look like (random sample, created Oct 24 to Nov 22).**
+11% of legs were bought as NO; 2.1% of combos were all NO; 60% took two or more legs from one
+market group (up to 26). Hit rate falls steadily with leg count: 29% at 2 legs, 13% at 5, 6.7% at
+9-10, 4.8% at 11-15, 2.5% at 16-25, 1.3% above 25.
+
+**Same-game legs move together.** For 22,754 combos whose legs are all props with a pre-game
+price, the hit rate was compared with the product of the legs' own prices:
+
+| legs per game | combos | hit rate | product of leg prices | ratio |
+|---|---|---|---|---|
+| 1 | 2,776 | 15.4% | 15.3% | 1.01 |
+| 1 to 1.5 | 2,580 | 11.3% | 10.6% | 1.06 |
+| 1.5 to 2 | 3,484 | 15.3% | 13.4% | 1.14 |
+| 2 to 3 | 3,630 | 14.0% | 12.1% | 1.15 |
+| 3 to 5 | 5,067 | 12.8% | 9.8% | 1.30 |
+| over 5 | 5,214 | 8.5% | 5.1% | 1.67 |
+
+With one leg per game the product is right. Stacking a game makes the combo hit more often than
+the product says, mostly because buyers stack legs that rise together. **This is not an edge by
+itself**: the market makers who quote combos can price that in. It does mean the "1 in N" printed
+on a slip, which treats legs as independent, is close for our cards (different players, at most
+3 per game) and would be too pessimistic for a one-game stack. It also means the earlier
+"sold at 15% of fair value" example was measured against an independence product and is only
+valid if that combo's legs were unrelated.
+
+**What buyers actually paid.** Kalshi publishes every fill of a combo (`/markets/trades`), one
+call per combo. A sample of 2,200 (220 per leg-count bucket) is being fetched into
+`data/combo_prices.parquet`; `python -m bot combos` prints hit rate against cost by leg count.
+Only 50 were priced when this was written, far too few to read. An unverified third-party study
+(jsteng19/kalshi-combos-research) reports takers overpaying by about 3 cents per combo on average.
+
+**What a slip contains.**
+* Single bets (core sleeve): market, BUY NO, contract count for the fund's stake, a limit 2c above
+  the price seen and never past the 80c edge of the tested range, when to place it (the rule is
+  in-game), the rule's own record in that price band, and the order in the form Kalshi's current
+  order endpoint takes (`POST /portfolio/events/orders`; the older `/portfolio/orders` now returns 410).
+* Lottery cards: legs in the form the combo endpoint takes, a rule check, an expiry (first tip-off),
+  and a walk-away payout. `slip --check` re-prices everything before placing.
+* `slip --quote` (needs the key) creates each combo and prints the real quote next to the walk-away
+  line. `--live` accepts only above that line and inside the stake caps. Not yet run against an
+  account: there is no key on this machine.
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is
@@ -401,4 +460,7 @@ It is used only to drop legs where it clearly points to the over and to order ot
   buyers lose a little in nearly every band and long shots under 20c lose the most.
 * Combos are at best a fair bet: 3-8 legs priced 35-80c on tight books, bought within ~10% of the
   legs' mid value. Big lottery combos sold at about 15% of fair value in the one large example.
+* Kalshi accepts all-UNDER prop cards as one combo. Same-game legs hit together more often than
+  their prices multiplied (1.0x at one leg per game, 1.7x at five or more), so a slip's odds are
+  only as good as its legs are unrelated. What buyers paid for real combos is still being measured.
 * No real money has been placed.
