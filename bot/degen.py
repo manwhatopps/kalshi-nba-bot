@@ -53,7 +53,19 @@ def candidates(k, leagues=("NBA", "NFL"), hours: float = 14, lo: float = 0.50, h
     c["form"] = c.series.map(form).fillna(0.0)
     c["p_hat"] = (c.mid + c.form).clip(0.02, 0.98)             # mid price nudged by that prop type's record
     c["stat"] = c.series.map(STAT)
-    return c
+    # the logical chain for every NBA leg: recent form vs the line, minutes, defense-vs-role, pace, rest
+    try:
+        from . import matchup
+        ctx = matchup.context()
+        ex = [matchup.explain(ctx, r.title, r.series, r.ticker, r.game, r.side, r.cost) if r.league == "NBA"
+              else dict(lines=["NFL leg: no style model yet"], pro=0, con=0) for r in c.itertuples()]
+        c["pro"], c["con"] = [e["pro"] for e in ex], [e["con"] for e in ex]
+        c["why"] = [" | ".join(e["lines"][:3]) for e in ex]
+    except Exception as e:
+        print(f"  (chain unavailable: {e})")
+        c["pro"], c["con"], c["why"] = 0, 0, ""
+    c["chain"] = c.pro - c.con
+    return c[~((c.con >= 2) & (c.con > c.pro))]            # drop legs where the chain clearly says OVER
 
 
 def build(c: pd.DataFrame, need: float, skip: set | None = None, max_per_game: int = 3, max_per_stat: int = 4,
@@ -63,7 +75,7 @@ def build(c: pd.DataFrame, need: float, skip: set | None = None, max_per_game: i
     rng = np.random.default_rng(seed)
     c = c[~c.ticker.isin(skip or set())].copy()
     c["_r"] = rng.random(len(c))
-    c = c.sort_values(["form", "spread", "_r"], ascending=[False, True, True])
+    c = c.sort_values(["chain", "form", "spread", "_r"], ascending=[False, False, True, True])
     ev, gm, st, keep, price, thr = set(), {}, {}, [], 1.0, CUSHION / need
     rows = list(c.itertuples())
 
@@ -96,7 +108,9 @@ def run(args):
     k = data_client()
     c = candidates(k, hours=args.hours)
     print(f"\nDEGEN MODE  {len(c)} qualifying UNDER legs tonight (50-75c, books within 3c) across "
-          f"{c.game.nunique() if len(c) else 0} games.")
+          f"{c.game.nunique() if len(c) else 0} games, after dropping legs where the chain clearly points to the over.")
+    print("  'chain' = how many of the matchup points (recent form vs the line, minutes, what this defense gives this kind of player,")
+    print("  pace, rest) support the under. Tested on 68,262 settled props, the chain did NOT beat Kalshi's price; it is context, not an edge.")
     if c.empty:
         print("  nothing qualifies right now (props usually post the morning of the game)")
         return
@@ -114,7 +128,10 @@ def run(args):
         print(f"\n  TICKET {n}: ${stake:g} to win ${goal:,.0f}   {len(card)} legs across {card.game.nunique()} games   "
               f"(all UNDERS = buy NO)")
         for r in card.sort_values("game").itertuples():
-            print(f"      NO {r.cost:.2f}  {r.title[:66]}")
+            print(f"      NO {r.cost:.2f}  {r.title[:60]}   [chain: {r.pro} for, {r.con} against]")
+            if args.why and r.why:
+                for line in r.why.split(" | "):
+                    print(f"            - {line}")
         print(f"      fair payout {1 / mid:,.0f}x.  Chance it hits: about 1 in {1 / p:,.0f}.")
         print(f"      BUY ONLY IF the quote pays {need:,.0f}x or more (${stake:g} returns ${goal:,.0f}). "
               f"Expected loss at that quote: ${stake * (1 - need * p):.2f}.")

@@ -183,6 +183,10 @@ def main():
     dg = sub.add_parser("degen", help="degen mode: biggest-payout UNDER cards the data can defend, with honest odds (paper)")
     dg.add_argument("--tickets", default="", help='JSON list of [stake, goal], e.g. "[[10,1000],[5,1000],[5,5000]]"')
     dg.add_argument("--hours", type=float, default=14)
+    dg.add_argument("--why", action="store_true", help="print the full logical chain under every leg")
+    mu = sub.add_parser("matchup", help="test whether matchup/style factors add anything to Kalshi's price")
+    mu.add_argument("--rebuild", action="store_true")
+    sub.add_parser("styles", help="team play-style profiles for all 30 teams (walk-forward, from box scores)")
     sub.add_parser("settle")
     sub.add_parser("report")
     b = sub.add_parser("backtest")
@@ -217,6 +221,17 @@ def main():
     elif cmd == "trades":
         from .report_trades import run
         run(args)
+    elif cmd == "matchup":
+        from .matchup import test
+        test(args.rebuild)
+    elif cmd == "styles":
+        import pandas as pd
+        from . import styles as S
+        from .data import load_logs
+        pd.set_option("display.width", 250); pd.set_option("display.max_colwidth", 120)
+        P = S.latest_profiles(S.team_styles(load_logs(topup=False)), config.CURRENT_SEASON)
+        cols = ["pace", "off_rtg", "def_rtg", "three_rate", "d_three_rate", "d_ast_rate", "d_oreb_rate", "d_tov_rate", "tags"]
+        print(P[cols].round(3).sort_values("def_rtg").to_string())
     elif cmd == "degen":
         from .degen import run
         run(args)

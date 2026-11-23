@@ -116,3 +116,20 @@ def test_fund_env_follows_gymnasium_api_and_cash_is_flat():
 def test_kelly_is_zero_at_or_below_break_even():
     from bot.fund import cost_with_fee, kelly
     assert kelly(cost_with_fee(0.95), 0.95) == 0 and kelly(0.94, 0.95) == 0 and kelly(0.99, 0.95) > 0.5
+
+
+def test_team_styles_use_only_earlier_games():
+    """Style metrics for a game must not change when that game's own box score changes."""
+    from bot.data import load_logs
+    from bot import styles as S
+    logs = load_logs(topup=False)
+    logs = logs[logs.season == logs.season.max()]
+    a = S.team_styles(logs)
+    gid = a.dropna(subset=["pace"]).game_id.iloc[-1]
+    bumped = logs.copy()
+    bumped.loc[bumped.game_id == gid, ["pts", "fga", "fg3a", "reb", "ast"]] *= 3
+    b = S.team_styles(bumped)
+    cols = ["pace", "off_rtg", "def_rtg", "three_rate", "d_three_rate"]
+    pd_a = a[a.game_id == gid][cols].values
+    pd_b = b[b.game_id == gid][cols].values
+    assert np.allclose(pd_a, pd_b, equal_nan=True)

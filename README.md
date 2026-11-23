@@ -69,7 +69,9 @@ python -m bot history --days 35            # download settled markets + pre-game
 python -m bot favorites                    # test "many legs at 90c+" (add --when live1 for in-game)
 python -m bot models                       # score all model types vs Kalshi's price; fit live weights
 python -m bot card --legs 50 --min-price 0.90   # tonight's favorites card (YES and NO legs), paper
-python -m bot degen                        # degen mode: big-payout UNDER cards with honest odds (paper)
+python -m bot degen --why                  # degen mode: big-payout UNDER cards, with the logical chain under every leg
+python -m bot styles                       # play-style profile of all 30 NBA teams (pace, shot mix, what each defense allows)
+python -m bot matchup                      # test: do matchup/style factors add anything to Kalshi's price?
 python -m bot walk                         # walk-forward backtest of the fund's logic on all downloaded data (no hindsight)
 python -m bot props                        # player props across two seasons: overs vs unders, prop types, price bands
 python -m bot sim --rule dd_under --max-stake 5   # FundEnv simulator on the prop rule, $5 fillable per bet

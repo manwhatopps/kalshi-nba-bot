@@ -326,6 +326,49 @@ about a 1.4% chance per night that one hits, about 9% over a week for $140 of ti
 bankroll the chance of reaching $1,000 in a week cannot exceed about 10% by any method (at fair odds
 it equals bankroll / target), and it is lower after the market maker's cut.
 
+## 17. Play styles, matchups and the "logical chain" (`python -m bot styles`, `python -m bot matchup`)
+Built from player box scores, walk-forward (each game sees only earlier games):
+
+* **Team style profiles for all 30 teams** over their previous 15 games: pace, offensive and defensive
+  rating, three-point rate, free-throw rate, assist rate, offensive-rebound rate, turnover rate, and
+  the same for what the defense allows. Box scores cannot see a scheme directly; they see what it
+  concedes (threes allowed, assisted baskets allowed, fouls, offensive rebounds allowed, turnovers
+  forced). Example tags this week: Houston, Memphis, Portland and Utah allow few assisted baskets
+  (the signature of switching); Boston plays slow, shoots and concedes threes; Chicago, Milwaukee and
+  Washington are weak on the defensive glass.
+* **Six player roles** from k-means on per-36 production (primary scorer, playmaking guard, spot-up
+  shooter, versatile big, rim big, role player), standing in for positions.
+* **Defense-vs-role**: how much each defense has allowed each role, per minute, relative to those
+  players' own norms, over its previous 20 games.
+
+**Do these add anything to Kalshi's price? No.** On 68,262 settled NBA prop markets with a pre-game
+price, regressing the result on the price plus each factor (errors clustered by game):
+
+| factor | last season | this season |
+|---|---|---|
+| Kalshi's price (1.00 = fully trusted) | 1.01 | 1.03 |
+| recent form vs the line | +0.079 (z 3.8) | -0.008 (z -0.4) |
+| defense-vs-role | +0.029 (z 1.6) | +0.015 (z 0.7) |
+| opponent defensive rating | z 0.3 | z 0.3 |
+| expected pace | z 0.7 | z -0.2 |
+| minutes trend | z -0.5 | z -0.2 |
+| team on a back-to-back | -0.059 (z -2.3) | -0.012 (z -0.4) |
+| opponent on a back-to-back, home, blowout risk | all under z 1.5 | all under z 1.5 |
+
+Nothing is distinguishable from zero in both seasons. Fitted on last season and scored on this one,
+price + factors (log-loss 0.5618) is slightly worse than the price alone (0.5606). Scheme proxies
+matched to the stat they should affect (threes vs threes allowed, rebounds vs glass weakness, assists
+vs assisted looks allowed) show the same: one was significant last season, none this season. Legs
+where the whole chain agrees with the under did no better this season than unders in general
+(+0.1 to +0.9 points vs +0.9).
+
+What does hold pre-game: **unders as a group beat their price by 2.8 points last season and 0.9 this
+season** - the structural over/under tilt, not matchup insight.
+
+So the chain is context, not an edge. Degen cards print it for every leg (`--why`): recent form vs
+the line, minutes trend, role and what this defense gives that role, pace, opponent defense, rest.
+It is used only to drop legs where it clearly points to the over and to order otherwise-equal legs.
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is
@@ -335,6 +378,8 @@ it equals bankroll / target), and it is lower after the market maker's cut.
 * **Do not buy prop overs in-game.** They lost in both seasons, both sports and every price band.
 * The in-game moneyline rule that looked best this season lost on 1,268 archived games and is
   graded "failed". Every rule is graded on games it was not found on.
+* Matchup and style factors (form, defense-vs-role, pace, rest, scheme proxies) add nothing to
+  Kalshi's price on 68,262 props; they are printed as context for each leg, not used as an edge.
 * Kalshi's price is a better "will it hit" predictor than any model or simulation tested; pre-game,
   buyers lose a little in nearly every band and long shots under 20c lose the most.
 * Combos are at best a fair bet: 3-8 legs priced 35-80c on tight books, bought within ~10% of the

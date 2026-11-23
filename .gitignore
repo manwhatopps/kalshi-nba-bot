@@ -35,3 +35,4 @@ data/prior_download*.log
 !data/first_touch_days.json
 .section.out
 .refresh.out
+data/matchup_dataset.parquet
