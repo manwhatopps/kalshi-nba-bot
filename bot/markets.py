@@ -13,6 +13,7 @@ PROP_SERIES = {
     "KXNBARA": ("reb", "ast"), "KXNBASTL": ("stl",), "KXNBABLK": ("blk",), "KXNBASTOCK": ("stl", "blk"),
 }
 GAME_SERIES = ("KXNBAGAME", "KXNBASPREAD", "KXNBATOTAL")
+TIPOFF_BEFORE_OCCURRENCE = timedelta(hours=3, minutes=15)  # conservative: assume tip-off this early
 
 
 def _f(x):
@@ -79,8 +80,10 @@ def parse_market(series: str, m: dict) -> Leg | None:
         game, away, home = _game_parts(m["event_ticker"])
     except (IndexError, KeyError):
         return None
-    start = m.get("occurrence_datetime") or m.get("expected_expiration_time")
-    start = datetime.fromisoformat(start.replace("Z", "+00:00")) if start else None
+    # Kalshi's occurrence_datetime is the EXPECTED END of the game (~3h after tip-off),
+    # verified live: OKC@MIA showed occurrence 02:00Z while trading at 99c at 01:17Z.
+    occ = m.get("occurrence_datetime") or m.get("expected_expiration_time")
+    start = datetime.fromisoformat(occ.replace("Z", "+00:00")) - TIPOFF_BEFORE_OCCURRENCE if occ else None
     last = m["ticker"].split("-")[-1]
     base = dict(ticker=m["ticker"], event_ticker=m["event_ticker"], series=series, game=game, away=away,
                 home=home, title=m.get("title", ""), yes_bid=bid, yes_ask=ask, start=start)
@@ -118,7 +121,7 @@ def fetch_legs(k: Kalshi, include_live: bool = False, hours_ahead: float = 36,
             leg = parse_market(s, m)
             if not leg or not leg.start:
                 continue
-            if not include_live and leg.start < now + timedelta(minutes=5):
+            if not include_live and leg.start < now + timedelta(minutes=10):
                 continue  # game started (or about to): stats model is pre-game only
             if leg.start > now + timedelta(hours=hours_ahead):
                 continue

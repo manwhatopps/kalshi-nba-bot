@@ -32,7 +32,7 @@ def test_fee():
 
 
 def _m(ticker, title, **kw):
-    start = (datetime.now(timezone.utc) + timedelta(hours=3)).isoformat()
+    start = (datetime.now(timezone.utc) + timedelta(hours=6)).isoformat()
     d = dict(ticker=ticker, event_ticker="-".join(ticker.split("-")[:2]), title=title, status="active",
              yes_bid_dollars="0.40", yes_ask_dollars="0.42", occurrence_datetime=start, strike_type="greater")
     d.update(kw)
@@ -82,3 +82,18 @@ def test_same_game_correlation_is_positive(model):
 def test_kelly_stake_zero_without_edge():
     c = combos.Combo(legs=[], p_fair=0.05, p_mid=0.05, est_price=0.055, corr_lift=1)
     assert c.ev < 0 and c.stake() == 0
+
+
+def test_live_games_excluded():
+    from bot.markets import fetch_legs
+
+    class K:
+        def markets(self, s):
+            if s != "KXNBAGAME":
+                return []
+            soon_end = (datetime.now(timezone.utc) + timedelta(hours=1)).isoformat()   # tipped ~2h ago
+            later = (datetime.now(timezone.utc) + timedelta(hours=8)).isoformat()
+            return [_m("KXNBAGAME-26NOV22OKCMIA-MIA", "Miami wins", occurrence_datetime=soon_end),
+                    _m("KXNBAGAME-26NOV23PORPHI-PHI", "Philadelphia wins", occurrence_datetime=later)]
+    legs = fetch_legs(K(), series=("KXNBAGAME",))
+    assert [l.ticker for l in legs] == ["KXNBAGAME-26NOV23PORPHI-PHI"]
