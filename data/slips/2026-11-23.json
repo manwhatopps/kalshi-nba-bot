@@ -1,5 +1,5 @@
 {
- "made_at": "2026-11-23T23:21:28+00:00",
+ "made_at": "2026-11-23T23:27:42+00:00",
  "slate": "2026-11-23",
  "bankroll": 100.0,
  "hours": 14,
@@ -29,11 +29,13 @@
     "price_seen": 0.54,
     "limit": 0.56,
     "size_shown": 300.0,
+    "spread": 0.01,
     "stake": 5.0,
     "contracts": 8,
-    "cost": 4.62,
+    "cost": 4.46,
+    "avg_price": 0.54,
     "pays": 8.0,
-    "profit": 3.38,
+    "profit": 3.54,
     "band": "0.50-0.65",
     "record": {
      "bets": 197,
@@ -48,7 +50,8 @@
      "count": "8.00",
      "price": "0.4400",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 54c: 8 contracts for $4.46 fill now, 300 offered within the limit (place from tip-off, 7:00 pm ET)"
    },
    {
     "id": "C2",
@@ -69,11 +72,13 @@
     "price_seen": 0.76,
     "limit": 0.78,
     "size_shown": 45.0,
+    "spread": 0.03,
     "stake": 5.0,
     "contracts": 6,
-    "cost": 4.76,
+    "cost": 4.64,
+    "avg_price": 0.76,
     "pays": 6.0,
-    "profit": 1.24,
+    "profit": 1.36,
     "band": "0.65-0.80",
     "record": {
      "bets": 269,
@@ -88,7 +93,8 @@
      "count": "6.00",
      "price": "0.2200",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 76c: 6 contracts for $4.64 fill now, 45 offered within the limit (place from tip-off, 7:00 pm ET)"
    },
    {
     "id": "C3",
@@ -109,11 +115,13 @@
     "price_seen": 0.7,
     "limit": 0.72,
     "size_shown": 31.0,
+    "spread": 0.01,
     "stake": 5.0,
     "contracts": 6,
-    "cost": 4.41,
+    "cost": 4.29,
+    "avg_price": 0.7,
     "pays": 6.0,
-    "profit": 1.59,
+    "profit": 1.71,
     "band": "0.65-0.80",
     "record": {
      "bets": 269,
@@ -128,7 +136,8 @@
      "count": "6.00",
      "price": "0.2800",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 71c: 6 contracts for $4.35 fill now, 49 offered within the limit (place from tip-off, 7:00 pm ET)"
    },
    {
     "id": "C4",
@@ -149,11 +158,13 @@
     "price_seen": 0.78,
     "limit": 0.79,
     "size_shown": 30.0,
+    "spread": 0.02,
     "stake": 5.0,
     "contracts": 6,
-    "cost": 4.81,
+    "cost": 4.76,
+    "avg_price": 0.78,
     "pays": 6.0,
-    "profit": 1.19,
+    "profit": 1.24,
     "band": "0.65-0.80",
     "record": {
      "bets": 269,
@@ -168,7 +179,8 @@
      "count": "6.00",
      "price": "0.2100",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 78c: 6 contracts for $4.76 fill now, 30 offered within the limit (place from tip-off, 7:00 pm ET)"
    },
    {
     "id": "C5",
@@ -186,12 +198,14 @@
     "tipoff": "2026-11-24T00:00:00+00:00",
     "live": false,
     "when": "from tip-off (7:00 pm ET), if NO is still offered at 35-80c",
-    "price_seen": 0.79,
+    "price_seen": 0.78,
     "limit": 0.79,
-    "size_shown": 1.0,
+    "size_shown": 14.0,
+    "spread": 0.06,
     "stake": 5.0,
     "contracts": 6,
     "cost": 4.81,
+    "avg_price": 0.7883,
     "pays": 6.0,
     "profit": 1.19,
     "band": "0.65-0.80",
@@ -208,10 +222,54 @@
      "count": "6.00",
      "price": "0.2100",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "PRICE ROSE to 80c (limit 79c): outside the tested range, skip"
    },
    {
     "id": "C6",
+    "sleeve": "core",
+    "kind": "single",
+    "rule": "dd_under",
+    "status": "open",
+    "ticker": "KXNBA2D-26NOV23OKCIND-INDIZUBAC40",
+    "event_ticker": "KXNBA2D-26NOV23OKCIND",
+    "side": "no",
+    "action": "BUY NO",
+    "pick": "Ivica Zubac: NO double double",
+    "tap": "NO on \"Ivica Zubac: Double Double\"",
+    "matchup": "Oklahoma City vs Indiana",
+    "tipoff": "2026-11-24T00:30:00+00:00",
+    "live": false,
+    "when": "from tip-off (7:30 pm ET), if NO is still offered at 35-80c",
+    "price_seen": 0.75,
+    "limit": 0.77,
+    "size_shown": 312.0,
+    "spread": 0.04,
+    "stake": 5.0,
+    "contracts": 6,
+    "cost": 4.58,
+    "avg_price": 0.75,
+    "pays": 6.0,
+    "profit": 1.42,
+    "band": "0.65-0.80",
+    "record": {
+     "bets": 269,
+     "won": 0.8401486988847584,
+     "needs": 0.7465062379182157,
+     "ret": 0.12544096245958208
+    },
+    "url": "https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23okcind?op_market_ticker=KXNBA2D-26NOV23OKCIND-INDIZUBAC40",
+    "order": {
+     "ticker": "KXNBA2D-26NOV23OKCIND-INDIZUBAC40",
+     "side": "ask",
+     "count": "6.00",
+     "price": "0.2300",
+     "time_in_force": "immediate_or_cancel"
+    },
+    "check": "GOOD at 75c: 6 contracts for $4.58 fill now, 312 offered within the limit (place from tip-off, 7:30 pm ET)"
+   },
+   {
+    "id": "C7",
     "sleeve": "core",
     "kind": "single",
     "rule": "dd_under",
@@ -229,11 +287,13 @@
     "price_seen": 0.69,
     "limit": 0.71,
     "size_shown": 57.91,
+    "spread": 0.01,
     "stake": 5.0,
-    "contracts": 6,
-    "cost": 4.35,
-    "pays": 6.0,
-    "profit": 1.65,
+    "contracts": 7,
+    "cost": 4.94,
+    "avg_price": 0.69,
+    "pays": 7.0,
+    "profit": 2.06,
     "band": "0.65-0.80",
     "record": {
      "bets": 269,
@@ -245,13 +305,14 @@
     "order": {
      "ticker": "KXNBA2D-26NOV23BKNMIN-MINRGOBERT27",
      "side": "ask",
-     "count": "6.00",
+     "count": "7.00",
      "price": "0.2900",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 69c: 7 contracts for $4.94 fill now, 58 offered within the limit (place from tip-off, 7:30 pm ET)"
    },
    {
-    "id": "C7",
+    "id": "C8",
     "sleeve": "core",
     "kind": "single",
     "rule": "dd_under",
@@ -266,14 +327,16 @@
     "tipoff": "2026-11-24T00:30:00+00:00",
     "live": false,
     "when": "from tip-off (7:30 pm ET), if NO is still offered at 35-80c",
-    "price_seen": 0.68,
-    "limit": 0.7,
+    "price_seen": 0.67,
+    "limit": 0.69,
     "size_shown": 53.0,
+    "spread": 0.03,
     "stake": 5.0,
-    "contracts": 6,
-    "cost": 4.29,
-    "pays": 6.0,
-    "profit": 1.71,
+    "contracts": 7,
+    "cost": 4.8,
+    "avg_price": 0.67,
+    "pays": 7.0,
+    "profit": 2.2,
     "band": "0.65-0.80",
     "record": {
      "bets": 269,
@@ -285,50 +348,11 @@
     "order": {
      "ticker": "KXNBA2D-26NOV23OKCIND-OKCIHARTENSTEIN55",
      "side": "ask",
-     "count": "6.00",
-     "price": "0.3000",
+     "count": "7.00",
+     "price": "0.3100",
      "time_in_force": "immediate_or_cancel"
-    }
-   },
-   {
-    "id": "C8",
-    "sleeve": "core",
-    "kind": "single",
-    "rule": "dd_under",
-    "status": "open",
-    "ticker": "KXNBA2D-26NOV23OKCIND-INDIZUBAC40",
-    "event_ticker": "KXNBA2D-26NOV23OKCIND",
-    "side": "no",
-    "action": "BUY NO",
-    "pick": "Ivica Zubac: NO double double",
-    "tap": "NO on \"Ivica Zubac: Double Double\"",
-    "matchup": "Oklahoma City vs Indiana",
-    "tipoff": "2026-11-24T00:30:00+00:00",
-    "live": false,
-    "when": "from tip-off (7:30 pm ET), if NO is still offered at 35-80c",
-    "price_seen": 0.73,
-    "limit": 0.75,
-    "size_shown": 40.0,
-    "stake": 5.0,
-    "contracts": 6,
-    "cost": 4.58,
-    "pays": 6.0,
-    "profit": 1.42,
-    "band": "0.65-0.80",
-    "record": {
-     "bets": 269,
-     "won": 0.8401486988847584,
-     "needs": 0.7465062379182157,
-     "ret": 0.12544096245958208
     },
-    "url": "https://kalshi.com/markets/kxnba2d/m/kxnba2d-26nov23okcind?op_market_ticker=KXNBA2D-26NOV23OKCIND-INDIZUBAC40",
-    "order": {
-     "ticker": "KXNBA2D-26NOV23OKCIND-INDIZUBAC40",
-     "side": "ask",
-     "count": "6.00",
-     "price": "0.2500",
-     "time_in_force": "immediate_or_cancel"
-    }
+    "check": "GOOD at 65c: 7 contracts for $4.67 fill now, 53 offered within the limit (place from tip-off, 7:30 pm ET)"
    },
    {
     "id": "C9",
@@ -349,11 +373,13 @@
     "price_seen": 0.74,
     "limit": 0.76,
     "size_shown": 21.0,
+    "spread": 0.01,
     "stake": 5.0,
     "contracts": 6,
-    "cost": 4.64,
+    "cost": 4.53,
+    "avg_price": 0.74,
     "pays": 6.0,
-    "profit": 1.36,
+    "profit": 1.47,
     "band": "0.65-0.80",
     "record": {
      "bets": 269,
@@ -368,7 +394,8 @@
      "count": "6.00",
      "price": "0.2400",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 74c: 6 contracts for $4.53 fill now, 21 offered within the limit (place from tip-off, 7:30 pm ET)"
    },
    {
     "id": "C10",
@@ -389,11 +416,13 @@
     "price_seen": 0.58,
     "limit": 0.6,
     "size_shown": 89.0,
+    "spread": 0.02,
     "stake": 5.0,
     "contracts": 8,
-    "cost": 4.94,
+    "cost": 4.78,
+    "avg_price": 0.58,
     "pays": 8.0,
-    "profit": 3.06,
+    "profit": 3.22,
     "band": "0.50-0.65",
     "record": {
      "bets": 197,
@@ -408,7 +437,8 @@
      "count": "8.00",
      "price": "0.4000",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 58c: 8 contracts for $4.78 fill now, 89 offered within the limit (place from tip-off, 8:00 pm ET)"
    },
    {
     "id": "C11",
@@ -428,12 +458,14 @@
     "when": "from tip-off (8:00 pm ET), if NO is still offered at 35-80c",
     "price_seen": 0.78,
     "limit": 0.79,
-    "size_shown": 48.0,
+    "size_shown": 78.0,
+    "spread": 0.02,
     "stake": 5.0,
     "contracts": 6,
-    "cost": 4.81,
+    "cost": 4.76,
+    "avg_price": 0.78,
     "pays": 6.0,
-    "profit": 1.19,
+    "profit": 1.24,
     "band": "0.65-0.80",
     "record": {
      "bets": 269,
@@ -448,7 +480,8 @@
      "count": "6.00",
      "price": "0.2100",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 78c: 6 contracts for $4.76 fill now, 48 offered within the limit (place from tip-off, 8:00 pm ET)"
    },
    {
     "id": "C12",
@@ -469,11 +502,13 @@
     "price_seen": 0.58,
     "limit": 0.6,
     "size_shown": 16.0,
+    "spread": 0.04,
     "stake": 5.0,
     "contracts": 8,
-    "cost": 4.94,
+    "cost": 4.78,
+    "avg_price": 0.58,
     "pays": 8.0,
-    "profit": 3.06,
+    "profit": 3.22,
     "band": "0.50-0.65",
     "record": {
      "bets": 197,
@@ -488,7 +523,8 @@
      "count": "8.00",
      "price": "0.4000",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 57c: 8 contracts for $4.70 fill now, 16 offered within the limit (place from tip-off, 8:00 pm ET)"
    },
    {
     "id": "C13",
@@ -509,11 +545,13 @@
     "price_seen": 0.51,
     "limit": 0.53,
     "size_shown": 29.0,
+    "spread": 0.01,
     "stake": 5.0,
     "contracts": 9,
-    "cost": 4.93,
+    "cost": 4.75,
+    "avg_price": 0.51,
     "pays": 9.0,
-    "profit": 4.07,
+    "profit": 4.25,
     "band": "0.50-0.65",
     "record": {
      "bets": 197,
@@ -528,7 +566,8 @@
      "count": "9.00",
      "price": "0.4700",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 51c: 9 contracts for $4.83 fill now, 16 offered within the limit (place from tip-off, 8:30 pm ET)"
    },
    {
     "id": "C14",
@@ -549,11 +588,13 @@
     "price_seen": 0.73,
     "limit": 0.75,
     "size_shown": 78.0,
+    "spread": 0.02,
     "stake": 5.0,
     "contracts": 6,
-    "cost": 4.58,
+    "cost": 4.47,
+    "avg_price": 0.73,
     "pays": 6.0,
-    "profit": 1.42,
+    "profit": 1.53,
     "band": "0.65-0.80",
     "record": {
      "bets": 269,
@@ -568,7 +609,8 @@
      "count": "6.00",
      "price": "0.2500",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 73c: 6 contracts for $4.47 fill now, 78 offered within the limit (place from tip-off, 10:00 pm ET)"
    },
    {
     "id": "C15",
@@ -589,11 +631,13 @@
     "price_seen": 0.42,
     "limit": 0.44,
     "size_shown": 60.0,
+    "spread": 0.05,
     "stake": 5.0,
-    "contracts": 10,
-    "cost": 4.58,
-    "pays": 10.0,
-    "profit": 5.42,
+    "contracts": 11,
+    "cost": 4.81,
+    "avg_price": 0.42,
+    "pays": 11.0,
+    "profit": 6.19,
     "band": "0.35-0.50",
     "record": {
      "bets": 139,
@@ -605,10 +649,11 @@
     "order": {
      "ticker": "KXNBA2D-26NOV23SASSAC-SACDSABONIS11",
      "side": "ask",
-     "count": "10.00",
+     "count": "11.00",
      "price": "0.5600",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 42c: 11 contracts for $4.81 fill now, 90 offered within the limit (place from tip-off, 10:00 pm ET)"
    },
    {
     "id": "C16",
@@ -629,11 +674,13 @@
     "price_seen": 0.49,
     "limit": 0.51,
     "size_shown": 53.0,
+    "spread": 0.02,
     "stake": 5.0,
     "contracts": 9,
-    "cost": 4.75,
+    "cost": 4.57,
+    "avg_price": 0.49,
     "pays": 9.0,
-    "profit": 4.25,
+    "profit": 4.43,
     "band": "0.35-0.50",
     "record": {
      "bets": 139,
@@ -648,7 +695,8 @@
      "count": "9.00",
      "price": "0.4900",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 49c: 9 contracts for $4.57 fill now, 53 offered within the limit (place from tip-off, 10:00 pm ET)"
    },
    {
     "id": "C17",
@@ -669,9 +717,11 @@
     "price_seen": 0.79,
     "limit": 0.79,
     "size_shown": 21.0,
+    "spread": 0.02,
     "stake": 5.0,
     "contracts": 6,
     "cost": 4.81,
+    "avg_price": 0.79,
     "pays": 6.0,
     "profit": 1.19,
     "band": "0.65-0.80",
@@ -688,7 +738,8 @@
      "count": "6.00",
      "price": "0.2100",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 79c: 6 contracts for $4.81 fill now, 21 offered within the limit (place from tip-off, 10:00 pm ET)"
    },
    {
     "id": "C18",
@@ -709,11 +760,13 @@
     "price_seen": 0.71,
     "limit": 0.73,
     "size_shown": 16.0,
+    "spread": 0.03,
     "stake": 5.0,
     "contracts": 6,
-    "cost": 4.47,
+    "cost": 4.35,
+    "avg_price": 0.71,
     "pays": 6.0,
-    "profit": 1.53,
+    "profit": 1.65,
     "band": "0.65-0.80",
     "record": {
      "bets": 269,
@@ -728,7 +781,8 @@
      "count": "6.00",
      "price": "0.2700",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 71c: 6 contracts for $4.35 fill now, 16 offered within the limit (place from tip-off, 10:00 pm ET)"
    },
    {
     "id": "C19",
@@ -749,11 +803,13 @@
     "price_seen": 0.61,
     "limit": 0.63,
     "size_shown": 12.0,
+    "spread": 0.04,
     "stake": 5.0,
     "contracts": 7,
-    "cost": 4.53,
+    "cost": 4.39,
+    "avg_price": 0.61,
     "pays": 7.0,
-    "profit": 2.47,
+    "profit": 2.61,
     "band": "0.50-0.65",
     "record": {
      "bets": 197,
@@ -768,10 +824,11 @@
      "count": "7.00",
      "price": "0.3700",
      "time_in_force": "immediate_or_cancel"
-    }
+    },
+    "check": "GOOD at 61c: 7 contracts for $4.39 fill now, 12 offered within the limit (place from tip-off, 10:00 pm ET)"
    }
   ],
-  "waiting": 83,
+  "waiting": 84,
   "taken": 0,
   "note": ""
  },
@@ -784,39 +841,39 @@
    "stake": 10,
    "target": 1000,
    "need_x": 100.0,
-   "max_price": 0.01,
-   "fair_x": 125.20920811511776,
-   "p_hit": 0.008304969104747309,
-   "one_in": 120.40983986663808,
-   "exp_loss": 1.7,
-   "n_legs": 10,
-   "n_games": 5,
+   "max_price": 0.009352,
+   "fair_x": 125.43395160492595,
+   "p_hit": 0.00842154535455736,
+   "one_in": 118.74305224264394,
+   "exp_loss": 1.58,
+   "n_legs": 11,
+   "n_games": 6,
    "expires": "2026-11-24T00:00:00+00:00",
    "collection": "KXMVECROSSCATEGORY-R",
    "legs": [
     {
-     "ticker": "KXNBAAST-26NOV23MEMCHA-CHABMILLER24-4",
+     "ticker": "KXNBAAST-26NOV23MEMCHA-CHANREID0-4",
      "event_ticker": "KXNBAAST-26NOV23MEMCHA",
      "side": "no",
-     "title": "Brandon Miller: 4+ assists",
-     "pick": "Brandon Miller UNDER 4 assists",
-     "tap": "NO on \"Brandon Miller: 4+ assists\"",
+     "title": "Naz Reid: 4+ assists",
+     "pick": "Naz Reid UNDER 4 assists",
+     "tap": "NO on \"Naz Reid: 4+ assists\"",
      "matchup": "Memphis vs Charlotte",
      "game": "26NOV23MEMCHA",
      "tipoff": "2026-11-24T00:00:00+00:00",
-     "price": 0.57,
-     "mid": 0.565,
-     "p_hat": 0.5662,
+     "price": 0.71,
+     "mid": 0.705,
+     "p_hat": 0.7062,
      "chain_for": 3,
      "chain_against": 0,
      "why": [
-      "averaging 2.8 assists over his last 10; reached 4+ in 4 of them (40%); the price implies 43%",
+      "averaging 2.6 assists over his last 10; reached 4+ in 2 of them (20%); the price implies 29%",
       "role: role player. MEM has allowed that role 94% of its usual assists (stingy)",
       "MEM defense ranks 9 of 30; game pace slow (-1.8 possessions vs average); MEM: ball-movement offense; crashes the offensive glass; switch-style defense (few assists allowed); top offense",
       "MEM shots allowed: 27% at the rim, 9% mid-range, 41% threes",
       "MEM forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
      ],
-     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-CHABMILLER24-4"
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-CHANREID0-4"
     },
     {
      "ticker": "KXNBAAST-26NOV23MEMCHA-MEMTJEROME2-6",
@@ -843,28 +900,28 @@
      "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-MEMTJEROME2-6"
     },
     {
-     "ticker": "KXNBAAST-26NOV23MEMCHA-CHANREID0-4",
+     "ticker": "KXNBAAST-26NOV23MEMCHA-CHABMILLER24-4",
      "event_ticker": "KXNBAAST-26NOV23MEMCHA",
      "side": "no",
-     "title": "Naz Reid: 4+ assists",
-     "pick": "Naz Reid UNDER 4 assists",
-     "tap": "NO on \"Naz Reid: 4+ assists\"",
+     "title": "Brandon Miller: 4+ assists",
+     "pick": "Brandon Miller UNDER 4 assists",
+     "tap": "NO on \"Brandon Miller: 4+ assists\"",
      "matchup": "Memphis vs Charlotte",
      "game": "26NOV23MEMCHA",
      "tipoff": "2026-11-24T00:00:00+00:00",
-     "price": 0.71,
-     "mid": 0.705,
-     "p_hat": 0.7062,
+     "price": 0.57,
+     "mid": 0.565,
+     "p_hat": 0.5662,
      "chain_for": 3,
      "chain_against": 0,
      "why": [
-      "averaging 2.6 assists over his last 10; reached 4+ in 2 of them (20%); the price implies 29%",
+      "averaging 2.8 assists over his last 10; reached 4+ in 4 of them (40%); the price implies 43%",
       "role: role player. MEM has allowed that role 94% of its usual assists (stingy)",
       "MEM defense ranks 9 of 30; game pace slow (-1.8 possessions vs average); MEM: ball-movement offense; crashes the offensive glass; switch-style defense (few assists allowed); top offense",
       "MEM shots allowed: 27% at the rim, 9% mid-range, 41% threes",
       "MEM forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
      ],
-     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-CHANREID0-4"
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-CHABMILLER24-4"
     },
     {
      "ticker": "KXNBAPTS-26NOV23PORPHI-PHITMAXEY0-30",
@@ -890,30 +947,6 @@
      "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23porphi?op_market_ticker=KXNBAPTS-26NOV23PORPHI-PHITMAXEY0-30"
     },
     {
-     "ticker": "KXNBAAST-26NOV23PORPHI-PHIJBROWN7-4",
-     "event_ticker": "KXNBAAST-26NOV23PORPHI",
-     "side": "no",
-     "title": "Jaylen Brown: 4+ assists",
-     "pick": "Jaylen Brown UNDER 4 assists",
-     "tap": "NO on \"Jaylen Brown: 4+ assists\"",
-     "matchup": "Portland vs Philadelphia",
-     "game": "26NOV23PORPHI",
-     "tipoff": "2026-11-24T00:00:00+00:00",
-     "price": 0.57,
-     "mid": 0.565,
-     "p_hat": 0.5662,
-     "chain_for": 3,
-     "chain_against": 0,
-     "why": [
-      "averaging 3.1 assists over his last 10; reached 4+ in 5 of them (50%); the price implies 43%",
-      "role: primary scorer. POR has allowed that role 89% of its usual assists (stingy)",
-      "POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)",
-      "POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane",
-      "POR forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
-     ],
-     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23porphi?op_market_ticker=KXNBAAST-26NOV23PORPHI-PHIJBROWN7-4"
-    },
-    {
      "ticker": "KXNBAPRA-26NOV23PORPHI-PHILJAMES23-35",
      "event_ticker": "KXNBAPRA-26NOV23PORPHI",
      "side": "no",
@@ -937,51 +970,74 @@
      "url": "https://kalshi.com/markets/kxnbapra/m/kxnbapra-26nov23porphi?op_market_ticker=KXNBAPRA-26NOV23PORPHI-PHILJAMES23-35"
     },
     {
-     "ticker": "KXNBAREB-26NOV23BKNMIN-BKNDWOLF2-6",
-     "event_ticker": "KXNBAREB-26NOV23BKNMIN",
+     "ticker": "KXNBASTL-26NOV23BKNMIN-BKNMPORTER17-2",
+     "event_ticker": "KXNBASTL-26NOV23BKNMIN",
      "side": "no",
-     "title": "Danny Wolf: 6+ rebounds",
-     "pick": "Danny Wolf UNDER 6 rebounds",
-     "tap": "NO on \"Danny Wolf: 6+ rebounds\"",
+     "title": "Michael Porter Jr.: 2+ steals",
+     "pick": "Michael Porter Jr. UNDER 2 steals",
+     "tap": "NO on \"Michael Porter Jr.: 2+ steals\"",
      "matchup": "Brooklyn vs Minnesota",
      "game": "26NOV23BKNMIN",
      "tipoff": "2026-11-24T00:30:00+00:00",
-     "price": 0.57,
-     "mid": 0.565,
-     "p_hat": 0.5627,
+     "price": 0.68,
+     "mid": 0.675,
+     "p_hat": 0.6822,
      "chain_for": 3,
      "chain_against": 0,
      "why": [
-      "averaging 5.6 rebounds over his last 10; reached 6+ in 5 of them (50%); the price implies 43%",
-      "minutes down: 20 a game over the last 3 vs 23 over the last 10",
-      "role: role player. MIN has allowed that role 94% of its usual rebounds (stingy)",
+      "averaging 0.8 steals over his last 10; reached 2+ in 1 of them (10%); the price implies 32%",
+      "role: role player. MIN has allowed that role 96% of its usual steals (stingy)",
       "MIN defense ranks 1 of 30; MIN: isolation-heavy offense; defense runs shooters off the line; top defense",
       "MIN shots allowed: 33% at the rim, 8% mid-range, 40% threes; switch-style: forces isolation, few assisted looks"
      ],
-     "url": "https://kalshi.com/markets/kxnbareb/m/kxnbareb-26nov23bknmin?op_market_ticker=KXNBAREB-26NOV23BKNMIN-BKNDWOLF2-6"
+     "url": "https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov23bknmin?op_market_ticker=KXNBASTL-26NOV23BKNMIN-BKNMPORTER17-2"
     },
     {
-     "ticker": "KXNBAPTS-26NOV23OKCIND-OKCBSTIRTZ14-10",
-     "event_ticker": "KXNBAPTS-26NOV23OKCIND",
+     "ticker": "KXNBAAST-26NOV23MILTOR-MILNAMENT15-2",
+     "event_ticker": "KXNBAAST-26NOV23MILTOR",
      "side": "no",
-     "title": "Bennett Stirtz: 10+ points",
-     "pick": "Bennett Stirtz UNDER 10 points",
-     "tap": "NO on \"Bennett Stirtz: 10+ points\"",
+     "title": "Nate Ament: 2+ assists",
+     "pick": "Nate Ament UNDER 2 assists",
+     "tap": "NO on \"Nate Ament: 2+ assists\"",
+     "matchup": "Milwaukee vs Toronto",
+     "game": "26NOV23MILTOR",
+     "tipoff": "2026-11-24T00:30:00+00:00",
+     "price": 0.73,
+     "mid": 0.725,
+     "p_hat": 0.7262,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 0.6 assists over his last 10; reached 2+ in 0 of them (0%); the price implies 27%",
+      "role: role player. TOR has allowed that role 93% of its usual assists (stingy)",
+      "TOR defense ranks 18 of 30; TOR: defense fouls a lot; pressure defense (forces turnovers)",
+      "TOR shots allowed: 30% at the rim, 11% mid-range, 43% threes",
+      "TOR forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23miltor?op_market_ticker=KXNBAAST-26NOV23MILTOR-MILNAMENT15-2"
+    },
+    {
+     "ticker": "KXNBASTL-26NOV23OKCIND-OKCAMITCHELL25-2",
+     "event_ticker": "KXNBASTL-26NOV23OKCIND",
+     "side": "no",
+     "title": "Ajay Mitchell: 2+ steals",
+     "pick": "Ajay Mitchell UNDER 2 steals",
+     "tap": "NO on \"Ajay Mitchell: 2+ steals\"",
      "matchup": "Oklahoma City vs Indiana",
      "game": "26NOV23OKCIND",
      "tipoff": "2026-11-24T00:30:00+00:00",
-     "price": 0.54,
-     "mid": 0.525,
-     "p_hat": 0.5304,
-     "chain_for": 1,
+     "price": 0.65,
+     "mid": 0.645,
+     "p_hat": 0.6522,
+     "chain_for": 2,
      "chain_against": 0,
      "why": [
-      "averaging 9.6 points over his last 10; reached 10+ in 5 of them (50%); the price implies 46%",
-      "role: spot-up shooter. IND has allowed that role 95% of its usual points (stingy)",
+      "averaging 0.9 steals over his last 10; reached 2+ in 2 of them (20%); the price implies 35%",
+      "role: playmaking guard. IND has allowed that role 90% of its usual steals (stingy)",
       "IND defense ranks 20 of 30",
       "IND shots allowed: 25% at the rim, 12% mid-range, 45% threes; keeps drivers out of the lane"
      ],
-     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23okcind?op_market_ticker=KXNBAPTS-26NOV23OKCIND-OKCBSTIRTZ14-10"
+     "url": "https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov23okcind?op_market_ticker=KXNBASTL-26NOV23OKCIND-OKCAMITCHELL25-2"
     },
     {
      "ticker": "KXNBASTL-26NOV23LACHOU-HOUASENGUN28-2",
@@ -1029,13 +1085,36 @@
       "HOU shots allowed: 27% at the rim, 11% mid-range, 44% threes; leaves shooters open"
      ],
      "url": "https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov23lachou?op_market_ticker=KXNBASTL-26NOV23LACHOU-LACDGARLAND10-2"
+    },
+    {
+     "ticker": "KXNBABLK-26NOV23LACHOU-HOUATHOMPSON1-1",
+     "event_ticker": "KXNBABLK-26NOV23LACHOU",
+     "side": "no",
+     "title": "Amen Thompson: 1+ blocks",
+     "pick": "Amen Thompson UNDER 1 blocks",
+     "tap": "NO on \"Amen Thompson: 1+ blocks\"",
+     "matchup": "Los Angeles C vs Houston",
+     "game": "26NOV23LACHOU",
+     "tipoff": "2026-11-24T01:30:00+00:00",
+     "price": 0.54,
+     "mid": 0.53,
+     "p_hat": 0.5303,
+     "chain_for": 2,
+     "chain_against": 1,
+     "why": [
+      "averaging 0.9 blocks over his last 10; reached 1+ in 5 of them (50%); the price implies 46%",
+      "role: versatile big / forward. LAC has allowed that role 83% of its usual blocks (stingy)",
+      "LAC defense ranks 24 of 30; game pace slow (-1.3 possessions vs average)",
+      "LAC shots allowed: 29% at the rim, 10% mid-range, 41% threes; runs shooters off the line"
+     ],
+     "url": "https://kalshi.com/markets/kxnbablk/m/kxnbablk-26nov23lachou?op_market_ticker=KXNBABLK-26NOV23LACHOU-HOUATHOMPSON1-1"
     }
    ],
    "problems": [],
    "payload": {
     "selected_markets": [
      {
-      "market_ticker": "KXNBAAST-26NOV23MEMCHA-CHABMILLER24-4",
+      "market_ticker": "KXNBAAST-26NOV23MEMCHA-CHANREID0-4",
       "event_ticker": "KXNBAAST-26NOV23MEMCHA",
       "side": "no"
      },
@@ -1045,7 +1124,7 @@
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAAST-26NOV23MEMCHA-CHANREID0-4",
+      "market_ticker": "KXNBAAST-26NOV23MEMCHA-CHABMILLER24-4",
       "event_ticker": "KXNBAAST-26NOV23MEMCHA",
       "side": "no"
      },
@@ -1055,23 +1134,23 @@
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAAST-26NOV23PORPHI-PHIJBROWN7-4",
-      "event_ticker": "KXNBAAST-26NOV23PORPHI",
-      "side": "no"
-     },
-     {
       "market_ticker": "KXNBAPRA-26NOV23PORPHI-PHILJAMES23-35",
       "event_ticker": "KXNBAPRA-26NOV23PORPHI",
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAREB-26NOV23BKNMIN-BKNDWOLF2-6",
-      "event_ticker": "KXNBAREB-26NOV23BKNMIN",
+      "market_ticker": "KXNBASTL-26NOV23BKNMIN-BKNMPORTER17-2",
+      "event_ticker": "KXNBASTL-26NOV23BKNMIN",
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAPTS-26NOV23OKCIND-OKCBSTIRTZ14-10",
-      "event_ticker": "KXNBAPTS-26NOV23OKCIND",
+      "market_ticker": "KXNBAAST-26NOV23MILTOR-MILNAMENT15-2",
+      "event_ticker": "KXNBAAST-26NOV23MILTOR",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBASTL-26NOV23OKCIND-OKCAMITCHELL25-2",
+      "event_ticker": "KXNBASTL-26NOV23OKCIND",
       "side": "no"
      },
      {
@@ -1083,9 +1162,15 @@
       "market_ticker": "KXNBASTL-26NOV23LACHOU-LACDGARLAND10-2",
       "event_ticker": "KXNBASTL-26NOV23LACHOU",
       "side": "no"
+     },
+     {
+      "market_ticker": "KXNBABLK-26NOV23LACHOU-HOUATHOMPSON1-1",
+      "event_ticker": "KXNBABLK-26NOV23LACHOU",
+      "side": "no"
      }
     ]
-   }
+   },
+   "check": "GOOD: legs now worth 127x (were 125x). Still place only at $1,000 or more for $10; a quote at the walk-away line is 79% of fair value."
   },
   {
    "id": "T2",
@@ -1095,13 +1180,13 @@
    "stake": 5,
    "target": 1000,
    "need_x": 200.0,
-   "max_price": 0.005,
-   "fair_x": 271.737157135141,
-   "p_hit": 0.003962210074020837,
-   "one_in": 252.38439691947062,
-   "exp_loss": 1.04,
-   "n_legs": 12,
-   "n_games": 5,
+   "max_price": 0.004674,
+   "fair_x": 268.7160270461115,
+   "p_hit": 0.003965761495684955,
+   "one_in": 252.15838145790534,
+   "exp_loss": 1.03,
+   "n_legs": 11,
+   "n_games": 6,
    "expires": "2026-11-24T00:00:00+00:00",
    "collection": "KXMVECROSSCATEGORY-R",
    "legs": [
@@ -1152,6 +1237,30 @@
      "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23memcha?op_market_ticker=KXNBAPTS-26NOV23MEMCHA-MEMZEDEY14-10"
     },
     {
+     "ticker": "KXNBAAST-26NOV23PORPHI-PHIJBROWN7-4",
+     "event_ticker": "KXNBAAST-26NOV23PORPHI",
+     "side": "no",
+     "title": "Jaylen Brown: 4+ assists",
+     "pick": "Jaylen Brown UNDER 4 assists",
+     "tap": "NO on \"Jaylen Brown: 4+ assists\"",
+     "matchup": "Portland vs Philadelphia",
+     "game": "26NOV23PORPHI",
+     "tipoff": "2026-11-24T00:00:00+00:00",
+     "price": 0.57,
+     "mid": 0.56,
+     "p_hat": 0.5612,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 3.1 assists over his last 10; reached 4+ in 5 of them (50%); the price implies 43%",
+      "role: primary scorer. POR has allowed that role 89% of its usual assists (stingy)",
+      "POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)",
+      "POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane",
+      "POR forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23porphi?op_market_ticker=KXNBAAST-26NOV23PORPHI-PHIJBROWN7-4"
+    },
+    {
      "ticker": "KXNBAPTS-26NOV23PORPHI-PHIVEDGECOMBE77-15",
      "event_ticker": "KXNBAPTS-26NOV23PORPHI",
      "side": "no",
@@ -1173,30 +1282,6 @@
       "POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane"
      ],
      "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23porphi?op_market_ticker=KXNBAPTS-26NOV23PORPHI-PHIVEDGECOMBE77-15"
-    },
-    {
-     "ticker": "KXNBAAST-26NOV23PORPHI-PHILJAMES23-8",
-     "event_ticker": "KXNBAAST-26NOV23PORPHI",
-     "side": "no",
-     "title": "LeBron James: 8+ assists",
-     "pick": "LeBron James UNDER 8 assists",
-     "tap": "NO on \"LeBron James: 8+ assists\"",
-     "matchup": "Portland vs Philadelphia",
-     "game": "26NOV23PORPHI",
-     "tipoff": "2026-11-24T00:00:00+00:00",
-     "price": 0.62,
-     "mid": 0.615,
-     "p_hat": 0.6162,
-     "chain_for": 3,
-     "chain_against": 1,
-     "why": [
-      "averaging 7.1 assists over his last 10; reached 8+ in 5 of them (50%); the price implies 38%",
-      "role: playmaking guard. POR has allowed that role 89% of its usual assists (stingy)",
-      "POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)",
-      "POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane",
-      "POR forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
-     ],
-     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23porphi?op_market_ticker=KXNBAAST-26NOV23PORPHI-PHILJAMES23-8"
     },
     {
      "ticker": "KXNBAAST-26NOV23MILTOR-MILJJAQUEZ24-4",
@@ -1223,51 +1308,27 @@
      "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23miltor?op_market_ticker=KXNBAAST-26NOV23MILTOR-MILJJAQUEZ24-4"
     },
     {
-     "ticker": "KXNBAAST-26NOV23MILTOR-MILNAMENT15-2",
-     "event_ticker": "KXNBAAST-26NOV23MILTOR",
+     "ticker": "KXNBAPTS-26NOV23OKCIND-OKCIHARTENSTEIN55-10",
+     "event_ticker": "KXNBAPTS-26NOV23OKCIND",
      "side": "no",
-     "title": "Nate Ament: 2+ assists",
-     "pick": "Nate Ament UNDER 2 assists",
-     "tap": "NO on \"Nate Ament: 2+ assists\"",
-     "matchup": "Milwaukee vs Toronto",
-     "game": "26NOV23MILTOR",
-     "tipoff": "2026-11-24T00:30:00+00:00",
-     "price": 0.72,
-     "mid": 0.705,
-     "p_hat": 0.7062,
-     "chain_for": 3,
-     "chain_against": 0,
-     "why": [
-      "averaging 0.6 assists over his last 10; reached 2+ in 0 of them (0%); the price implies 28%",
-      "role: role player. TOR has allowed that role 93% of its usual assists (stingy)",
-      "TOR defense ranks 18 of 30; TOR: defense fouls a lot; pressure defense (forces turnovers)",
-      "TOR shots allowed: 30% at the rim, 11% mid-range, 43% threes",
-      "TOR forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
-     ],
-     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23miltor?op_market_ticker=KXNBAAST-26NOV23MILTOR-MILNAMENT15-2"
-    },
-    {
-     "ticker": "KXNBASTL-26NOV23OKCIND-OKCAMITCHELL25-2",
-     "event_ticker": "KXNBASTL-26NOV23OKCIND",
-     "side": "no",
-     "title": "Ajay Mitchell: 2+ steals",
-     "pick": "Ajay Mitchell UNDER 2 steals",
-     "tap": "NO on \"Ajay Mitchell: 2+ steals\"",
+     "title": "Isaiah Hartenstein: 10+ points",
+     "pick": "Isaiah Hartenstein UNDER 10 points",
+     "tap": "NO on \"Isaiah Hartenstein: 10+ points\"",
      "matchup": "Oklahoma City vs Indiana",
      "game": "26NOV23OKCIND",
      "tipoff": "2026-11-24T00:30:00+00:00",
-     "price": 0.65,
-     "mid": 0.645,
-     "p_hat": 0.6522,
+     "price": 0.54,
+     "mid": 0.535,
+     "p_hat": 0.5404,
      "chain_for": 2,
      "chain_against": 0,
      "why": [
-      "averaging 0.9 steals over his last 10; reached 2+ in 2 of them (20%); the price implies 35%",
-      "role: playmaking guard. IND has allowed that role 90% of its usual steals (stingy)",
+      "averaging 7.4 points over his last 10; reached 10+ in 2 of them (20%); the price implies 46%",
+      "role: versatile big / forward. IND has allowed that role 97% of its usual points (stingy)",
       "IND defense ranks 20 of 30",
       "IND shots allowed: 25% at the rim, 12% mid-range, 45% threes; keeps drivers out of the lane"
      ],
-     "url": "https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov23okcind?op_market_ticker=KXNBASTL-26NOV23OKCIND-OKCAMITCHELL25-2"
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23okcind?op_market_ticker=KXNBAPTS-26NOV23OKCIND-OKCIHARTENSTEIN55-10"
     },
     {
      "ticker": "KXNBAPTS-26NOV23OKCIND-INDPSIAKAM43-25",
@@ -1291,29 +1352,6 @@
       "OKC shots allowed: 25% at the rim, 11% mid-range, 49% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
      ],
      "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23okcind?op_market_ticker=KXNBAPTS-26NOV23OKCIND-INDPSIAKAM43-25"
-    },
-    {
-     "ticker": "KXNBAPTS-26NOV23OKCIND-OKCIHARTENSTEIN55-10",
-     "event_ticker": "KXNBAPTS-26NOV23OKCIND",
-     "side": "no",
-     "title": "Isaiah Hartenstein: 10+ points",
-     "pick": "Isaiah Hartenstein UNDER 10 points",
-     "tap": "NO on \"Isaiah Hartenstein: 10+ points\"",
-     "matchup": "Oklahoma City vs Indiana",
-     "game": "26NOV23OKCIND",
-     "tipoff": "2026-11-24T00:30:00+00:00",
-     "price": 0.54,
-     "mid": 0.535,
-     "p_hat": 0.5404,
-     "chain_for": 2,
-     "chain_against": 0,
-     "why": [
-      "averaging 7.4 points over his last 10; reached 10+ in 2 of them (20%); the price implies 46%",
-      "role: versatile big / forward. IND has allowed that role 97% of its usual points (stingy)",
-      "IND defense ranks 20 of 30",
-      "IND shots allowed: 25% at the rim, 12% mid-range, 45% threes; keeps drivers out of the lane"
-     ],
-     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23okcind?op_market_ticker=KXNBAPTS-26NOV23OKCIND-OKCIHARTENSTEIN55-10"
     },
     {
      "ticker": "KXNBA2D-26NOV23LACHOU-HOUASENGUN28",
@@ -1385,6 +1423,30 @@
       "HOU shots allowed: 27% at the rim, 11% mid-range, 44% threes; leaves shooters open"
      ],
      "url": "https://kalshi.com/markets/kxnbareb/m/kxnbareb-26nov23lachou?op_market_ticker=KXNBAREB-26NOV23LACHOU-LACMSTRUSSF-6"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV23SASSAC-SACKMURRAY13-2",
+     "event_ticker": "KXNBAAST-26NOV23SASSAC",
+     "side": "no",
+     "title": "Keegan Murray: 2+ assists",
+     "pick": "Keegan Murray UNDER 2 assists",
+     "tap": "NO on \"Keegan Murray: 2+ assists\"",
+     "matchup": "San Antonio vs Sacramento",
+     "game": "26NOV23SASSAC",
+     "tipoff": "2026-11-24T03:00:00+00:00",
+     "price": 0.51,
+     "mid": 0.505,
+     "p_hat": 0.5062,
+     "chain_for": 3,
+     "chain_against": 1,
+     "why": [
+      "averaging 1.5 assists over his last 10; reached 2+ in 4 of them (40%); the price implies 49%",
+      "minutes up: 37 a game over the last 3 vs 28 over the last 10",
+      "role: role player. SAN has allowed that role 91% of its usual assists (stingy)",
+      "SAN defense ranks 3 of 30; SAN: defense runs shooters off the line; defense avoids fouls; cleans the defensive glass; rim protection (blocks); top defense; top offense",
+      "SAN shots allowed: 26% at the rim, 14% mid-range, 38% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23sassac?op_market_ticker=KXNBAAST-26NOV23SASSAC-SACKMURRAY13-2"
     }
    ],
    "problems": [],
@@ -1401,13 +1463,13 @@
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAPTS-26NOV23PORPHI-PHIVEDGECOMBE77-15",
-      "event_ticker": "KXNBAPTS-26NOV23PORPHI",
+      "market_ticker": "KXNBAAST-26NOV23PORPHI-PHIJBROWN7-4",
+      "event_ticker": "KXNBAAST-26NOV23PORPHI",
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAAST-26NOV23PORPHI-PHILJAMES23-8",
-      "event_ticker": "KXNBAAST-26NOV23PORPHI",
+      "market_ticker": "KXNBAPTS-26NOV23PORPHI-PHIVEDGECOMBE77-15",
+      "event_ticker": "KXNBAPTS-26NOV23PORPHI",
       "side": "no"
      },
      {
@@ -1416,22 +1478,12 @@
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAAST-26NOV23MILTOR-MILNAMENT15-2",
-      "event_ticker": "KXNBAAST-26NOV23MILTOR",
-      "side": "no"
-     },
-     {
-      "market_ticker": "KXNBASTL-26NOV23OKCIND-OKCAMITCHELL25-2",
-      "event_ticker": "KXNBASTL-26NOV23OKCIND",
-      "side": "no"
-     },
-     {
-      "market_ticker": "KXNBAPTS-26NOV23OKCIND-INDPSIAKAM43-25",
+      "market_ticker": "KXNBAPTS-26NOV23OKCIND-OKCIHARTENSTEIN55-10",
       "event_ticker": "KXNBAPTS-26NOV23OKCIND",
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAPTS-26NOV23OKCIND-OKCIHARTENSTEIN55-10",
+      "market_ticker": "KXNBAPTS-26NOV23OKCIND-INDPSIAKAM43-25",
       "event_ticker": "KXNBAPTS-26NOV23OKCIND",
       "side": "no"
      },
@@ -1449,9 +1501,15 @@
       "market_ticker": "KXNBAREB-26NOV23LACHOU-LACMSTRUSSF-6",
       "event_ticker": "KXNBAREB-26NOV23LACHOU",
       "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAAST-26NOV23SASSAC-SACKMURRAY13-2",
+      "event_ticker": "KXNBAAST-26NOV23SASSAC",
+      "side": "no"
      }
     ]
-   }
+   },
+   "check": "GOOD: legs now worth 270x (were 269x). Still place only at $1,000 or more for $5; a quote at the walk-away line is 74% of fair value."
   },
   {
    "id": "T3",
@@ -1461,13 +1519,13 @@
    "stake": 5,
    "target": 5000,
    "need_x": 1000.0,
-   "max_price": 0.001,
-   "fair_x": 1262.1455739777418,
-   "p_hit": 0.0008180123435254702,
-   "one_in": 1222.4754405174367,
-   "exp_loss": 0.91,
-   "n_legs": 13,
-   "n_games": 8,
+   "max_price": 0.000935,
+   "fair_x": 1260.1278199169358,
+   "p_hit": 0.0008093110390212774,
+   "one_in": 1235.618880485466,
+   "exp_loss": 0.95,
+   "n_legs": 15,
+   "n_games": 6,
    "expires": "2026-11-24T00:00:00+00:00",
    "collection": "KXMVECROSSCATEGORY-R",
    "legs": [
@@ -1495,99 +1553,97 @@
      "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23memcha?op_market_ticker=KXNBAPTS-26NOV23MEMCHA-MEMJWELLS0-10"
     },
     {
-     "ticker": "KXNBAAST-26NOV23MEMCHA-CHARONEALE00-2",
-     "event_ticker": "KXNBAAST-26NOV23MEMCHA",
+     "ticker": "KXNBA3PT-26NOV23MEMCHA-CHARONEALE00-3",
+     "event_ticker": "KXNBA3PT-26NOV23MEMCHA",
      "side": "no",
-     "title": "Royce O'Neale: 2+ assists",
-     "pick": "Royce O'Neale UNDER 2 assists",
-     "tap": "NO on \"Royce O'Neale: 2+ assists\"",
+     "title": "Royce O'Neale: 3+ threes",
+     "pick": "Royce O'Neale UNDER 3 threes",
+     "tap": "NO on \"Royce O'Neale: 3+ threes\"",
      "matchup": "Memphis vs Charlotte",
      "game": "26NOV23MEMCHA",
      "tipoff": "2026-11-24T00:00:00+00:00",
-     "price": 0.52,
-     "mid": 0.515,
-     "p_hat": 0.5162,
-     "chain_for": 3,
-     "chain_against": 1,
-     "why": [
-      "averaging 0.9 assists over his last 10; reached 2+ in 2 of them (20%); the price implies 48%",
-      "role: spot-up shooter. MEM has allowed that role 103% of its usual assists (generous)",
-      "MEM defense ranks 9 of 30; game pace slow (-1.8 possessions vs average); MEM: ball-movement offense; crashes the offensive glass; switch-style defense (few assists allowed); top offense",
-      "MEM shots allowed: 27% at the rim, 9% mid-range, 41% threes",
-      "MEM forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
-     ],
-     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-CHARONEALE00-2"
-    },
-    {
-     "ticker": "KXNBAAST-26NOV23MEMCHA-MEMCCOWARD23-4",
-     "event_ticker": "KXNBAAST-26NOV23MEMCHA",
-     "side": "no",
-     "title": "Cedric Coward: 4+ assists",
-     "pick": "Cedric Coward UNDER 4 assists",
-     "tap": "NO on \"Cedric Coward: 4+ assists\"",
-     "matchup": "Memphis vs Charlotte",
-     "game": "26NOV23MEMCHA",
-     "tipoff": "2026-11-24T00:00:00+00:00",
-     "price": 0.62,
-     "mid": 0.615,
-     "p_hat": 0.6162,
-     "chain_for": 3,
-     "chain_against": 1,
-     "why": [
-      "averaging 3.9 assists over his last 10; reached 4+ in 8 of them (80%); the price implies 38%",
-      "role: role player. CHA has allowed that role 90% of its usual assists (stingy)",
-      "CHA defense ranks 19 of 30; game pace slow (-1.8 possessions vs average); CHA: plays slow; three-point heavy offense; crashes the offensive glass; cleans the defensive glass; weak offense",
-      "CHA shots allowed: 27% at the rim, 10% mid-range, 44% threes",
-      "CHA forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
-     ],
-     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23memcha?op_market_ticker=KXNBAAST-26NOV23MEMCHA-MEMCCOWARD23-4"
-    },
-    {
-     "ticker": "KXNBAAST-26NOV23PORPHI-PHIASIMONS5-2",
-     "event_ticker": "KXNBAAST-26NOV23PORPHI",
-     "side": "no",
-     "title": "Anfernee Simons: 2+ assists",
-     "pick": "Anfernee Simons UNDER 2 assists",
-     "tap": "NO on \"Anfernee Simons: 2+ assists\"",
-     "matchup": "Portland vs Philadelphia",
-     "game": "26NOV23PORPHI",
-     "tipoff": "2026-11-24T00:00:00+00:00",
-     "price": 0.59,
-     "mid": 0.585,
-     "p_hat": 0.5862,
-     "chain_for": 3,
-     "chain_against": 1,
-     "why": [
-      "averaging 1.2 assists over his last 10; reached 2+ in 5 of them (50%); the price implies 41%",
-      "minutes up: 30 a game over the last 3 vs 21 over the last 10",
-      "role: spot-up shooter. POR has allowed that role 91% of its usual assists (stingy)",
-      "POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)",
-      "POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane"
-     ],
-     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23porphi?op_market_ticker=KXNBAAST-26NOV23PORPHI-PHIASIMONS5-2"
-    },
-    {
-     "ticker": "KXNBA3PT-26NOV23PORPHI-PHITMAXEY0-3",
-     "event_ticker": "KXNBA3PT-26NOV23PORPHI",
-     "side": "no",
-     "title": "Tyrese Maxey: 3+ threes",
-     "pick": "Tyrese Maxey UNDER 3 threes",
-     "tap": "NO on \"Tyrese Maxey: 3+ threes\"",
-     "matchup": "Portland vs Philadelphia",
-     "game": "26NOV23PORPHI",
-     "tipoff": "2026-11-24T00:00:00+00:00",
-     "price": 0.5,
-     "mid": 0.495,
-     "p_hat": 0.4933,
+     "price": 0.67,
+     "mid": 0.665,
+     "p_hat": 0.6633,
      "chain_for": 2,
      "chain_against": 0,
      "why": [
-      "averaging 2.6 threes over his last 10; reached 3+ in 6 of them (60%); the price implies 50%",
-      "role: primary scorer. POR has allowed that role 90% of its usual threes (stingy)",
-      "POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)",
-      "POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane"
+      "averaging 1.7 threes over his last 10; reached 3+ in 2 of them (20%); the price implies 33%",
+      "role: spot-up shooter. MEM has allowed that role 102% of its usual threes (average)",
+      "MEM defense ranks 9 of 30; game pace slow (-1.8 possessions vs average); MEM: ball-movement offense; crashes the offensive glass; switch-style defense (few assists allowed); top offense",
+      "MEM shots allowed: 27% at the rim, 9% mid-range, 41% threes"
      ],
-     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov23porphi?op_market_ticker=KXNBA3PT-26NOV23PORPHI-PHITMAXEY0-3"
+     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov23memcha?op_market_ticker=KXNBA3PT-26NOV23MEMCHA-CHARONEALE00-3"
+    },
+    {
+     "ticker": "KXNBAREB-26NOV23MEMCHA-MEMTJEROME2-4",
+     "event_ticker": "KXNBAREB-26NOV23MEMCHA",
+     "side": "no",
+     "title": "Ty Jerome: 4+ rebounds",
+     "pick": "Ty Jerome UNDER 4 rebounds",
+     "tap": "NO on \"Ty Jerome: 4+ rebounds\"",
+     "matchup": "Memphis vs Charlotte",
+     "game": "26NOV23MEMCHA",
+     "tipoff": "2026-11-24T00:00:00+00:00",
+     "price": 0.6,
+     "mid": 0.595,
+     "p_hat": 0.5927,
+     "chain_for": 2,
+     "chain_against": 0,
+     "why": [
+      "averaging 3.2 rebounds over his last 10; reached 4+ in 5 of them (50%); the price implies 40%",
+      "role: primary scorer. CHA has allowed that role 93% of its usual rebounds (stingy)",
+      "CHA defense ranks 19 of 30; game pace slow (-1.8 possessions vs average); CHA: plays slow; three-point heavy offense; crashes the offensive glass; cleans the defensive glass; weak offense",
+      "CHA shots allowed: 27% at the rim, 10% mid-range, 44% threes"
+     ],
+     "url": "https://kalshi.com/markets/kxnbareb/m/kxnbareb-26nov23memcha?op_market_ticker=KXNBAREB-26NOV23MEMCHA-MEMTJEROME2-4"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV23PORPHI-PHITMAXEY0-6",
+     "event_ticker": "KXNBAAST-26NOV23PORPHI",
+     "side": "no",
+     "title": "Tyrese Maxey: 6+ assists",
+     "pick": "Tyrese Maxey UNDER 6 assists",
+     "tap": "NO on \"Tyrese Maxey: 6+ assists\"",
+     "matchup": "Portland vs Philadelphia",
+     "game": "26NOV23PORPHI",
+     "tipoff": "2026-11-24T00:00:00+00:00",
+     "price": 0.58,
+     "mid": 0.575,
+     "p_hat": 0.5762,
+     "chain_for": 3,
+     "chain_against": 1,
+     "why": [
+      "averaging 6.4 assists over his last 10; reached 6+ in 6 of them (60%); the price implies 42%",
+      "role: primary scorer. POR has allowed that role 89% of its usual assists (stingy)",
+      "POR defense ranks 7 of 30; POR: three-point heavy offense; gets to the line; defense fouls a lot; switch-style defense (few assists allowed)",
+      "POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane",
+      "POR forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23porphi?op_market_ticker=KXNBAAST-26NOV23PORPHI-PHITMAXEY0-6"
+    },
+    {
+     "ticker": "KXNBA3PT-26NOV23PORPHI-PORTCAMARA33-3",
+     "event_ticker": "KXNBA3PT-26NOV23PORPHI",
+     "side": "no",
+     "title": "Toumani Camara: 3+ threes",
+     "pick": "Toumani Camara UNDER 3 threes",
+     "tap": "NO on \"Toumani Camara: 3+ threes\"",
+     "matchup": "Portland vs Philadelphia",
+     "game": "26NOV23PORPHI",
+     "tipoff": "2026-11-24T00:00:00+00:00",
+     "price": 0.56,
+     "mid": 0.555,
+     "p_hat": 0.5533,
+     "chain_for": 2,
+     "chain_against": 0,
+     "why": [
+      "averaging 1.8 threes over his last 10; reached 3+ in 2 of them (20%); the price implies 44%",
+      "role: spot-up shooter. PHI has allowed that role 91% of its usual threes (stingy)",
+      "PHI defense ranks 11 of 30; PHI: cleans the defensive glass",
+      "PHI shots allowed: 34% at the rim, 9% mid-range, 42% threes; gives up the rim"
+     ],
+     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov23porphi?op_market_ticker=KXNBA3PT-26NOV23PORPHI-PORTCAMARA33-3"
     },
     {
      "ticker": "KXNBA3PT-26NOV23PORPHI-PHILJAMES23-2",
@@ -1611,6 +1667,76 @@
       "POR shots allowed: 23% at the rim, 12% mid-range, 41% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line; keeps drivers out of the lane"
      ],
      "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov23porphi?op_market_ticker=KXNBA3PT-26NOV23PORPHI-PHILJAMES23-2"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV23BKNMIN-BKNJRANDLE30-6",
+     "event_ticker": "KXNBAAST-26NOV23BKNMIN",
+     "side": "no",
+     "title": "Julius Randle: 6+ assists",
+     "pick": "Julius Randle UNDER 6 assists",
+     "tap": "NO on \"Julius Randle: 6+ assists\"",
+     "matchup": "Brooklyn vs Minnesota",
+     "game": "26NOV23BKNMIN",
+     "tipoff": "2026-11-24T00:30:00+00:00",
+     "price": 0.7,
+     "mid": 0.695,
+     "p_hat": 0.6962,
+     "chain_for": 2,
+     "chain_against": 0,
+     "why": [
+      "averaging 4.5 assists over his last 10; reached 6+ in 3 of them (30%); the price implies 30%",
+      "role: primary scorer. MIN has allowed that role 99% of its usual assists (average)",
+      "MIN defense ranks 1 of 30; MIN: isolation-heavy offense; defense runs shooters off the line; top defense",
+      "MIN shots allowed: 33% at the rim, 8% mid-range, 40% threes; switch-style: forces isolation, few assisted looks",
+      "MIN forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23bknmin?op_market_ticker=KXNBAAST-26NOV23BKNMIN-BKNJRANDLE30-6"
+    },
+    {
+     "ticker": "KXNBAREB-26NOV23BKNMIN-BKNMPORTER17-8",
+     "event_ticker": "KXNBAREB-26NOV23BKNMIN",
+     "side": "no",
+     "title": "Michael Porter Jr.: 8+ rebounds",
+     "pick": "Michael Porter Jr. UNDER 8 rebounds",
+     "tap": "NO on \"Michael Porter Jr.: 8+ rebounds\"",
+     "matchup": "Brooklyn vs Minnesota",
+     "game": "26NOV23BKNMIN",
+     "tipoff": "2026-11-24T00:30:00+00:00",
+     "price": 0.66,
+     "mid": 0.655,
+     "p_hat": 0.6527,
+     "chain_for": 2,
+     "chain_against": 0,
+     "why": [
+      "averaging 6.8 rebounds over his last 10; reached 8+ in 4 of them (40%); the price implies 34%",
+      "role: role player. MIN has allowed that role 94% of its usual rebounds (stingy)",
+      "MIN defense ranks 1 of 30; MIN: isolation-heavy offense; defense runs shooters off the line; top defense",
+      "MIN shots allowed: 33% at the rim, 8% mid-range, 40% threes; switch-style: forces isolation, few assisted looks"
+     ],
+     "url": "https://kalshi.com/markets/kxnbareb/m/kxnbareb-26nov23bknmin?op_market_ticker=KXNBAREB-26NOV23BKNMIN-BKNMPORTER17-8"
+    },
+    {
+     "ticker": "KXNBAREB-26NOV23BKNMIN-BKNDSHARPE20-8",
+     "event_ticker": "KXNBAREB-26NOV23BKNMIN",
+     "side": "no",
+     "title": "Day'Ron Sharpe: 8+ rebounds",
+     "pick": "Day'Ron Sharpe UNDER 8 rebounds",
+     "tap": "NO on \"Day'Ron Sharpe: 8+ rebounds\"",
+     "matchup": "Brooklyn vs Minnesota",
+     "game": "26NOV23BKNMIN",
+     "tipoff": "2026-11-24T00:30:00+00:00",
+     "price": 0.52,
+     "mid": 0.51,
+     "p_hat": 0.5077,
+     "chain_for": 1,
+     "chain_against": 0,
+     "why": [
+      "averaging 7.8 rebounds over his last 10; reached 8+ in 5 of them (50%); the price implies 48%",
+      "role: rim big. MIN has allowed that role 100% of its usual rebounds (average)",
+      "MIN defense ranks 1 of 30; MIN: isolation-heavy offense; defense runs shooters off the line; top defense",
+      "MIN shots allowed: 33% at the rim, 8% mid-range, 40% threes; switch-style: forces isolation, few assisted looks"
+     ],
+     "url": "https://kalshi.com/markets/kxnbareb/m/kxnbareb-26nov23bknmin?op_market_ticker=KXNBAREB-26NOV23BKNMIN-BKNDSHARPE20-8"
     },
     {
      "ticker": "KXNBAPTS-26NOV23MILTOR-MILJJAQUEZ24-15",
@@ -1637,94 +1763,99 @@
      "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23miltor?op_market_ticker=KXNBAPTS-26NOV23MILTOR-MILJJAQUEZ24-15"
     },
     {
-     "ticker": "KXNBA3PT-26NOV23MILTOR-MILMTURNER3-2",
-     "event_ticker": "KXNBA3PT-26NOV23MILTOR",
+     "ticker": "KXNBAPTS-26NOV23MILTOR-MILKKUZMA18-15",
+     "event_ticker": "KXNBAPTS-26NOV23MILTOR",
      "side": "no",
-     "title": "Myles Turner: 2+ threes",
-     "pick": "Myles Turner UNDER 2 threes",
-     "tap": "NO on \"Myles Turner: 2+ threes\"",
+     "title": "Kyle Kuzma: 15+ points",
+     "pick": "Kyle Kuzma UNDER 15 points",
+     "tap": "NO on \"Kyle Kuzma: 15+ points\"",
      "matchup": "Milwaukee vs Toronto",
      "game": "26NOV23MILTOR",
      "tipoff": "2026-11-24T00:30:00+00:00",
-     "price": 0.55,
-     "mid": 0.545,
-     "p_hat": 0.5433,
+     "price": 0.7,
+     "mid": 0.695,
+     "p_hat": 0.7004,
      "chain_for": 2,
      "chain_against": 0,
      "why": [
-      "averaging 1.5 threes over his last 10; reached 2+ in 3 of them (30%); the price implies 45%",
-      "role: versatile big / forward. TOR has allowed that role 93% of its usual threes (stingy)",
+      "averaging 12.8 points over his last 10; reached 15+ in 2 of them (20%); the price implies 30%",
+      "role: role player. TOR has allowed that role 93% of its usual points (stingy)",
       "TOR defense ranks 18 of 30; TOR: defense fouls a lot; pressure defense (forces turnovers)",
       "TOR shots allowed: 30% at the rim, 11% mid-range, 43% threes"
      ],
-     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov23miltor?op_market_ticker=KXNBA3PT-26NOV23MILTOR-MILMTURNER3-2"
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23miltor?op_market_ticker=KXNBAPTS-26NOV23MILTOR-MILKKUZMA18-15"
     },
     {
-     "ticker": "KXNBAAST-26NOV23PHXNOP-NOPJFEARS0-6",
-     "event_ticker": "KXNBAAST-26NOV23PHXNOP",
+     "ticker": "KXNBAAST-26NOV23LACHOU-LACDGARLAND10-8",
+     "event_ticker": "KXNBAAST-26NOV23LACHOU",
      "side": "no",
-     "title": "Jeremiah Fears: 6+ assists",
-     "pick": "Jeremiah Fears UNDER 6 assists",
-     "tap": "NO on \"Jeremiah Fears: 6+ assists\"",
-     "matchup": "Phoenix vs New Orleans",
-     "game": "26NOV23PHXNOP",
-     "tipoff": "2026-11-24T01:00:00+00:00",
-     "price": 0.5,
-     "mid": 0.495,
-     "p_hat": 0.4962,
-     "chain_for": 2,
-     "chain_against": 0,
-     "why": [
-      "averaging 6.0 assists over his last 10; reached 6+ in 4 of them (40%); the price implies 50%",
-      "role: playmaking guard. PHX has allowed that role 95% of its usual assists (stingy)",
-      "PHX defense ranks 21 of 30",
-      "PHX shots allowed: 28% at the rim, 10% mid-range, 44% threes",
-      "PHX forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
-     ],
-     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23phxnop?op_market_ticker=KXNBAAST-26NOV23PHXNOP-NOPJFEARS0-6"
-    },
-    {
-     "ticker": "KXNFLTD-26NOV23CINWAS-WASCOKONKWO85-1",
-     "event_ticker": "KXNFLTD-26NOV23CINWAS",
-     "side": "no",
-     "title": "Chig Okonkwo: 1+ touchdowns",
-     "pick": "Chig Okonkwo UNDER 1 touchdowns",
-     "tap": "NO on \"Chig Okonkwo: 1+ touchdowns\"",
-     "matchup": "Cincinnati vs Washington",
-     "game": "26NOV23CINWAS",
-     "tipoff": "2026-11-24T01:15:00+00:00",
-     "price": 0.74,
-     "mid": 0.735,
-     "p_hat": 0.7331,
-     "chain_for": 0,
-     "chain_against": 0,
-     "why": [
-      "NFL leg: no style model yet"
-     ],
-     "url": "https://kalshi.com/markets/kxnfltd/m/kxnfltd-26nov23cinwas?op_market_ticker=KXNFLTD-26NOV23CINWAS-WASCOKONKWO85-1"
-    },
-    {
-     "ticker": "KXNBAPTS-26NOV23LACHOU-HOUJSMITH10-15",
-     "event_ticker": "KXNBAPTS-26NOV23LACHOU",
-     "side": "no",
-     "title": "Jabari Smith Jr.: 15+ points",
-     "pick": "Jabari Smith Jr. UNDER 15 points",
-     "tap": "NO on \"Jabari Smith Jr.: 15+ points\"",
+     "title": "Darius Garland: 8+ assists",
+     "pick": "Darius Garland UNDER 8 assists",
+     "tap": "NO on \"Darius Garland: 8+ assists\"",
      "matchup": "Los Angeles C vs Houston",
      "game": "26NOV23LACHOU",
      "tipoff": "2026-11-24T01:30:00+00:00",
-     "price": 0.55,
-     "mid": 0.545,
-     "p_hat": 0.5504,
+     "price": 0.68,
+     "mid": 0.675,
+     "p_hat": 0.6762,
      "chain_for": 3,
      "chain_against": 1,
      "why": [
-      "averaging 13.3 points over his last 10; reached 15+ in 3 of them (30%); the price implies 45%",
-      "role: role player. LAC has allowed that role 95% of its usual points (stingy)",
-      "LAC defense ranks 24 of 30; game pace slow (-1.3 possessions vs average)",
-      "LAC shots allowed: 29% at the rim, 10% mid-range, 41% threes; runs shooters off the line"
+      "averaging 6.6 assists over his last 10; reached 8+ in 2 of them (20%); the price implies 32%",
+      "role: primary scorer. HOU has allowed that role 93% of its usual assists (stingy)",
+      "HOU defense ranks 8 of 30; game pace slow (-1.3 possessions vs average); HOU: plays slow; crashes the offensive glass; switch-style defense (few assists allowed); rim protection (blocks); top offense",
+      "HOU shots allowed: 27% at the rim, 11% mid-range, 44% threes; leaves shooters open",
+      "HOU allows ball movement (bottom third in seconds per touch): assist unders have hit LESS than priced against these defenses"
      ],
-     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23lachou?op_market_ticker=KXNBAPTS-26NOV23LACHOU-HOUJSMITH10-15"
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23lachou?op_market_ticker=KXNBAAST-26NOV23LACHOU-LACDGARLAND10-8"
+    },
+    {
+     "ticker": "KXNBAPTS-26NOV23SASSAC-SACKMURRAY13-15",
+     "event_ticker": "KXNBAPTS-26NOV23SASSAC",
+     "side": "no",
+     "title": "Keegan Murray: 15+ points",
+     "pick": "Keegan Murray UNDER 15 points",
+     "tap": "NO on \"Keegan Murray: 15+ points\"",
+     "matchup": "San Antonio vs Sacramento",
+     "game": "26NOV23SASSAC",
+     "tipoff": "2026-11-24T03:00:00+00:00",
+     "price": 0.64,
+     "mid": 0.635,
+     "p_hat": 0.6404,
+     "chain_for": 3,
+     "chain_against": 1,
+     "why": [
+      "averaging 10.0 points over his last 10; reached 15+ in 2 of them (20%); the price implies 36%",
+      "minutes up: 37 a game over the last 3 vs 28 over the last 10",
+      "role: role player. SAN has allowed that role 93% of its usual points (stingy)",
+      "SAN defense ranks 3 of 30; SAN: defense runs shooters off the line; defense avoids fouls; cleans the defensive glass; rim protection (blocks); top defense; top offense",
+      "SAN shots allowed: 26% at the rim, 14% mid-range, 38% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23sassac?op_market_ticker=KXNBAPTS-26NOV23SASSAC-SACKMURRAY13-15"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV23SASSAC-SACDACUFF5-8",
+     "event_ticker": "KXNBAAST-26NOV23SASSAC",
+     "side": "no",
+     "title": "Darius Acuff Jr.: 8+ assists",
+     "pick": "Darius Acuff Jr. UNDER 8 assists",
+     "tap": "NO on \"Darius Acuff Jr.: 8+ assists\"",
+     "matchup": "San Antonio vs Sacramento",
+     "game": "26NOV23SASSAC",
+     "tipoff": "2026-11-24T03:00:00+00:00",
+     "price": 0.67,
+     "mid": 0.665,
+     "p_hat": 0.6662,
+     "chain_for": 3,
+     "chain_against": 1,
+     "why": [
+      "averaging 8.0 assists over his last 10; reached 8+ in 5 of them (50%); the price implies 33%",
+      "role: primary scorer. SAN has allowed that role 88% of its usual assists (stingy)",
+      "SAN defense ranks 3 of 30; SAN: defense runs shooters off the line; defense avoids fouls; cleans the defensive glass; rim protection (blocks); top defense; top offense",
+      "SAN shots allowed: 26% at the rim, 14% mid-range, 38% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line",
+      "SAN forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov23sassac?op_market_ticker=KXNBAAST-26NOV23SASSAC-SACDACUFF5-8"
     },
     {
      "ticker": "KXNBA3PT-26NOV23SASSAC-SACDHUNTER15-3",
@@ -1748,30 +1879,6 @@
       "SAN shots allowed: 26% at the rim, 14% mid-range, 38% threes; drop-style: gives up mid-range and pull-ups, takes away threes; switch-style: forces isolation, few assisted looks; runs shooters off the line"
      ],
      "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov23sassac?op_market_ticker=KXNBA3PT-26NOV23SASSAC-SACDHUNTER15-3"
-    },
-    {
-     "ticker": "KXNBAPTS-26NOV23UTALAL-UTAABAILEY19-15",
-     "event_ticker": "KXNBAPTS-26NOV23UTALAL",
-     "side": "no",
-     "title": "Ace Bailey: 15+ points",
-     "pick": "Ace Bailey UNDER 15 points",
-     "tap": "NO on \"Ace Bailey: 15+ points\"",
-     "matchup": "Utah vs Los Angeles L",
-     "game": "26NOV23UTALAL",
-     "tipoff": "2026-11-24T03:00:00+00:00",
-     "price": 0.59,
-     "mid": 0.585,
-     "p_hat": 0.5904,
-     "chain_for": 2,
-     "chain_against": 0,
-     "why": [
-      "averaging 13.4 points over his last 10; reached 15+ in 5 of them (50%); the price implies 41%",
-      "minutes down: 25 a game over the last 3 vs 30 over the last 10",
-      "role: role player. LAL has allowed that role 93% of its usual points (stingy)",
-      "LAL defense ranks 13 of 30; LAL: gets to the line; isolation-heavy offense; defense gives up threes; defense fouls a lot; defense allows assisted looks; weak on the defensive glass; pressure defense (forces turnovers); rim protection (blocks); top offense",
-      "LAL shots allowed: 24% at the rim, 7% mid-range, 49% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed"
-     ],
-     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov23utalal?op_market_ticker=KXNBAPTS-26NOV23UTALAL-UTAABAILEY19-15"
     }
    ],
    "problems": [],
@@ -1783,22 +1890,22 @@
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAAST-26NOV23MEMCHA-CHARONEALE00-2",
-      "event_ticker": "KXNBAAST-26NOV23MEMCHA",
+      "market_ticker": "KXNBA3PT-26NOV23MEMCHA-CHARONEALE00-3",
+      "event_ticker": "KXNBA3PT-26NOV23MEMCHA",
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAAST-26NOV23MEMCHA-MEMCCOWARD23-4",
-      "event_ticker": "KXNBAAST-26NOV23MEMCHA",
+      "market_ticker": "KXNBAREB-26NOV23MEMCHA-MEMTJEROME2-4",
+      "event_ticker": "KXNBAREB-26NOV23MEMCHA",
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAAST-26NOV23PORPHI-PHIASIMONS5-2",
+      "market_ticker": "KXNBAAST-26NOV23PORPHI-PHITMAXEY0-6",
       "event_ticker": "KXNBAAST-26NOV23PORPHI",
       "side": "no"
      },
      {
-      "market_ticker": "KXNBA3PT-26NOV23PORPHI-PHITMAXEY0-3",
+      "market_ticker": "KXNBA3PT-26NOV23PORPHI-PORTCAMARA33-3",
       "event_ticker": "KXNBA3PT-26NOV23PORPHI",
       "side": "no"
      },
@@ -1808,42 +1915,54 @@
       "side": "no"
      },
      {
+      "market_ticker": "KXNBAAST-26NOV23BKNMIN-BKNJRANDLE30-6",
+      "event_ticker": "KXNBAAST-26NOV23BKNMIN",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAREB-26NOV23BKNMIN-BKNMPORTER17-8",
+      "event_ticker": "KXNBAREB-26NOV23BKNMIN",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAREB-26NOV23BKNMIN-BKNDSHARPE20-8",
+      "event_ticker": "KXNBAREB-26NOV23BKNMIN",
+      "side": "no"
+     },
+     {
       "market_ticker": "KXNBAPTS-26NOV23MILTOR-MILJJAQUEZ24-15",
       "event_ticker": "KXNBAPTS-26NOV23MILTOR",
       "side": "no"
      },
      {
-      "market_ticker": "KXNBA3PT-26NOV23MILTOR-MILMTURNER3-2",
-      "event_ticker": "KXNBA3PT-26NOV23MILTOR",
+      "market_ticker": "KXNBAPTS-26NOV23MILTOR-MILKKUZMA18-15",
+      "event_ticker": "KXNBAPTS-26NOV23MILTOR",
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAAST-26NOV23PHXNOP-NOPJFEARS0-6",
-      "event_ticker": "KXNBAAST-26NOV23PHXNOP",
+      "market_ticker": "KXNBAAST-26NOV23LACHOU-LACDGARLAND10-8",
+      "event_ticker": "KXNBAAST-26NOV23LACHOU",
       "side": "no"
      },
      {
-      "market_ticker": "KXNFLTD-26NOV23CINWAS-WASCOKONKWO85-1",
-      "event_ticker": "KXNFLTD-26NOV23CINWAS",
+      "market_ticker": "KXNBAPTS-26NOV23SASSAC-SACKMURRAY13-15",
+      "event_ticker": "KXNBAPTS-26NOV23SASSAC",
       "side": "no"
      },
      {
-      "market_ticker": "KXNBAPTS-26NOV23LACHOU-HOUJSMITH10-15",
-      "event_ticker": "KXNBAPTS-26NOV23LACHOU",
+      "market_ticker": "KXNBAAST-26NOV23SASSAC-SACDACUFF5-8",
+      "event_ticker": "KXNBAAST-26NOV23SASSAC",
       "side": "no"
      },
      {
       "market_ticker": "KXNBA3PT-26NOV23SASSAC-SACDHUNTER15-3",
       "event_ticker": "KXNBA3PT-26NOV23SASSAC",
       "side": "no"
-     },
-     {
-      "market_ticker": "KXNBAPTS-26NOV23UTALAL-UTAABAILEY19-15",
-      "event_ticker": "KXNBAPTS-26NOV23UTALAL",
-      "side": "no"
      }
     ]
-   }
+   },
+   "check": "GOOD: legs now worth 1,197x (were 1,260x). Still place only at $5,000 or more for $5; a quote at the walk-away line is 84% of fair value."
   }
- ]
+ ],
+ "checked_at": "2026-11-23T23:33:54+00:00"
 }

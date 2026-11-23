@@ -156,3 +156,17 @@ def test_slips_rules_sizes_and_wording():
                   mid=0.6, spread=0.0, chain=5, form=0.0, ev_max=99)]
     card = degen.build(pd.DataFrame(rows), need=20, max_per_game=3, max_per_stat=12)
     assert card is not None and not card.duplicated(["game", "player"]).any() and card.groupby("game").size().max() <= 3
+
+
+def test_order_book_pricing():
+    from bot import book as B
+    bk = {"yes": [(0.46, 5.0), (0.45, 3.0), (0.40, 100.0)], "no": [(0.52, 10.0)]}      # bids, best first
+    t = B.top(bk)
+    assert t["yes_bid"] == 0.46 and t["yes_ask"] == 0.48 and t["no_ask"] == 0.54
+    assert B.offers(bk, "no")[:2] == [(0.54, 5.0), (0.55, 3.0)]              # buying NO lifts YES bids
+    f = B.buy(bk, "no", 5.0, 0.56)                                           # 5 at 54c, 3 at 55c, then the stake runs out
+    assert f["contracts"] == 8 and f["worst"] == 0.55 and f["cost"] <= 5.0 and f["offered_within_limit"] == 8
+    assert abs(f["cost"] - (5 * 0.54 + 3 * 0.55 + B.fee_dollars([(0.54, 5), (0.55, 3)]))) < 1e-9
+    assert B.buy(bk, "no", 5.0, 0.54)["contracts"] == 5                      # the limit stops the walk
+    p = B.max_price_for_payout(100)                                          # $1 must return $100 after the fee
+    assert abs(p + 0.07 * p * (1 - p) - 0.01) < 1e-9 and p < 0.01

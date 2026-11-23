@@ -106,7 +106,7 @@ def _core(s: dict) -> str:
   </div>
   <dl class="order">
     <dt>Press</dt><dd>{e(s['tap'])}</dd>
-    <dt>Size</dt><dd><span class="num">{s['contracts']}</span> contracts, pay no more than <span class="num">{s['limit'] * 100:.0f}¢</span> each (seen {s['price_seen'] * 100:.0f}¢, {s['size_shown']:.0f} offered)</dd>
+    <dt>Size</dt><dd><span class="num">{s['contracts']}</span> contracts, pay no more than <span class="num">{s['limit'] * 100:.0f}¢</span> each (order book: {s['price_seen'] * 100:.0f}¢, {s['size_shown']:.0f} offered within the limit)</dd>
     <dt>Money</dt><dd><span class="num">{_money(s['cost'])}</span> with fee. Pays <span class="num">{_money(s['pays'])}</span> if it wins (+{_money(s['profit'])}).</dd>
     <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
     {f'<dt>Why</dt><dd>{e(why)}</dd>' if why else ''}
@@ -140,7 +140,7 @@ def _ticket(t: dict) -> str:
     <div class="tag"><span>{e(t['id'])} · LOTTERY CARD · {t['n_legs']} LEGS</span><span class="pill warn" data-state>Good until {_et(t['expires'])}</span>{rule}</div>
     <h3>{_money(t['stake'])} to win {_money(t['target'])}</h3>
     <p class="walk">Place only if Kalshi shows a payout of {_money(t['target'])} or more for {_money(t['stake'])}.
-      <small>That is {t['need_x']:,.0f}×. If the payout shown is lower, skip this card. Do not add legs to chase it.</small></p>
+      <small>That is {t['need_x']:,.0f}× after the fee. If the payout shown is lower, skip this card. Do not add legs to chase it.</small></p>
     <div class="facts"><span>Legs worth <b>{t['fair_x']:,.0f}×</b></span><span>Hits about <b>1 in {t['one_in']:,.0f}</b></span>
       <span>Expected loss <b>{_money(t['exp_loss'])}</b></span><span><b>{t['n_games']}</b> games</span></div>
   </div>

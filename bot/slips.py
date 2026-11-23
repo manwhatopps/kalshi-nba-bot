@@ -32,6 +32,7 @@ from zoneinfo import ZoneInfo
 import numpy as np
 import pandas as pd
 
+from . import book as B
 from . import config, fund, ledger
 from .kalshi import KalshiError, data_client, fee
 
@@ -176,11 +177,16 @@ def core_slips(k, cfg: dict, hours: float) -> dict:
                          live=mins >= 0, price=price, size=size))
     rows.sort(key=lambda r: (not r["live"], r["tipoff"], -r["size"]))
     names = matchups(k, [r["event_ticker"] for r in rows])
+    books = B.orderbooks(k, [r["ticker"] for r in rows]) if rows else {}
     room = int(core // stake) if stake else 0
     for i, r in enumerate(rows, 1):
-        limit = round(min(r["price"] + SLIPPAGE, DD_HI - 0.01), 2)
-        n, cost, profit = contracts_for(stake, limit)
-        b = rec.get(_band(r["price"]), {})
+        bk = books.get(r["ticker"]) or {"yes": [], "no": []}
+        t = B.top(bk)
+        price = t["no_ask"] if bk["yes"] else r["price"]
+        limit = round(min(price + SLIPPAGE, DD_HI - 0.01), 2)
+        f = B.buy(bk, "no", stake, limit)                    # walk the real book: what $stake buys right now
+        n, cost = int(f["contracts"]), f["cost"]
+        b = rec.get(_band(price), {})
         game = r["event_ticker"].split("-")[1]
         out["slips"].append(dict(
             id=f"C{i}", sleeve="core", kind="single", rule="dd_under", status="open" if i <= room else "reserve",
@@ -189,8 +195,9 @@ def core_slips(k, cfg: dict, hours: float) -> dict:
             tipoff=r["tipoff"].isoformat(), live=r["live"],
             when=("now: the game is on and the price is in range" if r["live"]
                   else f"from tip-off ({_et(r['tipoff'])}), if NO is still offered at {DD_LO * 100:.0f}-{DD_HI * 100:.0f}c"),
-            price_seen=r["price"], limit=limit, size_shown=r["size"], stake=stake, contracts=n, cost=cost,
-            pays=float(n), profit=profit, band=_band(r["price"]), record=b, url=market_url(r["ticker"]),
+            price_seen=price, limit=limit, size_shown=f["offered_within_limit"], spread=t["spread"], stake=stake,
+            contracts=n, cost=cost, avg_price=round(f["avg"], 4) if n else None, pays=float(n), profit=round(n - cost, 2),
+            band=_band(price), record=b, url=market_url(r["ticker"]),
             # Kalshi's order endpoint (POST /portfolio/events/orders) quotes everything from the YES side:
             # buying NO at the limit is side "ask" at 1 - limit. Fill what is there now, leave nothing resting.
             order=dict(ticker=r["ticker"], side="ask", count=f"{n:.2f}", price=f"{1 - limit:.4f}",
@@ -224,7 +231,7 @@ def ticket_slips(k, cfg: dict, hours: float, rules: dict, tickets=None) -> list[
         mid, p = float(np.prod(card.mid)), float(np.prod(card.p_hat))
         out.append(dict(
             id=f"T{n}", sleeve="degen", kind="combo", status="open", stake=stake, target=goal, need_x=need,
-            max_price=round(1 / need, 6), fair_x=1 / mid, p_hit=p, one_in=1 / p, exp_loss=round(stake * (1 - need * p), 2),
+            max_price=round(B.max_price_for_payout(need), 6), fair_x=1 / mid, p_hit=p, one_in=1 / p, exp_loss=round(stake * (1 - need * p), 2),
             n_legs=len(legs), n_games=int(card.game.nunique()), expires=min(l["tipoff"] for l in legs),
             collection=COLLECTION, legs=legs, problems=legal(legs, rules),
             payload=dict(selected_markets=[dict(market_ticker=l["ticker"], event_ticker=l["event_ticker"], side=l["side"]) for l in legs])))
@@ -283,8 +290,8 @@ def to_text(doc: dict, why: bool = False) -> str:
         r = s["record"]
         L.append(f"\n  {s['id']}  {s['action']}  {s['pick']}   [{s['matchup']}]" + ("   (over the sleeve cap: only if an earlier slip cannot be filled)" if s["status"] == "reserve" else ""))
         L.append(f"      when   {s['when']}")
-        L.append(f"      order  {s['contracts']} contracts, limit {s['limit'] * 100:.0f}c (seen {s['price_seen'] * 100:.0f}c, {s['size_shown']:.0f} offered)  "
-                 f"= {_money(s['cost'])} with fee; pays {_money(s['pays'])} if it wins (+{_money(s['profit'])})")
+        L.append(f"      order  {s['contracts']} contracts, limit {s['limit'] * 100:.0f}c (book: {s['price_seen'] * 100:.0f}c, {s['size_shown']:.0f} offered within the limit, "
+                 f"spread {s['spread'] * 100:.0f}c)  = {_money(s['cost'])} with fee; pays {_money(s['pays'])} if it wins (+{_money(s['profit'])})")
         if r:
             L.append(f"      why    this price band since {fund.DD_ACTIVATED}: {r['bets']} bets, won {r['won']:.1%}, needed {r['needs']:.1%} -> {r['ret']:+.1%} per $1")
         L.append(f"      market {s['ticker']}   {s['url']}")
@@ -299,7 +306,7 @@ def to_text(doc: dict, why: bool = False) -> str:
             continue
         L.append(f"\n  {t['id']}  {_money(t['stake'])} to win {_money(t['target'])}   {t['n_legs']} legs, {t['n_games']} games   good until {_et(t['expires'])}")
         L.append(f"      PLACE ONLY IF Kalshi shows a payout of {_money(t['target'])} or more for {_money(t['stake'])} "
-                 f"({t['need_x']:,.0f}x; combo price {t['max_price'] * 100:.2f}c or less).")
+                 f"({t['need_x']:,.0f}x; a quoted combo price of {t['max_price'] * 100:.3g}c or less, since the 7% x price x (1 - price) fee comes on top).")
         L.append(f"      Legs alone are worth {t['fair_x']:,.0f}x.  Chance it hits: about 1 in {t['one_in']:,.0f}.  "
                  f"Expected loss at the walk-away payout: {_money(t['exp_loss'])}.")
         L.append("      Kalshi's combo rules: " + ("OK, this card can be built as one combo" if not t["problems"] else "PROBLEM: " + "; ".join(t["problems"][:3])))
@@ -330,7 +337,12 @@ def check(k, doc: dict) -> str:
     now = datetime.now(timezone.utc)
     tick = [s["ticker"] for s in doc["core"]["slips"]] + [l["ticker"] for t in doc["tickets"] for l in t.get("legs", [])]
     q = quotes_now(k, sorted(set(tick))) if tick else {}
-    L = [f"\nSLIP CHECK  {_et(now)}   (slips made {_et(doc['made_at'])})"]
+    books = B.orderbooks(k, sorted(set(tick))) if tick else {}
+    for t_, m_ in q.items():          # prices come from the live order book; the market list only says open/closed
+        if t_ in books:
+            tp = B.top(books[t_])
+            m_["bid"], m_["ask"] = tp["yes_bid"], (tp["yes_ask"] if books[t_]["no"] else 0.0)
+    L = [f"\nSLIP CHECK  {_et(now)}   (slips made {_et(doc['made_at'])}; prices from the live order book)"]
     for s in doc["core"]["slips"]:
         m = q.get(s["ticker"])
         price = round(1 - m["bid"], 2) if m and m["bid"] > 0 else None
@@ -343,7 +355,9 @@ def check(k, doc: dict) -> str:
         elif price < DD_LO:
             v = f"PRICE FELL to {price * 100:.0f}c, below the tested range: skip"
         else:
-            v = f"GOOD at {price * 100:.0f}c" + ("" if now >= datetime.fromisoformat(s["tipoff"]) else f" (place from tip-off, {_et(s['tipoff'])})")
+            f = B.buy(books.get(s["ticker"]) or {"yes": [], "no": []}, "no", s["stake"], s["limit"])
+            v = (f"GOOD at {price * 100:.0f}c: {f['contracts']:.0f} contracts for {_money(f['cost'])} fill now, {f['offered_within_limit']:.0f} offered within the limit"
+                 + ("" if now >= datetime.fromisoformat(s["tipoff"]) else f" (place from tip-off, {_et(s['tipoff'])})"))
         s["check"] = v
         L.append(f"  {s['id']}  {s['pick'][:44]:44s} {v}")
     for t in doc["tickets"]:

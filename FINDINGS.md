@@ -434,6 +434,21 @@ call per combo. A sample of 2,200 (220 per leg-count bucket) is being fetched in
 Only 50 were priced when this was written, far too few to read. An unverified third-party study
 (jsteng19/kalshi-combos-research) reports takers overpaying by about 3 cents per combo on average.
 
+**Pricing audit against Kalshi's live order book (2026-11-23, 6:27 pm ET).** Kalshi's real-time feed
+is a WebSocket that needs an API key even for public channels, so without a key the bot reads the
+public order-book endpoint (`GET /markets/orderbooks`, 100 markets per call, every resting bid with size).
+* The best bid and ask the bot had been using (from the market list) matched the order book on all
+  53 markets in that night's slips. Prices were right.
+* Sizing was not: contracts were counted at the limit price, so a slip could show 6 contracts where
+  the book filled 7 for the same $5. Slips now walk the real book level by level (`bot/book.py`) and
+  report how many contracts are offered inside the limit.
+* The combo walk-away line ignored the fee. Combos carry the same taker fee as single markets
+  (7% x price x (1 - price), series fee type `quadratic_with_combo_maker_fees`), so "$10 returns
+  $1,000" needs a quoted price of about 0.935c, not 1.00c. Corrected; the dollar walk-away line
+  ("$1,000 or more for $10") was already right because the payout Kalshi shows is after the fee.
+* Fees are charged per order and rounded up to the cent for retail accounts (Kalshi "Fee Rounding").
+* All prop series checked are fee type `quadratic`, multiplier 1.
+
 **What a slip contains.**
 * Single bets (core sleeve): market, BUY NO, contract count for the fund's stake, a limit 2c above
   the price seen and never past the 80c edge of the tested range, when to place it (the rule is

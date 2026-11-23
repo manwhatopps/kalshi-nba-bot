@@ -115,6 +115,21 @@ tend to hit together.
 Market links use the format open-source Kalshi clients use; kalshi.com blocks automated requests,
 so they could not be tested from the cloud. If one fails, search the player's name in the app.
 
+## Real prices, and placing for real
+
+* Prices and sizes on slips come from Kalshi's public order book (`bot/book.py`): the bot walks the
+  resting bids level by level, so a slip's contract count and cost are what the book fills right now.
+* Kalshi's streaming feed (WebSocket) needs an API key even for public data. With a key, the live
+  watcher can be moved from one-minute polling to the stream.
+* Placing an order needs the owner's key. A Kalshi key is an ID plus a private key **file** that signs
+  every request, so it has to sit on the machine that runs the bot: your own computer. Do not paste it
+  into a chat, an environment variable or the repo.
+* When you create the key on Kalshi, give it only the `read` and `write::trade` scopes. It can then
+  trade but cannot move money out of the account.
+* Then: `.env` with `KALSHI_API_KEY_ID`, `KALSHI_PRIVATE_KEY_PATH`, `KALSHI_ENV=prod`, and your own
+  `MAX_STAKE_PER_COMBO` / `MAX_DAILY_STAKE`; `python -m bot slip --quote` to see real quotes;
+  add `--live` to accept the ones above the walk-away line. Single bets are not auto-placed yet.
+
 ## How to actually use it (please read)
 
 1. **Paper-trade for 2+ weeks.** Every `scan` logs every leg and combo. Run `settle` and
