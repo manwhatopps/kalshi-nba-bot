@@ -4,4 +4,5 @@ __pycache__/
 .env
 *.pem
 *.key
-data/
+data/*
+!data/ledger/

@@ -15,8 +15,11 @@ import pandas as pd
 
 from . import config
 
-COMBOS = config.DATA_DIR / "combos.csv"
-LEGS = config.DATA_DIR / "legs.csv"
+import os
+_DIR = config.ROOT / os.getenv("BOT_LEDGER_DIR") if os.getenv("BOT_LEDGER_DIR") else config.DATA_DIR
+_DIR.mkdir(parents=True, exist_ok=True)
+COMBOS = _DIR / "combos.csv"
+LEGS = _DIR / "legs.csv"
 
 
 def _append(path, rows):
