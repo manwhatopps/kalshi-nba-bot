@@ -149,3 +149,34 @@ def social(args):
     top = df[df["rank"].notna()]
     print(f"{len(df)} named trades found; {len(top)} by leaderboard traders.")
     print((top if len(top) else df).sort_values("time", ascending=False).head(args.show).to_string(index=False))
+
+
+def best(args):
+    """`python -m bot best`: the statistically most probable combos for tonight, by payout target."""
+    import json
+    from . import trades as T
+    from .favorites import build_best
+    k = data_client()
+    now = live_legs(k, args.league, include_live=args.include_live, max_spread=0.06)
+    if now.empty:
+        print("no open legs")
+        return
+    calib = json.loads(T.CALIB.read_text()) if T.CALIB.exists() else T.leg_calibration()
+    run_id = uuid.uuid4().hex[:8]
+    print(f"\n{args.league}: {len(now):,} legs scanned across {now.game.nunique()} games. Legs {args.min_price:.2f}-{args.max_price:.2f}, "
+          f"books within {args.max_spread * 100:.0f}c, at most {args.per_game} leg(s) per game.")
+    print("'hits about' = price adjusted by how that kind of leg actually settled this season.")
+    for target in args.targets:
+        c = build_best(now, calib, args.league, target, args.min_price, args.max_price, args.per_game, args.max_spread)
+        if c is None or len(c) < 2:
+            print(f"\n~{target:g}x: not enough qualifying legs tonight")
+            continue
+        ask, mid, p = float(np.prod(c.cost)), float(np.prod(c.mid)), float(np.prod(c.p_hat))
+        reached = ask <= 1 / target
+        print(f"\n~{target:g}x: {len(c)} legs" + ("" if reached else f"  (only reaches {1 / ask:.1f}x with one leg per game tonight)"))
+        for r in c.itertuples():
+            print(f"   {r.side.upper():3s} {r.cost:.2f}  hits about {r.p_hat:.0%}  {r.title[:60]}  [{r.ticker}]")
+        print(f"   chance every leg hits : about {p:.1%} (1 in {1 / p:.1f})")
+        print(f"   legs' value           : {mid:.4f} at mid prices = {1 / mid:.1f}x fair payout")
+        print(f"   do not pay more than  : {mid * 1.10:.4f} ({1 / (mid * 1.10):.1f}x)   est. value kept at that price: {p / (mid * 1.10):.0%}")
+        ledger.log_card(run_id, c, f"best{target:g}x", p, mid * 1.10, note=f"best {args.min_price}-{args.max_price}")

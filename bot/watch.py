@@ -20,7 +20,7 @@ FIELDS = ["ts", "ticker", "side", "price", "threshold", "mins_into_game", "title
 
 
 def _seen() -> set:
-    if not LOG.exists():
+    if not LOG.exists() or LOG.stat().st_size == 0:
         return set()
     with open(LOG) as f:
         return {(r["ticker"], r["side"], r["threshold"]) for r in csv.DictReader(f)}
@@ -30,11 +30,12 @@ def run(series="KXNBAGAME", thresholds=(0.95,), hours: float = 8, every: int = 6
     k = data_client()
     LOG.parent.mkdir(parents=True, exist_ok=True)
     seen, end = _seen(), time.time() + hours * 3600
-    new = not LOG.exists()
+    new = not LOG.exists() or LOG.stat().st_size == 0
     with open(LOG, "a", newline="") as f:
         w = csv.DictWriter(f, FIELDS)
         if new:
             w.writeheader()
+            f.flush()
         while time.time() < end:
             now = datetime.now(timezone.utc)
             try:
@@ -71,9 +72,11 @@ def run(series="KXNBAGAME", thresholds=(0.95,), hours: float = 8, every: int = 6
 
 def settle(k) -> None:
     import pandas as pd
-    if not LOG.exists():
+    if not LOG.exists() or LOG.stat().st_size == 0:
         return
     df = pd.read_csv(LOG, dtype={"result": str}).fillna({"result": ""})
+    if df.empty:
+        return
     for i in df.index[df.result == ""]:
         try:
             r = k.market(df.at[i, "ticker"]).get("result") or ""

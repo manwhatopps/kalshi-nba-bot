@@ -236,3 +236,30 @@ def build_mix(legs_now: pd.DataFrame, hist_legs: pd.DataFrame, target: float, lo
         if cost <= 1 / target:
             return c.iloc[keep]
     return None
+
+
+def build_best(legs_now: pd.DataFrame, calib: dict, league: str, target: float, min_price: float = 0.35,
+               max_price: float = 0.95, per_game: int = 1, max_spread: float = 0.03,
+               groups=("1 moneyline", "4 player props", "2 spreads", "3 totals")) -> pd.DataFrame | None:
+    """The most probable combo for a target payout, statistically: every leg gets an expected hit
+    rate = its price + the (shrunk) season-long gap for that kind of leg; legs are taken in order of
+    expected-hit-per-dollar until the payout target is reached. One leg per game by default, so legs
+    are close to independent and the chance of the card is just the product."""
+    from .report_trades import group
+    from .trades import expected_hit
+    c = legs_now[(legs_now.cost >= min_price) & (legs_now.cost <= max_price) & (legs_now.spread <= max_spread)].copy()
+    c["group"] = c.series.map(group)
+    c = c[c.group.isin(groups)]
+    if c.empty:
+        return None
+    c["p_hat"] = [expected_hit(league, s, k, calib) for s, k in zip(c.series, c.cost)]
+    c["value"] = np.log(c.p_hat / c.cost)                 # > 0 means this kind of leg hits more than it costs
+    c = c.sort_values(["value", "cost"], ascending=[False, False])
+    ev, gm, keep, cost = set(), {}, [], 1.0
+    for i, (e, g, k) in enumerate(zip(c.event_ticker.values, c.game.values, c.cost.values)):
+        if e in ev or gm.get(g, 0) >= per_game:
+            continue
+        ev.add(e); gm[g] = gm.get(g, 0) + 1; keep.append(i); cost *= k
+        if cost <= 1 / target:
+            return c.iloc[keep]
+    return c.iloc[keep] if keep else None

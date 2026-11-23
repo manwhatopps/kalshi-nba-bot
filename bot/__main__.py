@@ -156,6 +156,14 @@ def main():
     wt = sub.add_parser("watch", help="live paper-trade: NBA moneyline first touch of 95c during games")
     wt.add_argument("--hours", type=float, default=8)
     wt.add_argument("--thresholds", type=float, nargs="+", default=[0.95])
+    be = sub.add_parser("best", help="statistically most probable combos tonight, by payout target (paper)")
+    be.add_argument("--league", default="NBA")
+    be.add_argument("--targets", type=float, nargs="+", default=[3, 5, 10, 25])
+    be.add_argument("--min-price", type=float, default=0.35)
+    be.add_argument("--max-price", type=float, default=0.95)
+    be.add_argument("--per-game", type=int, default=1)
+    be.add_argument("--max-spread", type=float, default=0.03)
+    be.add_argument("--include-live", action="store_true")
     sub.add_parser("settle")
     sub.add_parser("report")
     b = sub.add_parser("backtest")
@@ -190,6 +198,9 @@ def main():
     elif cmd == "trades":
         from .report_trades import run
         run(args)
+    elif cmd == "best":
+        from .report_fav import best
+        best(args)
     elif cmd == "watch":
         from .watch import run
         run(thresholds=tuple(args.thresholds), hours=args.hours)

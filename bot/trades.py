@@ -242,3 +242,40 @@ def touch_table(ft: pd.DataFrame, by: list[str]) -> pd.DataFrame:
     out = pd.DataFrame(rows)
     out["t"] = out.roi / out.se
     return out
+
+
+CALIB = config.DATA_DIR / "leg_calibration.json"
+CAL_BANDS = [0.20, 0.35, 0.50, 0.65, 0.80, 0.90, 0.99]
+
+
+def leg_calibration(a: pd.DataFrame | None = None, tau: float = 0.02) -> dict:
+    """Pre-game buyers, all season: how much more (or less) often each kind of leg hit than it cost,
+    by league x market group x price band. Raw gaps are noisy, so each is shrunk toward zero in
+    proportion to its uncertainty (empirical-Bayes with prior sd `tau`): thin evidence -> ~0."""
+    import json
+    from .report_trades import group
+    a = with_roles(a if a is not None else load_agg())
+    a = a[a.phase.isin(PHASES[:2])].assign(group=lambda d: d.series.map(group))
+    out = {}
+    b = pd.cut(a.taker_cost, CAL_BANDS, right=False)
+    w = a.n.astype(float)
+    raw = (a.taker_win - a.taker_cost) * w
+    for (lg, g, bk), idx in a.groupby([a.league, a.group, b], observed=True).groups.items():
+        ww = w.loc[idx]
+        if ww.sum() < 2000:
+            continue
+        cl = raw.loc[idx].groupby(a.game.loc[idx]).sum()
+        G = len(cl)
+        se = np.sqrt(max((cl ** 2).sum() - cl.sum() ** 2 / G, 0) * G / max(G - 1, 1)) / ww.sum() if G > 1 else 1.0
+        gap = raw.loc[idx].sum() / ww.sum()
+        out[f"{lg}|{g}|{bk.left:.2f}"] = dict(gap=float(gap), se=float(se), fills=int(ww.sum()), games=int(G),
+                                               shrunk=float(gap * tau ** 2 / (tau ** 2 + se ** 2)))
+    CALIB.write_text(json.dumps(out, indent=1))
+    return out
+
+
+def expected_hit(league: str, series: str, cost: float, calib: dict) -> float:
+    from .report_trades import group
+    lo = max([x for x in CAL_BANDS[:-1] if x <= cost], default=None)
+    c = calib.get(f"{league}|{group(series)}|{lo:.2f}") if lo is not None else None
+    return float(min(max(cost + (c["shrunk"] if c else 0.0), 0.01), 0.995))

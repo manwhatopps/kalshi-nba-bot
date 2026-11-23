@@ -13,5 +13,9 @@ data/history_download.log
 !data/fills_agg.parquet
 !data/first_touch.parquet
 !data/results.parquet
+!data/leg_calibration.json
+!data/combo_sample.parquet
 !data/agg_days.json
 !data/first_touch_days.json
+.section.out
+.refresh.out
