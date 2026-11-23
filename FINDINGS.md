@@ -1,7 +1,8 @@
 # What the data says so far (2026-11-23)
 
-> **Read section 12 first.** The one "edge" found on this season's games (sections 8 and 11) was
-> re-tested on 1,268 games from Kalshi's prior-season archive and lost money. No edge is confirmed.
+> **Read sections 12 and 14 first.** The moneyline "edge" found on this season's games (sections 8
+> and 11) lost money on 1,268 games from Kalshi's prior-season archive. A player-prop rule (section
+> 14) is positive in both seasons separately and is the fund's one graded candidate.
 
 Tested on Kalshi's own settled NBA markets, 2026-10-20 to 2026-11-22 (33 nights, 248 games).
 Loaded so far: moneylines + player points (13,635 markets, 23,374 priced legs). Rebounds, assists,
@@ -223,15 +224,52 @@ it into $39 on last season's: sizing cannot rescue a rule without an edge. The e
 policy never bet on the archive and so never lost. Concentrating half the bankroll on one bet a
 night loses even on the favourable sample, because a single miss halves the fund.
 
+## 14. Player props across two seasons (`python -m bot props`)
+Every prop fill from Kalshi's archive (2.7M NBA fills over 1,091 games, 4.6M NFL over 343) and from
+this season (5.0M NBA and 2.9M NFL prop fills) was graded. Followable version: buy once, the first
+time that side trades in a price band during the game; return after fees, errors clustered by game.
+
+| in-game, all prop types | last season | this season |
+|---|---|---|
+| NBA OVER, 35-50c / 50-65c / 65-80c / 80-95c | -21.9% / -18.8% / -16.9% / -11.3% | -6.5% / -4.6% / -2.9% / -2.9% |
+| NBA UNDER, same bands | +12.0% / +9.1% / +3.0% / -0.1% | -3.5% / -1.5% / -1.7% / -1.5% |
+| NFL OVER, same bands | -20.3% / -18.6% / -19.8% / -19.3% | -12.4% / -8.9% / -7.4% / -3.7% |
+| NFL UNDER, same bands | -1.0% / -0.9% / -3.5% / -2.4% | +2.4% / +1.1% / -1.3% / -0.6% |
+
+* **Buying prop overs during a game loses in both seasons, both sports, every price band and every
+  prop type** (16,000-30,000 bets per cell, 3 to 18 standard errors). This is the firmest finding in
+  the project, and it is the "will he get there?" chase.
+* Unders in general were profitable last season and are not this season (10x the volume, tighter
+  prices). Pre-game, overs and unders are both roughly fair before fees and lose after them; props
+  priced 95-99c on either side hit ~4 points less often than they cost.
+* By prop type, the under held up in both seasons for double-doubles (below), triple-doubles
+  (+3.8%, +21.5%), steals (+7.4%, +3.4%) and blocks (+8.8%, +2.1%); the last three are small or
+  not individually significant.
+
+**The graded candidate: NBA in-game double-double UNDER, first fill at 50-80c, one bet per market.**
+
+| | bets | games | won | break-even | return after fee |
+|---|---|---|---|---|---|
+| last season | 691 | 399 | 74.0% | 66.3% | **+11.5%** (t = 4.7) |
+| this season | 265 | 134 | 78.1% | 68.0% | **+14.9%** (t = 3.5) |
+
+Positive in 8 of 9 months and in all four price bands in both seasons; the over on the same
+markets lost 38% and 19%. Grade B (found using both seasons; not yet tested on games after
+discovery). Limits: these are thin markets - a typical one saw about $5 of unders bought at those
+prices and the first fill was usually one contract - so it suits a small fund and nothing larger.
+In the simulator, with $5 fillable per bet, $100 becomes $638 over the 172-night history ($315 with
+$2 per bet); without a liquidity cap the simulator shows absurd growth, which is why the cap exists.
+`python -m bot watch` paper-trades the rule live and records the size on offer at each entry.
+
 ## Bottom line
-* **No edge is confirmed.** The in-game moneyline rule that looked best this season lost on 1,268
-  archived games. Every rule is now graded on games it was not found on, and all four fail.
-* Kalshi's price is a better "will it hit" predictor than any model or simulation tested, and buyers
-  lose a little in nearly every price band; long shots under 20c lose the most.
+* **One graded candidate:** the in-game NBA double-double under (+11.5% and +14.9% in two separate
+  seasons). It is small-capacity and not yet tested on games after discovery; it is being
+  paper-traded live with the fund's core sleeve.
+* **Do not buy prop overs in-game.** They lost in both seasons, both sports and every price band.
+* The in-game moneyline rule that looked best this season lost on 1,268 archived games and is
+  graded "failed". Every rule is graded on games it was not found on.
+* Kalshi's price is a better "will it hit" predictor than any model or simulation tested; pre-game,
+  buyers lose a little in nearly every band and long shots under 20c lose the most.
 * Combos are at best a fair bet: 3-8 legs priced 35-80c on tight books, bought within ~10% of the
-  legs' mid value. 50 legs at 90c+ is the least efficient shape tested. Big lottery combos sold at
-  about 15% of fair value in the one large example checked.
-* The fund keeps its core sleeve in cash until a rule passes the independent-games test, and treats
-  lottery tickets as a fixed cost. In the simulator, staying in cash beats every staking plan over
-  the full history.
+  legs' mid value. Big lottery combos sold at about 15% of fair value in the one large example.
 * No real money has been placed.

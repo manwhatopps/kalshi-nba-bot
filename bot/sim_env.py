@@ -29,10 +29,17 @@ from . import config
 from .fund import cost_with_fee, kelly
 
 
-def load_nights(threshold: float = 0.95, league: str = "NBA", series: str = "KXNBAGAME") -> pd.DataFrame:
-    """One row per game: slate date, pool (archive / this season), entry and resolve times, cost, win."""
+def load_nights(threshold: float = 0.95, league: str = "NBA", series: str = "KXNBAGAME", rule: str = "") -> pd.DataFrame:
+    """One row per bet: slate date, pool (archive / this season), entry and resolve times, cost, win.
+    rule='dd_under' replays the double-double under rule instead of a moneyline first-touch."""
     from .favorites import slate_date
     from .trades import PRIOR_TOUCH
+    if rule == "dd_under":
+        from .fund import dd_under_bets
+        d = dd_under_bets()
+        d["pool"] = d.season.map({"last season": "archive", "this season": "this season"})
+        d["game"] = d.ticker                                  # each market is its own bet
+        return d[["date", "pool", "game", "created_time", "resolve", "cost", "win"]].dropna(subset=["date"]).sort_values(["date", "created_time"])
     out = []
     for pool, path in (("archive", PRIOR_TOUCH), ("this season", config.DATA_DIR / "first_touch.parquet")):
         if not path.exists():
@@ -52,7 +59,9 @@ class FundEnv(gym.Env):
 
     def __init__(self, games: pd.DataFrame, bankroll: float = 100.0, episode_nights: int = 60,
                  order: str = "bootstrap", max_concurrent: float = 0.5, tickets=((5.0, 1000.0),),
-                 ticket_keep: float = 0.5, prior_bets: float = 0.0, seed: int | None = None):
+                 ticket_keep: float = 0.5, prior_bets: float = 0.0, seed: int | None = None,
+                 max_stake: float = float("inf")):
+        self.max_stake = max_stake           # dollars that can realistically be filled per bet (liquidity)
         self.nights = [g for _, g in games.groupby("date")]
         self.start, self.T, self.order = bankroll, episode_nights, order
         self.max_concurrent, self.tickets, self.keep, self.prior = max_concurrent, tickets, ticket_keep, prior_bets
@@ -94,7 +103,7 @@ class FundEnv(gym.Env):
                 cash += pos[1]
                 open_pos.remove(pos)
             exposure = sum(p[2] for p in open_pos)
-            stake = min(stake_frac * self.bal, cash, max(self.max_concurrent * self.bal - exposure, 0.0))
+            stake = min(stake_frac * self.bal, cash, max(self.max_concurrent * self.bal - exposure, 0.0), self.max_stake)
             if stake > 0.01 and bets < max_bets:
                 cash -= stake
                 c = cost_with_fee(r.cost)
@@ -180,18 +189,21 @@ POLICIES = {
 }
 
 
-def run(threshold: float = 0.95, episodes: int = 400, nights: int = 60):
+def run(threshold: float = 0.95, episodes: int = 400, nights: int = 60, rule: str = "", max_stake: float = float("inf")):
     pd.set_option("display.width", 230)
-    games = load_nights(threshold)
-    print(f"\nFundEnv: {games.game.nunique():,} real NBA games on {games.date.nunique()} nights "
-          f"({(games.pool == 'archive').sum():,} archive, {(games.pool == 'this season').sum():,} this season); "
-          f"rule = first in-game touch of {threshold:.2f}.  Start $100.")
+    games = load_nights(threshold, rule=rule)
+    name = "double-double UNDER, first in-game fill at 50-80c" if rule == "dd_under" else f"moneyline, first in-game touch of {threshold:.2f}"
+    print(f"\nFundEnv: {games.game.nunique():,} real bets on {games.date.nunique()} nights "
+          f"({(games.pool == 'archive').sum():,} last season, {(games.pool == 'this season').sum():,} this season); "
+          f"rule = {name}.  Start $100.  "
+          + ("Assumes any stake fills at the tested price." if max_stake == float("inf")
+             else f"No more than ${max_stake:g} can be filled per bet (liquidity cap)."))
     for label, g, order in (("THIS SEASON'S NIGHTS, reshuffled", games[games.pool == "this season"], "bootstrap"),
                             ("LAST SEASON'S NIGHTS (archive), reshuffled", games[games.pool == "archive"], "bootstrap"),
                             ("EVERYTHING IN ORDER, as it actually happened (one path)", games, "chronological")):
         rows = []
         for name, pol in POLICIES.items():
-            r = evaluate(dict(games=g, episode_nights=nights, order=order), pol, episodes)
+            r = evaluate(dict(games=g, episode_nights=nights, order=order, max_stake=max_stake), pol, episodes)
             rows.append(dict(policy=name, median_end=f"${r['median_end']:,.0f}", bad_1in10=f"${r['bad_1in10']:,.0f}",
                              good_1in10=f"${r['good_1in10']:,.0f}", ahead=f"{r['ahead']:.0%}", halved=f"{r['halved']:.0%}",
                              growth_night=f"{r['growth_per_night']:+.2%}", bets=f"{r['bets']:.0f}"))

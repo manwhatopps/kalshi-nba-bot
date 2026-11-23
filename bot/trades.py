@@ -127,17 +127,19 @@ KEYS = ["league", "series", "game", "phase", "cents", "taker_side", "result"]
 AGG_DAYS = config.DATA_DIR / "agg_days.json"
 
 
-def aggregate(results: pd.DataFrame | None = None, rebuild: bool = False) -> pd.DataFrame:
+def aggregate(results: pd.DataFrame | None = None, rebuild: bool = False, trades_dir=None, out=None) -> pd.DataFrame:
     """Day by day (memory-safe): join fills to results and collapse to
     (market type, game, phase, price in cents, taker side, result) -> fills / contracts / capped contracts.
     Incremental: only day files not already folded in are processed, so it works on a fresh machine
     that has the committed summary but not the raw trade files."""
     import json
+    trades_dir, AGG_ = trades_dir or TRADES_DIR, out or AGG
+    AGG_DAYS_ = AGG_DAYS if out is None else AGG_.with_name(AGG_.stem + "_days.json")
     results = results if results is not None else pd.read_parquet(RESULTS)
     r = results[results.result.isin(["yes", "no"])][["ticker", "series", "league", "game", "result", "tipoff"]]
-    done = set() if rebuild or not (AGG.exists() and AGG_DAYS.exists()) else set(json.loads(AGG_DAYS.read_text()))
-    parts = [pd.read_parquet(AGG)] if done else []
-    for f in sorted(TRADES_DIR.glob("2*.parquet")):
+    done = set() if rebuild or not (AGG_.exists() and AGG_DAYS_.exists()) else set(json.loads(AGG_DAYS_.read_text()))
+    parts = [pd.read_parquet(AGG_)] if done else []
+    for f in sorted(trades_dir.glob("2*.parquet")):
         if f.stem in done:
             continue
         t = pd.read_parquet(f).merge(r, on="ticker", how="inner")
@@ -151,8 +153,8 @@ def aggregate(results: pd.DataFrame | None = None, rebuild: bool = False) -> pd.
         g = t.groupby(KEYS, observed=True).agg(n=("count", "size"), contracts=("count", "sum"), cap100=("cap100", "sum"))
         parts.append(g.reset_index())
     a = pd.concat(parts, ignore_index=True).groupby(KEYS, observed=True)[["n", "contracts", "cap100"]].sum().reset_index()
-    a.to_parquet(AGG, index=False)
-    AGG_DAYS.write_text(json.dumps(sorted(done)))
+    a.to_parquet(AGG_, index=False)
+    AGG_DAYS_.write_text(json.dumps(sorted(done)))
     return a
 
 
@@ -312,5 +314,7 @@ def fetch_results_historical(k: Kalshi, series_list: list[str], out=None) -> pd.
                              tipoff=occ - START_OFFSET[league]))
         print(f"  {s:18s} {len(ms):7d} archived markets", flush=True)
         if rows:
-            pd.DataFrame(rows).drop_duplicates("ticker").to_parquet(out, index=False)
+            new = pd.DataFrame(rows).drop_duplicates("ticker")
+            old = pd.read_parquet(out) if out.exists() else new.iloc[0:0]
+            pd.concat([old[~old.ticker.isin(new.ticker)], new], ignore_index=True).to_parquet(out, index=False)
     return pd.read_parquet(out) if out.exists() else pd.DataFrame()

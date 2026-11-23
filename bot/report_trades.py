@@ -15,7 +15,8 @@ pd.set_option("display.width", 230)
 pd.set_option("display.max_rows", 300)
 DISCOVERED_THROUGH = "2026-11-21"
 PROPS = ("KXNBAPTS", "KXNBAREB", "KXNBAAST", "KXNBA3PT", "KXNBAPRA", "KXNBASTL", "KXNBABLK", "KXNBASTOCK",
-         "KXNBA2D", "KXNBA3D", "KXNFLTD", "KXNFLREC", "KXNFLRSH", "KXNFLPASS", "KXNFLFIRSTTD", "KXNFLRR")
+         "KXNBA2D", "KXNBA3D", "KXNFLTD", "KXNFLREC", "KXNFLRSH", "KXNFLPASS", "KXNFLFIRSTTD", "KXNFLRR",
+         "KXNFLANYTD", "KXNFL2TD")
 
 
 def group(s: str) -> str:
@@ -43,6 +44,8 @@ def refresh(since: date):
                     datetime(since.year, since.month, since.day, tzinfo=timezone.utc))
     T.aggregate()
     T.first_touch()
+    from . import props_study
+    props_study.first_in_band(T.TRADES_DIR, pd.read_parquet(T.RESULTS), T.config.DATA_DIR / "prop_touch.parquet")
 
 
 def run(args):

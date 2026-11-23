@@ -23,14 +23,16 @@ sec() {   # sec "Title" <tail-lines> command...
 }
 
 python -m bot trades --download --since "$(date -u -d '5 days ago' +%F)" > .refresh.out 2>&1 || { fails=$((fails + 1)); echo "refresh failed" >> .refresh.out; }
-pgrep -f "bot watch" > /dev/null || (setsid nohup python -m bot watch --hours 14 >> data/watch.log 2>&1 < /dev/null &)
+pkill -f "bot watch" 2>/dev/null; sleep 1   # restart so the watcher picks up today's regraded fund plan
+(setsid nohup python -m bot watch --hours 14 >> data/watch.log 2>&1 < /dev/null &)
 
 {
   echo "# Kalshi sports bot — $(date -u '+%F %H:%M UTC')"
   echo; echo "Data refresh: $(grep -c 'NBA/NFL fills' .refresh.out) new day(s) of trades added."
   sec "Yesterday graded" 25 python -m bot settle
   sec "THE FUND: tonight's allocation and what to expect" 90 python -m bot fund
-  sec "SIMULATOR: staking policies replayed on real game nights" 40 python -m bot sim --episodes 150
+  sec "SIMULATOR: double-double under rule, \$5 fillable per bet" 40 python -m bot sim --rule dd_under --max-stake 5 --episodes 150
+  sec "SIMULATOR: moneyline 95c rule (failed rule, for reference)" 40 python -m bot sim --episodes 100
   sec "Every fill this season: the first-touch rule (NBA)" 60 bash -c "python -m bot trades | sed -n '/A RULE YOU CAN FOLLOW/,\$p'"
   sec "Do the models beat Kalshi? (settled props)" 16 python -m bot models
   sec "Favorites strategy on quote history" 70 python -m bot favorites --samples 100

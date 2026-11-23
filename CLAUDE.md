@@ -8,8 +8,9 @@ A fund, not a pick list: one bankroll split into a CORE sleeve (single bets on d
 from the low end of the edge's error range until confirmed), a small fixed DEGEN sleeve (lottery combos), and
 a RESERVE. `python -m bot fund` prints the plan; settings live in `data/fund.json`. Edges are graded A/B/C in
 `bot/fund.py` from `data/first_touch.parquet`; only A and B get money. A rule is graded on games it was NOT
-found on (the prior-season archive in `data/first_touch_prior.parquet` plus games since discovery); as of
-2026-11-23 every rule grades C and the core sleeve holds cash. `python -m bot sim` replays real nights in
+found on (the prior-season archive plus games since discovery). As of 2026-11-23 the moneyline rules grade
+C (failed on the archive) and one prop rule grades B: the in-game NBA double-double UNDER at 50-80c
+(`fund.dd_under_bets`, from `data/prop_touch*.parquet`). Props matter as much as game lines: test both. `python -m bot sim` replays real nights in
 `bot/sim_env.py` (gymnasium `FundEnv`) to compare staking policies; any new rule must survive it.
 
 ## Rules

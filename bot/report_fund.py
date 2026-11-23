@@ -45,7 +45,9 @@ def run(args):
         return
     for e in reg.itertuples():
         print(f"   [{e.grade}] {e.edge}")
-        print(f"       where it was found : {e.bets} bets, {e.losses} lost, won {e.won:.1%} (break-even {e.cost:.1%}) -> {e.edge_pct:+.1%} per $1")
+        print(f"       where it was found : {e.bets} bets, {e.losses} lost, won {e.won:.1%} (break-even {e.cost:.1%}) -> {e.edge_pct:+.1%} per $1  ({e.note})")
+        if e.by_season:
+            print(f"                            {e.by_season}")
         if e.ind_bets:
             print(f"       independent games  : {e.ind_bets} bets ({e.arch_bets} from last season's archive, {e.new_bets} since discovery), "
                   f"{e.ind_losses} lost, won {e.ind_won:.1%} (break-even {e.ind_cost:.1%}) -> {e.ind_edge:+.1%} per $1")
@@ -68,20 +70,23 @@ def run(args):
         frac, exp_tr = 0.0, 0.0
     else:
         frac = fund.stake_fraction(e)
-        exp_tr = e.game_share * games
+        exp_tr = e.game_share * games if e.id != "dd_under" else e.per_night * games / 7.0
         per = min(frac * B, core / max(exp_tr, 1)) if games else frac * B
         win_ret = 1 / e.cost - 1
         print(f"   Edge used: {e.edge}  [{e.grade}]")
         print(f"   Kelly on the measured win rate: {e.kelly_full:.0%} of bankroll ({_money(e.kelly_full * B)}).  "
               f"Kelly on the low end of its error range: {e.kelly_safe:.0%} ({_money(e.kelly_safe * B)}).")
-        print(f"   NBA games tonight: {games}.  Expected triggers: about {exp_tr:.0f} (the rule fired in {e.game_share:.0%} of games).")
+        print(f"   NBA games tonight: {games}.  Expected bets: about {exp_tr:.0f}.")
+        if e.id == "dd_under":
+            print("   LIQUIDITY WARNING: these are thin markets. This season a typical market saw about $5 of unders bought at "
+                  "these prices, so stakes above a few dollars per market may not fill at the tested price.")
         print(f"   PLAN: {_money(per)} on each trigger, never more than {_money(core)} at risk at once.")
         print(f"         Each win makes {_money(per * win_ret)}; each loss costs {_money(per)}.  "
               f"Expected profit tonight: {_money(exp_tr * per * e.edge_pct)} if the edge is real, $0 if it is not.")
         one_loss = 1 - e.won
-        print(f"   The same {_money(core)} on ONE trigger: same expected profit ({_money(core * e.edge_pct)}), but a "
-              f"{one_loss:.1%} chance of losing {_money(core)} in one game. Spread over ~{max(exp_tr, 1):.0f} games that "
-              f"single-night loss needs every one of them to fail.")
+        print(f"   The whole {_money(core)} on ONE bet instead: expected profit {_money(core * e.edge_pct)}, but a "
+              f"{one_loss:.1%} chance of losing all {_money(core)} on that one bet. Spread over ~{max(exp_tr, 1):.0f} bets, "
+              f"losing that much needs nearly every one of them to fail.")
 
     print("\n3) DEGEN SLEEVE (lottery tickets: fixed cost, never sized up)")
     run_id = uuid.uuid4().hex[:8]

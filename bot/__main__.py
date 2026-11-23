@@ -153,9 +153,8 @@ def main():
     tr.add_argument("--download", action="store_true", help="fetch missing days + results first")
     tr.add_argument("--since", default="2026-10-20")
     tr.add_argument("--league", default="NBA")
-    wt = sub.add_parser("watch", help="live paper-trade: NBA moneyline first touch of 95c during games")
+    wt = sub.add_parser("watch", help="live paper-trade every registry rule during games (no orders)")
     wt.add_argument("--hours", type=float, default=8)
-    wt.add_argument("--thresholds", type=float, nargs="+", default=[0.95])
     be = sub.add_parser("best", help="statistically most probable combos tonight, by payout target (paper)")
     be.add_argument("--league", default="NBA")
     be.add_argument("--targets", type=float, nargs="+", default=[3, 5, 10, 25])
@@ -176,6 +175,9 @@ def main():
     sm.add_argument("--threshold", type=float, default=0.95)
     sm.add_argument("--episodes", type=int, default=400)
     sm.add_argument("--nights", type=int, default=60)
+    sm.add_argument("--rule", default="", help="'dd_under' to replay the double-double under rule")
+    sm.add_argument("--max-stake", type=float, default=float("inf"), help="dollars fillable per bet (liquidity cap)")
+    sub.add_parser("props", help="player props across two seasons: overs/unders, prop types, price bands")
     sub.add_parser("settle")
     sub.add_parser("report")
     b = sub.add_parser("backtest")
@@ -210,9 +212,12 @@ def main():
     elif cmd == "trades":
         from .report_trades import run
         run(args)
+    elif cmd == "props":
+        from .props_study import run
+        run()
     elif cmd == "sim":
         from .sim_env import run
-        run(args.threshold, args.episodes, args.nights)
+        run(args.threshold, args.episodes, args.nights, args.rule, args.max_stake)
     elif cmd == "fund":
         from .report_fund import run
         run(args)
@@ -221,7 +226,7 @@ def main():
         best(args)
     elif cmd == "watch":
         from .watch import run
-        run(thresholds=tuple(args.thresholds), hours=args.hours)
+        run(hours=args.hours)
     elif cmd == "edges":
         from . import edges, history
         edges.run(history.load(args.league))
