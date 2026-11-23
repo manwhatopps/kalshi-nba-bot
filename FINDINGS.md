@@ -362,6 +362,23 @@ vs assisted looks allowed) show the same: one was significant last season, none 
 where the whole chain agrees with the under did no better this season than unders in general
 (+0.1 to +0.9 points vs +0.9).
 
+**Sharper scheme data, same answer.** Per-game tracking for every team (gabriel1200/player_sheets:
+rim, mid-range and three-point shares of shots, catch-and-shoot and pull-up attempts, wide-open
+threes, drives, paint and post touches, potential assists, seconds per touch) was turned into what
+each defense allowed over its previous 15 games, and into scheme labels: San Antonio, Portland and
+Utah look drop-style (mid-range and pull-ups conceded, threes taken away); Boston, the Lakers and
+Oklahoma City pack the paint and concede threes; Brooklyn, Milwaukee and New York allow
+catch-and-shoot threes and ball movement (zone-like); Minnesota, Detroit and Orlando force isolation
+(switch-style). Thirteen pre-chosen tests matched each measure to the stat it should affect; none
+is distinguishable from zero in both seasons, and price + all 13 scores worse out of sample (0.5613)
+than the price alone (0.5606).
+
+One lean has the same sign in both seasons and a mechanism: **assist props against isolation-forcing
+defenses**. Assist unders beat their price by 2.2 points last season and 0.8 this season against
+the top third of defenses by seconds per touch, and hit 1.8 and 1.1 points LESS than priced against
+the bottom third (pooled z = -3.0 on 10,742 assist markets, right at the bar for 13 tests). It is
+smaller than Kalshi's fee, so it is a tie-breaker in the chain, not a rule to bet.
+
 What does hold pre-game: **unders as a group beat their price by 2.8 points last season and 0.9 this
 season** - the structural over/under tilt, not matchup insight.
 

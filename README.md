@@ -155,5 +155,7 @@ trading + grading · `bot/backtest.py` calibration.
 | Simulation environment | `gymnasium` (MIT): `bot/sim_env.py` `FundEnv` replays real game nights; passes `check_env` | yes |
 | Prior-season data | Kalshi `/historical/markets` + the same Hugging Face daily fills back to April 2025 | yes, the independent test in FINDINGS 12 |
 | Other simulators reviewed | `oddsgym` (stale, soccer), `keeks` (bankroll sim), NautilusTrader (Kalshi adapter still beta), `Oddpool/PredictionMarketBench` (4 Kalshi order-book episodes), `hftbacktest` (needs order-book data we don't have) | no: none replay Kalshi sports history |
+| Shot-zone and tracking data by team-game | `gabriel1200/player_sheets` (daily; no licence, so downloaded at run time for private analysis, never committed) | yes, `bot/tracking.py`: what each defense allows, scheme labels |
+| Other ready-made matchup data found | `meharpalbasi/NBA_Lineup202324_Analyzer` (play types, defended FG%; no licence), HF `nightlydata/nba-analytics-open-data` (defense-vs-position, rest and travel; CC-BY-4.0) | not yet |
 | NBA score-by-time data | Hugging Face `cdechoch/nba-data-archive` (play-by-play with wall-clock times, Apache-2.0) | next: tie entries to score and clock |
 | Published evidence | Moskowitz 2021 (line moves reverse; not profitable after costs); Kalshi Research 2026 (profit and forecasting skill largely unrelated) | informs what NOT to build |

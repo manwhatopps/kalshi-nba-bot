@@ -60,7 +60,7 @@ def candidates(k, leagues=("NBA", "NFL"), hours: float = 14, lo: float = 0.50, h
         ex = [matchup.explain(ctx, r.title, r.series, r.ticker, r.game, r.side, r.cost) if r.league == "NBA"
               else dict(lines=["NFL leg: no style model yet"], pro=0, con=0) for r in c.itertuples()]
         c["pro"], c["con"] = [e["pro"] for e in ex], [e["con"] for e in ex]
-        c["why"] = [" | ".join(e["lines"][:3]) for e in ex]
+        c["why"] = [" | ".join(e["lines"][:5]) for e in ex]
     except Exception as e:
         print(f"  (chain unavailable: {e})")
         c["pro"], c["con"], c["why"] = 0, 0, ""

@@ -189,7 +189,14 @@ def context(logs: pd.DataFrame | None = None) -> dict:
     prof = S.latest_profiles(B["styles"], cur)
     dv = B["dvr"].sort_values("game_date").groupby(["defense", "role"]).tail(1).set_index(["defense", "role"])
     last_game = logs.groupby("team").game_date.max().to_dict()
-    return dict(last=last, role=lambda k: r_now.get(k) or r_old.get(k), prof=prof, dvr=dv, last_game=last_game)
+    try:
+        from . import tracking
+        schemes = tracking.latest_schemes()
+    except Exception as e:
+        print(f"  (tracking data unavailable: {e})")
+        schemes = pd.DataFrame()
+    return dict(last=last, role=lambda k: r_now.get(k) or r_old.get(k), prof=prof, dvr=dv, last_game=last_game,
+                schemes=schemes)
 
 
 def explain(ctx: dict, title: str, series: str, ticker: str, game: str, side: str, price: float) -> dict:
@@ -265,6 +272,23 @@ def explain(ctx: dict, title: str, series: str, ticker: str, game: str, side: st
             bits.append(f"{opp}: {p.tags}")
         lines.append("; ".join(bits))
         vote(True if p.def_rtg_rank >= 24 else (False if p.def_rtg_rank <= 7 else None))   # rank 30 = best defense
+    sch = ctx.get("schemes")
+    if sch is not None and len(sch) and opp in sch.index:
+        r = sch.loc[opp]
+        bits = [f"{opp} shots allowed: {r.a_rim:.0%} at the rim, {r.a_mid:.0%} mid-range, {r.a_three:.0%} threes"]
+        if r.scheme:
+            bits.append(r.scheme)
+        lines.append("; ".join(bits))
+        if "ast" in stats and len(stats) == 1:
+            # the one scheme effect with support in both seasons (pooled z -3.0 on 10,742 assist props; too small to
+            # beat the fee by itself): assists come in under against defenses that force isolation, over against
+            # defenses that allow ball movement
+            if r.iso_third == "high":
+                lines.append(f"{opp} forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses")
+                vote(True)
+            elif r.iso_third == "low":
+                lines.append(f"{opp} allows ball movement (bottom third in seconds per touch): assist unders have hit LESS than priced against these defenses")
+                vote(False)
     lg = ctx["last_game"].get(team)
     if lg is not None and (slate_date(game) - lg).days == 1:
         lines.append("second night of a back-to-back")

@@ -232,6 +232,14 @@ def main():
         P = S.latest_profiles(S.team_styles(load_logs(topup=False)), config.CURRENT_SEASON)
         cols = ["pace", "off_rtg", "def_rtg", "three_rate", "d_three_rate", "d_ast_rate", "d_oreb_rate", "d_tov_rate", "tags"]
         print(P[cols].round(3).sort_values("def_rtg").to_string())
+        try:
+            from . import tracking
+            sc = tracking.latest_schemes()
+            print("\nWHAT EACH DEFENSE ALLOWS (previous 15 games; shares of opponent shots) and the scheme that profile suggests:")
+            print(sc[["a_rim", "a_mid", "a_three", "a_cs3", "a_pullup", "a_wide_open3", "a_pot_ast", "scheme"]].round(3)
+                  .sort_values("a_three").to_string())
+        except Exception as e:
+            print(f"(tracking data unavailable: {e})")
     elif cmd == "degen":
         from .degen import run
         run(args)
