@@ -64,7 +64,7 @@ def settle(k):
     if COMBOS.exists():
         C0 = pd.read_csv(COMBOS, dtype={"result": str}).fillna({"result": ""})
         for legs in C0.legs[C0.result == ""]:
-            want |= set(json.loads(legs))
+            want |= {t.split(":")[0] for t in json.loads(legs)}
     want = sorted(want)
     for i in range(0, len(want), 100):  # batch lookup: 100 tickers per request
         try:
@@ -90,10 +90,11 @@ def settle(k):
     if COMBOS.exists():
         C = pd.read_csv(COMBOS, dtype={"result": str, "pnl": str}).fillna({"result": "", "pnl": ""})
         for i in C.index[C.result == ""]:
-            rs = [res(t) for t in json.loads(C.at[i, "legs"])]
-            if "no" in rs:
+            pairs = [(t.split(":") + ["yes"])[:2] for t in json.loads(C.at[i, "legs"])]
+            rs = [(res(t), side) for t, side in pairs]   # leg wins when the market result equals its side
+            if any(r in ("yes", "no") and r != side for r, side in rs):
                 C.at[i, "result"] = "lost"
-            elif all(r == "yes" for r in rs):
+            elif all(r == side for r, side in rs):
                 C.at[i, "result"] = "won"
             else:
                 continue
@@ -125,3 +126,14 @@ def report():
             print(f"\nCOMBOS [{status}]: {len(g)} settled, {int((g.result == 'won').sum())} won, "
                   f"expected wins {g.p_fair.sum():.1f}, P&L {pnl.sum():+.2f} "
                   f"({'per $1 paper stake' if status != 'placed' else 'dollars'})")
+
+
+def log_card(run_id, card, name, p_hit, price, stake=1.0, note=""):
+    """A favorites card (legs can be YES or NO) logged as one paper combo."""
+    _append(COMBOS, [dict(
+        ts=datetime.now(timezone.utc).isoformat(timespec="seconds"), run_id=run_id,
+        combo_id="|".join(sorted(f"{t}:{s}" for t, s in zip(card.ticker, card.side))), status=name,
+        n_legs=len(card), legs=json.dumps([f"{t}:{s}" for t, s in zip(card.ticker, card.side)]),
+        titles=" + ".join(f"{s.upper()} {t}" for t, s in zip(card.title, card.side))[:4000],
+        p_fair=round(p_hit, 6), p_mid=round(price, 6), est_price=round(price, 6), quote_price=None,
+        stake=stake, combo_ticker="", note=note, result="", pnl="")])

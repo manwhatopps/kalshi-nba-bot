@@ -8,3 +8,4 @@ python-dotenv>=1.0
 penaltyblog>=1.13     # sportsbook de-vig (power/Shin methods)
 nba_api>=1.12         # optional fresher stats when run from a home connection
 pytest>=8
+scikit-learn>=1.5

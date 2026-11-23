@@ -6,3 +6,7 @@ __pycache__/
 *.key
 data/*
 !data/ledger/
+!data/history/
+!data/stack_weights.json
+!data/corr_priors.json
+data/history_download.log

@@ -104,6 +104,23 @@ def main():
             p.add_argument("--live", action="store_true", help="actually accept quotes (default: quotes only)")
             p.add_argument("--min-ev", type=float, default=0.05, help="min EV vs the REAL quote to accept")
             p.add_argument("--max-rfqs", type=int, default=3)
+    h = sub.add_parser("history", help="download Kalshi settled markets + pre-game prices")
+    h.add_argument("--days", type=int, default=35)
+    h.add_argument("--league", default="NBA,NFL")
+    f = sub.add_parser("favorites", help="backtest the many-legs-at-90c+ strategy on Kalshi history")
+    f.add_argument("--league", default="NBA")
+    f.add_argument("--when", default="pre", choices=["pre", "live1", "live2"],
+                   help="price snapshot: pre-game, ~1h into the game, ~2h into the game")
+    f.add_argument("--samples", type=int, default=200)
+    sub.add_parser("models", help="score all model types vs Kalshi prices on settled props")
+    c = sub.add_parser("card", help="build tonight's favorites card (paper)")
+    c.add_argument("--league", default="NBA")
+    c.add_argument("--legs", type=int, default=50)
+    c.add_argument("--min-price", type=float, default=0.90)
+    c.add_argument("--max-price", type=float, default=0.995)
+    c.add_argument("--per-game", type=int, default=8)
+    c.add_argument("--include-live", action="store_true")
+    c.add_argument("--naive", action="store_true", help="just take the highest-priced legs")
     sub.add_parser("settle")
     sub.add_parser("report")
     b = sub.add_parser("backtest")
@@ -122,6 +139,22 @@ def main():
             from .execute import place
             place(trade_client(), res["combos"], res["collection"], res["run_id"], live=args.live,
                   min_ev=args.min_ev, max_rfqs=args.max_rfqs)
+    elif cmd == "history":
+        from .history import download
+        download(days=args.days, leagues=tuple(args.league.split(",")))
+    elif cmd == "favorites":
+        from .report_fav import run
+        run(args.league, args.when, args.samples)
+    elif cmd == "models":
+        from . import ensemble, history
+        from .data import load_logs
+        df = ensemble.score_history(history.load("NBA"), load_logs(topup=False))
+        ensemble.report(ensemble.stack_walk_forward(df))
+        w = ensemble.fit_live_weights(df)
+        print(f"\n  live-scan weights saved (fitted on {w['n']:,} legs): market {w['w_mid']:.2f}, model {w['w_model']:.2f}")
+    elif cmd == "card":
+        from .report_fav import card
+        card(args)
     elif cmd == "settle":
         print(f"settled {ledger.settle(data_client())} rows")
         ledger.report()

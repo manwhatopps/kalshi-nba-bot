@@ -59,10 +59,17 @@ class Kalshi:
     def request(self, method: str, path: str, params=None, json=None, auth=False, retries=4):
         if auth and not self.authed:
             raise KalshiError("This call needs KALSHI_API_KEY_ID + KALSHI_PRIVATE_KEY_PATH")
-        for attempt in range(retries + 1):
+        for attempt in range(retries + 40):
             headers = self._auth_headers(method, path) if (auth or self.authed) else {}
             r = self.s.request(method, self.base + path, params=params, json=json, headers=headers, timeout=30)
-            if r.status_code in (429, 500, 502, 503, 504) and attempt < retries:
+            if r.status_code == 429 and attempt < retries + 36:
+                # token bucket: the header says how long until this request is affordable
+                try:
+                    time.sleep(max(1.0, float(r.headers.get("x-ratelimit-reset", 3))) + 0.2)
+                except ValueError:
+                    time.sleep(2)
+                continue
+            if r.status_code in (500, 502, 503, 504) and attempt < retries:
                 time.sleep(1.5 * 2 ** attempt)
                 continue
             if r.status_code >= 400:

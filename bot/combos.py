@@ -52,7 +52,29 @@ class Combo:
         return round(max(0.0, min(config.KELLY_FRACTION * f * config.BANKROLL, config.MAX_STAKE_PER_COMBO)), 2)
 
 
+_STACK = None
+
+
+def _stack_weights():
+    global _STACK
+    if _STACK is None:
+        import json
+        f = config.DATA_DIR / "stack_weights.json"
+        _STACK = json.loads(f.read_text()) if f.exists() else {}
+    return _STACK
+
+
 def blend(leg) -> float:
+    """Fair probability. For player props, if `python -m bot models` has been run, use the weights it
+    learned from Kalshi's settled markets (which put ~all the weight on the market price) instead of
+    the hand-set W_MODEL."""
+    w = _stack_weights()
+    # Applied to game lines too: the team-score model has not yet beaten the market in a backtest,
+    # so it gets no more trust than the prop models earned.
+    if w and leg.p_model is not None and leg.p_book is None:
+        lg = lambda p: math.log(min(max(p, 0.005), 0.995) / (1 - min(max(p, 0.005), 0.995)))
+        z = w["b0"] + w["w_mid"] * lg(leg.mid) + w["w_model"] * lg(leg.p_model)
+        return float(min(max(1 / (1 + math.exp(-z)), 0.003), 0.997))
     w_m = config.W_MODEL if leg.p_model is not None else 0
     w_b = config.W_BOOK if leg.p_book is not None else 0
     w_k = max(0.0, 1 - w_m - w_b)

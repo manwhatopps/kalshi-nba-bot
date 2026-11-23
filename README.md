@@ -19,6 +19,8 @@ Odds API (opt) ─┘                                      │
                         ledger (every leg + combo) ─> settle ─> "does the model beat Kalshi?"
 ```
 
+**Read `FINDINGS.md` first: what the backtests on Kalshi's own settled markets actually show.**
+
 ## Built from existing pieces (not from scratch)
 
 | Piece | Source |
@@ -27,6 +29,9 @@ Odds API (opt) ─┘                                      │
 | Player game logs (nightly, CC0) | Hugging Face `cbratkovics/nba-game-logs` |
 | Fresher stats from a home connection | `nba_api` (stats.nba.com blocks cloud servers) |
 | Sportsbook de-vig | `penaltyblog` (power method) + The Odds API |
+| Kalshi history for backtests | Kalshi `/markets?status=settled` + batch candlesticks |
+| Extra models | scikit-learn gradient boosting + logistic stacker |
+| Evidence on favorites / combo margins | Jon-Becker/prediction-market-analysis, jsteng19/kalshi-combos-research |
 | Copula approach to combo pricing | idea from `pranay123-stack/kalshi-rfq-combo-pricing-engine`, priors fit on 2 seasons of real games |
 
 ## Setup (run on your own computer)
@@ -58,6 +63,13 @@ python -m bot place --live                 # accept quotes that are still +EV (o
 python -m bot settle                       # grade every logged leg/combo once games finish
 python -m bot report                       # model vs Kalshi Brier score, paper/real P&L
 python -m bot backtest --days 21           # walk-forward calibration of the props model
+
+# strategy research on Kalshi's own settled markets (NBA + NFL)
+python -m bot history --days 35            # download settled markets + pre-game / in-game prices
+python -m bot favorites                    # test "many legs at 90c+" (add --when live1 for in-game)
+python -m bot models                       # score all model types vs Kalshi's price; fit live weights
+python -m bot card --legs 50 --min-price 0.90   # tonight's favorites card (YES and NO legs), paper
+bash scripts/daily.sh                      # all of the above + dated report in reports/
 ```
 
 Columns: `ask/mid` = Kalshi, `model` = stats model, `book` = de-vigged sportsbook,
