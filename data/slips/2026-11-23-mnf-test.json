@@ -1,0 +1,150 @@
+[
+ {
+  "card": 1,
+  "stake": 5,
+  "target": 50,
+  "need_x": 10.0,
+  "fair_x": 12.53004985090475,
+  "one_in": 12.235065539390721,
+  "legs": [
+   {
+    "ticker": "KXNFLREC-26NOV23CINWAS-CINSPERINE34-2",
+    "event_ticker": "KXNFLREC-26NOV23CINWAS",
+    "side": "no",
+    "title": "Samaje Perine: 2+ receptions",
+    "pick": "Samaje Perine UNDER 2 receptions",
+    "price": 0.6599999999999999,
+    "mid": 0.655
+   },
+   {
+    "ticker": "KXNFLREC-26NOV23CINWAS-CINMGESICKI88-3",
+    "event_ticker": "KXNFLREC-26NOV23CINWAS",
+    "side": "no",
+    "title": "Mike Gesicki: 3+ receptions",
+    "pick": "Mike Gesicki UNDER 3 receptions",
+    "price": 0.56,
+    "mid": 0.5549999999999999
+   },
+   {
+    "ticker": "KXNFLREC-26NOV23CINWAS-CINJCHASE1-9",
+    "event_ticker": "KXNFLREC-26NOV23CINWAS",
+    "side": "no",
+    "title": "Ja'Marr Chase: 9+ receptions",
+    "pick": "Ja'Marr Chase UNDER 9 receptions",
+    "price": 0.55,
+    "mid": 0.5449999999999999
+   },
+   {
+    "ticker": "KXNFLREC-26NOV23CINWAS-WASAEKELER30-2",
+    "event_ticker": "KXNFLREC-26NOV23CINWAS",
+    "side": "no",
+    "title": "Austin Ekeler: 2+ receptions",
+    "pick": "Austin Ekeler UNDER 2 receptions",
+    "price": 0.62,
+    "mid": 0.615
+   },
+   {
+    "ticker": "KXNFLTD-26NOV23CINWAS-WASSDIGGS3-1",
+    "event_ticker": "KXNFLTD-26NOV23CINWAS",
+    "side": "no",
+    "title": "Stefon Diggs: 1+ touchdowns",
+    "pick": "Stefon Diggs UNDER 1 touchdowns",
+    "price": 0.6599999999999999,
+    "mid": 0.655
+   }
+  ],
+  "made": "2026-11-24T01:17:39+00:00"
+ },
+ {
+  "card": 2,
+  "stake": 5,
+  "target": 250,
+  "need_x": 50.0,
+  "fair_x": 63.500064880912866,
+  "one_in": 61.009818909222346,
+  "legs": [
+   {
+    "ticker": "KXNFLREC-26NOV23CINWAS-CINCBROWN30-6",
+    "event_ticker": "KXNFLREC-26NOV23CINWAS",
+    "side": "no",
+    "title": "Chase Brown: 6+ receptions",
+    "pick": "Chase Brown UNDER 6 receptions",
+    "price": 0.69,
+    "mid": 0.685
+   },
+   {
+    "ticker": "KXNFLREC-26NOV23CINWAS-CINDSAMPLE89-2",
+    "event_ticker": "KXNFLREC-26NOV23CINWAS",
+    "side": "no",
+    "title": "Drew Sample: 2+ receptions",
+    "pick": "Drew Sample UNDER 2 receptions",
+    "price": 0.6599999999999999,
+    "mid": 0.65
+   },
+   {
+    "ticker": "KXNFLREC-26NOV23CINWAS-WASCOKONKWO85-5",
+    "event_ticker": "KXNFLREC-26NOV23CINWAS",
+    "side": "no",
+    "title": "Chig Okonkwo: 5+ receptions",
+    "pick": "Chig Okonkwo UNDER 5 receptions",
+    "price": 0.6,
+    "mid": 0.59
+   },
+   {
+    "ticker": "KXNFLREC-26NOV23CINWAS-WASAWILLIAMS14-4",
+    "event_ticker": "KXNFLREC-26NOV23CINWAS",
+    "side": "no",
+    "title": "Antonio Williams: 4+ receptions",
+    "pick": "Antonio Williams UNDER 4 receptions",
+    "price": 0.5800000000000001,
+    "mid": 0.5700000000000001
+   },
+   {
+    "ticker": "KXNFLREC-26NOV23CINWAS-CINTHIGGINS5-7",
+    "event_ticker": "KXNFLREC-26NOV23CINWAS",
+    "side": "no",
+    "title": "Tee Higgins: 7+ receptions",
+    "pick": "Tee Higgins UNDER 7 receptions",
+    "price": 0.69,
+    "mid": 0.6799999999999999
+   },
+   {
+    "ticker": "KXNFLRECYDS-26NOV23CINWAS-WASBSINNOTT82-5",
+    "event_ticker": "KXNFLRECYDS-26NOV23CINWAS",
+    "side": "no",
+    "title": "Ben Sinnott: 5+ receiving yards",
+    "pick": "Ben Sinnott UNDER 5 receiving yards",
+    "price": 0.62,
+    "mid": 0.615
+   },
+   {
+    "ticker": "KXNFLRECYDS-26NOV23CINWAS-WASVJEFFERSON12-10",
+    "event_ticker": "KXNFLRECYDS-26NOV23CINWAS",
+    "side": "no",
+    "title": "Van Jefferson: 10+ receiving yards",
+    "pick": "Van Jefferson UNDER 10 receiving yards",
+    "price": 0.63,
+    "mid": 0.625
+   },
+   {
+    "ticker": "KXNFLRECYDS-26NOV23CINWAS-WASTBURKS13-50",
+    "event_ticker": "KXNFLRECYDS-26NOV23CINWAS",
+    "side": "no",
+    "title": "Treylon Burks: 50+ receiving yards",
+    "pick": "Treylon Burks UNDER 50 receiving yards",
+    "price": 0.73,
+    "mid": 0.725
+   },
+   {
+    "ticker": "KXNFLRSHYDS-26NOV23CINWAS-WASJCROSKEYMERRITT22-40",
+    "event_ticker": "KXNFLRSHYDS-26NOV23CINWAS",
+    "side": "no",
+    "title": "Jacory Croskey-Merritt: 40+ rushing yards",
+    "pick": "Jacory Croskey-Merritt UNDER 40 rushing yards",
+    "price": 0.56,
+    "mid": 0.5549999999999999
+   }
+  ],
+  "made": "2026-11-24T01:17:39+00:00"
+ }
+]
