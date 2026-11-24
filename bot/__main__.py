@@ -162,6 +162,16 @@ def main():
     cc.add_argument("link", help="the combo's kalshi.com link (contains marketTicker=...) or its market ticker")
     sub.add_parser("legs", help="leg categories: what was knowable before the game about each kind of under, and how it paid")
     sub.add_parser("nflform", help="NFL legs: recent form, absences, position and game script against Kalshi's price")
+    hg = sub.add_parser("hedge", help="hedge a live card before its next game: lock, break-even and Kelly sizes, and what each costs")
+    hg.add_argument("link", nargs="?", default="", help="the combo's kalshi.com link or ticker; omit to just do the sums with --price")
+    hg.add_argument("--stake", type=float, required=True, help="dollars paid for the ticket")
+    hg.add_argument("--pays", type=float, required=True, help="dollars it pays if every leg hits")
+    hg.add_argument("--bankroll", type=float, default=None, help="money outside this ticket (default: bankroll in data/fund.json)")
+    hg.add_argument("--price", type=float, default=0.5, help="without a link: price of the other side, e.g. 0.42")
+    hg.add_argument("--chance", type=float, default=None, help="without a link: fair chance the leg hits (default 1 - price)")
+    ab = sub.add_parser("arb", help="arbitrage and middles inside Kalshi's own markets (two-sided games, player ladders)")
+    ab.add_argument("--hours", type=float, default=30)
+    ab.add_argument("--live", action="store_true", help="include games in progress")
     sl = sub.add_parser("slip", help="tonight's plan as placeable slips: exact markets, sizes, limits, walk-away payouts (paper)")
     sl.add_argument("--hours", type=float, default=14)
     sl.add_argument("--tickets", default="", help='JSON list of [stake, target] pairs; default: degen_mode in data/fund.json')
@@ -274,6 +284,12 @@ def main():
     elif cmd == "nflform":
         from .nfl_form import study
         study()
+    elif cmd == "hedge":
+        from .hedge import run
+        run(args)
+    elif cmd == "arb":
+        from .arb import run
+        run(args)
     elif cmd == "slip":
         from .slips import run
         run(args)

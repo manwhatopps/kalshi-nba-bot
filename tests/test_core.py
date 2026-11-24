@@ -224,3 +224,18 @@ def test_leg_category_labels_and_classification(tmp_path, monkeypatch):
     c = legs.classify(feat, "NFL")
     assert list(c.pref) == [2, -1, 0]                      # the worst label wins: an underdog rusher in his first game back is dropped
     assert "first game back after 3+ weeks out" in c.cats_all[1] and c.cat_why[0][0].startswith("PREFER")
+
+
+def test_hedge_sizes():
+    from bot import hedge
+    # fair price for the other side: Kelly hedges fully, and no hedge changes the expected value
+    s = hedge.sizes(W=250, stake=5, c=0.40, p=0.60, bankroll=100)
+    assert abs(s["Kelly"]["contracts"] - 250) < 1e-6 and abs(s["lock"]["ev_given_up"]) < 1e-9
+    assert abs(s["lock"]["if_hits"] - s["lock"]["if_misses"]) < 1e-9 and abs(s["lock"]["if_hits"] - (250 * 0.6 - 5)) < 1e-9
+    assert abs(s["break-even"]["if_misses"]) < 1e-9                      # the stake comes back
+    # with a spread and fee the hedge costs expected value, and Kelly hedges less than the full lock
+    t = hedge.sizes(W=250, stake=5, c=0.45, p=0.60, bankroll=100)
+    assert 0 < t["Kelly"]["contracts"] < 250 and t["lock"]["ev_given_up"] > 0
+    assert t["Kelly"]["growth"] >= max(t["no hedge"]["growth"], t["lock"]["growth"]) - 1e-12
+    # a small ticket next to a big bankroll at a costly price: do not hedge
+    assert hedge.sizes(W=10, stake=5, c=0.47, p=0.60, bankroll=1000)["Kelly"]["contracts"] == 0

@@ -74,6 +74,9 @@ python -m bot slip --why                   # tonight's plan as placeable slips; 
 python -m bot slip --check                 # re-price the saved slips right before placing
 python -m bot slip --quote                 # needs your key: create the combos on Kalshi, print real quotes vs the walk-away line
 python -m bot walk --pre                   # the fund's logic tested on pre-game prices only (the mode it runs in)
+python -m bot hedge "<combo link>" --stake 5 --pays 1000   # hedge a live card before its next game: lock, break-even, Kelly
+python -m bot hedge --stake 5 --pays 250 --price 0.42 --chance 0.60   # the same sums without a market lookup
+python -m bot arb                          # arbitrage and middles inside Kalshi's own markets
 python -m bot legs                         # leg categories knowable before the game (underdog, first game back, position), graded on real costs
 python -m bot nflform                      # NFL legs: recent form, absences, position, game script vs Kalshi's price
 python -m bot scenarios                    # player type vs defensive style (NBA shot diets, NFL man/zone): real? priced?
@@ -209,3 +212,9 @@ trading + grading · `bot/backtest.py` calibration.
 | gabriel1200/player_sheets `game_report/all_games` (no licence) | Player-level tracking per game (pull-up and catch-and-shoot threes, zones, drives, post touches). Source of every player's shot diet. Downloaded at run time, not committed. |
 | nflverse `pbp_participation` + `pbp` (CC-BY-SA / CC-BY, coverage charted by FTN) | Man/zone call on every dropback, 2024-2025. 2026 is published after the season. |
 | nflverse `stats_player_week`, `schedules` (CC-BY 4.0) | NFL game logs and point spreads: every NFL leg's last six games, weeks out, position, underdog or favourite. |
+| Kalshi help centre (combos, collateral return, protected player markets) | How a combo can and cannot be exited; why the hedge is the next leg's opposite contract. |
+| Buergi, Deng & Whelan 2025; Bartlett & O'Hara 2026 | Kalshi-specific evidence: favourite-longshot bias, takers and YES buyers lose most. Abstract-level only. |
+| UNLV Nevada sports betting reports | Parlay hold about 31% vs 5.6% on other bets. |
+| Paul, Weinbach & Humphreys 2011 | Fading streaks is not profitable; matches the recent-form test here. |
+| MaddocksJ27/NFL-Market-Efficiency (no licence) | Independent out-of-sample NFL prop study; read, not used. |
+| HintikkaKimmo/surebet, pmxt-dev/pmxt, georgedouzas/sports-betting | Reviewed, not adopted: arbitrage helpers (trivial sums), cross-venue API (single venue here), soccer backtester. |

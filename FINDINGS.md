@@ -602,6 +602,56 @@ went over, the opposite of the usual script. The only leg the new logic would ha
 returning player. One game cannot test any of this. The cards remain negative expected value; the
 changes move a few legs per card toward kinds of under that have paid better.
 
+## 22. Hedging, arbitrage and what outside research says (`python -m bot hedge`, `python -m bot arb`)
+
+**Hedging on Kalshi.** A filled combo cannot be cancelled or reversed, and selling it back needs a
+market maker to quote, with no guarantee (Kalshi help, "Combos"). The practical hedge is the opposite
+contract of the next leg in its own market, bought before that game starts, which fits pre-game-only
+betting: early games finish, the card is alive, the late game has not begun. For a ticket worth W if
+the next leg hits, an opposite contract costing c with the fee, the leg's fair chance p and bankroll B:
+
+* lock: buy W contracts; the same amount is banked either way, W(1 - c) less the stake.
+* break-even: buy stake / (1 - c); the stake comes back if the leg misses.
+* Kelly: h = (1 - p)(B + W)/c - pB/(1 - c), between 0 and W. At a fair price this is the full lock;
+  spread and the second fee shrink it, and for a ticket small next to the bankroll it is zero.
+
+A hedge never adds expected value. Example at Kalshi-like prices ($5 ticket worth $250 if the last
+leg hits, 60% leg, other side 42c, $100 bankroll): locking banks $135.74 either way and gives up
+$9.26 of expected value; the Kelly hedge is 214 of the 250 contracts. With a $2,500 ticket the same
+sum says hedge almost all of it; with a $10 ticket it says do not hedge.
+
+**Arbitrage inside Kalshi.** `python -m bot arb` checks two-sided games (YES on both teams for under
+$1) and every player ladder (YES on a lower line plus NO on a higher line always pays $1, and $2 in
+between: a middle). On 2026-11-24: 5 games, 211 ladders, 1,044 pairs, no arbitrage. A certain $1 from
+both teams costs $1.034 to $1.043. The average middle costs 5.0 cents more than it is worth and none
+of the 1,044 had a positive expected value: two spreads and two fees eat it.
+
+**Outside evidence (found by search; the papers' own sites were not reachable from here, so these
+are as reported in abstracts and summaries).**
+* Kalshi takers and long shots: Buergi, Deng and Whelan (2025) find the favourite-longshot bias on
+  Kalshi, stronger for takers. Bartlett and O'Hara (2026, 41.6M trades) find traders overbuy YES in
+  markets that mostly settle NO. Both match what this repo measured: overs and long shots lose most.
+* Parlays: Nevada books have held about 31% on parlays against 5.6% on other bets since 1984 (UNLV
+  gaming research). Press reports put Kalshi combo takers' losses at about $1.0B on $7.1B staked,
+  14 cents per dollar; this repo's own sample so far says 28 cents, give or take 14.
+* Streaks: Paul, Weinbach and Humphreys (2011) find bettors chase streaks but fading them is not
+  profitable, the same as section 21's result on recent form.
+* Hedging: Whelan (2025) shows optimal betting can include hedges, but a bookmaker's margin makes
+  the aggressive version lose more, the same conclusion as the Kelly line above.
+* An independent NFL study (MaddocksJ27/NFL-Market-Efficiency) reports prop unders hitting 52-54%
+  and concludes the gain is from shopping lines across books, not mispricing. On one venue that
+  advantage does not exist.
+
+**Kalshi mechanics worth knowing.** A player who does not play does not void a combo: the leg settles
+at its fair price and the combo pays the product. "Protected" player markets (YES only, pricier)
+settle at the pre-game price if the player leaves after half-time.
+
+**Tools reviewed and not adopted.** No hedge or arbitrage library is worth a dependency (the sums are
+a few lines). georgedouzas/sports-betting is soccer; odds scrapers and The Odds API serve sportsbooks,
+not a Kalshi-only bot; pykalshi duplicates the client here. Possible next data: nflverse snap counts,
+injuries and depth charts (reachable, free) for "a starter is out" categories, and a point-in-time
+NBA injury-report archive (yangzhou-tysportsanalytics, unreviewed).
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is
