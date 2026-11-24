@@ -1,10 +1,10 @@
 {
- "made_at": "2026-11-24T17:26:15+00:00",
+ "made_at": "2026-11-24T22:10:11+00:00",
  "slate": "2026-11-24",
  "bankroll": 100.0,
  "hours": 14,
  "collection": "KXMVECROSSCATEGORY-R",
- "rules_loaded": 2537,
+ "rules_loaded": 2668,
  "core": {
   "rule": "",
   "stake": 5.0,
@@ -12,7 +12,7 @@
   "slips": [],
   "waiting": 0,
   "taken": 0,
-  "note": "No pre-game rule clears the bar tonight, so the core sleeve stays in cash. The fund backs a rule only once it has beaten its price, after fees, by 3 standard errors on earlier nights. Closest so far: NFL: rushing unders on 3+ point underdogs (+10.7% on 967 bets, 2.4 standard errors); NBA: first game back after 7+ days off (+7.3% on 1,206 bets, 2.2 standard errors).",
+  "note": "No pre-game rule clears the bar tonight, so the core sleeve stays in cash. The fund backs a rule only once it has beaten its price, after fees, by 3 standard errors on earlier nights. Closest so far: NBA: first game back after 7+ days off (+7.7% on 1,226 bets, 2.3 standard errors); NFL: rushing unders on 3+ point underdogs (+7.0% on 1,068 bets, 1.7 standard errors).",
   "pre_game": true,
   "intro": "Every bet is placed before the game. A single bet is issued only for a pre-game rule that has beaten its price, after fees, by 3 standard errors on earlier nights and is still doing so."
  },
@@ -21,40 +21,1186 @@
    "id": "T1",
    "sleeve": "degen",
    "kind": "combo",
-   "status": "unbuilt",
+   "status": "open",
    "stake": 10,
    "target": 1000,
    "need_x": 100.0,
-   "legs": [],
-   "problems": [
-    "not enough different legs left tonight"
-   ]
+   "max_price": 0.009352,
+   "fair_x": 125.37335711567509,
+   "p_hit": 0.00811549839410922,
+   "one_in": 123.22102124077406,
+   "exp_loss": 1.88,
+   "n_legs": 11,
+   "n_games": 3,
+   "per_game": 5,
+   "expires": "2026-11-25T00:00:00+00:00",
+   "collection": "KXMVECROSSCATEGORY-R",
+   "legs": [
+    {
+     "ticker": "KXNBA3PT-26NOV24DETORL-ORLTDASILVA23-3",
+     "event_ticker": "KXNBA3PT-26NOV24DETORL",
+     "side": "no",
+     "title": "Tristan da Silva: 3+ threes",
+     "pick": "Tristan da Silva UNDER 3 threes",
+     "tap": "NO on \"Tristan da Silva: 3+ threes\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.59,
+     "mid": 0.585,
+     "p_hat": 0.5847,
+     "chain_for": 4,
+     "chain_against": 0,
+     "why": [
+      "averaging 3.1 threes over his last 10; reached 3+ in 5 of them (50%); the price implies 41%",
+      "shot diet (13% at the rim, 14% mid-range and floaters, 9% pull-up threes, 61% catch-and-shoot threes) against what DET concedes: +0.7% expected looks (neutral third); this measure did not hold up in both seasons",
+      "minutes down: 26 a game over the last 3 vs 30 over the last 10",
+      "role: spot-up shooter. DET has allowed that role 95% of its usual threes (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line"
+     ],
+     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov24detorl?marketTicker=KXNBA3PT-26NOV24DETORL-ORLTDASILVA23-3"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV24DETORL-ORLDBANE3-4",
+     "event_ticker": "KXNBAAST-26NOV24DETORL",
+     "side": "no",
+     "title": "Desmond Bane: 4+ assists",
+     "pick": "Desmond Bane UNDER 4 assists",
+     "tap": "NO on \"Desmond Bane: 4+ assists\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.67,
+     "mid": 0.665,
+     "p_hat": 0.664,
+     "chain_for": 4,
+     "chain_against": 0,
+     "why": [
+      "averaging 2.9 assists over his last 10; reached 4+ in 3 of them (30%); the price implies 33%",
+      "DET concedes -14.0% potential assists vs what its opponents normally get (unfavourable third); this measure did not hold up in both seasons",
+      "role: spot-up shooter. DET has allowed that role 93% of its usual assists (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line",
+      "DET forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov24detorl?marketTicker=KXNBAAST-26NOV24DETORL-ORLDBANE3-4"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV24DETORL-DETCCUNNINGHAM2-10",
+     "event_ticker": "KXNBAAST-26NOV24DETORL",
+     "side": "no",
+     "title": "Cade Cunningham: 10+ assists",
+     "pick": "Cade Cunningham UNDER 10 assists",
+     "tap": "NO on \"Cade Cunningham: 10+ assists\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.7,
+     "mid": 0.695,
+     "p_hat": 0.694,
+     "chain_for": 4,
+     "chain_against": 0,
+     "why": [
+      "averaging 8.6 assists over his last 10; reached 10+ in 3 of them (30%); the price implies 30%",
+      "scenario: playmaker (16 potential assists per 36) vs ORL, ranked 28 of 30 (bottom third) as a defense that concedes assisted looks. Across 1,983 games such players' assists ran +6.7% against top-third defenses compared with bottom-third ones (z +3.5) -> tonight: DISADVANTAGE; Kalshi's price already reflects it",
+      "ORL concedes -12.1% potential assists vs what its opponents normally get (unfavourable third); this measure did not hold up in both seasons",
+      "role: primary scorer. ORL has allowed that role 95% of its usual assists (stingy)",
+      "ORL defense ranks 14 of 30; game pace slow (-1.0 possessions vs average); ORL: cleans the defensive glass",
+      "ORL shots allowed: 21% at the rim, 11% mid-range, 44% threes; switch-style: forces isolation, few assisted looks",
+      "ORL forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov24detorl?marketTicker=KXNBAAST-26NOV24DETORL-DETCCUNNINGHAM2-10"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV24DETORL-ORLFWAGNER22-8",
+     "event_ticker": "KXNBAAST-26NOV24DETORL",
+     "side": "no",
+     "title": "Franz Wagner: 8+ assists",
+     "pick": "Franz Wagner UNDER 8 assists",
+     "tap": "NO on \"Franz Wagner: 8+ assists\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.64,
+     "mid": 0.635,
+     "p_hat": 0.634,
+     "chain_for": 5,
+     "chain_against": 1,
+     "why": [
+      "averaging 8.5 assists over his last 10; reached 8+ in 5 of them (50%); the price implies 36%",
+      "scenario: playmaker (15 potential assists per 36) vs DET, ranked 29 of 30 (bottom third) as a defense that concedes assisted looks. Across 1,983 games such players' assists ran +6.7% against top-third defenses compared with bottom-third ones (z +3.5) -> tonight: DISADVANTAGE; Kalshi's price already reflects it",
+      "DET concedes -14.0% potential assists vs what its opponents normally get (unfavourable third); this measure did not hold up in both seasons",
+      "role: primary scorer. DET has allowed that role 83% of its usual assists (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line",
+      "DET forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov24detorl?marketTicker=KXNBAAST-26NOV24DETORL-ORLFWAGNER22-8"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV24DETORL-ORLABLACK0-6",
+     "event_ticker": "KXNBAAST-26NOV24DETORL",
+     "side": "no",
+     "title": "Anthony Black: 6+ assists",
+     "pick": "Anthony Black UNDER 6 assists",
+     "tap": "NO on \"Anthony Black: 6+ assists\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.66,
+     "mid": 0.65,
+     "p_hat": 0.649,
+     "chain_for": 5,
+     "chain_against": 1,
+     "why": [
+      "averaging 5.4 assists over his last 10; reached 6+ in 6 of them (60%); the price implies 34%",
+      "scenario: playmaker (11 potential assists per 36) vs DET, ranked 29 of 30 (bottom third) as a defense that concedes assisted looks. Across 1,983 games such players' assists ran +6.7% against top-third defenses compared with bottom-third ones (z +3.5) -> tonight: DISADVANTAGE; Kalshi's price already reflects it",
+      "DET concedes -14.0% potential assists vs what its opponents normally get (unfavourable third); this measure did not hold up in both seasons",
+      "role: primary scorer. DET has allowed that role 83% of its usual assists (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line",
+      "DET forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov24detorl?marketTicker=KXNBAAST-26NOV24DETORL-ORLABLACK0-6"
+    },
+    {
+     "ticker": "KXNBASTL-26NOV24BOSWAS-WASADYBANTSA4-2",
+     "event_ticker": "KXNBASTL-26NOV24BOSWAS",
+     "side": "no",
+     "title": "AJ Dybantsa: 2+ steals",
+     "pick": "AJ Dybantsa UNDER 2 steals",
+     "tap": "NO on \"AJ Dybantsa: 2+ steals\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.69,
+     "mid": 0.685,
+     "p_hat": 0.6914,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 1.4 steals over his last 10; reached 2+ in 3 of them (30%); the price implies 31%",
+      "role: role player. BOS has allowed that role 72% of its usual steals (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov24boswas?marketTicker=KXNBASTL-26NOV24BOSWAS-WASADYBANTSA4-2"
+    },
+    {
+     "ticker": "KXNBASTL-26NOV24BOSWAS-WASADAVIS23-2",
+     "event_ticker": "KXNBASTL-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Anthony Davis: 2+ steals",
+     "pick": "Anthony Davis UNDER 2 steals",
+     "tap": "NO on \"Anthony Davis: 2+ steals\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.72,
+     "mid": 0.705,
+     "p_hat": 0.7114,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 1.2 steals over his last 10; reached 2+ in 2 of them (20%); the price implies 28%",
+      "role: versatile big / forward. BOS has allowed that role 83% of its usual steals (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov24boswas?marketTicker=KXNBASTL-26NOV24BOSWAS-WASADAVIS23-2"
+    },
+    {
+     "ticker": "KXNBAPTS-26NOV24BOSWAS-WASTYOUNG3-15",
+     "event_ticker": "KXNBAPTS-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Trae Young: 15+ points",
+     "pick": "Trae Young UNDER 15 points",
+     "tap": "NO on \"Trae Young: 15+ points\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.52,
+     "mid": 0.515,
+     "p_hat": 0.5202,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 15.0 points over his last 10; reached 15+ in 5 of them (50%); the price implies 48%",
+      "scenario: driver (15 drives per 36) vs BOS, ranked 6 of 30 (top third) as a defense that concedes drives. Across 4,741 games such players' points ran -2.3% against top-third defenses compared with bottom-third ones (z -2.1) -> tonight: leans disadvantage, not conclusive; Kalshi's price already reflects it",
+      "scenario: pull-up three shooter (4.3 pull-up threes per 36 min) vs BOS, ranked 27 of 30 (bottom third) as a defense that concedes pull-up threes. Across 2,648 games such players' points ran -0.9% against top-third defenses compared with bottom-third ones (z -0.6) -> tonight: no measurable effect; Kalshi's price already reflects it",
+      "shot diet (11% at the rim, 40% mid-range and floaters, 34% pull-up threes, 15% catch-and-shoot threes) against what BOS concedes: -9.0% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: primary scorer. BOS has allowed that role 94% of its usual points (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov24boswas?marketTicker=KXNBAPTS-26NOV24BOSWAS-WASTYOUNG3-15"
+    },
+    {
+     "ticker": "KXNBA3PT-26NOV24BOSWAS-BOSPGEORGE13-4",
+     "event_ticker": "KXNBA3PT-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Paul George: 4+ threes",
+     "pick": "Paul George UNDER 4 threes",
+     "tap": "NO on \"Paul George: 4+ threes\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.68,
+     "mid": 0.675,
+     "p_hat": 0.6747,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 3.2 threes over his last 10; reached 4+ in 4 of them (40%); the price implies 32%",
+      "scenario: pull-up three shooter (3.2 pull-up threes per 36 min) vs WAS, ranked 7 of 30 (top third) as a drop-style defense. Across 2,647 games such players' threes made ran -9.1% against top-third defenses compared with bottom-third ones (z -3.3) -> tonight: DISADVANTAGE; Kalshi's price already reflects it",
+      "scenario: pull-up three shooter (3.2 pull-up threes per 36 min) vs WAS, ranked 7 of 30 (top third) as a defense that concedes pull-up threes. Across 2,648 games such players' threes made ran -2.6% against top-third defenses compared with bottom-third ones (z -1.0) -> tonight: no measurable effect; Kalshi's price already reflects it",
+      "role: primary scorer. WAS has allowed that role 94% of its usual threes (stingy)",
+      "WAS defense ranks 23 of 30; game pace slow (-1.5 possessions vs average); WAS: attacks inside the arc; isolation-heavy offense; defense runs shooters off the line; defense avoids fouls; weak on the defensive glass",
+      "WAS shots allowed: 32% at the rim, 9% mid-range, 40% threes; gives up the rim"
+     ],
+     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov24boswas?marketTicker=KXNBA3PT-26NOV24BOSWAS-BOSPGEORGE13-4"
+    },
+    {
+     "ticker": "KXNBA3PT-26NOV24BOSWAS-BOSJTATUM0-4",
+     "event_ticker": "KXNBA3PT-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Jayson Tatum: 4+ threes",
+     "pick": "Jayson Tatum UNDER 4 threes",
+     "tap": "NO on \"Jayson Tatum: 4+ threes\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.66,
+     "mid": 0.65,
+     "p_hat": 0.6497,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 3.2 threes over his last 10; reached 4+ in 4 of them (40%); the price implies 34%",
+      "scenario: pull-up three shooter (6.0 pull-up threes per 36 min) vs WAS, ranked 7 of 30 (top third) as a drop-style defense. Across 2,647 games such players' threes made ran -9.1% against top-third defenses compared with bottom-third ones (z -3.3) -> tonight: DISADVANTAGE; Kalshi's price already reflects it",
+      "scenario: pull-up three shooter (6.0 pull-up threes per 36 min) vs WAS, ranked 7 of 30 (top third) as a defense that concedes pull-up threes. Across 2,648 games such players' threes made ran -2.6% against top-third defenses compared with bottom-third ones (z -1.0) -> tonight: no measurable effect; Kalshi's price already reflects it",
+      "shot diet (24% at the rim, 35% mid-range and floaters, 29% pull-up threes, 10% catch-and-shoot threes) against what WAS concedes: +7.0% expected looks (favourable third); this measure did not hold up in both seasons",
+      "role: primary scorer. WAS has allowed that role 94% of its usual threes (stingy)",
+      "WAS defense ranks 23 of 30; game pace slow (-1.5 possessions vs average); WAS: attacks inside the arc; isolation-heavy offense; defense runs shooters off the line; defense avoids fouls; weak on the defensive glass",
+      "WAS shots allowed: 32% at the rim, 9% mid-range, 40% threes; gives up the rim"
+     ],
+     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov24boswas?marketTicker=KXNBA3PT-26NOV24BOSWAS-BOSJTATUM0-4"
+    },
+    {
+     "ticker": "KXNBAPRA-26NOV24DALDEN-DENAGORDON32-25",
+     "event_ticker": "KXNBAPRA-26NOV24DALDEN",
+     "side": "no",
+     "title": "Aaron Gordon: 25+ combined points, rebounds, and assists",
+     "pick": "Aaron Gordon UNDER 25 combined points, rebounds, and assists",
+     "tap": "NO on \"Aaron Gordon: 25+ combined points, rebounds, and assists\"",
+     "matchup": "Dallas vs Denver",
+     "game": "26NOV24DALDEN",
+     "tipoff": "2026-11-25T03:00:00+00:00",
+     "price": 0.66,
+     "mid": 0.655,
+     "p_hat": 0.6526,
+     "chain_for": 1,
+     "chain_against": 0,
+     "why": [
+      "averaging 17.9 points + rebounds + assists over his last 10; reached 25+ in 1 of them (10%); the price implies 34%",
+      "shot diet (40% at the rim, 19% mid-range and floaters, 12% pull-up threes, 26% catch-and-shoot threes) against what DAL concedes: -1.7% expected looks (neutral third); this measure did not hold up in both seasons",
+      "role: role player. DAL has allowed that role 101% of its usual points / rebounds / assists (average)",
+      "DAL defense ranks 13 of 30; DAL: weak on the defensive glass",
+      "DAL shots allowed: 28% at the rim, 10% mid-range, 43% threes"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapra/m/kxnbapra-26nov24dalden?marketTicker=KXNBAPRA-26NOV24DALDEN-DENAGORDON32-25"
+    }
+   ],
+   "problems": [],
+   "payload": {
+    "selected_markets": [
+     {
+      "market_ticker": "KXNBA3PT-26NOV24DETORL-ORLTDASILVA23-3",
+      "event_ticker": "KXNBA3PT-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAAST-26NOV24DETORL-ORLDBANE3-4",
+      "event_ticker": "KXNBAAST-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAAST-26NOV24DETORL-DETCCUNNINGHAM2-10",
+      "event_ticker": "KXNBAAST-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAAST-26NOV24DETORL-ORLFWAGNER22-8",
+      "event_ticker": "KXNBAAST-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAAST-26NOV24DETORL-ORLABLACK0-6",
+      "event_ticker": "KXNBAAST-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBASTL-26NOV24BOSWAS-WASADYBANTSA4-2",
+      "event_ticker": "KXNBASTL-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBASTL-26NOV24BOSWAS-WASADAVIS23-2",
+      "event_ticker": "KXNBASTL-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPTS-26NOV24BOSWAS-WASTYOUNG3-15",
+      "event_ticker": "KXNBAPTS-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBA3PT-26NOV24BOSWAS-BOSPGEORGE13-4",
+      "event_ticker": "KXNBA3PT-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBA3PT-26NOV24BOSWAS-BOSJTATUM0-4",
+      "event_ticker": "KXNBA3PT-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPRA-26NOV24DALDEN-DENAGORDON32-25",
+      "event_ticker": "KXNBAPRA-26NOV24DALDEN",
+      "side": "no"
+     }
+    ]
+   }
   },
   {
    "id": "T2",
    "sleeve": "degen",
    "kind": "combo",
-   "status": "unbuilt",
+   "status": "open",
    "stake": 5,
    "target": 1000,
    "need_x": 200.0,
-   "legs": [],
-   "problems": [
-    "not enough different legs left tonight"
-   ]
+   "max_price": 0.004674,
+   "fair_x": 251.51320251527977,
+   "p_hit": 0.004107371661755882,
+   "one_in": 243.46469770707446,
+   "exp_loss": 0.89,
+   "n_legs": 11,
+   "n_games": 3,
+   "per_game": 5,
+   "expires": "2026-11-25T00:00:00+00:00",
+   "collection": "KXMVECROSSCATEGORY-R",
+   "legs": [
+    {
+     "ticker": "KXNBAAST-26NOV24DETORL-ORLTDASILVA23-2",
+     "event_ticker": "KXNBAAST-26NOV24DETORL",
+     "side": "no",
+     "title": "Tristan da Silva: 2+ assists",
+     "pick": "Tristan da Silva UNDER 2 assists",
+     "tap": "NO on \"Tristan da Silva: 2+ assists\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.57,
+     "mid": 0.565,
+     "p_hat": 0.564,
+     "chain_for": 5,
+     "chain_against": 1,
+     "why": [
+      "averaging 1.5 assists over his last 10; reached 2+ in 6 of them (60%); the price implies 43%",
+      "DET concedes -14.0% potential assists vs what its opponents normally get (unfavourable third); this measure did not hold up in both seasons",
+      "minutes down: 26 a game over the last 3 vs 30 over the last 10",
+      "role: spot-up shooter. DET has allowed that role 93% of its usual assists (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line",
+      "DET forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov24detorl?marketTicker=KXNBAAST-26NOV24DETORL-ORLTDASILVA23-2"
+    },
+    {
+     "ticker": "KXNBASTL-26NOV24DETORL-ORLDBANE3-2",
+     "event_ticker": "KXNBASTL-26NOV24DETORL",
+     "side": "no",
+     "title": "Desmond Bane: 2+ steals",
+     "pick": "Desmond Bane UNDER 2 steals",
+     "tap": "NO on \"Desmond Bane: 2+ steals\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.62,
+     "mid": 0.615,
+     "p_hat": 0.6214,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 1.4 steals over his last 10; reached 2+ in 3 of them (30%); the price implies 38%",
+      "role: spot-up shooter. DET has allowed that role 89% of its usual steals (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line"
+     ],
+     "url": "https://kalshi.com/markets/kxnbastl/m/kxnbastl-26nov24detorl?marketTicker=KXNBASTL-26NOV24DETORL-ORLDBANE3-2"
+    },
+    {
+     "ticker": "KXNBAPTS-26NOV24DETORL-ORLGBITADZE35-5",
+     "event_ticker": "KXNBAPTS-26NOV24DETORL",
+     "side": "no",
+     "title": "Goga Bitadze: 5+ points",
+     "pick": "Goga Bitadze UNDER 5 points",
+     "tap": "NO on \"Goga Bitadze: 5+ points\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.52,
+     "mid": 0.515,
+     "p_hat": 0.5202,
+     "chain_for": 4,
+     "chain_against": 1,
+     "why": [
+      "averaging 4.9 points over his last 10; reached 5+ in 3 of them (30%); the price implies 48%",
+      "shot diet (89% at the rim, 11% mid-range and floaters, 0% pull-up threes, 0% catch-and-shoot threes) against what DET concedes: -7.4% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "minutes up: 16 a game over the last 3 vs 14 over the last 10",
+      "role: rim big. DET has allowed that role 96% of its usual points (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov24detorl?marketTicker=KXNBAPTS-26NOV24DETORL-ORLGBITADZE35-5"
+    },
+    {
+     "ticker": "KXNBAPTS-26NOV24DETORL-ORLJSUGGS4-15",
+     "event_ticker": "KXNBAPTS-26NOV24DETORL",
+     "side": "no",
+     "title": "Jalen Suggs: 15+ points",
+     "pick": "Jalen Suggs UNDER 15 points",
+     "tap": "NO on \"Jalen Suggs: 15+ points\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.74,
+     "mid": 0.73,
+     "p_hat": 0.7352,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 10.9 points over his last 10; reached 15+ in 2 of them (20%); the price implies 26%",
+      "scenario: driver (13 drives per 36) vs DET, ranked 5 of 30 (top third) as a defense that concedes drives. Across 4,741 games such players' points ran -2.3% against top-third defenses compared with bottom-third ones (z -2.1) -> tonight: leans disadvantage, not conclusive; Kalshi's price already reflects it",
+      "shot diet (16% at the rim, 33% mid-range and floaters, 15% pull-up threes, 35% catch-and-shoot threes) against what DET concedes: -4.7% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: role player. DET has allowed that role 85% of its usual points (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov24detorl?marketTicker=KXNBAPTS-26NOV24DETORL-ORLJSUGGS4-15"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV24DETORL-DETKHUERTERSF-4",
+     "event_ticker": "KXNBAAST-26NOV24DETORL",
+     "side": "no",
+     "title": "Kevin Huerter: 4+ assists",
+     "pick": "Kevin Huerter UNDER 4 assists",
+     "tap": "NO on \"Kevin Huerter: 4+ assists\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.7,
+     "mid": 0.695,
+     "p_hat": 0.694,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 3.0 assists over his last 10; reached 4+ in 3 of them (30%); the price implies 30%",
+      "ORL concedes -12.1% potential assists vs what its opponents normally get (unfavourable third); this measure did not hold up in both seasons",
+      "role: spot-up shooter. ORL has allowed that role 96% of its usual assists (stingy)",
+      "ORL defense ranks 14 of 30; game pace slow (-1.0 possessions vs average); ORL: cleans the defensive glass",
+      "ORL shots allowed: 21% at the rim, 11% mid-range, 44% threes; switch-style: forces isolation, few assisted looks",
+      "ORL forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov24detorl?marketTicker=KXNBAAST-26NOV24DETORL-DETKHUERTERSF-4"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV24BOSWAS-WASADYBANTSA4-4",
+     "event_ticker": "KXNBAAST-26NOV24BOSWAS",
+     "side": "no",
+     "title": "AJ Dybantsa: 4+ assists",
+     "pick": "AJ Dybantsa UNDER 4 assists",
+     "tap": "NO on \"AJ Dybantsa: 4+ assists\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.65,
+     "mid": 0.645,
+     "p_hat": 0.644,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 3.1 assists over his last 10; reached 4+ in 3 of them (30%); the price implies 35%",
+      "BOS concedes +0.2% potential assists vs what its opponents normally get (neutral third); this measure did not hold up in both seasons",
+      "role: role player. BOS has allowed that role 95% of its usual assists (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov24boswas?marketTicker=KXNBAAST-26NOV24BOSWAS-WASADYBANTSA4-4"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV24BOSWAS-WASBCOULIBALY0-2",
+     "event_ticker": "KXNBAAST-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Bilal Coulibaly: 2+ assists",
+     "pick": "Bilal Coulibaly UNDER 2 assists",
+     "tap": "NO on \"Bilal Coulibaly: 2+ assists\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.63,
+     "mid": 0.625,
+     "p_hat": 0.624,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 0.7 assists over his last 10; reached 2+ in 3 of them (30%); the price implies 37%",
+      "BOS concedes +0.2% potential assists vs what its opponents normally get (neutral third); this measure did not hold up in both seasons",
+      "role: role player. BOS has allowed that role 95% of its usual assists (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov24boswas?marketTicker=KXNBAAST-26NOV24BOSWAS-WASBCOULIBALY0-2"
+    },
+    {
+     "ticker": "KXNBAPRA-26NOV24BOSWAS-WASTYOUNG3-25",
+     "event_ticker": "KXNBAPRA-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Trae Young: 25+ combined points, rebounds, and assists",
+     "pick": "Trae Young UNDER 25 combined points, rebounds, and assists",
+     "tap": "NO on \"Trae Young: 25+ combined points, rebounds, and assists\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.51,
+     "mid": 0.5,
+     "p_hat": 0.4976,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 25.5 points + rebounds + assists over his last 10; reached 25+ in 5 of them (50%); the price implies 49%",
+      "scenario: driver (15 drives per 36) vs BOS, ranked 6 of 30 (top third) as a defense that concedes drives. Across 4,741 games such players' points ran -2.3% against top-third defenses compared with bottom-third ones (z -2.1) -> tonight: leans disadvantage, not conclusive; Kalshi's price already reflects it",
+      "scenario: pull-up three shooter (4.3 pull-up threes per 36 min) vs BOS, ranked 27 of 30 (bottom third) as a defense that concedes pull-up threes. Across 2,648 games such players' points ran -0.9% against top-third defenses compared with bottom-third ones (z -0.6) -> tonight: no measurable effect; Kalshi's price already reflects it",
+      "shot diet (11% at the rim, 40% mid-range and floaters, 34% pull-up threes, 15% catch-and-shoot threes) against what BOS concedes: -9.0% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: primary scorer. BOS has allowed that role 93% of its usual points / rebounds / assists (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapra/m/kxnbapra-26nov24boswas?marketTicker=KXNBAPRA-26NOV24BOSWAS-WASTYOUNG3-25"
+    },
+    {
+     "ticker": "KXNBAPTS-26NOV24BOSWAS-WASASARR20-10",
+     "event_ticker": "KXNBAPTS-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Alex Sarr: 10+ points",
+     "pick": "Alex Sarr UNDER 10 points",
+     "tap": "NO on \"Alex Sarr: 10+ points\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.52,
+     "mid": 0.515,
+     "p_hat": 0.5202,
+     "chain_for": 4,
+     "chain_against": 2,
+     "why": [
+      "averaging 12.4 points over his last 10; reached 10+ in 6 of them (60%); the price implies 48%",
+      "scenario: spot-up shooter (4.7 catch-and-shoot threes per 36) vs BOS, ranked 2 of 30 (top third) as a defense that concedes catch-and-shoot threes. Across 2,641 games such players' points ran +7.0% against top-third defenses compared with bottom-third ones (z +3.5) -> tonight: ADVANTAGE; Kalshi's price already reflects it",
+      "shot diet (37% at the rim, 19% mid-range and floaters, 2% pull-up threes, 43% catch-and-shoot threes) against what BOS concedes: -6.3% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "minutes down: 23 a game over the last 3 vs 28 over the last 10",
+      "role: versatile big / forward. BOS has allowed that role 89% of its usual points (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov24boswas?marketTicker=KXNBAPTS-26NOV24BOSWAS-WASASARR20-10"
+    },
+    {
+     "ticker": "KXNBAPTS-26NOV24BOSWAS-WASADAVIS23-25",
+     "event_ticker": "KXNBAPTS-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Anthony Davis: 25+ points",
+     "pick": "Anthony Davis UNDER 25 points",
+     "tap": "NO on \"Anthony Davis: 25+ points\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.68,
+     "mid": 0.675,
+     "p_hat": 0.6802,
+     "chain_for": 3,
+     "chain_against": 1,
+     "why": [
+      "averaging 26.8 points over his last 10; reached 25+ in 6 of them (60%); the price implies 32%",
+      "scenario: post scorer (4.0 post touches per 36) vs BOS, ranked 15 of 30 as a defense that concedes post touches: middle of the pack, no lean",
+      "shot diet (36% at the rim, 51% mid-range and floaters, 1% pull-up threes, 12% catch-and-shoot threes) against what BOS concedes: -12.3% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: versatile big / forward. BOS has allowed that role 89% of its usual points (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov24boswas?marketTicker=KXNBAPTS-26NOV24BOSWAS-WASADAVIS23-25"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV24DALDEN-DALKIRVING11-6",
+     "event_ticker": "KXNBAAST-26NOV24DALDEN",
+     "side": "no",
+     "title": "Kyrie Irving: 6+ assists",
+     "pick": "Kyrie Irving UNDER 6 assists",
+     "tap": "NO on \"Kyrie Irving: 6+ assists\"",
+     "matchup": "Dallas vs Denver",
+     "game": "26NOV24DALDEN",
+     "tipoff": "2026-11-25T03:00:00+00:00",
+     "price": 0.63,
+     "mid": 0.625,
+     "p_hat": 0.624,
+     "chain_for": 1,
+     "chain_against": 0,
+     "why": [
+      "averaging 5.0 assists over his last 10; reached 6+ in 2 of them (20%); the price implies 37%",
+      "DEN concedes -7.2% potential assists vs what its opponents normally get (unfavourable third); this measure did not hold up in both seasons",
+      "role: primary scorer. DEN has allowed that role 98% of its usual assists (average)",
+      "DEN defense ranks 19 of 30; DEN: attacks inside the arc; defense avoids fouls",
+      "DEN shots allowed: 29% at the rim, 10% mid-range, 43% threes; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov24dalden?marketTicker=KXNBAAST-26NOV24DALDEN-DALKIRVING11-6"
+    }
+   ],
+   "problems": [],
+   "payload": {
+    "selected_markets": [
+     {
+      "market_ticker": "KXNBAAST-26NOV24DETORL-ORLTDASILVA23-2",
+      "event_ticker": "KXNBAAST-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBASTL-26NOV24DETORL-ORLDBANE3-2",
+      "event_ticker": "KXNBASTL-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPTS-26NOV24DETORL-ORLGBITADZE35-5",
+      "event_ticker": "KXNBAPTS-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPTS-26NOV24DETORL-ORLJSUGGS4-15",
+      "event_ticker": "KXNBAPTS-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAAST-26NOV24DETORL-DETKHUERTERSF-4",
+      "event_ticker": "KXNBAAST-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAAST-26NOV24BOSWAS-WASADYBANTSA4-4",
+      "event_ticker": "KXNBAAST-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAAST-26NOV24BOSWAS-WASBCOULIBALY0-2",
+      "event_ticker": "KXNBAAST-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPRA-26NOV24BOSWAS-WASTYOUNG3-25",
+      "event_ticker": "KXNBAPRA-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPTS-26NOV24BOSWAS-WASASARR20-10",
+      "event_ticker": "KXNBAPTS-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPTS-26NOV24BOSWAS-WASADAVIS23-25",
+      "event_ticker": "KXNBAPTS-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAAST-26NOV24DALDEN-DALKIRVING11-6",
+      "event_ticker": "KXNBAAST-26NOV24DALDEN",
+      "side": "no"
+     }
+    ]
+   }
   },
   {
    "id": "T3",
    "sleeve": "degen",
    "kind": "combo",
-   "status": "unbuilt",
+   "status": "open",
    "stake": 5,
    "target": 5000,
    "need_x": 1000.0,
-   "legs": [],
-   "problems": [
-    "not enough different legs left tonight"
-   ]
+   "max_price": 0.000935,
+   "fair_x": 1254.304392116929,
+   "p_hit": 0.0008031121919665422,
+   "one_in": 1245.1560442026762,
+   "exp_loss": 0.98,
+   "n_legs": 15,
+   "n_games": 3,
+   "per_game": 5,
+   "expires": "2026-11-25T00:00:00+00:00",
+   "collection": "KXMVECROSSCATEGORY-R",
+   "legs": [
+    {
+     "ticker": "KXNBA3PT-26NOV24DETORL-ORLJSUGGS4-3",
+     "event_ticker": "KXNBA3PT-26NOV24DETORL",
+     "side": "no",
+     "title": "Jalen Suggs: 3+ threes",
+     "pick": "Jalen Suggs UNDER 3 threes",
+     "tap": "NO on \"Jalen Suggs: 3+ threes\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.74,
+     "mid": 0.73,
+     "p_hat": 0.7297,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 2.2 threes over his last 10; reached 3+ in 3 of them (30%); the price implies 26%",
+      "shot diet (16% at the rim, 33% mid-range and floaters, 15% pull-up threes, 35% catch-and-shoot threes) against what DET concedes: -3.0% expected looks (neutral third); this measure did not hold up in both seasons",
+      "role: role player. DET has allowed that role 81% of its usual threes (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line"
+     ],
+     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov24detorl?marketTicker=KXNBA3PT-26NOV24DETORL-ORLJSUGGS4-3"
+    },
+    {
+     "ticker": "KXNBAAST-26NOV24DETORL-ORLWCARTER34-2",
+     "event_ticker": "KXNBAAST-26NOV24DETORL",
+     "side": "no",
+     "title": "Wendell Carter Jr.: 2+ assists",
+     "pick": "Wendell Carter Jr. UNDER 2 assists",
+     "tap": "NO on \"Wendell Carter Jr.: 2+ assists\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.55,
+     "mid": 0.545,
+     "p_hat": 0.544,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 1.5 assists over his last 10; reached 2+ in 5 of them (50%); the price implies 45%",
+      "DET concedes -14.0% potential assists vs what its opponents normally get (unfavourable third); this measure did not hold up in both seasons",
+      "role: versatile big / forward. DET has allowed that role 97% of its usual assists (average)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line",
+      "DET forces isolation (top third in seconds per touch): assist unders have beaten their price against these defenses"
+     ],
+     "url": "https://kalshi.com/markets/kxnbaast/m/kxnbaast-26nov24detorl?marketTicker=KXNBAAST-26NOV24DETORL-ORLWCARTER34-2"
+    },
+    {
+     "ticker": "KXNBAREB-26NOV24DETORL-ORLTDASILVA23-4",
+     "event_ticker": "KXNBAREB-26NOV24DETORL",
+     "side": "no",
+     "title": "Tristan da Silva: 4+ rebounds",
+     "pick": "Tristan da Silva UNDER 4 rebounds",
+     "tap": "NO on \"Tristan da Silva: 4+ rebounds\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.51,
+     "mid": 0.505,
+     "p_hat": 0.5022,
+     "chain_for": 4,
+     "chain_against": 1,
+     "why": [
+      "averaging 4.1 rebounds over his last 10; reached 4+ in 5 of them (50%); the price implies 49%",
+      "DET concedes +8.7% rebound chances vs what its opponents normally get (favourable third); in both seasons the favourable third out-produced the unfavourable third (+4.0%, +7.8%), and Kalshi's price already reflected it",
+      "minutes down: 26 a game over the last 3 vs 30 over the last 10",
+      "role: spot-up shooter. DET has allowed that role 95% of its usual rebounds (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line"
+     ],
+     "url": "https://kalshi.com/markets/kxnbareb/m/kxnbareb-26nov24detorl?marketTicker=KXNBAREB-26NOV24DETORL-ORLTDASILVA23-4"
+    },
+    {
+     "ticker": "KXNBAREB-26NOV24DETORL-DETKHUERTERSF-4",
+     "event_ticker": "KXNBAREB-26NOV24DETORL",
+     "side": "no",
+     "title": "Kevin Huerter: 4+ rebounds",
+     "pick": "Kevin Huerter UNDER 4 rebounds",
+     "tap": "NO on \"Kevin Huerter: 4+ rebounds\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.56,
+     "mid": 0.555,
+     "p_hat": 0.5522,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 2.8 rebounds over his last 10; reached 4+ in 3 of them (30%); the price implies 44%",
+      "ORL concedes -0.5% rebound chances vs what its opponents normally get (neutral third); in both seasons the favourable third out-produced the unfavourable third (+4.0%, +7.8%), and Kalshi's price already reflected it",
+      "role: spot-up shooter. ORL has allowed that role 94% of its usual rebounds (stingy)",
+      "ORL defense ranks 14 of 30; game pace slow (-1.0 possessions vs average); ORL: cleans the defensive glass",
+      "ORL shots allowed: 21% at the rim, 11% mid-range, 44% threes; switch-style: forces isolation, few assisted looks"
+     ],
+     "url": "https://kalshi.com/markets/kxnbareb/m/kxnbareb-26nov24detorl?marketTicker=KXNBAREB-26NOV24DETORL-DETKHUERTERSF-4"
+    },
+    {
+     "ticker": "KXNBAPTS-26NOV24DETORL-ORLDBANE3-20",
+     "event_ticker": "KXNBAPTS-26NOV24DETORL",
+     "side": "no",
+     "title": "Desmond Bane: 20+ points",
+     "pick": "Desmond Bane UNDER 20 points",
+     "tap": "NO on \"Desmond Bane: 20+ points\"",
+     "matchup": "Detroit vs Orlando",
+     "game": "26NOV24DETORL",
+     "tipoff": "2026-11-25T00:00:00+00:00",
+     "price": 0.63,
+     "mid": 0.62,
+     "p_hat": 0.6252,
+     "chain_for": 3,
+     "chain_against": 1,
+     "why": [
+      "averaging 19.2 points over his last 10; reached 20+ in 5 of them (50%); the price implies 37%",
+      "scenario: pull-up three shooter (4.1 pull-up threes per 36 min) vs DET, ranked 25 of 30 (bottom third) as a drop-style defense. Across 2,647 games such players' points ran -4.3% against top-third defenses compared with bottom-third ones (z -2.9) -> tonight: leans advantage, not conclusive; Kalshi's price already reflects it",
+      "scenario: pull-up three shooter (4.1 pull-up threes per 36 min) vs DET, ranked 29 of 30 (bottom third) as a defense that concedes pull-up threes. Across 2,648 games such players' points ran -0.9% against top-third defenses compared with bottom-third ones (z -0.6) -> tonight: no measurable effect; Kalshi's price already reflects it",
+      "shot diet (9% at the rim, 21% mid-range and floaters, 28% pull-up threes, 41% catch-and-shoot threes) against what DET concedes: -6.3% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: spot-up shooter. DET has allowed that role 91% of its usual points (stingy)",
+      "DET defense ranks 6 of 30; game pace slow (-1.0 possessions vs average); DET: switch-style defense (few assists allowed); rim protection (blocks)",
+      "DET shots allowed: 27% at the rim, 11% mid-range, 41% threes; switch-style: forces isolation, few assisted looks; runs shooters off the line"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov24detorl?marketTicker=KXNBAPTS-26NOV24DETORL-ORLDBANE3-20"
+    },
+    {
+     "ticker": "KXNBAPRA-26NOV24BOSWAS-WASBCOULIBALY0-15",
+     "event_ticker": "KXNBAPRA-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Bilal Coulibaly: 15+ combined points, rebounds, and assists",
+     "pick": "Bilal Coulibaly UNDER 15 combined points, rebounds, and assists",
+     "tap": "NO on \"Bilal Coulibaly: 15+ combined points, rebounds, and assists\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.73,
+     "mid": 0.715,
+     "p_hat": 0.7126,
+     "chain_for": 3,
+     "chain_against": 0,
+     "why": [
+      "averaging 11.6 points + rebounds + assists over his last 10; reached 15+ in 2 of them (20%); the price implies 27%",
+      "scenario: rim finisher (45% of his shots at the rim) vs BOS, ranked 28 of 30 (bottom third) as a defense that concedes shots at the rim. Across 1,951 games such players' points ran +7.4% against top-third defenses compared with bottom-third ones (z +3.2) -> tonight: DISADVANTAGE; Kalshi's price already reflects it",
+      "shot diet (45% at the rim, 11% mid-range and floaters, 0% pull-up threes, 43% catch-and-shoot threes) against what BOS concedes: -7.9% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: role player. BOS has allowed that role 98% of its usual points / rebounds / assists (average)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapra/m/kxnbapra-26nov24boswas?marketTicker=KXNBAPRA-26NOV24BOSWAS-WASBCOULIBALY0-15"
+    },
+    {
+     "ticker": "KXNBAPTS-26NOV24BOSWAS-WASADYBANTSA4-20",
+     "event_ticker": "KXNBAPTS-26NOV24BOSWAS",
+     "side": "no",
+     "title": "AJ Dybantsa: 20+ points",
+     "pick": "AJ Dybantsa UNDER 20 points",
+     "tap": "NO on \"AJ Dybantsa: 20+ points\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.71,
+     "mid": 0.705,
+     "p_hat": 0.7102,
+     "chain_for": 3,
+     "chain_against": 1,
+     "why": [
+      "averaging 16.5 points over his last 10; reached 20+ in 4 of them (40%); the price implies 29%",
+      "scenario: driver (12 drives per 36) vs BOS, ranked 6 of 30 (top third) as a defense that concedes drives. Across 4,741 games such players' points ran -2.3% against top-third defenses compared with bottom-third ones (z -2.1) -> tonight: leans disadvantage, not conclusive; Kalshi's price already reflects it",
+      "shot diet (36% at the rim, 38% mid-range and floaters, 8% pull-up threes, 16% catch-and-shoot threes) against what BOS concedes: -12.5% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: role player. BOS has allowed that role 95% of its usual points (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov24boswas?marketTicker=KXNBAPTS-26NOV24BOSWAS-WASADYBANTSA4-20"
+    },
+    {
+     "ticker": "KXNBABLK-26NOV24BOSWAS-WASADAVIS23-2",
+     "event_ticker": "KXNBABLK-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Anthony Davis: 2+ blocks",
+     "pick": "Anthony Davis UNDER 2 blocks",
+     "tap": "NO on \"Anthony Davis: 2+ blocks\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.68,
+     "mid": 0.665,
+     "p_hat": 0.6649,
+     "chain_for": 3,
+     "chain_against": 1,
+     "why": [
+      "averaging 1.2 blocks over his last 10; reached 2+ in 5 of them (50%); the price implies 32%",
+      "role: versatile big / forward. BOS has allowed that role 84% of its usual blocks (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbablk/m/kxnbablk-26nov24boswas?marketTicker=KXNBABLK-26NOV24BOSWAS-WASADAVIS23-2"
+    },
+    {
+     "ticker": "KXNBA3PT-26NOV24BOSWAS-WASASARR20-2",
+     "event_ticker": "KXNBA3PT-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Alex Sarr: 2+ threes",
+     "pick": "Alex Sarr UNDER 2 threes",
+     "tap": "NO on \"Alex Sarr: 2+ threes\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.62,
+     "mid": 0.615,
+     "p_hat": 0.6147,
+     "chain_for": 3,
+     "chain_against": 1,
+     "why": [
+      "averaging 1.7 threes over his last 10; reached 2+ in 4 of them (40%); the price implies 38%",
+      "scenario: spot-up shooter (4.7 catch-and-shoot threes per 36) vs BOS, ranked 2 of 30 (top third) as a defense that concedes catch-and-shoot threes. Across 2,641 games such players' threes made ran +18.8% against top-third defenses compared with bottom-third ones (z +5.3) -> tonight: ADVANTAGE; Kalshi's price already reflects it",
+      "shot diet (37% at the rim, 19% mid-range and floaters, 2% pull-up threes, 43% catch-and-shoot threes) against what BOS concedes: +12.1% expected looks (favourable third); this measure did not hold up in both seasons",
+      "minutes down: 23 a game over the last 3 vs 28 over the last 10",
+      "role: versatile big / forward. BOS has allowed that role 100% of its usual threes (average)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov24boswas?marketTicker=KXNBA3PT-26NOV24BOSWAS-WASASARR20-2"
+    },
+    {
+     "ticker": "KXNBA3PT-26NOV24BOSWAS-WASTYOUNG3-3",
+     "event_ticker": "KXNBA3PT-26NOV24BOSWAS",
+     "side": "no",
+     "title": "Trae Young: 3+ threes",
+     "pick": "Trae Young UNDER 3 threes",
+     "tap": "NO on \"Trae Young: 3+ threes\"",
+     "matchup": "Boston vs Washington",
+     "game": "26NOV24BOSWAS",
+     "tipoff": "2026-11-25T01:00:00+00:00",
+     "price": 0.64,
+     "mid": 0.635,
+     "p_hat": 0.6347,
+     "chain_for": 3,
+     "chain_against": 1,
+     "why": [
+      "averaging 2.3 threes over his last 10; reached 3+ in 6 of them (60%); the price implies 36%",
+      "scenario: pull-up three shooter (4.3 pull-up threes per 36 min) vs BOS, ranked 27 of 30 (bottom third) as a defense that concedes pull-up threes. Across 2,648 games such players' threes made ran -2.6% against top-third defenses compared with bottom-third ones (z -1.0) -> tonight: no measurable effect; Kalshi's price already reflects it",
+      "scenario: pull-up three shooter (4.3 pull-up threes per 36 min) vs BOS, ranked 17 of 30 as a drop-style defense: middle of the pack, no lean",
+      "shot diet (11% at the rim, 40% mid-range and floaters, 34% pull-up threes, 15% catch-and-shoot threes) against what BOS concedes: -6.0% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: primary scorer. BOS has allowed that role 87% of its usual threes (stingy)",
+      "BOS defense ranks 3 of 30; game pace slow (-1.5 possessions vs average); BOS: plays slow; three-point heavy offense; crashes the offensive glass; defense gives up threes; defense allows assisted looks; pressure defense (forces turnovers); top defense",
+      "BOS shots allowed: 23% at the rim, 10% mid-range, 48% threes; packs the paint and concedes threes; zone-like: catch-and-shoot threes and ball movement allowed; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov24boswas?marketTicker=KXNBA3PT-26NOV24BOSWAS-WASTYOUNG3-3"
+    },
+    {
+     "ticker": "KXNBA3PT-26NOV24DALDEN-DENAGORDON32-2",
+     "event_ticker": "KXNBA3PT-26NOV24DALDEN",
+     "side": "no",
+     "title": "Aaron Gordon: 2+ threes",
+     "pick": "Aaron Gordon UNDER 2 threes",
+     "tap": "NO on \"Aaron Gordon: 2+ threes\"",
+     "matchup": "Dallas vs Denver",
+     "game": "26NOV24DALDEN",
+     "tipoff": "2026-11-25T03:00:00+00:00",
+     "price": 0.6,
+     "mid": 0.59,
+     "p_hat": 0.5897,
+     "chain_for": 2,
+     "chain_against": 0,
+     "why": [
+      "averaging 0.8 threes over his last 10; reached 2+ in 1 of them (10%); the price implies 40%",
+      "shot diet (40% at the rim, 19% mid-range and floaters, 12% pull-up threes, 26% catch-and-shoot threes) against what DAL concedes: +3.7% expected looks (favourable third); this measure did not hold up in both seasons",
+      "role: role player. DAL has allowed that role 89% of its usual threes (stingy)",
+      "DAL defense ranks 13 of 30; DAL: weak on the defensive glass",
+      "DAL shots allowed: 28% at the rim, 10% mid-range, 43% threes"
+     ],
+     "url": "https://kalshi.com/markets/kxnba3pt/m/kxnba3pt-26nov24dalden?marketTicker=KXNBA3PT-26NOV24DALDEN-DENAGORDON32-2"
+    },
+    {
+     "ticker": "KXNBAPRA-26NOV24DALDEN-DALNMARSHALL3-20",
+     "event_ticker": "KXNBAPRA-26NOV24DALDEN",
+     "side": "no",
+     "title": "Naji Marshall: 20+ combined points, rebounds, and assists",
+     "pick": "Naji Marshall UNDER 20 combined points, rebounds, and assists",
+     "tap": "NO on \"Naji Marshall: 20+ combined points, rebounds, and assists\"",
+     "matchup": "Dallas vs Denver",
+     "game": "26NOV24DALDEN",
+     "tipoff": "2026-11-25T03:00:00+00:00",
+     "price": 0.68,
+     "mid": 0.675,
+     "p_hat": 0.6726,
+     "chain_for": 2,
+     "chain_against": 0,
+     "why": [
+      "averaging 15.9 points + rebounds + assists over his last 10; reached 20+ in 2 of them (20%); the price implies 32%",
+      "scenario: driver (14 drives per 36) vs DEN, ranked 29 of 30 (bottom third) as a defense that concedes drives. Across 4,741 games such players' points ran -2.3% against top-third defenses compared with bottom-third ones (z -2.1) -> tonight: leans advantage, not conclusive; Kalshi's price already reflects it",
+      "shot diet (22% at the rim, 40% mid-range and floaters, 9% pull-up threes, 28% catch-and-shoot threes) against what DEN concedes: -3.1% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: playmaking guard. DEN has allowed that role 97% of its usual points / rebounds / assists (stingy)",
+      "DEN defense ranks 19 of 30; DEN: attacks inside the arc; defense avoids fouls",
+      "DEN shots allowed: 29% at the rim, 10% mid-range, 43% threes; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapra/m/kxnbapra-26nov24dalden?marketTicker=KXNBAPRA-26NOV24DALDEN-DALNMARSHALL3-20"
+    },
+    {
+     "ticker": "KXNBAPRA-26NOV24DALDEN-DALCFLAGG32-40",
+     "event_ticker": "KXNBAPRA-26NOV24DALDEN",
+     "side": "no",
+     "title": "Cooper Flagg: 40+ combined points, rebounds, and assists",
+     "pick": "Cooper Flagg UNDER 40 combined points, rebounds, and assists",
+     "tap": "NO on \"Cooper Flagg: 40+ combined points, rebounds, and assists\"",
+     "matchup": "Dallas vs Denver",
+     "game": "26NOV24DALDEN",
+     "tipoff": "2026-11-25T03:00:00+00:00",
+     "price": 0.59,
+     "mid": 0.58,
+     "p_hat": 0.5776,
+     "chain_for": 2,
+     "chain_against": 0,
+     "why": [
+      "averaging 36.8 points + rebounds + assists over his last 10; reached 40+ in 3 of them (30%); the price implies 41%",
+      "scenario: driver (18 drives per 36) vs DEN, ranked 29 of 30 (bottom third) as a defense that concedes drives. Across 4,741 games such players' points ran -2.3% against top-third defenses compared with bottom-third ones (z -2.1) -> tonight: leans advantage, not conclusive; Kalshi's price already reflects it",
+      "shot diet (26% at the rim, 44% mid-range and floaters, 12% pull-up threes, 16% catch-and-shoot threes) against what DEN concedes: -3.9% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: primary scorer. DEN has allowed that role 96% of its usual points / rebounds / assists (stingy)",
+      "DEN defense ranks 19 of 30; DEN: attacks inside the arc; defense avoids fouls",
+      "DEN shots allowed: 29% at the rim, 10% mid-range, 43% threes; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapra/m/kxnbapra-26nov24dalden?marketTicker=KXNBAPRA-26NOV24DALDEN-DALCFLAGG32-40"
+    },
+    {
+     "ticker": "KXNBAPTS-26NOV24DALDEN-DALPWASHINGTON25-15",
+     "event_ticker": "KXNBAPTS-26NOV24DALDEN",
+     "side": "no",
+     "title": "P.J. Washington: 15+ points",
+     "pick": "P.J. Washington UNDER 15 points",
+     "tap": "NO on \"P.J. Washington: 15+ points\"",
+     "matchup": "Dallas vs Denver",
+     "game": "26NOV24DALDEN",
+     "tipoff": "2026-11-25T03:00:00+00:00",
+     "price": 0.68,
+     "mid": 0.675,
+     "p_hat": 0.6802,
+     "chain_for": 1,
+     "chain_against": 0,
+     "why": [
+      "averaging 13.0 points over his last 10; reached 15+ in 3 of them (30%); the price implies 32%",
+      "scenario: spot-up shooter (6.2 catch-and-shoot threes per 36) vs DEN, ranked 11 of 30 as a defense that concedes catch-and-shoot threes: middle of the pack, no lean",
+      "minutes down: 25 a game over the last 3 vs 29 over the last 10",
+      "role: role player. DEN has allowed that role 98% of its usual points (average)",
+      "DEN defense ranks 19 of 30; DEN: attacks inside the arc; defense avoids fouls",
+      "DEN shots allowed: 29% at the rim, 10% mid-range, 43% threes; leaves shooters open"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov24dalden?marketTicker=KXNBAPTS-26NOV24DALDEN-DALPWASHINGTON25-15"
+    },
+    {
+     "ticker": "KXNBAPTS-26NOV24DALDEN-DENJMURRAY27-25",
+     "event_ticker": "KXNBAPTS-26NOV24DALDEN",
+     "side": "no",
+     "title": "Jamal Murray: 25+ points",
+     "pick": "Jamal Murray UNDER 25 points",
+     "tap": "NO on \"Jamal Murray: 25+ points\"",
+     "matchup": "Dallas vs Denver",
+     "game": "26NOV24DALDEN",
+     "tipoff": "2026-11-25T03:00:00+00:00",
+     "price": 0.57,
+     "mid": 0.565,
+     "p_hat": 0.5702,
+     "chain_for": 0,
+     "chain_against": 0,
+     "why": [
+      "averaging 26.4 points over his last 10; reached 25+ in 5 of them (50%); the price implies 43%",
+      "scenario: pull-up three shooter (3.9 pull-up threes per 36 min) vs DAL, ranked 22 of 30 (bottom third) as a drop-style defense. Across 2,647 games such players' points ran -4.3% against top-third defenses compared with bottom-third ones (z -2.9) -> tonight: leans advantage, not conclusive; Kalshi's price already reflects it",
+      "scenario: pull-up three shooter (3.9 pull-up threes per 36 min) vs DAL, ranked 22 of 30 (bottom third) as a defense that concedes pull-up threes. Across 2,648 games such players' points ran -0.9% against top-third defenses compared with bottom-third ones (z -0.6) -> tonight: no measurable effect; Kalshi's price already reflects it",
+      "shot diet (19% at the rim, 40% mid-range and floaters, 24% pull-up threes, 17% catch-and-shoot threes) against what DAL concedes: -3.7% expected looks (unfavourable third); this measure did not hold up in both seasons",
+      "role: primary scorer. DAL has allowed that role 100% of its usual points (average)",
+      "DAL defense ranks 13 of 30; DAL: weak on the defensive glass",
+      "DAL shots allowed: 28% at the rim, 10% mid-range, 43% threes"
+     ],
+     "url": "https://kalshi.com/markets/kxnbapts/m/kxnbapts-26nov24dalden?marketTicker=KXNBAPTS-26NOV24DALDEN-DENJMURRAY27-25"
+    }
+   ],
+   "problems": [],
+   "payload": {
+    "selected_markets": [
+     {
+      "market_ticker": "KXNBA3PT-26NOV24DETORL-ORLJSUGGS4-3",
+      "event_ticker": "KXNBA3PT-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAAST-26NOV24DETORL-ORLWCARTER34-2",
+      "event_ticker": "KXNBAAST-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAREB-26NOV24DETORL-ORLTDASILVA23-4",
+      "event_ticker": "KXNBAREB-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAREB-26NOV24DETORL-DETKHUERTERSF-4",
+      "event_ticker": "KXNBAREB-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPTS-26NOV24DETORL-ORLDBANE3-20",
+      "event_ticker": "KXNBAPTS-26NOV24DETORL",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPRA-26NOV24BOSWAS-WASBCOULIBALY0-15",
+      "event_ticker": "KXNBAPRA-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPTS-26NOV24BOSWAS-WASADYBANTSA4-20",
+      "event_ticker": "KXNBAPTS-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBABLK-26NOV24BOSWAS-WASADAVIS23-2",
+      "event_ticker": "KXNBABLK-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBA3PT-26NOV24BOSWAS-WASASARR20-2",
+      "event_ticker": "KXNBA3PT-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBA3PT-26NOV24BOSWAS-WASTYOUNG3-3",
+      "event_ticker": "KXNBA3PT-26NOV24BOSWAS",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBA3PT-26NOV24DALDEN-DENAGORDON32-2",
+      "event_ticker": "KXNBA3PT-26NOV24DALDEN",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPRA-26NOV24DALDEN-DALNMARSHALL3-20",
+      "event_ticker": "KXNBAPRA-26NOV24DALDEN",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPRA-26NOV24DALDEN-DALCFLAGG32-40",
+      "event_ticker": "KXNBAPRA-26NOV24DALDEN",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPTS-26NOV24DALDEN-DALPWASHINGTON25-15",
+      "event_ticker": "KXNBAPTS-26NOV24DALDEN",
+      "side": "no"
+     },
+     {
+      "market_ticker": "KXNBAPTS-26NOV24DALDEN-DENJMURRAY27-25",
+      "event_ticker": "KXNBAPTS-26NOV24DALDEN",
+      "side": "no"
+     }
+    ]
+   }
   }
  ]
 }

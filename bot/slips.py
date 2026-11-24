@@ -288,7 +288,11 @@ def ticket_slips(k, cfg: dict, hours: float, rules: dict, tickets=None) -> list[
     used, out = set(), []
     for n, (stake, goal) in enumerate(tickets, 1):
         need = goal / stake
-        card = degen.build(c, need, skip=used, seed=n)
+        card, per_game = None, 3
+        for per_game in (3, 5, 8):          # short slate: more legs per game. Different players' unders in one game are
+            card = degen.build(c, need, skip=used, seed=n, max_per_game=per_game, max_per_stat=4 if per_game == 3 else 6)   # close to independent (FINDINGS 21)
+            if card is not None:
+                break
         if card is None:
             out.append(dict(id=f"T{n}", sleeve="degen", kind="combo", status="unbuilt", stake=stake, target=goal, need_x=need,
                             legs=[], problems=["not enough different legs left tonight"]))
@@ -304,7 +308,7 @@ def ticket_slips(k, cfg: dict, hours: float, rules: dict, tickets=None) -> list[
         out.append(dict(
             id=f"T{n}", sleeve="degen", kind="combo", status="open", stake=stake, target=goal, need_x=need,
             max_price=round(B.max_price_for_payout(need), 6), fair_x=1 / mid, p_hit=p, one_in=1 / p, exp_loss=round(stake * (1 - need * p), 2),
-            n_legs=len(legs), n_games=int(card.game.nunique()), expires=min(l["tipoff"] for l in legs),
+            n_legs=len(legs), n_games=int(card.game.nunique()), per_game=per_game, expires=min(l["tipoff"] for l in legs),
             collection=COLLECTION, legs=legs, problems=legal(legs, rules),
             payload=dict(selected_markets=[dict(market_ticker=l["ticker"], event_ticker=l["event_ticker"], side=l["side"]) for l in legs])))
     return out
@@ -385,6 +389,8 @@ def to_text(doc: dict, why: bool = False) -> str:
         L.append(f"      Legs alone are worth {t['fair_x']:,.0f}x.  Chance it hits: about 1 in {t['one_in']:,.0f}.  "
                  f"Expected loss at the walk-away payout: {_money(t['exp_loss'])}.")
         L.append("      Kalshi's combo rules: " + ("OK, this card can be built as one combo" if not t["problems"] else "PROBLEM: " + "; ".join(t["problems"][:3])))
+        if t.get("per_game", 3) > 3:
+            L.append(f"      Short slate ({t['n_games']} games): up to {t['per_game']} legs per game, one per player.")
         g = None
         for l in t["legs"]:
             if l["matchup"] != g:

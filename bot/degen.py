@@ -164,7 +164,11 @@ def run(args):
     run_id, used, p_miss, spend = uuid.uuid4().hex[:8], set(), 1.0, 0.0
     for n, (stake, goal) in enumerate(tickets, 1):
         need = goal / stake
-        card = build(c, need, skip=used, seed=n)
+        card = None
+        for per_game in (3, 5, 8):          # short slate: allow more legs per game (different players, close to independent)
+            card = build(c, need, skip=used, seed=n, max_per_game=per_game, max_per_stat=4 if per_game == 3 else 6)
+            if card is not None:
+                break
         if card is None:
             print(f"\n  TICKET {n}: ${stake:g} -> ${goal:,.0f} ({need:,.0f}x): not enough different legs left tonight")
             continue
