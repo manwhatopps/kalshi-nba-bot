@@ -22,6 +22,11 @@ payout, Kalshi combo-rule check); `--quote`/`--live` need the owner's key and ob
 `python -m bot scenarios` tests player type against defensive style (real in the box score? priced by Kalshi?)
 and writes `data/scenario_table.json`, which the leg explanations quote. New scenario ideas go there first.
 
+**Pre-game only (owner's decision 2026-11-23):** every bet is placed before the game. No live watcher, no
+in-game rules; `pre_game_only` in `data/fund.json`. The in-game double-double under (grade B) is therefore not
+bet. `python -m bot walk --pre` is the test that matters now; as of 2026-11-23 no pre-game rule clears it, so
+the core sleeve is in cash. Do not restart `python -m bot watch` unless the owner asks for live betting.
+
 ## Rules
 - **Paper only.** Never place real orders (`place --live`, `slip --quote --live`) unless the owner explicitly says to in the
   current conversation, with a stake limit. Defaults: `KALSHI_ENV=demo`, $2 per combo, $10 per day.

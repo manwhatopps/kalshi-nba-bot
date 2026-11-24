@@ -522,6 +522,35 @@ happened historically, and whether it is priced. A scenario counts toward droppi
 only if the box-score effect clears 3 standard errors with the same sign in both seasons. It is a
 reason, not an edge: the measured edge is still zero after Kalshi's price.
 
+## 20. Pre-game only (`python -m bot walk --pre`)
+
+Owner's decision, 2026-11-23: every bet is placed before the game; no live betting and no live
+watcher. The fund's logic was therefore re-tested on pre-game prices alone: 188,029 candidate
+prop bets over 267 nights (Sep 2025 to Nov 2026), one per market and side at the last price a taker
+paid in the three hours before tip-off, 190 rules (prop type x over/under x price band).
+
+| bar a rule must clear before it gets money | rules used | bets | last season | this season | $100 becomes |
+|---|---|---|---|---|---|
+| any positive record | 49 | 6,470 | -1.8% | -2.7% | $31 |
+| positive by 1.64 std errors | 2 | 64 | -61.3% | -9.6% | $99 |
+| positive by 3 std errors (the fund's bar) | 0 | 0 | no bets | no bets | $100 |
+
+* **No pre-game rule has ever cleared the fund's bar.** The logic would have stayed in cash for
+  the whole 14 months. Chasing whatever looked positive lost 69% of the bankroll.
+* **The double-double under does not survive the move to pre-game.** Bought before the game at
+  35-80c: 635 bets, won 63.1%, needed 62.9% with the fee, +0.4% (z 0.1). In-game the same bet
+  returned +15.6% after activation. The edge was in reacting to the game, not in the pick.
+* Pre-game as a whole, after fees: unders -1.7% last season and -2.3% this season; overs -11.1%
+  and -6.2%. Unders remain the less bad side, which is why lottery cards are built from them.
+* Only 2 of 103 pre-game rules with 150+ bets in each season were positive in both: NFL receiving
+  yards unders at 35-50c (+3.8%, +6.6%; z 0.6 and 1.3) and NBA threes unders at 35-50c (+1.3%,
+  +0.8%). With 103 rules looked at, two weak positives are what chance produces. Neither is bet.
+
+What the bot does now: the core sleeve issues a single-bet slip only when a pre-game rule is active
+(3 standard errors on earlier nights and over 3% across its last 20). None is, so the core stays in
+cash and says so. The check runs every day, so a rule that earns it will start getting slips. The
+lottery cards were already pre-game and are unchanged; they remain negative expected value.
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is
@@ -544,4 +573,6 @@ reason, not an edge: the measured edge is still zero after Kalshi's price.
   rim finishers, playmakers) and absent or reversed for others (pull-up shooters against drop
   coverage score less; receiver man/zone splits are mostly noise). Kalshi's price already contains
   the real ones.
+* Pre-game only (the owner's choice): no rule clears the bar on 188,029 pre-game bets, so the core
+  sleeve is in cash. The double-double under that worked in-game is break-even before the game.
 * No real money has been placed.

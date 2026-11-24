@@ -143,11 +143,14 @@ def _band(p: float) -> str:
 
 
 def core_slips(k, cfg: dict, hours: float) -> dict:
+    if cfg.get("pre_game_only", True):
+        return pre_core_slips(k, cfg, hours)
     from . import watch
     from .history import START_OFFSET
     rule, stake = watch.fund_stake(k)
     core = cfg["core_pct"] * cfg["bankroll"]
-    out = dict(rule=rule, stake=stake, sleeve=core, slips=[], waiting=0, taken=0, note="")
+    out = dict(rule=rule, stake=stake, sleeve=core, slips=[], waiting=0, taken=0, note="",
+               intro="The one rule that held up on games it was not found on: NBA double-double unders bought during the game at 35-80c.")
     if rule != "dd_under" or stake <= 0:
         out["note"] = ("No rule is graded A or B right now, so the core sleeve stays in cash tonight."
                        if not rule else f"Rule '{rule}' is graded but has no slip writer yet.")
@@ -202,6 +205,57 @@ def core_slips(k, cfg: dict, hours: float) -> dict:
             # buying NO at the limit is side "ask" at 1 - limit. Fill what is there now, leave nothing resting.
             order=dict(ticker=r["ticker"], side="ask", count=f"{n:.2f}", price=f"{1 - limit:.4f}",
                        time_in_force="immediate_or_cancel")))
+    return out
+
+
+def pre_core_slips(k, cfg: dict, hours: float) -> dict:
+    """Single bets when everything is placed before the game. A rule gets money only if the walk-forward test on
+    PRE-GAME prices has it active (3 standard errors over its whole record and over 3% across its last 20 nights)."""
+    from . import walkforward as W
+    from .favorites import live_legs
+    core = cfg["core_pct"] * cfg["bankroll"]
+    out = dict(rule="", stake=cfg.get("max_stake_per_bet", 5.0), sleeve=core, slips=[], waiting=0, taken=0, note="", pre_game=True,
+               intro="Every bet is placed before the game. A single bet is issued only for a pre-game rule that has beaten its price, "
+                     "after fees, by 3 standard errors on earlier nights and is still doing so.")
+    act = W.pre_active()
+    if act.empty:
+        out["note"] = ("No pre-game rule clears the bar tonight, so the core sleeve stays in cash. Tested on 188,029 pre-game prop bets "
+                       "over two seasons: the walk-forward logic never found one to back. The double-double under that works in-game "
+                       "is break-even when bought before the game (635 bets, won 63.1%, needed 62.9%).")
+        return out
+    parts = [live_legs(k, lg, hours_ahead=hours, max_spread=0.06) for lg in ("NBA", "NFL")]
+    legs = pd.concat([x for x in parts if len(x)], ignore_index=True) if any(len(x) for x in parts) else pd.DataFrame()
+    rows = []
+    for a in act.itertuples():
+        if legs.empty:
+            break
+        m = legs[legs.series.isin(a.series) & (legs.side == a.side) & (legs.cost >= a.lo) & (legs.cost < a.hi)]
+        rows += [(a, r) for r in m.sort_values(["tipoff", "spread"]).itertuples()]
+    names = matchups(k, [r.event_ticker for _, r in rows])
+    books = B.orderbooks(k, [r.ticker for _, r in rows]) if rows else {}
+    room, seen = None, set()
+    for a, r in rows:
+        if r.ticker in seen:
+            continue
+        seen.add(r.ticker)
+        stake = round(min(a.frac * cfg["bankroll"], cfg.get("max_stake_per_bet", 5.0)), 2)
+        room = int(core // stake) if stake and room is None else room
+        bk = books.get(r.ticker) or {"yes": [], "no": []}
+        limit = round(min(r.cost + SLIPPAGE, a.hi - 0.01), 2)
+        f = B.buy(bk, r.side, stake, limit)
+        n, i = int(f["contracts"]), len(out["slips"]) + 1
+        out["slips"].append(dict(
+            id=f"C{i}", sleeve="core", kind="single", rule=a.rule, status="open" if i <= (room or 0) else "reserve",
+            ticker=r.ticker, event_ticker=r.event_ticker, side=r.side, action=f"BUY {r.side.upper()}",
+            pick=pick_text(r.title, r.side), tap=tap_text(r.title, r.side), matchup=names.get(r.game, r.game),
+            tipoff=r.tipoff.isoformat(), live=False, when=f"now, before tip-off ({_et(r.tipoff)}), while the price is {a.lo * 100:.0f}-{a.hi * 100:.0f}c",
+            price_seen=float(r.cost), limit=limit, size_shown=f["offered_within_limit"], spread=float(r.spread), stake=stake,
+            contracts=n, cost=f["cost"], avg_price=round(f["avg"], 4) if n else None, pays=float(n), profit=round(n - f["cost"], 2),
+            band=f"{a.lo:.2f}-{a.hi:.2f}", record=dict(bets=int(a.bets), won=float("nan"), needs=float(a.needs), ret=float(a.ret)),
+            lo=a.lo, hi=a.hi, url=market_url(r.ticker),
+            order=dict(ticker=r.ticker, side="bid" if r.side == "yes" else "ask", count=f"{n:.2f}",
+                       price=f"{limit if r.side == 'yes' else 1 - limit:.4f}", time_in_force="immediate_or_cancel")))
+    out["rule"] = "; ".join(act.rule)
     return out
 
 
@@ -280,7 +334,8 @@ def to_text(doc: dict, why: bool = False) -> str:
     spend = sum(t["stake"] for t in doc["tickets"] if t["status"] == "open")
     L.append(f"\nSLIPS for {pd.Timestamp(doc['slate']):%a %b %-d}   made {_et(made)}   bankroll {_money(doc['bankroll'])}")
     L.append("Paper slips: nothing here has been placed. Prices move; run `python -m bot slip --check` right before placing.")
-    L.append(f"\nCORE: single bets, {_money(core['stake'])} each, at most {_money(core['sleeve'])} at risk at once")
+    L.append(f"\nCORE: single bets, {_money(core['stake'])} each, at most {_money(core['sleeve'])} at risk at once"
+             + ("   (all bets placed before the game)" if core.get("pre_game") else ""))
     if core["note"]:
         L.append(f"  {core['note']}")
     elif not core["slips"]:
@@ -292,10 +347,12 @@ def to_text(doc: dict, why: bool = False) -> str:
         L.append(f"      when   {s['when']}")
         L.append(f"      order  {s['contracts']} contracts, limit {s['limit'] * 100:.0f}c (book: {s['price_seen'] * 100:.0f}c, {s['size_shown']:.0f} offered within the limit, "
                  f"spread {s['spread'] * 100:.0f}c)  = {_money(s['cost'])} with fee; pays {_money(s['pays'])} if it wins (+{_money(s['profit'])})")
-        if r:
+        if r and r["won"] == r["won"]:
             L.append(f"      why    this price band since {fund.DD_ACTIVATED}: {r['bets']} bets, won {r['won']:.1%}, needed {r['needs']:.1%} -> {r['ret']:+.1%} per $1")
+        elif r:
+            L.append(f"      why    rule '{s['rule']}': {r['bets']} bets over two seasons, {r['ret']:+.1%} per $1 after fees")
         L.append(f"      market {s['ticker']}   {s['url']}")
-    if core["slips"]:
+    if core["slips"] and not core.get("pre_game"):
         L.append(f"\n  ({core['waiting']} more double-double markets are outside the range now and may enter it during play; {core['taken']} already taken.)")
     L.append(f"\nTICKETS: lottery cards, {_money(spend)} tonight. Every one has a negative expected value; buy only at the stated payout or better.")
     if not doc["tickets"]:
@@ -351,8 +408,8 @@ def check(k, doc: dict) -> str:
         elif price is None:
             v = "NO OFFER right now: wait"
         elif price > s["limit"]:
-            v = f"PRICE ROSE to {price * 100:.0f}c (limit {s['limit'] * 100:.0f}c): " + ("still inside the tested range, re-run to resize" if price < DD_HI else "outside the tested range, skip")
-        elif price < DD_LO:
+            v = f"PRICE ROSE to {price * 100:.0f}c (limit {s['limit'] * 100:.0f}c): " + ("still inside the tested range, re-run to resize" if price < s.get("hi", DD_HI) else "outside the tested range, skip")
+        elif price < s.get("lo", DD_LO):
             v = f"PRICE FELL to {price * 100:.0f}c, below the tested range: skip"
         else:
             f = B.buy(books.get(s["ticker"]) or {"yes": [], "no": []}, "no", s["stake"], s["limit"])

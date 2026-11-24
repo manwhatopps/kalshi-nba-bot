@@ -25,7 +25,8 @@ from .trades import TAKER_FEE
 
 CFG = config.DATA_DIR / "fund.json"
 DEFAULT = dict(bankroll=100.0, core_pct=0.50, degen_tickets=[[5, 1000], [5, 10000]], max_concurrent_pct=0.50,
-               stop_loss_pct=0.30, z=1.64, max_stake_per_bet=5.0)   # $5: about what these thin markets fill
+               stop_loss_pct=0.30, z=1.64, max_stake_per_bet=5.0,
+               pre_game_only=True)   # owner's decision 2026-11-23: every bet is placed before the game; no live betting   # $5: about what these thin markets fill
 DISCOVERED_THROUGH = "2026-11-21"
 
 

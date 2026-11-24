@@ -23,8 +23,7 @@ sec() {   # sec "Title" <tail-lines> command...
 }
 
 python -m bot trades --download --since "$(date -u -d '5 days ago' +%F)" > .refresh.out 2>&1 || { fails=$((fails + 1)); echo "refresh failed" >> .refresh.out; }
-pkill -f "bot watch" 2>/dev/null; sleep 1   # restart so the watcher picks up today's regraded fund plan
-(setsid nohup python -m bot watch --hours 14 >> data/watch.log 2>&1 < /dev/null &)
+pkill -f "bot watch" 2>/dev/null   # no live watcher: every bet is placed before the game (owner's decision, 2026-11-23)
 
 {
   echo "# Kalshi sports bot — $(date -u '+%F %H:%M UTC')"
@@ -35,7 +34,8 @@ pkill -f "bot watch" 2>/dev/null; sleep 1   # restart so the watcher picks up to
   sec "TONIGHT'S SLIPS: exact markets, sizes, limits, walk-away payouts, reasons (paper)" 260 python -m bot slip --why --log
   sec "TEAM STYLES: all 30 teams" 34 python -m bot styles
   sec "MATCHUP FACTORS vs Kalshi's price" 22 python -m bot matchup --rebuild
-  sec "WALK-FORWARD BACKTEST of the fund's logic (no hindsight)" 80 python -m bot walk
+  sec "PRE-GAME ONLY: walk-forward test of the fund's logic on pre-game prices" 30 python -m bot walk --pre
+  sec "WALK-FORWARD BACKTEST of the fund's logic, in-game rules (reference only: not bet)" 80 python -m bot walk
   sec "SIMULATOR: double-double under rule, \$5 fillable per bet" 40 python -m bot sim --rule dd_under --max-stake 5 --episodes 150
   sec "SIMULATOR: moneyline 95c rule (failed rule, for reference)" 40 python -m bot sim --episodes 100
   sec "Every fill this season: the first-touch rule (NBA)" 60 bash -c "python -m bot trades | sed -n '/A RULE YOU CAN FOLLOW/,\$p'"

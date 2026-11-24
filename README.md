@@ -73,6 +73,7 @@ python -m bot degen --why                  # degen mode: big-payout UNDER cards,
 python -m bot slip --why                   # tonight's plan as placeable slips; saves data/slips/<date>.json and .html
 python -m bot slip --check                 # re-price the saved slips right before placing
 python -m bot slip --quote                 # needs your key: create the combos on Kalshi, print real quotes vs the walk-away line
+python -m bot walk --pre                   # the fund's logic tested on pre-game prices only (the mode it runs in)
 python -m bot scenarios                    # player type vs defensive style (NBA shot diets, NFL man/zone): real? priced?
 python -m bot combos                       # 118k real Kalshi combos: shapes, hit rate vs leg prices, what buyers paid
 python -m bot styles                       # play-style profile of all 30 NBA teams (pace, shot mix, what each defense allows)
@@ -102,16 +103,15 @@ tend to hit together.
 
 `python -m bot slip` turns the plan into things you can place:
 
-* **Single bets** from the one graded rule: the market, BUY NO, how many contracts the fund's stake
-  buys, the most to pay per contract, when to place it, and that rule's record at that price.
+* **Single bets**, all placed before the game: issued only when a pre-game rule has beaten its price
+  by 3 standard errors on earlier nights. None does today, so this section says "core in cash".
+  When one qualifies, the slip gives the market, side, contracts, the most to pay and the record.
 * **Lottery cards** as Kalshi combos: every leg worded the way the app shows it, checked against
   Kalshi's combo rules, with an expiry and a walk-away payout ("place only if $10 shows $1,000 or more").
 * `data/slips/<date>.html` is a phone page: tick legs off as you add them in the app.
 * With your API key on your own machine, `--quote` builds each combo on Kalshi and shows the real
   quote; `--live` accepts it only above the walk-away line and inside `MAX_STAKE_PER_COMBO` /
   `MAX_DAILY_STAKE`. Without a key, slips are placed by hand in the app.
-* Optional phone push when the live watcher triggers a staked single bet: set `SLIP_NOTIFY_URL`
-  to an ntfy topic URL you choose (off by default).
 
 Market links use the format open-source Kalshi clients use; kalshi.com blocks automated requests,
 so they could not be tested from the cloud. If one fails, search the player's name in the app.

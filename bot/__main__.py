@@ -192,6 +192,7 @@ def main():
     sub.add_parser("props", help="player props across two seasons: overs/unders, prop types, price bands")
     wf = sub.add_parser("walk", help="walk-forward backtest of the fund's logic on all downloaded data (no hindsight)")
     wf.add_argument("--max-stake", type=float, default=5.0)
+    wf.add_argument("--pre", action="store_true", help="pre-game bets only (the mode the fund runs in)")
     dg = sub.add_parser("degen", help="degen mode: biggest-payout UNDER cards the data can defend, with honest odds (paper)")
     dg.add_argument("--tickets", default="", help='JSON list of [stake, goal], e.g. "[[10,1000],[5,1000],[5,5000]]"')
     dg.add_argument("--hours", type=float, default=14)
@@ -268,8 +269,8 @@ def main():
         from .degen import run
         run(args)
     elif cmd == "walk":
-        from .walkforward import report
-        report(args.max_stake)
+        from .walkforward import pre_report, report
+        (pre_report if getattr(args, "pre", False) else report)(args.max_stake)
     elif cmd == "props":
         from .props_study import run
         run()

@@ -248,3 +248,99 @@ def active_now(z: float = 3.0, min_bets: int = 150, min_games: int = 60, bets: p
     t["passes_lifetime"] = (t.bets >= min_bets) & (t.games >= min_games) & (t.low_end > 0)
     t["passes_recent"] = t.passes_lifetime & (t.last_20_nights > 0.03)
     return t.sort_values("low_end", ascending=False)
+
+
+# ---------------------------------------------------------------- pre-game only
+PRE_BANDS = [0.05, 0.20, 0.35, 0.50, 0.65, 0.80, 0.95]
+
+
+def load_pre_bets() -> pd.DataFrame:
+    """The same candidate bets, but placed BEFORE the game: one per prop market and side, at the last price a
+    taker paid in the three hours before tip-off (`prop_pre*.parquet`). Nothing here needs watching a game."""
+    from .favorites import slate_date
+    from .props_study import STAT
+    parts = []
+    for f in ("prop_pre_prior.parquet", "prop_pre.parquet"):
+        fp = config.DATA_DIR / f
+        if fp.exists():
+            parts.append(pd.read_parquet(fp))
+    t = pd.concat(parts, ignore_index=True)
+    t = t[t.series.isin(list(STAT)) & t.result.isin(["yes", "no"]) & (t.cost >= PRE_BANDS[0]) & (t.cost < PRE_BANDS[-1])].copy()
+    band = pd.cut(t.cost, PRE_BANDS, right=False)
+    t["band"] = [f"{iv.left:.2f}-{iv.right:.2f}" for iv in band]
+    t["rule"] = t.series.map(STAT) + " " + np.where(t.taker_side == "yes", "OVER", "UNDER") + " " + t.band + " pre-game"
+    t["win"] = (t.taker_side == t.result).astype(float)
+    t["unit"] = t.ticker + ":" + t.taker_side
+    t["mins"] = 0.0
+    b = t[["rule", "ticker", "unit", "game", "created_time", "mins", "cost", "win"]].copy()
+    b["date"] = b.game.map(slate_date)
+    b["resolve"] = b.created_time + pd.Timedelta(hours=5)          # the game is over about five hours after a pre-game bet
+    b["c"] = b.cost + TAKER_FEE * b.cost * (1 - b.cost)
+    b["net"] = b.win - b.c
+    return b.dropna(subset=["date"]).sort_values(["date", "created_time"]).reset_index(drop=True)
+
+
+def pre_report(max_stake: float = 5.0) -> dict:
+    """The walk-forward test of the fund's logic when every bet has to be placed before the game starts."""
+    pd.set_option("display.width", 230)
+    b = load_pre_bets()
+    cut = pd.Timestamp("2026-07-01")
+    print(f"\nPRE-GAME ONLY: walk-forward test on {len(b):,} candidate pre-game prop bets, {b.rule.nunique()} rules, "
+          f"{b.date.nunique()} nights ({b.date.min():%b %Y} - {b.date.max():%b %Y}).")
+    print("Same logic as the in-game test: each night sees only earlier nights; a rule gets money only once its record is "
+          "positive by 3 standard errors.\n")
+    rows = []
+    for name, kw in (("any positive record (no bar)", dict(z=0.0)), ("positive by 1.64 std errors", dict(z=1.64)),
+                     ("positive by 3 std errors", dict(z=3.0)), ("3 std errors + profitable over its last 20 nights", dict(z=3.0, recent=20))):
+        x = run(max_stake=max_stake, bets=b, **kw)
+        L = x["log"]
+        row = dict(bar=name, rules_used=len(x["first_active"]), bets=x["bets"])
+        for lab, m in (("last_season", L.date < cut), ("this_season", L.date >= cut)):
+            d = L[m]
+            row[lab] = f"{d.pnl.sum() / d.stake.sum():+.1%} (${d.pnl.sum():+,.0f}, {len(d)} bets)" if len(d) and d.stake.sum() else "no bets"
+        row |= dict(end=f"${x['final']:,.0f}", max_drawdown=f"${x['max_drawdown']:,.0f}")
+        rows.append(row)
+    print(pd.DataFrame(rows).to_string(index=False))
+    x = run(z=3.0, max_stake=max_stake, bets=b)
+    L = x["log"]
+    if len(L):
+        t = L.assign(season=np.where(L.date < cut, "last", "this")).groupby(["rule", "season"]).agg(bets=("pnl", "size"), staked=("stake", "sum"), profit=("pnl", "sum"))
+        t["return"] = t.profit / t.staked
+        print("\nRules the logic activated (3 std errors), after activation, by season:")
+        print(t.round(3).to_string())
+    # every pre-game rule's full record, both seasons, for reference (in-sample: shows where to look, not what to bet)
+    g = b.assign(season=np.where(b.date < cut, "last", "this")).groupby(["rule", "season"]).agg(n=("net", "size"), won=("win", "mean"), cost=("c", "mean"),
+                                                                                                net=("net", "sum"), c=("c", "sum"))
+    g["ret"] = g.net / g.c
+    w = g.ret.unstack().join(g.n.unstack(), rsuffix="_n").dropna()
+    w = w[(w.last_n >= 150) & (w.this_n >= 150)]
+    both = w[(w["last"] > 0) & (w["this"] > 0)].sort_values("this", ascending=False)
+    print(f"\nPre-game rules with a positive return after fees in BOTH seasons (150+ bets each): {len(both)} of {len(w)}")
+    if len(both):
+        print(both.rename(columns={"last": "last_season", "this": "this_season", "last_n": "bets_last", "this_n": "bets_this"}).round(3).to_string())
+    return dict(run=x, bets=b, both=both)
+
+
+def pre_active(z: float = 3.0) -> pd.DataFrame:
+    """Pre-game rules that would get money tonight: full record positive by `z` standard errors AND more than
+    3% over their last 20 nights. Columns add series (list), side, lo, hi and the stake fraction."""
+    from .props_study import STAT
+    b = load_pre_bets()
+    t = active_now(z=z, bets=b)
+    t = t[t.passes_recent].copy()
+    if t.empty:
+        return t
+    inv = {}
+    for series, name in STAT.items():
+        inv.setdefault(name, []).append(series)
+    cbar = b.groupby("rule").c.mean()
+    out = []
+    for r in t.itertuples():
+        head, band = r.rule.replace(" pre-game", "").rsplit(" ", 1)
+        name, pick = head.rsplit(" ", 1)
+        lo, hi = (float(v) for v in band.split("-"))
+        c = float(cbar[r.rule])
+        out.append(dict(rule=r.rule, series=inv.get(name, []), side="yes" if pick == "OVER" else "no", lo=lo, hi=hi, bets=r.bets,
+                        ret=r.ret, low_end=r.low_end, last_20_nights=r.last_20_nights, needs=c,
+                        frac=float(np.clip(0.25 * c * r.low_end / (1 - c), 0, 0.25))))
+    return pd.DataFrame(out)

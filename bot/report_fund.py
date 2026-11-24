@@ -55,6 +55,9 @@ def run(args):
           "C = fails or is indistinguishable from zero: no money.")
 
     e = primary_edge(reg)
+    pre_only = bool(cfg.get("pre_game_only", True))
+    if pre_only:
+        e = None          # the graded edges above are in-game rules; with pre-game betting only they are not used
     k = data_client()
     from .favorites import live_legs
     try:
@@ -64,7 +67,23 @@ def run(args):
         tonight, games = pd.DataFrame(), 0
 
     print("\n2) CORE SLEEVE")
-    if e is None:
+    if e is None and pre_only:
+        frac, exp_tr = 0.0, 0.0
+        print("   PRE-GAME ONLY (your setting): every bet is placed before the game, so the in-game rules above are not used.")
+        try:
+            from .walkforward import pre_active
+            act = pre_active()
+        except Exception as ex:
+            act = pd.DataFrame()
+            print(f"   (pre-game rule check unavailable: {ex})")
+        if act.empty:
+            print("   No pre-game rule clears the bar (positive by 3 std errors on earlier nights, and over its last 20 nights),")
+            print("   so the core sleeve stays in CASH tonight. `python -m bot walk --pre` shows the test.")
+        else:
+            for a in act.itertuples():
+                print(f"   ACTIVE pre-game rule: {a.rule}  {a.bets} bets, {a.ret:+.1%} per $1, last 20 nights {a.last_20_nights:+.1%}; "
+                      f"stake {_money(min(a.frac * B, cfg['max_stake_per_bet']))} per bet (`python -m bot slip` lists tonight's)")
+    elif e is None:
         print("   No edge is graded A or B, so the core sleeve stays in CASH tonight. That is the system working:")
         print("   the rule that looked best this season lost money on last season's 1,200+ games.")
         frac, exp_tr = 0.0, 0.0
@@ -90,6 +109,8 @@ def run(args):
               f"losing that much needs nearly every one of them to fail.")
 
     try:
+        if pre_only:
+            raise StopIteration
         from .walkforward import active_now
         act = active_now()
         act = act[act.passes_lifetime]
@@ -98,6 +119,8 @@ def run(args):
             flag = "ACTIVE" if a.passes_recent else "paused (recent form negative)"
             print(f"     {flag:30s} {a.rule:38s} {a.bets:5d} bets, {a.ret:+.1%} lifetime, {a.last_20_nights:+.1%} last 20 nights, "
                   f"{a.this_season:+.1%} this season")
+    except StopIteration:
+        pass
     except Exception as ex:
         print(f"   (walk-forward status unavailable: {ex})")
 

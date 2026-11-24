@@ -92,9 +92,13 @@ def _et(ts) -> str:
 
 def _core(s: dict) -> str:
     r = s.get("record") or {}
-    why = (f"This price band since the rule switched on: {r['bets']} bets, won {r['won']:.1%}, needed {r['needs']:.1%} "
-           f"({r['ret']:+.1%} per $1).") if r else ""
-    state = ("Game is on: place now", "good") if s["live"] else (f"Place from tip-off, {_et(s['tipoff'])}", "warn")
+    why = ""
+    if r and r["won"] == r["won"]:
+        why = f"This price band since the rule switched on: {r['bets']} bets, won {r['won']:.1%}, needed {r['needs']:.1%} ({r['ret']:+.1%} per $1)."
+    elif r:
+        why = f"{s['rule']}: {r['bets']} bets over two seasons, {r['ret']:+.1%} per $1 after fees."
+    state = ("Game is on: place now", "good") if s["live"] else (
+        (f"Place before {_et(s['tipoff'])}", "good") if s.get("lo") is not None else (f"Place from tip-off, {_et(s['tipoff'])}", "warn"))
     if s["status"] == "reserve":
         state = ("Reserve: over the sleeve cap", "warn")
     return f"""
@@ -108,7 +112,7 @@ def _core(s: dict) -> str:
     <dt>Press</dt><dd>{e(s['tap'])}</dd>
     <dt>Size</dt><dd><span class="num">{s['contracts']}</span> contracts, pay no more than <span class="num">{s['limit'] * 100:.0f}¢</span> each (order book: {s['price_seen'] * 100:.0f}¢, {s['size_shown']:.0f} offered within the limit)</dd>
     <dt>Money</dt><dd><span class="num">{_money(s['cost'])}</span> with fee. Pays <span class="num">{_money(s['pays'])}</span> if it wins (+{_money(s['profit'])}).</dd>
-    <dt>Only if</dt><dd>NO is offered between 35¢ and 80¢ once the game has started. Outside that range the rule was never tested.</dd>
+    <dt>Only if</dt><dd>{e(s['when'][:1].upper() + s['when'][1:])}. Outside that price range the rule was never tested.</dd>
     {f'<dt>Why</dt><dd>{e(why)}</dd>' if why else ''}
   </dl>
   <div class="foot"><a href="{e(s['url'])}" target="_blank" rel="noopener">Open this market</a><span class="tick">{e(s['ticker'])}</span></div>
@@ -181,7 +185,7 @@ def render(doc: dict) -> str:
     <div><span>Cards tonight</span><b>{_money(spend)}</b></div>
   </div>
   <h2>Single bets</h2>
-  <p class="muted small">The one rule that held up on games it was not found on: NBA double-double unders bought during the game at 35–80¢. At most {_money(core['sleeve'])} at risk at once.</p>
+  <p class="muted small">{e(core.get('intro', ''))} At most {_money(core['sleeve'])} at risk at once.</p>
   {core_html}
   <h2>Lottery cards</h2>
   <p class="muted small">Built from unders priced 50–75¢ on tight markets. Every card has a negative expected value. Tick each leg as you add it to the combo in Kalshi.</p>
