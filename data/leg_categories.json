@@ -1,0 +1,315 @@
+{
+ "made": "2026-11-24T17:24:38+00:00",
+ "NBA": [
+  {
+   "category": "ALL NBA unders (baseline)",
+   "last": -0.03970817911717442,
+   "this": -0.028505351305642298,
+   "both": -0.03216560437562759,
+   "bets_last": 7516,
+   "bets_this": 14587,
+   "vs_base": 0.0,
+   "z": null,
+   "label": "baseline"
+  },
+  {
+   "category": "points unders",
+   "last": -0.03282342963020639,
+   "this": -0.02250735034549636,
+   "both": -0.026665781359452235,
+   "bets_last": 2844,
+   "bets_this": 3885,
+   "vs_base": 0.005499823016175357,
+   "z": 0.441667884161419,
+   "label": "neutral"
+  },
+  {
+   "category": "rebounds unders",
+   "last": -0.036369163697509296,
+   "this": -0.03382410066273394,
+   "both": -0.034740850482390236,
+   "bets_last": 1656,
+   "bets_this": 2746,
+   "vs_base": -0.0025752461067626436,
+   "z": -0.16574971530211013,
+   "label": "neutral"
+  },
+  {
+   "category": "assists unders",
+   "last": -0.0910329286470733,
+   "this": -0.02888438697065725,
+   "both": -0.050399002659683716,
+   "bets_last": 1317,
+   "bets_this": 2360,
+   "vs_base": -0.018233398284056124,
+   "z": -1.1216559509457924,
+   "label": "neutral"
+  },
+  {
+   "category": "threes unders",
+   "last": -0.03409929151969466,
+   "this": -0.03758594423256668,
+   "both": -0.036639515577508386,
+   "bets_last": 939,
+   "bets_this": 2369,
+   "vs_base": -0.004473911201880794,
+   "z": -0.2799354028655698,
+   "label": "neutral"
+  },
+  {
+   "category": "points+rebounds+assists unders",
+   "last": null,
+   "this": -0.03042815851378923,
+   "both": -0.03042815851378923,
+   "bets_last": 0,
+   "bets_this": 1937,
+   "vs_base": 0.0017374458618383617,
+   "z": null,
+   "label": "too few bets"
+  },
+  {
+   "category": "steals and blocks unders",
+   "last": 0.07399570885014528,
+   "this": -0.03792679890698028,
+   "both": -0.009230790204923544,
+   "bets_last": 375,
+   "bets_this": 981,
+   "vs_base": 0.022934814170704046,
+   "z": 0.8813103559302524,
+   "label": "neutral"
+  },
+  {
+   "category": "double-double unders",
+   "last": -0.05520843222171231,
+   "this": 0.0410576587806306,
+   "both": -0.009647533335393367,
+   "bets_last": 336,
+   "bets_this": 290,
+   "vs_base": 0.022518071040234226,
+   "z": 0.7901358861530519,
+   "label": "neutral"
+  },
+  {
+   "category": "first game back after 7+ days off",
+   "last": 0.08345179072911972,
+   "this": 0.07073996464019937,
+   "both": 0.07263295672796824,
+   "bets_last": 184,
+   "bets_this": 1022,
+   "vs_base": 0.10479856110359584,
+   "z": 3.1096231229057465,
+   "label": "PREFER"
+  },
+  {
+   "category": "second night of a back-to-back",
+   "last": -0.012963703548032885,
+   "this": -0.030136103399117792,
+   "both": -0.024385978901914906,
+   "bets_last": 1284,
+   "bets_this": 2381,
+   "vs_base": 0.0077796254737126855,
+   "z": 0.3477434841040416,
+   "label": "neutral"
+  },
+  {
+   "category": "minutes trending down",
+   "last": -0.06321957827011494,
+   "this": -0.0014871469721475313,
+   "both": -0.018709635485854127,
+   "bets_last": 632,
+   "bets_this": 1551,
+   "vs_base": 0.013455968889773465,
+   "z": 0.4970354575060286,
+   "label": "neutral"
+  },
+  {
+   "category": "minutes trending up",
+   "last": -0.04997439875972598,
+   "this": 0.016302150532601447,
+   "both": 0.003977252259168168,
+   "bets_last": 526,
+   "bets_this": 2201,
+   "vs_base": 0.03614285663479576,
+   "z": 1.4421662016910708,
+   "label": "neutral"
+  },
+  {
+   "category": "unders his recent games already support (cold streak)",
+   "last": -0.03838480024576976,
+   "this": -0.04486905316590064,
+   "both": -0.04291077732862948,
+   "bets_last": 2759,
+   "bets_this": 5855,
+   "vs_base": -0.01074517295300189,
+   "z": -0.7925480474130944,
+   "label": "neutral"
+  },
+  {
+   "category": "unders against a hot streak",
+   "last": -0.05833274975237194,
+   "this": -0.030484485776610396,
+   "both": -0.03925228110080397,
+   "bets_last": 963,
+   "bets_this": 2003,
+   "vs_base": -0.007086676725176377,
+   "z": -0.37661750869656424,
+   "label": "neutral"
+  },
+  {
+   "category": "bench players (under 24 minutes)",
+   "last": -0.0694029726668957,
+   "this": -0.011311146657590204,
+   "both": -0.017580385576361227,
+   "bets_last": 403,
+   "bets_this": 3143,
+   "vs_base": 0.014585218799266365,
+   "z": 0.6842916387347403,
+   "label": "neutral"
+  }
+ ],
+ "NFL": [
+  {
+   "category": "ALL NFL unders (baseline)",
+   "last": -0.03662908437534302,
+   "this": -0.012444655798058259,
+   "both": -0.020787606363712265,
+   "bets_last": 4155,
+   "bets_this": 7543,
+   "vs_base": 0.0,
+   "z": null,
+   "label": "baseline"
+  },
+  {
+   "category": "rushing unders on 3+ point underdogs",
+   "last": 0.023812259539746295,
+   "this": 0.14861605966909924,
+   "both": 0.1065488331947065,
+   "bets_last": 322,
+   "bets_this": 645,
+   "vs_base": 0.12733643955841875,
+   "z": 2.88977616001297,
+   "label": "PREFER"
+  },
+  {
+   "category": "rushing unders on 3+ point favourites",
+   "last": -0.054931716861229524,
+   "this": -0.11595980011137262,
+   "both": -0.09332081671643686,
+   "bets_last": 388,
+   "bets_this": 659,
+   "vs_base": -0.07253321035272459,
+   "z": -1.554383687070974,
+   "label": "neutral"
+  },
+  {
+   "category": "tight-end reception unders",
+   "last": 0.08043212963456864,
+   "this": 0.03392890434122166,
+   "both": 0.04496867201337448,
+   "bets_last": 148,
+   "bets_this": 432,
+   "vs_base": 0.06575627837708675,
+   "z": 1.4118918827698073,
+   "label": "lean prefer"
+  },
+  {
+   "category": "wide-receiver reception unders",
+   "last": -0.003118392448534995,
+   "this": -0.004396319451535939,
+   "both": -0.0040880239057471375,
+   "bets_last": 334,
+   "bets_this": 944,
+   "vs_base": 0.01669958245796513,
+   "z": 0.5007559080418604,
+   "label": "neutral"
+  },
+  {
+   "category": "running-back reception unders",
+   "last": -0.011140747709226514,
+   "this": -0.07970525536154517,
+   "both": -0.06393173924712472,
+   "bets_last": 121,
+   "bets_this": 375,
+   "vs_base": -0.043144132883412456,
+   "z": -0.822275407093342,
+   "label": "neutral"
+  },
+  {
+   "category": "receiving-yards unders",
+   "last": -0.024502263504858814,
+   "this": -0.01737481421055017,
+   "both": -0.01999228690253936,
+   "bets_last": 1344,
+   "bets_this": 2300,
+   "vs_base": 0.0007953194611729046,
+   "z": 0.03469953013717703,
+   "label": "neutral"
+  },
+  {
+   "category": "passing-yards unders",
+   "last": -0.09630606701382902,
+   "this": -0.017464285844839517,
+   "both": -0.0591393760146716,
+   "bets_last": 895,
+   "bets_this": 777,
+   "vs_base": -0.038351769650959336,
+   "z": -0.9926344224469579,
+   "label": "neutral"
+  },
+  {
+   "category": "touchdown unders on 3+ point underdogs",
+   "last": null,
+   "this": 0.025797389115790097,
+   "both": 0.025797389115790097,
+   "bets_last": 0,
+   "bets_this": 289,
+   "vs_base": 0.04658499547950236,
+   "z": null,
+   "label": "too few bets"
+  },
+  {
+   "category": "touchdown unders on 3+ point favourites",
+   "last": null,
+   "this": -0.0841710784767334,
+   "both": -0.0841710784767334,
+   "bets_last": 0,
+   "bets_this": 420,
+   "vs_base": -0.06338347211302113,
+   "z": null,
+   "label": "too few bets"
+  },
+  {
+   "category": "first game back after 3+ weeks out",
+   "last": -0.1307988313318949,
+   "this": -0.05816543474966222,
+   "both": -0.0723617877333245,
+   "bets_last": 380,
+   "bets_this": 1558,
+   "vs_base": -0.051574181369612226,
+   "z": -1.1601811489473204,
+   "label": "lean avoid"
+  },
+  {
+   "category": "unders his recent games already support (cold streak)",
+   "last": -0.05605478231116268,
+   "this": -0.029273639510970458,
+   "both": -0.03845550303419719,
+   "bets_last": 1260,
+   "bets_this": 2309,
+   "vs_base": -0.017667896670484923,
+   "z": -0.7382653943523402,
+   "label": "neutral"
+  },
+  {
+   "category": "unders against a hot streak",
+   "last": -0.009909536112005866,
+   "this": 0.003287391730743209,
+   "both": -0.0013536273746162899,
+   "bets_last": 1122,
+   "bets_this": 1968,
+   "vs_base": 0.019433978989095976,
+   "z": 0.7587862394350071,
+   "label": "neutral"
+  }
+ ]
+}

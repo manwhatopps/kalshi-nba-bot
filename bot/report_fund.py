@@ -79,6 +79,16 @@ def run(args):
         if act.empty:
             print("   No pre-game rule clears the bar (positive by 3 std errors on earlier nights, and over its last 20 nights),")
             print("   so the core sleeve stays in CASH tonight. `python -m bot walk --pre` shows the test.")
+            try:
+                from .walkforward import pre_watch
+                w = pre_watch(4)
+                if len(w):
+                    print("   WATCH LIST (positive after fees over both seasons; needs 3.0 standard errors to get money):")
+                    for r in w.itertuples():
+                        print(f"     {r.std_errors:4.1f} std errors  {r.rule.replace(' pre-game', ''):62s} {r.bets:5d} bets, {r.ret:+.1%} per $1, "
+                              f"last 20 nights {r.last_20_nights:+.1%}, this season {r.this_season:+.1%}")
+            except Exception as ex:
+                print(f"   (watch list unavailable: {ex})")
         else:
             for a in act.itertuples():
                 print(f"   ACTIVE pre-game rule: {a.rule}  {a.bets} bets, {a.ret:+.1%} per $1, last 20 nights {a.last_20_nights:+.1%}; "

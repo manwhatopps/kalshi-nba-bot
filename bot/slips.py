@@ -222,17 +222,32 @@ def pre_core_slips(k, cfg: dict, hours: float) -> dict:
                      "after fees, by 3 standard errors on earlier nights and is still doing so.")
     act = W.pre_active()
     if act.empty:
-        out["note"] = ("No pre-game rule clears the bar tonight, so the core sleeve stays in cash. Tested on 188,029 pre-game prop bets "
-                       "over two seasons: the walk-forward logic never found one to back. The double-double under that works in-game "
-                       "is break-even when bought before the game (635 bets, won 63.1%, needed 62.9%).")
+        note = ("No pre-game rule clears the bar tonight, so the core sleeve stays in cash. The fund backs a rule only once it has beaten "
+                "its price, after fees, by 3 standard errors on earlier nights.")
+        try:
+            w = W.pre_watch(2)
+            if len(w):
+                note += " Closest so far: " + "; ".join(
+                    f"{r.rule.replace(' pre-game', '').replace(' category:', ':')} ({r.ret:+.1%} on {r.bets:,} bets, {r.std_errors:.1f} standard errors)"
+                    for r in w.itertuples()) + "."
+        except Exception:
+            pass
+        out["note"] = note
         return out
     parts = [live_legs(k, lg, hours_ahead=hours, max_spread=0.06) for lg in ("NBA", "NFL")]
     legs = pd.concat([x for x in parts if len(x)], ignore_index=True) if any(len(x) for x in parts) else pd.DataFrame()
     rows = []
+    cat_pool = None
     for a in act.itertuples():
         if legs.empty:
             break
-        m = legs[legs.series.isin(a.series) & (legs.side == a.side) & (legs.cost >= a.lo) & (legs.cost < a.hi)]
+        if getattr(a, "kind", "band") == "category":      # tonight's unders that fall in the category, from the card builder's leg facts
+            if cat_pool is None:
+                from . import degen
+                cat_pool = degen.candidates(k, hours=hours, lo=a.lo, hi=a.hi + 0.001, max_spread=0.06)
+            m = cat_pool[[a.category in names for names in cat_pool.cats] & (cat_pool.league == a.sport)] if len(cat_pool) else cat_pool
+        else:
+            m = legs[legs.series.isin(a.series) & (legs.side == a.side) & (legs.cost >= a.lo) & (legs.cost < a.hi)]
         rows += [(a, r) for r in m.sort_values(["tipoff", "spread"]).itertuples()]
     names = matchups(k, [r.event_ticker for _, r in rows])
     books = B.orderbooks(k, [r.ticker for _, r in rows]) if rows else {}

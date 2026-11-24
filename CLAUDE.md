@@ -22,6 +22,11 @@ payout, Kalshi combo-rule check); `--quote`/`--live` need the owner's key and ob
 `python -m bot scenarios` tests player type against defensive style (real in the box score? priced by Kalshi?)
 and writes `data/scenario_table.json`, which the leg explanations quote. New scenario ideas go there first.
 
+`python -m bot legs` grades pre-written leg categories (underdog, first game back, position, form...) on two
+seasons of unders at real taker prices and writes `data/leg_categories.json`; cards drop avoid legs and take
+prefer legs first, and every category is also a candidate rule in `walk --pre`. A new idea about why legs hit
+or miss goes in `bot/legs.py` as a category, not into the card builder as a hunch.
+
 **Pre-game only (owner's decision 2026-11-23):** every bet is placed before the game. No live watcher, no
 in-game rules; `pre_game_only` in `data/fund.json`. The in-game double-double under (grade B) is therefore not
 bet. `python -m bot walk --pre` is the test that matters now; as of 2026-11-23 no pre-game rule clears it, so
@@ -49,4 +54,4 @@ Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xe
 blocks cloud IPs; the Hugging Face game-log dataset is the stats source.
 
 ## Tests
-`python -m pytest -q tests` (13 tests, ~3 s).
+`python -m pytest -q tests` (14 tests, ~3 s).

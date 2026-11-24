@@ -560,6 +560,48 @@ What the bot does now: the core sleeve issues a single-bet slip only when a pre-
 cash and says so. The check runs every day, so a rule that earns it will start getting slips. The
 lottery cards were already pre-game and are unchanged; they remain negative expected value.
 
+## 21. Post-mortem of the Nov 23 cards, and the leg logic redone (`python -m bot legs`, `python -m bot nflform`)
+
+**What happened.** Two Monday-night test cards (all unders, one game): 2 of 5 and 7 of 9 legs hit, both
+lost. Across them 9 of 14 legs hit (64%) at an average price near 63c. That night's NBA cards: 34 of 58
+under legs hit (59%); none of the cards won.
+
+**What was wrong with how the legs were chosen.** For NFL legs the builder used the price and the prop
+type and nothing else. It never read a game log, did not know Jacory Croskey-Merritt was in his first
+game back after six weeks, and did not know which team was the underdog. Each idea for why legs missed
+was then tested on two seasons of settled Kalshi unders, using the price a taker really paid plus the fee
+(11,698 NFL and 22,103 NBA unders).
+
+| idea | test | result |
+|---|---|---|
+| Too many legs from one game or one team sink together | outcome correlation of over 900,000 same-game pairs of unders from different players | No. Different players' unders are close to independent, teammates included (NFL teammates' receptions +0.01). Only a quarterback's passing yards and his receivers move together (+0.21 to +0.26), and the same player's own props (+0.2 to +0.4). |
+| Don't take unders against a player's recent hot games | NFL unders where his last 6 games say "over" | No. They returned -0.1%, better than unders his cold streak "supports" (-3.8%). Recent form adds nothing after the price in either season (z -0.9, -1.5). |
+| Running-back reception unders are bad (2 of the misses) | by position | Not established: -1.1% last season, -8.0% this season. |
+| Players returning from weeks out are unpredictable | first game back after 3+ weeks (NFL) | Leans bad in both seasons: -13.1%, -5.8% (baseline -3.7%, -1.2%). **lean avoid.** |
+| Game script matters | by point spread | **Rushing unders on 3+ point underdogs: +2.4% and +14.9% after fees (967 bets, 2.9 standard errors over the baseline). PREFER.** Rushing unders on favourites: -5.5%, -11.6%. |
+| (NBA) time off | first game back after 7+ days | **+8.3% and +7.1% after fees (1,206 bets, 3.1 standard errors over the baseline). PREFER.** The opposite sign to the NFL, with a reason in each case: NBA players come back on minute limits. |
+| Tight-end reception unders | by position | +8.0%, +3.4%: both seasons, 1.4 standard errors. **lean prefer.** |
+
+Every other category tested (12 NFL, 14 NBA, all written down before grading) is neutral.
+With 26 categories, two clearing 2.9 and 3.1 standard errors over the baseline is more than chance
+should give, but neither is proven as a bet: against zero they sit at 2.4 and 2.2.
+
+**What changed.**
+* Every NFL leg now carries facts: his last six games against the line, weeks since he last played,
+  position, and whether Kalshi's own moneyline makes his team an underdog. Printed on the slip.
+* Cards drop avoid and lean-avoid legs and take prefer legs first (`bot/legs.py`). Categories are
+  re-graded daily, so a label that stops holding in both seasons falls back to neutral.
+* All 26 categories went into the fund's pre-game walk-forward test as candidate rules. None is at
+  3 standard errors, so the core sleeve is still in cash. The fund report now prints a watch list:
+  underdog rushing unders (2.4) and NBA first-game-back unders (2.2) lead it. If either reaches
+  the bar it starts getting single-bet slips without further changes.
+
+**What did not change, and should not be expected to.** Re-dealt with the new logic, the same Monday
+game still loses both cards (3 of 6 and 7 of 9): Washington was the underdog and won, so its rushers
+went over, the opposite of the usual script. The only leg the new logic would have saved is the
+returning player. One game cannot test any of this. The cards remain negative expected value; the
+changes move a few legs per card toward kinds of under that have paid better.
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is
@@ -584,4 +626,7 @@ lottery cards were already pre-game and are unchanged; they remain negative expe
   the real ones.
 * Pre-game only (the owner's choice): no rule clears the bar on 188,029 pre-game bets, so the core
   sleeve is in cash. The double-double under that worked in-game is break-even before the game.
+* Same-game legs from different players are close to independent; recent form does not help after
+  the price. Two kinds of pre-game under have paid in both seasons and are on the watch list, not yet
+  bet: NFL rushing unders on 3+ point underdogs, and NBA unders in a player's first game back.
 * No real money has been placed.

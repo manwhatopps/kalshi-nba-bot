@@ -31,6 +31,7 @@ pkill -f "bot watch" 2>/dev/null   # no live watcher: every bet is placed before
   sec "Yesterday graded" 25 python -m bot settle
   sec "THE FUND: tonight's allocation and what to expect" 90 python -m bot fund
   sec "SCENARIOS: player type vs defensive style, real and priced" 100 python -m bot scenarios
+  sec "LEG CATEGORIES: what was knowable before the game, graded on real costs" 45 python -m bot legs
   sec "TONIGHT'S SLIPS: exact markets, sizes, limits, walk-away payouts, reasons (paper)" 260 python -m bot slip --why --log
   sec "TEAM STYLES: all 30 teams" 34 python -m bot styles
   sec "MATCHUP FACTORS vs Kalshi's price" 22 python -m bot matchup --rebuild

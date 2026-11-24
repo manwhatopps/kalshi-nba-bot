@@ -160,6 +160,8 @@ def main():
     sub.add_parser("scenarios", help="player type vs defensive style: is the advantage real, and is it already in Kalshi's price?")
     cc = sub.add_parser("combo", help="check a Kalshi combo before buying: paste its link; prints the legs' prices, the fair payout and what it sells for")
     cc.add_argument("link", help="the combo's kalshi.com link (contains marketTicker=...) or its market ticker")
+    sub.add_parser("legs", help="leg categories: what was knowable before the game about each kind of under, and how it paid")
+    sub.add_parser("nflform", help="NFL legs: recent form, absences, position and game script against Kalshi's price")
     sl = sub.add_parser("slip", help="tonight's plan as placeable slips: exact markets, sizes, limits, walk-away payouts (paper)")
     sl.add_argument("--hours", type=float, default=14)
     sl.add_argument("--tickets", default="", help='JSON list of [stake, target] pairs; default: degen_mode in data/fund.json')
@@ -266,6 +268,12 @@ def main():
     elif cmd == "combo":
         from .combo_check import run
         run(args)
+    elif cmd == "legs":
+        from .legs import run
+        run(args)
+    elif cmd == "nflform":
+        from .nfl_form import study
+        study()
     elif cmd == "slip":
         from .slips import run
         run(args)

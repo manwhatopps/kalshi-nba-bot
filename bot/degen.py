@@ -43,11 +43,14 @@ def candidates(k, leagues=("NBA", "NFL"), hours: float = 14, lo: float = 0.50, h
     (Kalshi allows that for player props; 60% of real combos do it). Without them: one leg per event."""
     from .favorites import live_legs
     from .props_study import STAT
-    parts = []
+    parts, win_prob = [], {}
     for lg in leagues:
         x = live_legs(k, lg, hours_ahead=hours, max_spread=0.06)
         if len(x):
             parts.append(x.assign(league=lg))
+            if lg == "NFL":      # Kalshi's own price that each team wins: who is the underdog tonight
+                ml = x[(x.series == "KXNFLGAME") & (x.side == "yes")]
+                win_prob = {t.split("-")[-1]: float(m_) for t, m_ in zip(ml.ticker, ml.mid)}
     if not parts:
         return pd.DataFrame()
     c = pd.concat(parts, ignore_index=True)
@@ -64,18 +67,47 @@ def candidates(k, leagues=("NBA", "NFL"), hours: float = 14, lo: float = 0.50, h
         c["ev_max"] = 1
     if c.empty:
         return c
-    # the logical chain for every NBA leg: recent form vs the line, minutes, defense-vs-role, pace, rest
+    c = c.reset_index(drop=True)
+    ctx = None
     try:
         from . import matchup
         ctx = matchup.context()
-        ex = [matchup.explain(ctx, r.title, r.series, r.ticker, r.game, r.side, r.cost) if r.league == "NBA"
-              else dict(lines=["NFL leg: no style model yet"], pro=0, con=0) for r in c.itertuples()]
-        c["pro"], c["con"] = [e["pro"] for e in ex], [e["con"] for e in ex]
-        c["why"] = [" | ".join(e["lines"][:7]) for e in ex]
     except Exception as e:
-        print(f"  (chain unavailable: {e})")
-        c["pro"], c["con"], c["why"] = 0, 0, ""
+        print(f"  (NBA context unavailable: {e})")
+    # what is knowable before the game about each leg, and how that kind of leg has paid (bot/legs.py)
+    c["pref"], c["cat_why"], c["nfl_why"] = 0.0, [[] for _ in range(len(c))], [[] for _ in range(len(c))]
+    c["cats"] = [[] for _ in range(len(c))]
+    try:
+        from . import legs
+        for lg in ("NBA", "NFL"):
+            sub = c[c.league == lg]
+            if sub.empty or (lg == "NBA" and ctx is None):
+                continue
+            f = legs.classify(legs.nba_features(sub, ctx) if lg == "NBA" else legs.nfl_features(sub, win_prob), lg)
+            c.loc[f.index, "pref"] = f.pref
+            for i, w, names in zip(f.index, f.cat_why, f.cats_all):
+                c.at[i, "cat_why"] = w
+                c.at[i, "cats"] = names
+            if lg == "NFL":
+                for i, r in zip(f.index, f.itertuples()):
+                    c.at[i, "nfl_why"] = legs.nfl_why(r)
+    except Exception as e:
+        print(f"  (leg categories unavailable: {e})")
+    # the logical chain for every leg: NBA from form, minutes, matchup scenario, pace, rest; NFL from his game log and the game line
+    pro, con, why = [], [], []
+    for r in c.itertuples():
+        if r.league == "NBA" and ctx is not None:
+            try:
+                e = matchup.explain(ctx, r.title, r.series, r.ticker, r.game, r.side, r.cost)
+            except Exception as ex:
+                e = dict(lines=[f"(chain failed: {ex})"], pro=0, con=0)
+            pro.append(e["pro"]); con.append(e["con"]); why.append(" | ".join(list(e["lines"][:7]) + list(r.cat_why)))
+        else:
+            pro.append(0); con.append(0); why.append(" | ".join(r.nfl_why) if r.nfl_why else "")
+    c["pro"], c["con"], c["why"] = pro, con, why
     c["chain"] = c.pro - c.con
+    c = c.drop(columns=["cat_why", "nfl_why"])
+    c = c[c.pref >= 0]                                      # drop legs in a category that has trailed the baseline in both seasons
     return c[~((c.con >= 2) & (c.con > c.pro))]            # drop legs where the chain clearly says OVER
 
 
@@ -86,7 +118,9 @@ def build(c: pd.DataFrame, need: float, skip: set | None = None, max_per_game: i
     rng = np.random.default_rng(seed)
     c = c[~c.ticker.isin(skip or set())].copy()
     c["_r"] = rng.random(len(c))
-    c = c.sort_values(["chain", "form", "spread", "_r"], ascending=[False, False, True, True])
+    if "pref" not in c:
+        c["pref"] = 0.0
+    c = c.sort_values(["pref", "chain", "form", "spread", "_r"], ascending=[False, False, False, True, True])   # preferred categories first
     ev, who, gm, st, keep, price, thr = {}, set(), {}, {}, [], 1.0, CUSHION / need
     rows = list(c.itertuples())
 

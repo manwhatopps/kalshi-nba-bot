@@ -204,3 +204,23 @@ def test_combo_link_parsing():
     t = "KXMVECROSSCATEGORY-S2026SSACA6RGSVYGM5MF-MBUECYPE3"
     assert combo_check.parse(link) == t and combo_check.parse(t) == t
     assert slips.market_url(t) == "https://kalshi.com/markets/kxmvecrosscategory/combo/KXMVECROSSCATEGORY-S2026SSACA6RGSVYGM5MF?marketTicker=" + t
+
+
+def test_leg_category_labels_and_classification(tmp_path, monkeypatch):
+    import json
+    import pandas as pd
+    from bot import legs
+    assert legs.label(0.05, 0.04, 2.5) == "PREFER" and legs.label(0.05, 0.04, 1.2) == "lean prefer"
+    assert legs.label(-0.05, -0.04, -2.5) == "AVOID" and legs.label(-0.05, -0.04, -1.0) == "lean avoid"
+    assert legs.label(0.10, 0.01, 4.0) == "neutral" and legs.label(0.10, -0.10, 0.0) == "neutral"      # one good season is not enough
+    table = {"NFL": [dict(category="ALL NFL unders (baseline)", last=-0.03, this=-0.01, both=-0.02, label="baseline"),
+                     dict(category="rushing unders on 3+ point underdogs", last=0.02, this=0.15, both=0.10, label="PREFER"),
+                     dict(category="first game back after 3+ weeks out", last=-0.13, this=-0.06, both=-0.07, label="lean avoid")]}
+    f = tmp_path / "cats.json"
+    f.write_text(json.dumps(table))
+    monkeypatch.setattr(legs, "TABLE", f)
+    feat = pd.DataFrame(dict(series=["KXNFLRSHYDS", "KXNFLRSHYDS", "KXNFLREC"], team_spread=[-4.0, -4.0, 0.0], weeks_out=[1, 5, 1],
+                             position=["RB", "RB", "WR"], form_gap=[0.0, 0.0, 0.0]))
+    c = legs.classify(feat, "NFL")
+    assert list(c.pref) == [2, -1, 0]                      # the worst label wins: an underdog rusher in his first game back is dropped
+    assert "first game back after 3+ weeks out" in c.cats_all[1] and c.cat_why[0][0].startswith("PREFER")

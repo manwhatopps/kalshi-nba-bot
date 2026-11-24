@@ -1,0 +1,60 @@
+{
+ "made_at": "2026-11-24T17:26:15+00:00",
+ "slate": "2026-11-24",
+ "bankroll": 100.0,
+ "hours": 14,
+ "collection": "KXMVECROSSCATEGORY-R",
+ "rules_loaded": 2537,
+ "core": {
+  "rule": "",
+  "stake": 5.0,
+  "sleeve": 50.0,
+  "slips": [],
+  "waiting": 0,
+  "taken": 0,
+  "note": "No pre-game rule clears the bar tonight, so the core sleeve stays in cash. The fund backs a rule only once it has beaten its price, after fees, by 3 standard errors on earlier nights. Closest so far: NFL: rushing unders on 3+ point underdogs (+10.7% on 967 bets, 2.4 standard errors); NBA: first game back after 7+ days off (+7.3% on 1,206 bets, 2.2 standard errors).",
+  "pre_game": true,
+  "intro": "Every bet is placed before the game. A single bet is issued only for a pre-game rule that has beaten its price, after fees, by 3 standard errors on earlier nights and is still doing so."
+ },
+ "tickets": [
+  {
+   "id": "T1",
+   "sleeve": "degen",
+   "kind": "combo",
+   "status": "unbuilt",
+   "stake": 10,
+   "target": 1000,
+   "need_x": 100.0,
+   "legs": [],
+   "problems": [
+    "not enough different legs left tonight"
+   ]
+  },
+  {
+   "id": "T2",
+   "sleeve": "degen",
+   "kind": "combo",
+   "status": "unbuilt",
+   "stake": 5,
+   "target": 1000,
+   "need_x": 200.0,
+   "legs": [],
+   "problems": [
+    "not enough different legs left tonight"
+   ]
+  },
+  {
+   "id": "T3",
+   "sleeve": "degen",
+   "kind": "combo",
+   "status": "unbuilt",
+   "stake": 5,
+   "target": 5000,
+   "need_x": 1000.0,
+   "legs": [],
+   "problems": [
+    "not enough different legs left tonight"
+   ]
+  }
+ ]
+}

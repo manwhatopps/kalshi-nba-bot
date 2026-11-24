@@ -74,6 +74,8 @@ python -m bot slip --why                   # tonight's plan as placeable slips; 
 python -m bot slip --check                 # re-price the saved slips right before placing
 python -m bot slip --quote                 # needs your key: create the combos on Kalshi, print real quotes vs the walk-away line
 python -m bot walk --pre                   # the fund's logic tested on pre-game prices only (the mode it runs in)
+python -m bot legs                         # leg categories knowable before the game (underdog, first game back, position), graded on real costs
+python -m bot nflform                      # NFL legs: recent form, absences, position, game script vs Kalshi's price
 python -m bot scenarios                    # player type vs defensive style (NBA shot diets, NFL man/zone): real? priced?
 python -m bot combo "<kalshi combo link>"    # check a combo before buying: leg prices, fair payout, what it sells for
 python -m bot combos                       # 118k real Kalshi combos: shapes, hit rate vs leg prices, what buyers paid
@@ -206,3 +208,4 @@ trading + grading · `bot/backtest.py` calibration.
 | ntfy.sh | Optional phone push for live slips (`SLIP_NOTIFY_URL`). |
 | gabriel1200/player_sheets `game_report/all_games` (no licence) | Player-level tracking per game (pull-up and catch-and-shoot threes, zones, drives, post touches). Source of every player's shot diet. Downloaded at run time, not committed. |
 | nflverse `pbp_participation` + `pbp` (CC-BY-SA / CC-BY, coverage charted by FTN) | Man/zone call on every dropback, 2024-2025. 2026 is published after the season. |
+| nflverse `stats_player_week`, `schedules` (CC-BY 4.0) | NFL game logs and point spreads: every NFL leg's last six games, weeks out, position, underdog or favourite. |

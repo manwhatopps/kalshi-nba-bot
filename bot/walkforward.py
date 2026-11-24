@@ -254,7 +254,7 @@ def active_now(z: float = 3.0, min_bets: int = 150, min_games: int = 60, bets: p
 PRE_BANDS = [0.05, 0.20, 0.35, 0.50, 0.65, 0.80, 0.95]
 
 
-def load_pre_bets() -> pd.DataFrame:
+def load_pre_bets(categories: bool = True) -> pd.DataFrame:
     """The same candidate bets, but placed BEFORE the game: one per prop market and side, at the last price a
     taker paid in the three hours before tip-off (`prop_pre*.parquet`). Nothing here needs watching a game."""
     from .favorites import slate_date
@@ -277,7 +277,40 @@ def load_pre_bets() -> pd.DataFrame:
     b["resolve"] = b.created_time + pd.Timedelta(hours=5)          # the game is over about five hours after a pre-game bet
     b["c"] = b.cost + TAKER_FEE * b.cost * (1 - b.cost)
     b["net"] = b.win - b.c
+    b = pd.concat([b, category_bets(t)], ignore_index=True) if categories else b
     return b.dropna(subset=["date"]).sort_values(["date", "created_time"]).reset_index(drop=True)
+
+
+def category_bets(pre: pd.DataFrame) -> pd.DataFrame:
+    """Every pre-written leg category (bot/legs.py) as a candidate rule: the same settled unders, grouped by what was
+    knowable before the game (underdog, first game back, position...) instead of by price band. All categories go in,
+    not just the ones that look good now, so the walk-forward test does the selecting night by night."""
+    from . import legs
+    from .favorites import slate_date
+    when = pre[pre.taker_side == "no"].drop_duplicates("ticker").set_index("ticker").created_time
+    parts = []
+    for sport in ("NBA", "NFL"):
+        try:
+            h = legs.history(sport)
+        except Exception as e:
+            print(f"  ! {sport} categories unavailable for the walk-forward: {e}")
+            continue
+        h = h[h.ticker.isin(when.index)]
+        for name, f in legs.CATS[sport].items():
+            g = h[f(h).fillna(False)]
+            if g.empty:
+                continue
+            parts.append(pd.DataFrame({"rule": f"{sport} category: {name} pre-game", "ticker": g.ticker.values, "unit": g.ticker.values + ":no",
+                                       "game": g.game.values, "created_time": pd.to_datetime(g.ticker.map(when).values, utc=True), "mins": 0.0,
+                                       "cost": g.no_cost.values, "win": g.win.values}))
+    if not parts:
+        return pd.DataFrame()
+    b = pd.concat(parts, ignore_index=True)
+    b["date"] = b.game.map(slate_date)
+    b["resolve"] = b.created_time + pd.Timedelta(hours=5)
+    b["c"] = b.cost + TAKER_FEE * b.cost * (1 - b.cost)
+    b["net"] = b.win - b.c
+    return b
 
 
 def pre_report(max_stake: float = 5.0) -> dict:
@@ -336,6 +369,13 @@ def pre_active(z: float = 3.0) -> pd.DataFrame:
     cbar = b.groupby("rule").c.mean()
     out = []
     for r in t.itertuples():
+        c = float(cbar[r.rule])
+        if " category: " in r.rule:                 # a leg category from bot/legs.py: any under price from 20c to 85c
+            sport, name = r.rule.replace(" pre-game", "").split(" category: ", 1)
+            out.append(dict(rule=r.rule, kind="category", sport=sport, category=name, series=[], side="no", lo=0.20, hi=0.85, bets=r.bets,
+                            ret=r.ret, low_end=r.low_end, last_20_nights=r.last_20_nights, needs=c,
+                            frac=float(np.clip(0.25 * c * r.low_end / (1 - c), 0, 0.25))))
+            continue
         head, band = r.rule.replace(" pre-game", "").rsplit(" ", 1)
         name, pick = head.rsplit(" ", 1)
         lo, hi = (float(v) for v in band.split("-"))
@@ -344,3 +384,12 @@ def pre_active(z: float = 3.0) -> pd.DataFrame:
                         ret=r.ret, low_end=r.low_end, last_20_nights=r.last_20_nights, needs=c,
                         frac=float(np.clip(0.25 * c * r.low_end / (1 - c), 0, 0.25))))
     return pd.DataFrame(out)
+
+
+def pre_watch(n: int = 4) -> pd.DataFrame:
+    """The pre-game rules closest to earning money: positive after fees over both seasons, ranked by how many standard
+    errors they are from zero. They need 3 (and a positive last 20 nights) before the fund backs them."""
+    t = active_now(z=3.0, bets=load_pre_bets())
+    t = t[(t.bets >= 150) & (t.games >= 60) & (t.ret > 0)].copy()
+    t["std_errors"] = t.ret / t.se
+    return t.sort_values("std_errors", ascending=False).head(n)[["rule", "bets", "ret", "std_errors", "last_20_nights", "this_season"]]
