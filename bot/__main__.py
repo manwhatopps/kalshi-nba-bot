@@ -258,7 +258,6 @@ def main():
     elif cmd == "combos":
         from . import combo_study as cs
         if args.prices:
-            from .kalshi import data_client
             cs.fetch_prices(data_client(), cs.pick_for_pricing())
         cs.report()
     elif cmd == "scenarios":

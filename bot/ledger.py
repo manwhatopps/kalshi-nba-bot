@@ -100,7 +100,7 @@ def settle(k):
                 continue
             price = C.at[i, "quote_price"] if pd.notna(C.at[i, "quote_price"]) else C.at[i, "est_price"]
             stake = C.at[i, "stake"] if C.at[i, "status"] == "placed" else 1.0
-            C.at[i, "pnl"] = round(stake * (1 / price - 1) if C.at[i, "result"] == "won" else -stake, 2)
+            C.at[i, "pnl"] = str(round(stake * (1 / price - 1) if C.at[i, "result"] == "won" else -stake, 2))   # column is text
             n += 1
         C.to_csv(COMBOS, index=False)
     return n
