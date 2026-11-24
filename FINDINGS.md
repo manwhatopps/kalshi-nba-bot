@@ -449,6 +449,15 @@ public order-book endpoint (`GET /markets/orderbooks`, 100 markets per call, eve
 * Fees are charged per order and rounded up to the cent for retail accounts (Kalshi "Fee Rounding").
 * All prop series checked are fee type `quadratic`, multiplier 1.
 
+**A live example of a big card's price (2026-11-23).** A 24-leg combo of game winners the owner
+shared (22 college football games, one NBA, one NFL, all different games, so the legs are
+independent): the legs' own order-book prices multiply to 0.0075%, 1 in about 13,300. It was selling
+at 0.05-0.08c a contract, which pays about 1,335x after the fee. Buyers were getting 10 cents of
+value per dollar; 73 purchases had paid $117 in total. Two underdog legs (Cincinnati over BYU at 16c,
+Michigan over Ohio State at 24c) carry most of the risk. Past a few thousand to one the price stops
+falling as legs are added, so every extra leg is given away. `python -m bot combo <link>` runs this
+check on any combo.
+
 **What a slip contains.**
 * Single bets (core sleeve): market, BUY NO, contract count for the fund's stake, a limit 2c above
   the price seen and never past the 80c edge of the tested range, when to place it (the rule is

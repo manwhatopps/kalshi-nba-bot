@@ -195,3 +195,12 @@ def test_scenarios_never_look_ahead():
     cols = ["r_pu3", "c_pu3", "c_rim", "x_pts", "drop"]
     pd.testing.assert_frame_equal(a.loc[early, cols].reset_index(drop=True), b.loc[early, cols].reset_index(drop=True))
     assert a.r_pu3.notna().sum() > 0 and a.c_pu3.notna().sum() > 0
+
+
+def test_combo_link_parsing():
+    from bot import combo_check, slips
+    link = ("https://kalshi.com/markets/kxmvecrosscategory/combo/KXMVECROSSCATEGORY-S2026SSACA6RGSVYGM5MF"
+            "?utm_source=kalshiapp_eventdetails&marketTicker=KXMVECROSSCATEGORY-S2026SSACA6RGSVYGM5MF-MBUECYPE3")
+    t = "KXMVECROSSCATEGORY-S2026SSACA6RGSVYGM5MF-MBUECYPE3"
+    assert combo_check.parse(link) == t and combo_check.parse(t) == t
+    assert slips.market_url(t) == "https://kalshi.com/markets/kxmvecrosscategory/combo/KXMVECROSSCATEGORY-S2026SSACA6RGSVYGM5MF?marketTicker=" + t

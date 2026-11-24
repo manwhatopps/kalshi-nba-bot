@@ -89,10 +89,13 @@ def tap_text(title: str, side: str) -> str:
 
 
 def market_url(ticker: str) -> str:
-    """Event page with this market pre-selected. Format taken from open-source Kalshi clients (the middle
-    word is a label the site replaces); kalshi.com blocks automated requests, so it is not tested from here."""
+    """Link to a market's page. Kalshi's own app shares combos as
+    /markets/kxmvecrosscategory/combo/<EVENT>?marketTicker=<MARKET> (a link the owner pasted, 2026-11-23), so the same
+    shape is used for single markets: series, a label the site replaces, the event, and the market pre-selected.
+    kalshi.com blocks automated requests, so single-market links are not tested from here."""
     series, event = ticker.split("-")[0], "-".join(ticker.split("-")[:2])
-    return f"{SITE}/{series.lower()}/m/{event.lower()}?op_market_ticker={ticker}"
+    slug = "combo" if series.startswith("KXMVE") else "m"
+    return f"{SITE}/{series.lower()}/{slug}/{event if slug == 'combo' else event.lower()}?marketTicker={ticker}"
 
 
 def contracts_for(stake: float, price: float) -> tuple[int, float, float]:

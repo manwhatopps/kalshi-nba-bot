@@ -75,6 +75,7 @@ python -m bot slip --check                 # re-price the saved slips right befo
 python -m bot slip --quote                 # needs your key: create the combos on Kalshi, print real quotes vs the walk-away line
 python -m bot walk --pre                   # the fund's logic tested on pre-game prices only (the mode it runs in)
 python -m bot scenarios                    # player type vs defensive style (NBA shot diets, NFL man/zone): real? priced?
+python -m bot combo "<kalshi combo link>"    # check a combo before buying: leg prices, fair payout, what it sells for
 python -m bot combos                       # 118k real Kalshi combos: shapes, hit rate vs leg prices, what buyers paid
 python -m bot styles                       # play-style profile of all 30 NBA teams (pace, shot mix, what each defense allows)
 python -m bot matchup                      # test: do matchup/style factors add anything to Kalshi's price?

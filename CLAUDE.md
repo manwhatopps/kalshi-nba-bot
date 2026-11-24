@@ -49,4 +49,4 @@ Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xe
 blocks cloud IPs; the Hugging Face game-log dataset is the stats source.
 
 ## Tests
-`python -m pytest -q tests` (12 tests, ~3 s).
+`python -m pytest -q tests` (13 tests, ~3 s).
