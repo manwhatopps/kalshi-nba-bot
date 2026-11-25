@@ -1,5 +1,14 @@
 # Kalshi NBA Combo Bot
 
+## QuantSport (the investment layer)
+
+`python -m quantsport daily --mode paper` runs the whole operation: scan every NBA, NFL and college football
+market on Kalshi, estimate, decide (a 16-step chain whose normal answer is NO BET), audit risk independently,
+build the four tiers, record everything and write a dashboard. Paper only; no order can be sent without a signed,
+one-use approval from the owner. Start with [docs/OPERATING_GUIDE.md](docs/OPERATING_GUIDE.md); the design is in
+[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), what was reused in [docs/RESOURCES.md](docs/RESOURCES.md), and the
+full account in [docs/ENGINEERING_REPORT.md](docs/ENGINEERING_REPORT.md).
+
 Scans every open Kalshi NBA market (moneyline, spread, total, and player points / rebounds /
 assists / threes / PRA / steals / blocks props), prices each leg with a stats model (plus
 sportsbook odds if you have a key), and builds **correlated combos** (parlays) where the fair

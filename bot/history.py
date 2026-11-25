@@ -30,7 +30,7 @@ NFL_SERIES = ["KXNFLGAME", "KXNFLSPREAD", "KXNFLTOTAL", "KXNFLTEAMTOTAL", "KXNFL
               "KXNFLRSHYDS", "KXNFLPASSYDS", "KXNFLPASSTDS", "KXNFLREC", "KXNFL1H", "KXNFL1HSPREAD",
               "KXNFL1HTOTAL", "KXNFLRSHATT", "KXNFLPASSATT", "KXNFLPASSCOMP"]
 # occurrence_datetime is the expected END of the game; subtract this to get the scheduled start
-START_OFFSET = {"NBA": timedelta(hours=3), "NFL": timedelta(hours=3)}  # both verified against live trading
+START_OFFSET = {"NBA": timedelta(hours=3), "NFL": timedelta(hours=3), "NCAAF": timedelta(hours=3)}  # both verified against live trading
 
 
 def _ts(s):

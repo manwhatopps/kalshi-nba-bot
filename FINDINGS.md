@@ -652,6 +652,51 @@ not a Kalshi-only bot; pykalshi duplicates the client here. Possible next data: 
 injuries and depth charts (reachable, free) for "a starter is out" categories, and a point-in-time
 NBA injury-report archive (yangzhou-tysportsanalytics, unreviewed).
 
+## 23. QuantSport: team rating models against the price, and what the card budgets do (`python -m quantsport research | backtest`)
+
+**Team rating models (NBA, NFL, college football).** A points-based rating per team, updated after every game,
+with home advantage and season carry-over tuned on earlier seasons only (`quantsport/models/ratings.py`). Out of
+sample it picks 68% of NBA winners, 64% of NFL and 74% of college football, with margin errors of 11.3, 10.0 and
+14.2 points. Then the only question that matters: does it add anything to Kalshi's pre-game price?
+
+57,516 settled Kalshi game markets (winner, spread, total, team total; NBA and NFL from two seasons of fills,
+college football from this season's price history, 1,180 games). Fitted on the earlier 60% of dates, scored on
+the later 40%:
+
+| sport | market | markets | model log-loss | price log-loss | model weight after the price (z) | blend beats price later? |
+|---|---|---|---|---|---|---|
+| NBA | winner | 2,947 | 0.601 | 0.573 | +0.08 (0.4) | no |
+| NBA | spread | 18,721 | 0.573 | 0.550 | +0.03 (0.2) | no |
+| NBA | total | 17,714 | 0.604 | 0.586 | +0.06 (0.4) | no |
+| NBA | team total | 3,514 | 0.599 | 0.574 | -0.19 (-0.7) | no |
+| NFL | winner | 762 | 0.627 | 0.598 | -0.51 (-1.1) | no |
+| NFL | spread | 6,603 | 0.567 | 0.540 | -0.36 (-1.5) | no |
+| NFL | total | 4,987 | 0.597 | 0.583 | +0.28 (1.0) | no |
+| NFL | team total | 1,203 | 0.558 | 0.530 | -0.47 (-1.1) | no |
+| NCAAF | winner | 1,065 | 0.590 | 0.547 | -0.36 (-1.4) | no |
+
+The price is better in all nine, and the model's weight after the price is never distinguishable from zero.
+
+**Negative control.** Had the fund trusted the model and bet every disagreement of 5+ points (no spread
+charged, which flatters it): 23,666 bets, -6.8% per dollar; negative in all nine groups.
+
+**So the fund's estimate rule is:** our probability is Kalshi's price unless a blend has beaten the price on
+later data with a model weight over 2 standard errors. Under that rule the chain would have accepted zero singles
+from game models in the whole history, and on the live slate of 2026-11-25 (19,870 buyable sides, 111 games) it
+returned NO BET on everything. The best expected return available anywhere was -0.6% per dollar.
+
+**Card budgets.** Monte Carlo of the card tiers (4,000 paths):
+* $17 of cards a night from a $100 bankroll: broke in 81-97% of paths within 100 nights, even at fair quotes.
+* $10 a week with a 30% drawdown stop: stopped out in 81-97% of paths within 26 weeks.
+* The design adopted: each card tier has its own pot (10% / 5% / 5% of bankroll) and a weekly pace (3 / 2 / 1
+  cards at $1). The cards can then never cost more than $20 of $100. At the 72-86% of fair value real combo
+  buyers have been getting, the degen pot is empty within half a year in 95% of paths and the median bankroll ends
+  at $81; at fair quotes the median is $93.
+
+**Rule change.** The fund's cards now take one leg per game and never put a game on two cards (the owner's
+QuantSport specification). The earlier short-slate change that allowed five legs per game applies only to the old
+`python -m bot slip` cards, which the daily run no longer builds.
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is
@@ -679,4 +724,9 @@ NBA injury-report archive (yangzhou-tysportsanalytics, unreviewed).
 * Same-game legs from different players are close to independent; recent form does not help after
   the price. Two kinds of pre-game under have paid in both seasons and are on the watch list, not yet
   bet: NFL rushing unders on 3+ point underdogs, and NBA unders in a player's first game back.
+* Team rating models for NBA, NFL and college football lose to Kalshi's pre-game price in all nine
+  sport-by-market tests (57,516 markets); betting their disagreements returned -6.8%. The fund's
+  probability is therefore the price, and the decision chain's normal answer is NO BET.
+* Lottery cards are a cost, not a strategy: they now come out of small fixed pots, so they can
+  never cost more than a fifth of the bankroll.
 * No real money has been placed.

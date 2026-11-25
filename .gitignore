@@ -35,6 +35,16 @@ data/prior_download*.log
 !data/slips/
 !data/scenario_table.json
 !data/leg_categories.json
+!data/quantsport.db
+!data/quantsport.json
+!data/quantsport/
+!data/qs_scans/
+!data/qs_results.parquet
+!data/quantsport_models.json
+!data/quantsport_game_markets.parquet
+!data/game_pre.parquet
+!data/history_v2/
+data/ncaaf_history.log
 data/slips/latest.html
 data/combo_prices.parquet
 data/combo_prices.log

@@ -32,6 +32,19 @@ in-game rules; `pre_game_only` in `data/fund.json`. The in-game double-double un
 bet. `python -m bot walk --pre` is the test that matters now; as of 2026-11-23 no pre-game rule clears it, so
 the core sleeve is in cash. Do not restart `python -m bot watch` unless the owner asks for live betting.
 
+## QuantSport (`quantsport/`, added 2026-11-25)
+The investment layer on top of `bot/`: `python -m quantsport daily --mode paper` scans every NBA/NFL/NCAAF game
+and player market, estimates, runs the 16-step chain (`chain.py`), the independent auditor (`risk.audit`), builds
+the four tiers (`tiers.py`), records to `data/quantsport.db` and writes `data/quantsport/dashboard.html`.
+Read `docs/ARCHITECTURE.md` and `docs/OPERATING_GUIDE.md` first. Rules that must not be weakened:
+- Our probability is Kalshi's price unless a model beat the price on later data (`models/stack.py`). Do not let
+  an untested model move the estimate: that manufactures edges out of noise.
+- Singles need positive EV at `z_edge` (3) standard errors below the estimate. NO BET on a whole slate is correct.
+- Cards: one leg per game, no game on two cards, pots and weekly allowances from `quantsport/config.py`
+  (overrides in `data/quantsport.json`). Same-game needs the explicit `same_game_per_card` override.
+- `quantsport/execution.py` is the only path to an order: live_review mode + key + a signed, one-use approval
+  typed by the owner at a terminal. Never issue an approval on the owner's behalf.
+
 ## Rules
 - **Paper only.** Never place real orders (`place --live`, `slip --quote --live`) unless the owner explicitly says to in the
   current conversation, with a stake limit. Defaults: `KALSHI_ENV=demo`, $2 per combo, $10 per day.
@@ -54,4 +67,4 @@ Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xe
 blocks cloud IPs; the Hugging Face game-log dataset is the stats source.
 
 ## Tests
-`python -m pytest -q tests` (15 tests, ~3 s).
+`python -m pytest -q tests` (29 tests, ~4 s).

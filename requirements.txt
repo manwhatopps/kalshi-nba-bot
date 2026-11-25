@@ -11,3 +11,5 @@ pytest>=8
 scikit-learn>=1.5
 statsmodels>=0.14
 gymnasium>=1.0
+cvxpy>=1.5            # growth-optimal (Kelly) allocation across several bets
+lightgbm>=4.3         # gradient-boosted prop model in bot/ensemble.py

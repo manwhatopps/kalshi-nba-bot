@@ -1,0 +1,253 @@
+"""QuantSport: probability, payoff, fees, Kelly, joint probability, correlation, exposure, diversification, bankroll limits,
+drawdown controls, data freshness, settlement, approval enforcement, and no-lookahead in the rating model."""
+import math
+from datetime import datetime, timedelta, timezone
+
+import numpy as np
+import pandas as pd
+import pytest
+
+from quantsport import audit, chain, config, execution, mathx as M, risk, store, tiers
+from quantsport.models import ratings as R
+
+
+def cfg():
+    c = config.load()
+    c["bankroll"] = 100.0
+    return c
+
+
+def test_payoff_fee_ev_break_even():
+    assert abs(M.fee(0.50) - 0.0175) < 1e-12 and M.fee(0.0) == 0 and M.fee(1.0) == 0
+    assert M.order_fee(0.56, 8) == math.ceil(0.07 * 8 * 0.56 * 0.44 * 100) / 100           # rounded up to the cent, once per order
+    f = M.fee(0.57)
+    assert abs(M.ev(0.68, 0.57, f) - (0.68 * 0.43 - 0.32 * 0.57 - f)) < 1e-12              # p(1-c) - (1-p)c - fees
+    assert abs(M.ev(M.break_even(0.57, f), 0.57, f)) < 1e-12                                 # worth nothing at break-even
+    assert M.ev(0.57, 0.57, f) < 0                                                           # the market's own price loses the fee
+    assert abs(M.expected_return(0.68, 0.57, f) - M.ev(0.68, 0.57, f) / (0.57 + f)) < 1e-12
+    n, cost = M.contracts_for(5.0, 0.56)
+    assert n == 8 and cost <= 5.0 and M.contracts_for(5.0, 0.56)[0] * 0.56 + M.order_fee(0.56, 9) > 0
+
+
+def test_kelly_binary_contract():
+    c = 0.40
+    b = (1 - c) / c
+    assert abs(M.kelly(0.55, c) - (b * 0.55 - 0.45) / b) < 1e-12                             # f* = (bp - q) / b
+    assert abs(M.kelly(0.55, c) - (0.55 - c) / (1 - c)) < 1e-12                              # same thing for a $1 contract
+    assert M.kelly(0.40, 0.40) == 0 and M.kelly(0.30, 0.40) == 0                             # no edge, no bet
+    t = M.kelly_table(0.55, c, cap=0.05)
+    assert t["half"] == t["full"] / 2 and t["quarter"] == t["full"] / 4 and t["capped"] == 0.05
+    assert M.kelly_sized(0.55, c, fraction=0.25, cap=0.05) == min(0.25 * M.kelly(0.55, c), 0.05)
+    assert M.kelly_sized(0.55, c, p_se=0.06, z=3.0) == 0                                     # edge inside its own uncertainty: zero
+    assert M.kelly(0.55, c, fees=0.02) < M.kelly(0.55, c)                                    # fees shrink the bet
+
+
+def test_joint_probability_and_correlation():
+    assert abs(M.joint_independent([0.6, 0.5, 0.5]) - 0.15) < 1e-12
+    assert abs(M.joint_copula([0.6, 0.5], np.eye(2)) - 0.30) < 1e-12
+    pos = M.joint_copula([0.6, 0.6], [[1, 0.5], [0.5, 1]])
+    neg = M.joint_copula([0.6, 0.6], [[1, -0.5], [-0.5, 1]])
+    assert neg < 0.36 < pos                                                                  # correlated legs do not multiply
+    rho = M.latent_rho(0.6, 0.6, 0.25)                                                       # yes/no correlation 0.25 -> hidden-variable correlation
+    assert abs(M.joint_copula([0.6, 0.6], [[1, rho], [rho, 1]]) - (0.36 + 0.25 * 0.24)) < 0.01
+    assert abs(M.fair_multiple(0.01) - 100) < 1e-9 and abs(M.combo_ev(0.01, 90) - (-0.10)) < 1e-12
+    assert M.devig([0.55, 0.50]) == pytest.approx([0.55 / 1.05, 0.50 / 1.05])
+
+
+def test_drawdown_controls_and_var():
+    steps = [(0.10, 0.5), (0.20, 0.25), (0.30, 0.0)]
+    assert [M.drawdown_scale(d, steps) for d in (0.0, 0.05, 0.10, 0.25, 0.30, 0.5)] == [1.0, 1.0, 0.5, 0.25, 0.0, 0.0]
+    v, cv = M.var_cvar(np.array([-10.0] * 10 + [1.0] * 90))
+    assert v == 10.0 and cv == 10.0
+
+
+def _pos(con, **kw):
+    row = dict(opened=store.now(), mode="paper", kind="single", ref="X:yes", tier="core", sport="NBA", label="x", stake=5.0, pays=9.0, tickers=["X:yes"],
+               games=["NBA:G1"], teams=["NBA:BOS"], players=[], expires=None)
+    row.update(kw)
+    return store.insert(con, "positions", row)
+
+
+def test_exposure_registry_and_bankroll_limits():
+    c, con = cfg(), store.connect(":memory:")
+    _pos(con, stake=8.0)
+    st, reg = risk.state(con, c), risk.Registry(con)
+    assert st["exposure"] == 8.0 and st["cash"] == 92.0 and reg.by["event"]["NBA:G1"] == 8.0 and reg.by["team"]["NBA:BOS"] == 8.0
+    ok = dict(stake=1.0, tier="core", kind="single", games=["NBA:G2"], teams=["NBA:LAL"], players=[], sport="NBA", ev_low=0.02, spread=0.02,
+              depth_dollars=50, quote_age_s=5, rules="rule text")
+    assert risk.audit(ok, reg, st, c) == []
+    assert any("event limit" in v for v in risk.audit(dict(ok, stake=3.0, games=["NBA:G1"]), reg, st, c))        # 8 + 3 > 10% of bankroll
+    assert any("team limit" in v for v in risk.audit(dict(ok, stake=3.0, teams=["NBA:BOS"]), reg, st, c))
+    assert any("per-position cap" in v for v in risk.audit(dict(ok, stake=6.0), reg, st, c))
+    assert any("not positive" in v for v in risk.audit(dict(ok, ev_low=-0.01), reg, st, c))                      # never a negative-EV single
+    assert any("exceeds available cash" in v for v in risk.audit(dict(ok, stake=95.0), reg, st, c))
+    assert any("rule text missing" in v for v in risk.audit(dict(ok, rules=""), reg, st, c))
+
+
+def test_data_freshness_spread_and_depth():
+    c, con = cfg(), store.connect(":memory:")
+    st, reg = risk.state(con, c), risk.Registry(con)
+    ok = dict(stake=1.0, tier="core", kind="single", games=["NBA:G2"], teams=[], players=[], sport="NBA", ev_low=0.02, spread=0.02, depth_dollars=50,
+              quote_age_s=5, rules="r")
+    assert any("old" in v for v in risk.audit(dict(ok, quote_age_s=c["quote_max_age_s"] + 1), reg, st, c))        # stale quotes cannot back an order
+    assert any("spread" in v for v in risk.audit(dict(ok, spread=0.10), reg, st, c))
+    assert any("offered" in v for v in risk.audit(dict(ok, depth_dollars=0.2), reg, st, c))
+
+
+def test_loss_limits_stop_trading():
+    c, con = cfg(), store.connect(":memory:")
+    pid = _pos(con, stake=11.0)
+    con.execute("UPDATE positions SET status='lost', closed=?, pnl=-11 WHERE id=?", (store.now(), pid))
+    con.commit()
+    st = risk.state(con, c)
+    assert st["scale"] == 0.0 and any("daily loss" in s for s in st["stops"])                                   # -11 on 100 breaches the 10% day stop
+    ok = dict(stake=1.0, tier="core", kind="single", games=["NBA:G2"], teams=[], players=[], sport="NBA", ev_low=0.02, spread=0.02, depth_dollars=50,
+              quote_age_s=5, rules="r")
+    assert any("trading stopped" in v for v in risk.audit(ok, risk.Registry(con), st, c))
+
+
+def test_card_diversification_rules():
+    c, con = cfg(), store.connect(":memory:")
+    st, reg = risk.state(con, c), risk.Registry(con)
+    leg = lambda g, p="": dict(game_key=g, player=p)
+    card = dict(stake=1.0, tier="degen", kind="combo", games=["NBA:G1", "NFL:G2"], teams=[], players=[], sports=["NBA", "NFL"], legs=[leg("NBA:G1"), leg("NFL:G2")])
+    assert risk.audit(card, reg, st, c) == []
+    same = dict(card, games=["NBA:G1"], legs=[leg("NBA:G1"), leg("NBA:G1")])
+    assert any("same-game override" in v for v in risk.audit(same, reg, st, c))                                  # mandatory by default
+    assert not any("same-game" in v for v in risk.audit(dict(same, override_same_game=2), reg, st, c))            # only with the explicit override
+    reg.add(dict(stake=1.0, tier="degen", games=["NBA:G1", "NFL:G2"], kind="combo", ref="c1", new=True))
+    other = dict(card, games=["NBA:G1", "NFL:G9"], legs=[leg("NBA:G1"), leg("NFL:G9")])
+    assert any("already on another open card" in v for v in risk.audit(other, reg, st, c))                       # cross-card exposure
+    twice = dict(card, games=["NBA:G5", "NFL:G6"], legs=[leg("NBA:G5", "NBA:P1"), leg("NFL:G6", "NBA:P1")])
+    assert any("same player" in v for v in risk.audit(twice, reg, st, c))
+    for _ in range(10):                                                                                          # the degen pot is 5% of bankroll
+        reg.add(dict(stake=1.0, tier="degen", games=[], kind="combo", ref=f"x{_}", new=True))
+    assert any("pot cannot cover" in v or "weekly allowance" in v for v in risk.audit(dict(card, games=["NBA:G7", "NFL:G8"], legs=[leg("NBA:G7"), leg("NFL:G8")]), reg, st, c))
+
+
+def _est(n_games=30, per_game=3):
+    rows = []
+    for g in range(n_games):
+        for j in range(per_game):
+            rows.append(dict(ticker=f"KXNFLSPREAD-G{g}-T{j}", event_ticker=f"KXNFLSPREAD-G{g}", side="yes", title=f"g{g} leg{j}", sport="NFL", kind="spread",
+                             game_key=f"NFL:G{g}", player="", team_code=f"T{g}", ask=0.62 + 0.01 * j, bid=0.60 + 0.01 * j, mid=0.61 + 0.01 * j, spread=0.02,
+                             p_est=0.61 + 0.01 * j, p_model=float("nan"), ret=-0.03, source="price", start=pd.Timestamp("2026-12-01", tz="UTC"), pref=0.0))
+    return pd.DataFrame(rows)
+
+
+def test_tier_builder_one_leg_per_game_and_no_game_on_two_cards():
+    c, con = cfg(), store.connect(":memory:")
+    c["weekly_spend"] = dict(small=0.03, diversified=0.03, degen=0.02)
+    st, reg = risk.state(con, c), risk.Registry(con)
+    rules = {f"KXNFLSPREAD-G{g}": (False, 1) for g in range(30)}                # Kalshi's collection: these events, either side, one leg each
+    unchecked = tiers.build(_est(), c, st, reg, rules={})
+    assert all(x["status"] == "VETO" for t in tiers.TIER_ORDER for x in unchecked["cards"][t])     # no rules loaded -> nothing is waved through
+    b = tiers.build(_est(), c, st, reg, rules=rules)
+    cards = [x for t in tiers.TIER_ORDER for x in b["cards"][t]]
+    assert cards and all(x["status"] == "PENDING QUOTE" for x in cards)
+    seen = set()
+    for x in cards:
+        games = [l["game_key"] for l in x["legs"]]
+        assert len(games) == len(set(games))                                   # one leg per game on a card
+        assert not (set(games) & seen)                                         # no game on two cards
+        seen |= set(games)
+        assert abs(x["p_joint"] - np.prod([l["p"] for l in x["legs"]])) < 1e-12 and abs(x["fair_mult"] - 1 / x["p_joint"]) < 1e-9
+        assert abs(x["need_mult"] - x["fair_mult"] * c["min_keep"][x["tier"]]) < 1e-9 and x["max_loss"] == x["stake"]
+    small = [x for x in cards if x["tier"] == "small"]
+    assert all(c["small_range"][0] <= x["fair_mult"] <= c["small_range"][1] and x["n_legs"] == 2 for x in small)
+    assert all(x["ev_at_need"] <= 1e-9 for x in cards if x["tier"] == "degen")   # no card is presented as a likely winner
+    tiny = tiers.build(_est(n_games=3, per_game=1), c, st, risk.Registry(con), rules=rules)
+    assert not tiny["cards"]["degen"] and "NO DEGEN CARD" in tiny["notes"]["degen"]     # never manufacture a card
+
+
+def test_chain_says_no_bet_at_the_market_price_and_accepts_only_a_proven_edge():
+    c, con = cfg(), store.connect(":memory:")
+    st, reg = risk.state(con, c), risk.Registry(con)
+    base = dict(ticker="KXNBAGAME-G1-BOS", side="yes", sport="NBA", kind="winner", game_key="NBA:G1", title="Boston wins", rules="If Boston wins...",
+                ask=0.60, bid=0.58, mid=0.59, spread=0.02, ask_size=500, team_code="BOS", player="", scanned=datetime.now(timezone.utc),
+                p_model=0.70, p_est=0.59, p_se=0.03, source="price")
+    d = chain.decide(base, c, st, reg)
+    assert d["decision"] == "NO BET" and d["stake"] == 0 and len(d["thesis"]["steps"]) == 16
+    assert any("NOT VERIFIED" in a for a in d["thesis"]["availability"])                          # never pretends to have checked injuries
+    good = chain.decide(dict(base, p_est=0.80, p_se=0.02, source="blend"), c, st, reg)
+    assert good["decision"] == "ACCEPT" and 0 < good["stake"] <= c["kelly_cap"] * 100 + 1e-9 and good["ev_low"] > 0
+    wait = chain.decide(dict(base, p_est=0.66, p_se=0.03, source="blend"), c, st, reg)
+    assert wait["decision"] == "WAIT" and wait["wait_price"] < base["ask"]
+    stale = chain.decide(dict(base, p_est=0.80, p_se=0.02, scanned=datetime.now(timezone.utc) - timedelta(seconds=600)), c, st, reg)
+    assert stale["decision"] == "VETO" and any("old" in v for v in stale["vetoes"])
+
+
+def test_settlement_logic():
+    g = audit.grade_position
+    assert g("single", ["A:yes"], {"A": "yes"}) == ("won", 1) and g("single", ["A:no"], {"A": "yes"}) == ("lost", 0)
+    assert g("combo", ["A:yes", "B:no"], {"A": "yes"}) == ("open", 1)                             # not won until every leg is in
+    assert g("combo", ["A:yes", "B:no"], {"B": "yes"}) == ("lost", 0)                             # lost as soon as one leg loses
+    assert g("combo", ["A:yes", "B:no"], {"A": "yes", "B": "no"}) == ("won", 2)
+
+
+def test_approval_enforcement(tmp_path, monkeypatch):
+    monkeypatch.setenv("QS_APPROVAL_KEY", str(tmp_path / "approval.key"))
+    con = store.connect(":memory:")
+    order = dict(ticker="KXTEST-1", side="no", limit_price=0.56, quantity=8, max_cost=4.70)
+    with pytest.raises(PermissionError):
+        execution.issue(con, order)                                                               # no key, no approval
+    with pytest.raises(PermissionError):
+        execution.approve(con, order)                                                             # not a person at a terminal
+    execution._key(create=True)
+    tok = execution.issue(con, order)
+    assert execution.verify(con, order, tok) == (True, "ok")
+    for changed in (dict(order, quantity=9), dict(order, limit_price=0.60), dict(order, max_cost=9.0), dict(order, side="yes"), dict(order, ticker="KXTEST-2")):
+        assert execution.verify(con, changed, tok)[0] is False                                    # bound to the exact order
+    assert execution.verify(con, order, "nope")[0] is False
+
+    class K:
+        authed = True
+        sent = []
+
+        def request(self, *a, **kw):
+            K.sent.append(kw["json"])
+            return {"ok": True}
+    live = dict(mode="live_review", quote_max_age_s=120)
+    with pytest.raises(PermissionError):
+        execution.place_approved(K(), con, order, tok, dict(live, mode="paper"), dict(ask=0.55, age_s=5))       # wrong mode
+    with pytest.raises(PermissionError):
+        execution.place_approved(K(), con, order, tok, live, dict(ask=0.60, age_s=5))             # price above the approved limit (and the token is now spent)
+    assert execution.verify(con, order, tok) == (False, "approval already used") and K.sent == []
+    tok2 = execution.issue(con, order)
+    with pytest.raises(PermissionError):
+        execution.place_approved(K(), con, order, tok2, live, dict(ask=0.55, age_s=999))          # stale quote
+    tok3 = execution.issue(con, order)
+    assert execution.place_approved(K(), con, order, tok3, live, dict(ask=0.55, age_s=5)) == {"ok": True}
+    assert K.sent == [dict(ticker="KXTEST-1", side="ask", count="8.00", price="0.4400", time_in_force="immediate_or_cancel", client_order_id=tok3)]
+    with pytest.raises(PermissionError):
+        execution.place_approved(K(), con, order, tok3, live, dict(ask=0.55, age_s=5))            # no reuse
+    tok4 = execution.issue(con, order, ttl_min=-1)
+    assert execution.verify(con, order, tok4) == (False, "approval expired")
+    assert execution.tickets([dict(decision="NO BET", contracts=0)]) == []
+
+
+def test_rating_model_never_looks_ahead_and_prices_markets_consistently():
+    rng = np.random.default_rng(1)
+    teams = [f"T{i}" for i in range(8)]
+    rows = [dict(date=pd.Timestamp("2026-01-01") + pd.Timedelta(days=i // 4), season="2026", home=teams[a], away=teams[b],
+                 home_pts=float(100 + rng.integers(-15, 16)), away_pts=float(100 + rng.integers(-15, 16)), neutral=False)
+            for i, (a, b) in enumerate((int(x), int(y)) for x, y in rng.integers(0, 8, (300, 2)) if x != y)]
+    g = pd.DataFrame(rows)
+    a, _ = R.walk("NBA", g)
+    h = g.copy()
+    h.loc[h.index >= 150, ["home_pts", "away_pts"]] = 999.0                    # change the future only
+    b, _ = R.walk("NBA", h)
+    pd.testing.assert_series_equal(a.mu.iloc[:151], b.mu.iloc[:151])           # predictions up to there cannot move
+    P = R.Pred(mu=4.0, sigma=12.0, total=220.0, sigma_t=18.0, games_home=20, games_away=20)
+    assert abs(P.p_win(True) + P.p_win(False) - 1) < 1e-12 and P.p_win(True) > 0.5
+    assert P.p_margin_over(4.0, True) == pytest.approx(0.5) and P.p_margin_over(10.5, True) < P.p_margin_over(3.5, True)
+    assert P.p_total_over(220.0) == pytest.approx(0.5) and P.p_team_over(112.0, True) == pytest.approx(0.5)
+
+
+def test_portfolio_simulation_and_kelly_portfolio():
+    s = risk.simulate_portfolio([dict(stake=5, pays=10, legs=[(0.5, "g1", "")])], sims=40_000)
+    assert abs(s["expected"]) < 0.15 and abs(s["p_loss"] - 0.5) < 0.02 and s["worst"] == -5 and s["best"] == 5
+    two = risk.simulate_portfolio([dict(stake=1, pays=4, legs=[(0.5, "g1", "p"), (0.5, "g1", "p")])], sims=40_000)     # same player, tied legs
+    assert two["p_loss"] < 0.75                                                # hits more often than 25%: not independent
+    f = risk.kelly_portfolio(np.array([0.62, 0.55, 0.70, 0.50]), np.array([0.55, 0.56, 0.60, 0.50]), ["a", "b", "a", "c"], cap=0.05, budget=0.5, group_cap=0.08)
+    assert f[1] == 0 and f[3] == 0 and f[0] > 0 and f[2] > 0 and f[0] + f[2] <= 0.08 + 1e-6 and (f <= 0.05 + 1e-9).all()

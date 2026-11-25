@@ -95,7 +95,11 @@ def _stat(g: pd.DataFrame) -> dict:
     cl = g.groupby("game").net.sum()
     G = len(cl)
     se = float(np.sqrt(((cl - cl.mean()) ** 2).sum() * G / max(G - 1, 1)) / g.c.sum()) if G > 1 else float("nan")
-    return dict(bets=int(len(g)), ret=float(g.net.sum() / g.c.sum()), se=se, won=float(g.win.mean()), needed=float(g.c.mean()))
+    gap = g.win - g.no_cost                                   # how often it hit minus the price paid (before the fee)
+    gc_ = gap.groupby(g.game).sum()
+    gap_se = float(np.sqrt(((gc_ - gc_.mean()) ** 2).sum() * G / max(G - 1, 1)) / len(g)) if G > 1 else float("nan")
+    return dict(bets=int(len(g)), ret=float(g.net.sum() / g.c.sum()), se=se, won=float(g.win.mean()), needed=float(g.c.mean()),
+                gap=float(gap.mean()), gap_se=gap_se)
 
 
 def label(d_last: float, d_this: float, z: float) -> str:
@@ -123,7 +127,7 @@ def grade(sport: str, d: pd.DataFrame | None = None) -> pd.DataFrame:
             z = (p["ret"] - base["both"]["ret"]) / p["se"] if p["se"] and p["se"] > 0 else float("nan")
             lab = label(dl, dt, z)
         rows.append(dict(category=name, last=a["ret"], this=b["ret"], both=p["ret"], bets_last=a["bets"], bets_this=b["bets"],
-                         vs_base=p["ret"] - base["both"]["ret"], z=z, label=lab))
+                         vs_base=p["ret"] - base["both"]["ret"], z=z, label=lab, gap=p.get("gap"), gap_se=p.get("gap_se"), ret_se=p["se"]))
     return pd.DataFrame(rows)
 
 
