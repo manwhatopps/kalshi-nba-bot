@@ -1,6 +1,6 @@
 {
- "run_id": "20261125T215124-714e",
- "ts": "2026-11-25T21:52:53+00:00",
+ "run_id": "20261126T215945-df3d",
+ "ts": "2026-11-26T22:00:57+00:00",
  "mode": "paper",
  "cfg": {
   "mode": "paper",
@@ -93,113 +93,110 @@
  },
  "state_before": {
   "start": 100.0,
-  "bankroll": 100.0,
+  "bankroll": 99.0,
   "cash": 94.0,
-  "exposure": 6.0,
-  "realized": 0.0,
-  "day": 0.0,
-  "week": 0.0,
+  "exposure": 5.0,
+  "realized": -1.0,
+  "day": -1.0,
+  "week": -1.0,
   "week_spend": {
    "degen": 1.0,
    "diversified": 2.0,
    "small": 3.0
   },
-  "tier_pnl": {},
+  "tier_pnl": {
+   "diversified": -1.0
+  },
   "peak": 100.0,
-  "drawdown": 0.0,
+  "drawdown": 0.01,
   "scale": 1.0,
   "stops": [],
-  "open": 6,
-  "settled": 0
+  "open": 5,
+  "settled": 1
  },
  "state": {
   "start": 100.0,
-  "bankroll": 100.0,
+  "bankroll": 99.0,
   "cash": 94.0,
-  "exposure": 6.0,
-  "realized": 0.0,
-  "day": 0.0,
-  "week": 0.0,
+  "exposure": 5.0,
+  "realized": -1.0,
+  "day": -1.0,
+  "week": -1.0,
   "week_spend": {
    "degen": 1.0,
    "diversified": 2.0,
    "small": 3.0
   },
-  "tier_pnl": {},
+  "tier_pnl": {
+   "diversified": -1.0
+  },
   "peak": 100.0,
-  "drawdown": 0.0,
+  "drawdown": 0.01,
   "scale": 1.0,
   "stops": [],
-  "open": 6,
-  "settled": 0
+  "open": 5,
+  "settled": 1
  },
- "guard": "calibration guard idle: 13 settled decisions, needs 100",
- "scanned": 26482,
- "games": 119,
- "identified": 113,
+ "guard": "calibration guard idle: 19 settled decisions, needs 100",
+ "scanned": 22695,
+ "games": 116,
+ "identified": 110,
  "summary": [
   {
    "sport": "NBA",
    "kind": "other",
-   "sides": 1120,
-   "games": 8,
-   "best_ret": -0.006492950685367023
-  },
-  {
-   "sport": "NBA",
-   "kind": "prop",
-   "sides": 4483,
-   "games": 8,
-   "best_ret": -0.0057464825127461336
+   "sides": 635,
+   "games": 11,
+   "best_ret": -0.015840426852718262
   },
   {
    "sport": "NBA",
    "kind": "spread",
-   "sides": 526,
-   "games": 8,
-   "best_ret": -0.006492950685367023
+   "sides": 709,
+   "games": 11,
+   "best_ret": -0.015840426852718262
   },
   {
    "sport": "NBA",
    "kind": "team_total",
-   "sides": 608,
-   "games": 8,
-   "best_ret": -0.007239436358904041
+   "sides": 834,
+   "games": 11,
+   "best_ret": -0.02687258246618002
   },
   {
    "sport": "NBA",
    "kind": "total",
-   "sides": 464,
-   "games": 8,
-   "best_ret": -0.006492950685367023
+   "sides": 638,
+   "games": 11,
+   "best_ret": -0.015576363988499368
   },
   {
    "sport": "NBA",
    "kind": "winner",
-   "sides": 112,
-   "games": 28,
-   "best_ret": -0.01997041420118344
+   "sides": 108,
+   "games": 27,
+   "best_ret": -0.017713308020102955
   },
   {
    "sport": "NCAAF",
    "kind": "spread",
-   "sides": 4075,
+   "sides": 4094,
    "games": 76,
    "best_ret": -0.006492950685367023
   },
   {
    "sport": "NCAAF",
    "kind": "team_total",
-   "sides": 3060,
+   "sides": 3061,
    "games": 67,
-   "best_ret": -0.0107934546827322
+   "best_ret": -0.0057464825127461336
   },
   {
    "sport": "NCAAF",
    "kind": "total",
-   "sides": 2713,
+   "sides": 2732,
    "games": 76,
-   "best_ret": -0.018464903195348378
+   "best_ret": -0.009479335726120398
   },
   {
    "sport": "NCAAF",
@@ -211,49 +208,48 @@
   {
    "sport": "NFL",
    "kind": "other",
-   "sides": 1191,
-   "games": 15,
+   "sides": 1187,
+   "games": 13,
    "best_ret": -0.0057464825127461336
   },
   {
    "sport": "NFL",
    "kind": "prop",
-   "sides": 5636,
-   "games": 15,
-   "best_ret": 0.18528351981794053
+   "sides": 6496,
+   "games": 13,
+   "best_ret": 0.1957782260065972
   },
   {
    "sport": "NFL",
    "kind": "spread",
-   "sides": 773,
-   "games": 15,
-   "best_ret": -0.006492950685367023
+   "sides": 668,
+   "games": 13,
+   "best_ret": -0.00798597261002527
   },
   {
    "sport": "NFL",
    "kind": "team_total",
-   "sides": 787,
-   "games": 15,
+   "sides": 683,
+   "games": 13,
    "best_ret": -0.0057464825127461336
   },
   {
    "sport": "NFL",
    "kind": "total",
-   "sides": 570,
-   "games": 15,
-   "best_ret": -0.006492950685367023
+   "sides": 494,
+   "games": 13,
+   "best_ret": -0.007239436358904041
   },
   {
    "sport": "NFL",
    "kind": "winner",
-   "sides": 60,
-   "games": 15,
+   "sides": 52,
+   "games": 13,
    "best_ret": -0.012468277612269672
   }
  ],
  "how": {
   "NBA:other": "Kalshi's price (no tested model for this market type)",
-  "NBA:prop": "Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21)",
   "NBA:spread": "Kalshi's price. The rating model was tested on 18,721 settled NBA spread markets and did not improve on the price (log-loss 0.573 vs 0.550; weight after the price -0.04, z -0.3)",
   "NBA:team_total": "Kalshi's price. The rating model was tested on 3,514 settled NBA team total markets and did not improve on the price (log-loss 0.599 vs 0.574; weight after the price -0.38, z -1.6)",
   "NBA:total": "Kalshi's price. The rating model was tested on 17,714 settled NBA total markets and did not improve on the price (log-loss 0.604 vs 0.586; weight after the price -0.06, z -0.5)",
@@ -271,28 +267,28 @@
  },
  "decisions": [
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHIWSHIPLEY28-10",
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCJOTT34-15",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Will Shipley: 10+ rushing yards",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Jaydn Ott: 15+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
-   "reason": "worth buying only at 40c or less (now 43c): positive at our estimate, not at the cautious one",
-   "p_est": 0.485,
+   "reason": "worth buying only at 77c or less (now 80c): positive at our estimate, not at the cautious one",
+   "p_est": 0.855,
    "p_se": 0.02304939400641467,
-   "p_market": 0.41500000000000004,
+   "p_market": 0.79,
    "p_model": null,
-   "ask": 0.43,
-   "fee": 0.017157000000000002,
-   "ev": 0.03784300000000004,
-   "ev_low": -0.03130518201924398,
-   "ret": 0.08463023054542376,
-   "kelly": 0.06845162188903554,
+   "ask": 0.8,
+   "fee": 0.011199999999999995,
+   "ev": 0.043799999999999846,
+   "ev_low": -0.025348182019244166,
+   "ret": 0.05399408284023649,
+   "kelly": 0.23199152542372808,
    "stake": 0.0,
    "contracts": 0,
-   "wait_price": 0.4,
+   "wait_price": 0.77,
    "source": "category: rushing unders on 3+ point underdogs",
    "vetoes": [],
    "proposal": {
@@ -300,36 +296,36 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV26KCBUF"
     ],
     "teams": [],
     "players": [
-     "NFL:PHIWSHIPLEY28"
+     "NFL:KCJOTT34"
     ],
     "sport": "NFL",
-    "ev_low": -0.03130518201924398,
-    "spread": 0.03,
-    "depth_dollars": 10.75,
-    "quote_age_s": 3.5e-05,
-    "rules": "If Will Shipley records 10+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "ev_low": -0.025348182019244166,
+    "spread": 0.02,
+    "depth_dollars": 207.20000000000002,
+    "quote_age_s": 0.000347,
+    "rules": "If Jaydn Ott records 15+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 43c for NO; the market's own implied chance (mid) is 41.5%",
-     "last 6 games: reached 10+ rushing yards in 2 of them (average 11.0, last game 9); the price implies 58% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 80c for NO; the market's own implied chance (mid) is 79.0%",
+     "last 3 games: reached 15+ rushing yards in 1 of them (average 10.3, last game 12); the price implies 21% tonight",
+     "KC is priced 40% to win (underdog)"
     ],
     "model_outputs": [
-     "our probability 48.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+     "our probability 85.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
     ],
     "assumptions": [
      "the standard error covers model error as well as sampling error",
      "the quote can still be had at the size shown"
     ],
     "judgments": [
-     "worth buying only at 40c or less (now 43c): positive at our estimate, not at the cautious one"
+     "worth buying only at 77c or less (now 80c): positive at our estimate, not at the cautious one"
     ],
     "supporting": [
      "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
@@ -344,50 +340,50 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Will Shipley: 10+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHIWSHIPLEY28-10], buy NO. Rule: If Will Shipley records 10+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.43, bid 0.40, spread 0.03, quote 0s old",
-     "3 book: 25 contracts offered within 2c of the ask (about $11); average fill 0.430",
+     "1 market: Jaydn Ott: 15+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCJOTT34-15], buy NO. Rule: If Jaydn Ott records 15+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.80, bid 0.78, spread 0.02, quote 0s old",
+     "3 book: 259 contracts offered within 2c of the ask (about $207); average fill 0.800",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 48.5%, standard error 2.3%",
-     "8 versus market: ours 48.5%, market mid 41.5%, ask 43.0%",
-     "9 costs: fee 1.72c a contract, spread 3c, slippage 0.0c; break-even chance 44.7%",
-     "10 uncertainty: cautious estimate 41.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.038 per contract at our estimate (+8.5% per $1); -0.031 at the cautious estimate",
-     "13 size: full Kelly 6.8%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 60c; buying both costs 103c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 40c or less (now 43c): positive at our estimate, not at the cautious one",
+     "7 our probability: 85.5%, standard error 2.3%",
+     "8 versus market: ours 85.5%, market mid 79.0%, ask 80.0%",
+     "9 costs: fee 1.12c a contract, spread 2c, slippage 0.0c; break-even chance 81.1%",
+     "10 uncertainty: cautious estimate 78.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.044 per contract at our estimate (+5.4% per $1); -0.025 at the cautious estimate",
+     "13 size: full Kelly 23.2%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 22c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 77c or less (now 80c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
-    "hedge": "other side at 60c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "hedge": "other side at 22c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-100",
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCJOTT34-10",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Saquon Barkley: 100+ rushing yards",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Jaydn Ott: 10+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
-   "reason": "worth buying only at 82c or less (now 84c): positive at our estimate, not at the cautious one",
-   "p_est": 0.895,
+   "reason": "worth buying only at 63c or less (now 66c): positive at our estimate, not at the cautious one",
+   "p_est": 0.7150000000000001,
    "p_se": 0.02304939400641467,
-   "p_market": 0.825,
+   "p_market": 0.655,
    "p_model": null,
-   "ask": 0.84,
-   "fee": 0.009407999999999998,
-   "ev": 0.04559199999999995,
-   "ev_low": -0.02355618201924406,
-   "ret": 0.053675030138637676,
-   "kelly": 0.3027518062048448,
+   "ask": 0.66,
+   "fee": 0.015708,
+   "ev": 0.03929200000000005,
+   "ev_low": -0.02985618201924395,
+   "ret": 0.05814937813375016,
+   "kelly": 0.12116240918678253,
    "stake": 0.0,
    "contracts": 0,
-   "wait_price": 0.82,
+   "wait_price": 0.63,
    "source": "category: rushing unders on 3+ point underdogs",
    "vetoes": [],
    "proposal": {
@@ -395,36 +391,36 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV26KCBUF"
     ],
     "teams": [],
     "players": [
-     "NFL:PHISBARKLEY26"
+     "NFL:KCJOTT34"
     ],
     "sport": "NFL",
-    "ev_low": -0.02355618201924406,
-    "spread": 0.03,
-    "depth_dollars": 42.0,
-    "quote_age_s": 1.1e-05,
-    "rules": "If Saquon Barkley records 100+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "ev_low": -0.02985618201924395,
+    "spread": 0.01,
+    "depth_dollars": 99.0,
+    "quote_age_s": 1.4e-05,
+    "rules": "If Jaydn Ott records 10+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 84c for NO; the market's own implied chance (mid) is 82.5%",
-     "last 6 games: reached 100+ rushing yards in 0 of them (average 46.5, last game 75); the price implies 18% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 66c for NO; the market's own implied chance (mid) is 65.5%",
+     "last 3 games: reached 10+ rushing yards in 2 of them (average 10.3, last game 12); the price implies 34% tonight",
+     "KC is priced 40% to win (underdog)"
     ],
     "model_outputs": [
-     "our probability 89.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+     "our probability 71.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
     ],
     "assumptions": [
      "the standard error covers model error as well as sampling error",
      "the quote can still be had at the size shown"
     ],
     "judgments": [
-     "worth buying only at 82c or less (now 84c): positive at our estimate, not at the cautious one"
+     "worth buying only at 63c or less (now 66c): positive at our estimate, not at the cautious one"
     ],
     "supporting": [
      "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
@@ -439,40 +435,800 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Saquon Barkley: 100+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-100], buy NO. Rule: If Saquon Barkley records 100+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.84, bid 0.81, spread 0.03, quote 0s old",
-     "3 book: 50 contracts offered within 2c of the ask (about $42); average fill 0.840",
+     "1 market: Jaydn Ott: 10+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCJOTT34-10], buy NO. Rule: If Jaydn Ott records 10+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.66, bid 0.65, spread 0.01, quote 0s old",
+     "3 book: 150 contracts offered within 2c of the ask (about $99); average fill 0.660",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 89.5%, standard error 2.3%",
-     "8 versus market: ours 89.5%, market mid 82.5%, ask 84.0%",
-     "9 costs: fee 0.94c a contract, spread 3c, slippage 0.0c; break-even chance 84.9%",
-     "10 uncertainty: cautious estimate 82.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.046 per contract at our estimate (+5.4% per $1); -0.024 at the cautious estimate",
-     "13 size: full Kelly 30.3%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 19c; buying both costs 103c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 82c or less (now 84c): positive at our estimate, not at the cautious one",
+     "7 our probability: 71.5%, standard error 2.3%",
+     "8 versus market: ours 71.5%, market mid 65.5%, ask 66.0%",
+     "9 costs: fee 1.57c a contract, spread 1c, slippage 0.0c; break-even chance 67.6%",
+     "10 uncertainty: cautious estimate 64.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.039 per contract at our estimate (+5.8% per $1); -0.030 at the cautious estimate",
+     "13 size: full Kelly 12.1%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 35c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 63c or less (now 66c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 35c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-120",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Emmett Johnson: 120+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 79c or less (now 82c): positive at our estimate, not at the cautious one",
+   "p_est": 0.875,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.815,
+   "p_model": null,
+   "ask": 0.82,
+   "fee": 0.010332000000000003,
+   "ev": 0.044668000000000034,
+   "ev_low": -0.02448018201924395,
+   "ret": 0.053795349330147506,
+   "kelly": 0.2632670863097345,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.79,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV26KCBUF"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:KCEJOHNSON10"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.02448018201924395,
+    "spread": 0.01,
+    "depth_dollars": 133.66,
+    "quote_age_s": 7e-06,
+    "rules": "If Emmett Johnson records 120+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 82c for NO; the market's own implied chance (mid) is 81.5%",
+     "last 6 games: reached 120+ rushing yards in 0 of them (average 43.5, last game 105); the price implies 19% tonight",
+     "KC is priced 40% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 87.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 79c or less (now 82c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Emmett Johnson: 120+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-120], buy NO. Rule: If Emmett Johnson records 120+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.82, bid 0.81, spread 0.01, quote 0s old",
+     "3 book: 163 contracts offered within 2c of the ask (about $134); average fill 0.820",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 87.5%, standard error 2.3%",
+     "8 versus market: ours 87.5%, market mid 81.5%, ask 82.0%",
+     "9 costs: fee 1.03c a contract, spread 1c, slippage 0.0c; break-even chance 83.0%",
+     "10 uncertainty: cautious estimate 80.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.045 per contract at our estimate (+5.4% per $1); -0.024 at the cautious estimate",
+     "13 size: full Kelly 26.3%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 19c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 79c or less (now 82c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
     "hedge": "other side at 19c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-90",
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-110",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Saquon Barkley: 90+ rushing yards",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Emmett Johnson: 110+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 73c or less (now 76c): positive at our estimate, not at the cautious one",
+   "p_est": 0.815,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.755,
+   "p_model": null,
+   "ask": 0.76,
+   "fee": 0.012767999999999996,
+   "ev": 0.04223199999999983,
+   "ev_low": -0.026916182019244166,
+   "ret": 0.05465029607851234,
+   "kelly": 0.18585410505562536,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.73,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV26KCBUF"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:KCEJOHNSON10"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.026916182019244166,
+    "spread": 0.01,
+    "depth_dollars": 138.32,
+    "quote_age_s": 6e-06,
+    "rules": "If Emmett Johnson records 110+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 76c for NO; the market's own implied chance (mid) is 75.5%",
+     "last 6 games: reached 110+ rushing yards in 0 of them (average 43.5, last game 105); the price implies 24% tonight",
+     "KC is priced 40% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 81.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 73c or less (now 76c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Emmett Johnson: 110+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-110], buy NO. Rule: If Emmett Johnson records 110+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.76, bid 0.75, spread 0.01, quote 0s old",
+     "3 book: 182 contracts offered within 2c of the ask (about $138); average fill 0.760",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 81.5%, standard error 2.3%",
+     "8 versus market: ours 81.5%, market mid 75.5%, ask 76.0%",
+     "9 costs: fee 1.28c a contract, spread 1c, slippage 0.0c; break-even chance 77.3%",
+     "10 uncertainty: cautious estimate 74.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.042 per contract at our estimate (+5.5% per $1); -0.027 at the cautious estimate",
+     "13 size: full Kelly 18.6%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 25c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 73c or less (now 76c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 25c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-100",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Emmett Johnson: 100+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 66c or less (now 69c): positive at our estimate, not at the cautious one",
+   "p_est": 0.7449999999999999,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.685,
+   "p_model": null,
+   "ask": 0.69,
+   "fee": 0.014973,
+   "ev": 0.04002699999999983,
+   "ev_low": -0.02912118201924417,
+   "ret": 0.0567780610037545,
+   "kelly": 0.1356723282953758,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.66,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV26KCBUF"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:KCEJOHNSON10"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.02912118201924417,
+    "spread": 0.01,
+    "depth_dollars": 238.04999999999998,
+    "quote_age_s": 7e-06,
+    "rules": "If Emmett Johnson records 100+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 69c for NO; the market's own implied chance (mid) is 68.5%",
+     "last 6 games: reached 100+ rushing yards in 2 of them (average 43.5, last game 105); the price implies 31% tonight",
+     "KC is priced 40% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 74.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 66c or less (now 69c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Emmett Johnson: 100+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-100], buy NO. Rule: If Emmett Johnson records 100+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.69, bid 0.68, spread 0.01, quote 0s old",
+     "3 book: 345 contracts offered within 2c of the ask (about $238); average fill 0.690",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 74.5%, standard error 2.3%",
+     "8 versus market: ours 74.5%, market mid 68.5%, ask 69.0%",
+     "9 costs: fee 1.50c a contract, spread 1c, slippage 0.0c; break-even chance 70.5%",
+     "10 uncertainty: cautious estimate 67.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.040 per contract at our estimate (+5.7% per $1); -0.029 at the cautious estimate",
+     "13 size: full Kelly 13.6%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 32c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 66c or less (now 69c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 32c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-90",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Emmett Johnson: 90+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 58c or less (now 61c): positive at our estimate, not at the cautious one",
+   "p_est": 0.665,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.605,
+   "p_model": null,
+   "ask": 0.61,
+   "fee": 0.016653,
+   "ev": 0.03834700000000005,
+   "ev_low": -0.03080118201924395,
+   "ret": 0.06119335581254705,
+   "kelly": 0.10271141859985493,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.58,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV26KCBUF"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:KCEJOHNSON10"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.03080118201924395,
+    "spread": 0.01,
+    "depth_dollars": 1688.48,
+    "quote_age_s": 7e-06,
+    "rules": "If Emmett Johnson records 90+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 61c for NO; the market's own implied chance (mid) is 60.5%",
+     "last 6 games: reached 90+ rushing yards in 2 of them (average 43.5, last game 105); the price implies 40% tonight",
+     "KC is priced 40% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 66.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 58c or less (now 61c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Emmett Johnson: 90+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-90], buy NO. Rule: If Emmett Johnson records 90+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.61, bid 0.60, spread 0.01, quote 0s old",
+     "3 book: 2768 contracts offered within 2c of the ask (about $1,688); average fill 0.610",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 66.5%, standard error 2.3%",
+     "8 versus market: ours 66.5%, market mid 60.5%, ask 61.0%",
+     "9 costs: fee 1.67c a contract, spread 1c, slippage 0.0c; break-even chance 62.7%",
+     "10 uncertainty: cautious estimate 59.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.038 per contract at our estimate (+6.1% per $1); -0.031 at the cautious estimate",
+     "13 size: full Kelly 10.3%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 40c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 58c or less (now 61c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 40c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-80",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Emmett Johnson: 80+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 48c or less (now 51c): positive at our estimate, not at the cautious one",
+   "p_est": 0.565,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.505,
+   "p_model": null,
+   "ask": 0.51,
+   "fee": 0.017493,
+   "ev": 0.037506999999999964,
+   "ev_low": -0.031641182019244034,
+   "ret": 0.07110426109919936,
+   "kelly": 0.0793787181988837,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.48,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV26KCBUF"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:KCEJOHNSON10"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.031641182019244034,
+    "spread": 0.01,
+    "depth_dollars": 1288.7342999999998,
+    "quote_age_s": 7e-06,
+    "rules": "If Emmett Johnson records 80+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 51c for NO; the market's own implied chance (mid) is 50.5%",
+     "last 6 games: reached 80+ rushing yards in 2 of them (average 43.5, last game 105); the price implies 50% tonight",
+     "KC is priced 40% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 56.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 48c or less (now 51c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Emmett Johnson: 80+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-80], buy NO. Rule: If Emmett Johnson records 80+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.51, bid 0.50, spread 0.01, quote 0s old",
+     "3 book: 2527 contracts offered within 2c of the ask (about $1,289); average fill 0.510",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 56.5%, standard error 2.3%",
+     "8 versus market: ours 56.5%, market mid 50.5%, ask 51.0%",
+     "9 costs: fee 1.75c a contract, spread 1c, slippage 0.0c; break-even chance 52.7%",
+     "10 uncertainty: cautious estimate 49.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.038 per contract at our estimate (+7.1% per $1); -0.032 at the cautious estimate",
+     "13 size: full Kelly 7.9%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 50c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 48c or less (now 51c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 50c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-70",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Emmett Johnson: 70+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 37c or less (now 40c): positive at our estimate, not at the cautious one",
+   "p_est": 0.455,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.395,
+   "p_model": null,
+   "ask": 0.4,
+   "fee": 0.016800000000000002,
+   "ev": 0.038200000000000046,
+   "ev_low": -0.030948182019244007,
+   "ret": 0.0916506717850289,
+   "kelly": 0.0655006858710562,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.37,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV26KCBUF"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:KCEJOHNSON10"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.030948182019244007,
+    "spread": 0.01,
+    "depth_dollars": 20.400000000000002,
+    "quote_age_s": 6e-06,
+    "rules": "If Emmett Johnson records 70+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 40c for NO; the market's own implied chance (mid) is 39.5%",
+     "last 6 games: reached 70+ rushing yards in 2 of them (average 43.5, last game 105); the price implies 60% tonight",
+     "KC is priced 40% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 45.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 37c or less (now 40c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Emmett Johnson: 70+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-70], buy NO. Rule: If Emmett Johnson records 70+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.40, bid 0.39, spread 0.01, quote 0s old",
+     "3 book: 51 contracts offered within 2c of the ask (about $20); average fill 0.400",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 45.5%, standard error 2.3%",
+     "8 versus market: ours 45.5%, market mid 39.5%, ask 40.0%",
+     "9 costs: fee 1.68c a contract, spread 1c, slippage 0.0c; break-even chance 41.7%",
+     "10 uncertainty: cautious estimate 38.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.038 per contract at our estimate (+9.2% per $1); -0.031 at the cautious estimate",
+     "13 size: full Kelly 6.6%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 61c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 37c or less (now 40c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 61c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-60",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Emmett Johnson: 60+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 27c or less (now 30c): positive at our estimate, not at the cautious one",
+   "p_est": 0.355,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.29000000000000004,
+   "p_model": null,
+   "ask": 0.3,
+   "fee": 0.0147,
+   "ev": 0.04029999999999997,
+   "ev_low": -0.02884818201924403,
+   "ret": 0.1280584683825865,
+   "kelly": 0.0588063621771487,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.27,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV26KCBUF"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:KCEJOHNSON10"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.02884818201924403,
+    "spread": 0.02,
+    "depth_dollars": 210.29999999999998,
+    "quote_age_s": 5e-06,
+    "rules": "If Emmett Johnson records 60+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 30c for NO; the market's own implied chance (mid) is 29.0%",
+     "last 6 games: reached 60+ rushing yards in 2 of them (average 43.5, last game 105); the price implies 71% tonight",
+     "KC is priced 40% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 35.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 27c or less (now 30c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Emmett Johnson: 60+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-60], buy NO. Rule: If Emmett Johnson records 60+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.30, bid 0.28, spread 0.02, quote 0s old",
+     "3 book: 701 contracts offered within 2c of the ask (about $210); average fill 0.300",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 35.5%, standard error 2.3%",
+     "8 versus market: ours 35.5%, market mid 29.0%, ask 30.0%",
+     "9 costs: fee 1.47c a contract, spread 2c, slippage 0.0c; break-even chance 31.5%",
+     "10 uncertainty: cautious estimate 28.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.040 per contract at our estimate (+12.8% per $1); -0.029 at the cautious estimate",
+     "13 size: full Kelly 5.9%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 72c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 27c or less (now 30c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 72c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-50",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Emmett Johnson: 50+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 19c or less (now 21c): positive at our estimate, not at the cautious one",
+   "p_est": 0.265,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.19999999999999996,
+   "p_model": null,
+   "ask": 0.21,
+   "fee": 0.011613000000000002,
+   "ev": 0.04338700000000002,
+   "ev_low": -0.02576118201924395,
+   "ret": 0.1957782260065972,
+   "kelly": 0.05573962566178518,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.19,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV26KCBUF"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:KCEJOHNSON10"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.02576118201924395,
+    "spread": 0.02,
+    "depth_dollars": 39.48,
+    "quote_age_s": 7e-06,
+    "rules": "If Emmett Johnson records 50+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 21c for NO; the market's own implied chance (mid) is 20.0%",
+     "last 6 games: reached 50+ rushing yards in 2 of them (average 43.5, last game 105); the price implies 80% tonight",
+     "KC is priced 40% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 26.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 19c or less (now 21c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Emmett Johnson: 50+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCEJOHNSON10-50], buy NO. Rule: If Emmett Johnson records 50+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.21, bid 0.19, spread 0.02, quote 0s old",
+     "3 book: 188 contracts offered within 2c of the ask (about $39); average fill 0.210",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 26.5%, standard error 2.3%",
+     "8 versus market: ours 26.5%, market mid 20.0%, ask 21.0%",
+     "9 costs: fee 1.16c a contract, spread 2c, slippage 0.0c; break-even chance 22.2%",
+     "10 uncertainty: cautious estimate 19.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.043 per contract at our estimate (+19.6% per $1); -0.026 at the cautious estimate",
+     "13 size: full Kelly 5.6%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 81c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 19c or less (now 21c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 81c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITMRUDOLPH2-15",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Mason Rudolph: 15+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
    "reason": "worth buying only at 74c or less (now 77c): positive at our estimate, not at the cautious one",
    "p_est": 0.825,
    "p_se": 0.02304939400641467,
-   "p_market": 0.76,
+   "p_market": 0.765,
    "p_model": null,
    "ask": 0.77,
    "fee": 0.012397,
@@ -490,26 +1246,26 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV27DENPIT"
     ],
     "teams": [],
     "players": [
-     "NFL:PHISBARKLEY26"
+     "NFL:PITMRUDOLPH2"
     ],
     "sport": "NFL",
     "ev_low": -0.026545182019244058,
-    "spread": 0.02,
-    "depth_dollars": 87.01,
-    "quote_age_s": 1.1e-05,
-    "rules": "If Saquon Barkley records 90+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "spread": 0.01,
+    "depth_dollars": 46.97,
+    "quote_age_s": 6e-06,
+    "rules": "If Mason Rudolph records 15+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 77c for NO; the market's own implied chance (mid) is 76.0%",
-     "last 6 games: reached 90+ rushing yards in 0 of them (average 46.5, last game 75); the price implies 24% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 77c for NO; the market's own implied chance (mid) is 76.5%",
+     "last 6 games: reached 15+ rushing yards in 0 of them (average 2.7, last game 9); the price implies 24% tonight",
+     "PIT is priced 32% to win (underdog)"
     ],
     "model_outputs": [
      "our probability 82.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
@@ -534,50 +1290,50 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Saquon Barkley: 90+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-90], buy NO. Rule: If Saquon Barkley records 90+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.77, bid 0.75, spread 0.02, quote 0s old",
-     "3 book: 113 contracts offered within 2c of the ask (about $87); average fill 0.770",
+     "1 market: Mason Rudolph: 15+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITMRUDOLPH2-15], buy NO. Rule: If Mason Rudolph records 15+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.77, bid 0.76, spread 0.01, quote 0s old",
+     "3 book: 61 contracts offered within 2c of the ask (about $47); average fill 0.770",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
      "7 our probability: 82.5%, standard error 2.3%",
-     "8 versus market: ours 82.5%, market mid 76.0%, ask 77.0%",
-     "9 costs: fee 1.24c a contract, spread 2c, slippage 0.0c; break-even chance 78.2%",
+     "8 versus market: ours 82.5%, market mid 76.5%, ask 77.0%",
+     "9 costs: fee 1.24c a contract, spread 1c, slippage 0.0c; break-even chance 78.2%",
      "10 uncertainty: cautious estimate 75.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
      "12 expected value: +0.043 per contract at our estimate (+5.4% per $1); -0.027 at the cautious estimate",
      "13 size: full Kelly 19.6%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 25c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "14 hedge: the other side costs 24c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
      "15 decision: WAIT. worth buying only at 74c or less (now 77c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
-    "hedge": "other side at 25c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "hedge": "other side at 24c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-80",
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITMRUDOLPH2-10",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Saquon Barkley: 80+ rushing yards",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Mason Rudolph: 10+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
-   "reason": "worth buying only at 65c or less (now 68c): positive at our estimate, not at the cautious one",
-   "p_est": 0.7350000000000001,
+   "reason": "worth buying only at 62c or less (now 65c): positive at our estimate, not at the cautious one",
+   "p_est": 0.7050000000000001,
    "p_se": 0.02304939400641467,
-   "p_market": 0.6699999999999999,
+   "p_market": 0.635,
    "p_model": null,
-   "ask": 0.68,
-   "fee": 0.015232,
-   "ev": 0.039768000000000046,
-   "ev_low": -0.02938018201924395,
-   "ret": 0.05720104943385811,
-   "kelly": 0.13048614027719452,
+   "ask": 0.65,
+   "fee": 0.015925,
+   "ev": 0.03907500000000005,
+   "ev_low": -0.03007318201924395,
+   "ret": 0.05867777902917003,
+   "kelly": 0.11696475342363269,
    "stake": 0.0,
    "contracts": 0,
-   "wait_price": 0.65,
+   "wait_price": 0.62,
    "source": "category: rushing unders on 3+ point underdogs",
    "vetoes": [],
    "proposal": {
@@ -585,36 +1341,36 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV27DENPIT"
     ],
     "teams": [],
     "players": [
-     "NFL:PHISBARKLEY26"
+     "NFL:PITMRUDOLPH2"
     ],
     "sport": "NFL",
-    "ev_low": -0.02938018201924395,
-    "spread": 0.02,
-    "depth_dollars": 204.00000000000003,
+    "ev_low": -0.03007318201924395,
+    "spread": 0.03,
+    "depth_dollars": 32.5,
     "quote_age_s": 5e-06,
-    "rules": "If Saquon Barkley records 80+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "rules": "If Mason Rudolph records 10+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 68c for NO; the market's own implied chance (mid) is 67.0%",
-     "last 6 games: reached 80+ rushing yards in 1 of them (average 46.5, last game 75); the price implies 33% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 65c for NO; the market's own implied chance (mid) is 63.5%",
+     "last 6 games: reached 10+ rushing yards in 0 of them (average 2.7, last game 9); the price implies 36% tonight",
+     "PIT is priced 32% to win (underdog)"
     ],
     "model_outputs": [
-     "our probability 73.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+     "our probability 70.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
     ],
     "assumptions": [
      "the standard error covers model error as well as sampling error",
      "the quote can still be had at the size shown"
     ],
     "judgments": [
-     "worth buying only at 65c or less (now 68c): positive at our estimate, not at the cautious one"
+     "worth buying only at 62c or less (now 65c): positive at our estimate, not at the cautious one"
     ],
     "supporting": [
      "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
@@ -629,50 +1385,50 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Saquon Barkley: 80+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-80], buy NO. Rule: If Saquon Barkley records 80+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.68, bid 0.66, spread 0.02, quote 0s old",
-     "3 book: 300 contracts offered within 2c of the ask (about $204); average fill 0.680",
+     "1 market: Mason Rudolph: 10+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITMRUDOLPH2-10], buy NO. Rule: If Mason Rudolph records 10+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.65, bid 0.62, spread 0.03, quote 0s old",
+     "3 book: 50 contracts offered within 2c of the ask (about $32); average fill 0.650",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 73.5%, standard error 2.3%",
-     "8 versus market: ours 73.5%, market mid 67.0%, ask 68.0%",
-     "9 costs: fee 1.52c a contract, spread 2c, slippage 0.0c; break-even chance 69.5%",
-     "10 uncertainty: cautious estimate 66.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.040 per contract at our estimate (+5.7% per $1); -0.029 at the cautious estimate",
-     "13 size: full Kelly 13.0%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 34c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 65c or less (now 68c): positive at our estimate, not at the cautious one",
+     "7 our probability: 70.5%, standard error 2.3%",
+     "8 versus market: ours 70.5%, market mid 63.5%, ask 65.0%",
+     "9 costs: fee 1.59c a contract, spread 3c, slippage 0.0c; break-even chance 66.6%",
+     "10 uncertainty: cautious estimate 63.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.039 per contract at our estimate (+5.9% per $1); -0.030 at the cautious estimate",
+     "13 size: full Kelly 11.7%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 38c; buying both costs 103c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 62c or less (now 65c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
-    "hedge": "other side at 34c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "hedge": "other side at 38c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-70",
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITMRUDOLPH2-5",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Saquon Barkley: 70+ rushing yards",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Mason Rudolph: 5+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
-   "reason": "worth buying only at 54c or less (now 57c): positive at our estimate, not at the cautious one",
-   "p_est": 0.625,
+   "reason": "worth buying only at 39c or less (now 42c): positive at our estimate, not at the cautious one",
+   "p_est": 0.475,
    "p_se": 0.02304939400641467,
-   "p_market": 0.565,
+   "p_market": 0.41500000000000004,
    "p_model": null,
-   "ask": 0.57,
-   "fee": 0.017157000000000002,
-   "ev": 0.03784300000000004,
-   "ev_low": -0.03130518201924398,
-   "ret": 0.0644512455782696,
-   "kelly": 0.0916643857350132,
+   "ask": 0.42,
+   "fee": 0.017052000000000005,
+   "ev": 0.037948000000000016,
+   "ev_low": -0.03120018201924401,
+   "ret": 0.08682719676377186,
+   "kelly": 0.06740942325046,
    "stake": 0.0,
    "contracts": 0,
-   "wait_price": 0.54,
+   "wait_price": 0.39,
    "source": "category: rushing unders on 3+ point underdogs",
    "vetoes": [],
    "proposal": {
@@ -680,36 +1436,131 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV27DENPIT"
     ],
     "teams": [],
     "players": [
-     "NFL:PHISBARKLEY26"
+     "NFL:PITMRUDOLPH2"
     ],
     "sport": "NFL",
-    "ev_low": -0.03130518201924398,
+    "ev_low": -0.03120018201924401,
     "spread": 0.01,
-    "depth_dollars": 313.5,
+    "depth_dollars": 19.051199999999998,
+    "quote_age_s": 4e-06,
+    "rules": "If Mason Rudolph records 5+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 42c for NO; the market's own implied chance (mid) is 41.5%",
+     "last 6 games: reached 5+ rushing yards in 2 of them (average 2.7, last game 9); the price implies 58% tonight",
+     "PIT is priced 32% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 47.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 39c or less (now 42c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Mason Rudolph: 5+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITMRUDOLPH2-5], buy NO. Rule: If Mason Rudolph records 5+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.42, bid 0.41, spread 0.01, quote 0s old",
+     "3 book: 45 contracts offered within 2c of the ask (about $19); average fill 0.420",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 47.5%, standard error 2.3%",
+     "8 versus market: ours 47.5%, market mid 41.5%, ask 42.0%",
+     "9 costs: fee 1.71c a contract, spread 1c, slippage 0.0c; break-even chance 43.7%",
+     "10 uncertainty: cautious estimate 40.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.038 per contract at our estimate (+8.7% per $1); -0.031 at the cautious estimate",
+     "13 size: full Kelly 6.7%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 59c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 39c or less (now 42c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 59c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-50",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Rico Dowdle: 50+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 76c or less (now 79c): positive at our estimate, not at the cautious one",
+   "p_est": 0.845,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.78,
+   "p_model": null,
+   "ask": 0.79,
+   "fee": 0.011613,
+   "ev": 0.04338699999999994,
+   "ev_low": -0.025761182019244058,
+   "ret": 0.054124621232440016,
+   "kelly": 0.21869880586933593,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.76,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV27DENPIT"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:PITRDOWDLE13"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.025761182019244058,
+    "spread": 0.02,
+    "depth_dollars": 20.54,
     "quote_age_s": 5e-06,
-    "rules": "If Saquon Barkley records 70+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "rules": "If Rico Dowdle records 50+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 57c for NO; the market's own implied chance (mid) is 56.5%",
-     "last 6 games: reached 70+ rushing yards in 2 of them (average 46.5, last game 75); the price implies 44% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 79c for NO; the market's own implied chance (mid) is 78.0%",
+     "last 6 games: reached 50+ rushing yards in 1 of them (average 33.3, last game 15); the price implies 22% tonight",
+     "PIT is priced 32% to win (underdog)"
     ],
     "model_outputs": [
-     "our probability 62.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+     "our probability 84.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
     ],
     "assumptions": [
      "the standard error covers model error as well as sampling error",
      "the quote can still be had at the size shown"
     ],
     "judgments": [
-     "worth buying only at 54c or less (now 57c): positive at our estimate, not at the cautious one"
+     "worth buying only at 76c or less (now 79c): positive at our estimate, not at the cautious one"
     ],
     "supporting": [
      "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
@@ -724,50 +1575,50 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Saquon Barkley: 70+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-70], buy NO. Rule: If Saquon Barkley records 70+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.57, bid 0.56, spread 0.01, quote 0s old",
-     "3 book: 550 contracts offered within 2c of the ask (about $314); average fill 0.570",
+     "1 market: Rico Dowdle: 50+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-50], buy NO. Rule: If Rico Dowdle records 50+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.79, bid 0.77, spread 0.02, quote 0s old",
+     "3 book: 26 contracts offered within 2c of the ask (about $21); average fill 0.790",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 62.5%, standard error 2.3%",
-     "8 versus market: ours 62.5%, market mid 56.5%, ask 57.0%",
-     "9 costs: fee 1.72c a contract, spread 1c, slippage 0.0c; break-even chance 58.7%",
-     "10 uncertainty: cautious estimate 55.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.038 per contract at our estimate (+6.4% per $1); -0.031 at the cautious estimate",
-     "13 size: full Kelly 9.2%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 44c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 54c or less (now 57c): positive at our estimate, not at the cautious one",
+     "7 our probability: 84.5%, standard error 2.3%",
+     "8 versus market: ours 84.5%, market mid 78.0%, ask 79.0%",
+     "9 costs: fee 1.16c a contract, spread 2c, slippage 0.0c; break-even chance 80.2%",
+     "10 uncertainty: cautious estimate 77.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.043 per contract at our estimate (+5.4% per $1); -0.026 at the cautious estimate",
+     "13 size: full Kelly 21.9%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 23c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 76c or less (now 79c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
-    "hedge": "other side at 44c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "hedge": "other side at 23c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-60",
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-40",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Saquon Barkley: 60+ rushing yards",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Rico Dowdle: 40+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
-   "reason": "worth buying only at 43c or less (now 46c): positive at our estimate, not at the cautious one",
-   "p_est": 0.515,
+   "reason": "worth buying only at 63c or less (now 66c): positive at our estimate, not at the cautious one",
+   "p_est": 0.7150000000000001,
    "p_se": 0.02304939400641467,
-   "p_market": 0.44999999999999996,
+   "p_market": 0.65,
    "p_model": null,
-   "ask": 0.46,
-   "fee": 0.017388,
-   "ev": 0.03761199999999994,
-   "ev_low": -0.03153618201924406,
-   "ret": 0.07878706628570456,
-   "kelly": 0.07196926209118798,
+   "ask": 0.66,
+   "fee": 0.015708,
+   "ev": 0.03929200000000005,
+   "ev_low": -0.02985618201924395,
+   "ret": 0.05814937813375016,
+   "kelly": 0.12116240918678253,
    "stake": 0.0,
    "contracts": 0,
-   "wait_price": 0.43,
+   "wait_price": 0.63,
    "source": "category: rushing unders on 3+ point underdogs",
    "vetoes": [],
    "proposal": {
@@ -775,36 +1626,36 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV27DENPIT"
     ],
     "teams": [],
     "players": [
-     "NFL:PHISBARKLEY26"
+     "NFL:PITRDOWDLE13"
     ],
     "sport": "NFL",
-    "ev_low": -0.03153618201924406,
+    "ev_low": -0.02985618201924395,
     "spread": 0.02,
-    "depth_dollars": 253.0,
-    "quote_age_s": 7e-06,
-    "rules": "If Saquon Barkley records 60+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "depth_dollars": 11.22,
+    "quote_age_s": 4e-06,
+    "rules": "If Rico Dowdle records 40+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 46c for NO; the market's own implied chance (mid) is 45.0%",
-     "last 6 games: reached 60+ rushing yards in 3 of them (average 46.5, last game 75); the price implies 55% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 66c for NO; the market's own implied chance (mid) is 65.0%",
+     "last 6 games: reached 40+ rushing yards in 3 of them (average 33.3, last game 15); the price implies 35% tonight",
+     "PIT is priced 32% to win (underdog)"
     ],
     "model_outputs": [
-     "our probability 51.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+     "our probability 71.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
     ],
     "assumptions": [
      "the standard error covers model error as well as sampling error",
      "the quote can still be had at the size shown"
     ],
     "judgments": [
-     "worth buying only at 43c or less (now 46c): positive at our estimate, not at the cautious one"
+     "worth buying only at 63c or less (now 66c): positive at our estimate, not at the cautious one"
     ],
     "supporting": [
      "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
@@ -819,50 +1670,50 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Saquon Barkley: 60+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-60], buy NO. Rule: If Saquon Barkley records 60+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.46, bid 0.44, spread 0.02, quote 0s old",
-     "3 book: 550 contracts offered within 2c of the ask (about $253); average fill 0.460",
+     "1 market: Rico Dowdle: 40+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-40], buy NO. Rule: If Rico Dowdle records 40+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.66, bid 0.64, spread 0.02, quote 0s old",
+     "3 book: 17 contracts offered within 2c of the ask (about $11); average fill 0.660",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 51.5%, standard error 2.3%",
-     "8 versus market: ours 51.5%, market mid 45.0%, ask 46.0%",
-     "9 costs: fee 1.74c a contract, spread 2c, slippage 0.0c; break-even chance 47.7%",
-     "10 uncertainty: cautious estimate 44.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.038 per contract at our estimate (+7.9% per $1); -0.032 at the cautious estimate",
-     "13 size: full Kelly 7.2%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 56c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 43c or less (now 46c): positive at our estimate, not at the cautious one",
+     "7 our probability: 71.5%, standard error 2.3%",
+     "8 versus market: ours 71.5%, market mid 65.0%, ask 66.0%",
+     "9 costs: fee 1.57c a contract, spread 2c, slippage 0.0c; break-even chance 67.6%",
+     "10 uncertainty: cautious estimate 64.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.039 per contract at our estimate (+5.8% per $1); -0.030 at the cautious estimate",
+     "13 size: full Kelly 12.1%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 36c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 63c or less (now 66c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
-    "hedge": "other side at 56c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "hedge": "other side at 36c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-50",
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-30",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Saquon Barkley: 50+ rushing yards",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Rico Dowdle: 30+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
-   "reason": "worth buying only at 31c or less (now 34c): positive at our estimate, not at the cautious one",
-   "p_est": 0.395,
+   "reason": "worth buying only at 46c or less (now 49c): positive at our estimate, not at the cautious one",
+   "p_est": 0.5449999999999999,
    "p_se": 0.02304939400641467,
-   "p_market": 0.32999999999999996,
+   "p_market": 0.48,
    "p_model": null,
-   "ask": 0.34,
-   "fee": 0.015708000000000003,
-   "ev": 0.039291999999999966,
-   "ev_low": -0.029856182019244035,
-   "ret": 0.11046138967917495,
-   "kelly": 0.060984770880284055,
+   "ask": 0.49,
+   "fee": 0.017493,
+   "ev": 0.037506999999999936,
+   "ev_low": -0.031641182019244034,
+   "ret": 0.07390643811835816,
+   "kelly": 0.07615526276783871,
    "stake": 0.0,
    "contracts": 0,
-   "wait_price": 0.31,
+   "wait_price": 0.46,
    "source": "category: rushing unders on 3+ point underdogs",
    "vetoes": [],
    "proposal": {
@@ -870,36 +1721,36 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV27DENPIT"
     ],
     "teams": [],
     "players": [
-     "NFL:PHISBARKLEY26"
+     "NFL:PITRDOWDLE13"
     ],
     "sport": "NFL",
-    "ev_low": -0.029856182019244035,
+    "ev_low": -0.031641182019244034,
     "spread": 0.02,
-    "depth_dollars": 44.88,
-    "quote_age_s": 7e-06,
-    "rules": "If Saquon Barkley records 50+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "depth_dollars": 5.39,
+    "quote_age_s": 4e-06,
+    "rules": "If Rico Dowdle records 30+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 34c for NO; the market's own implied chance (mid) is 33.0%",
-     "last 6 games: reached 50+ rushing yards in 3 of them (average 46.5, last game 75); the price implies 67% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 49c for NO; the market's own implied chance (mid) is 48.0%",
+     "last 6 games: reached 30+ rushing yards in 3 of them (average 33.3, last game 15); the price implies 52% tonight",
+     "PIT is priced 32% to win (underdog)"
     ],
     "model_outputs": [
-     "our probability 39.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+     "our probability 54.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
     ],
     "assumptions": [
      "the standard error covers model error as well as sampling error",
      "the quote can still be had at the size shown"
     ],
     "judgments": [
-     "worth buying only at 31c or less (now 34c): positive at our estimate, not at the cautious one"
+     "worth buying only at 46c or less (now 49c): positive at our estimate, not at the cautious one"
     ],
     "supporting": [
      "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
@@ -914,47 +1765,237 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Saquon Barkley: 50+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-50], buy NO. Rule: If Saquon Barkley records 50+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.34, bid 0.32, spread 0.02, quote 0s old",
-     "3 book: 132 contracts offered within 2c of the ask (about $45); average fill 0.340",
+     "1 market: Rico Dowdle: 30+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-30], buy NO. Rule: If Rico Dowdle records 30+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.49, bid 0.47, spread 0.02, quote 0s old",
+     "3 book: 11 contracts offered within 2c of the ask (about $5); average fill 0.490",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 39.5%, standard error 2.3%",
-     "8 versus market: ours 39.5%, market mid 33.0%, ask 34.0%",
-     "9 costs: fee 1.57c a contract, spread 2c, slippage 0.0c; break-even chance 35.6%",
-     "10 uncertainty: cautious estimate 32.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.039 per contract at our estimate (+11.0% per $1); -0.030 at the cautious estimate",
-     "13 size: full Kelly 6.1%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 68c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 31c or less (now 34c): positive at our estimate, not at the cautious one",
+     "7 our probability: 54.5%, standard error 2.3%",
+     "8 versus market: ours 54.5%, market mid 48.0%, ask 49.0%",
+     "9 costs: fee 1.75c a contract, spread 2c, slippage 0.0c; break-even chance 50.7%",
+     "10 uncertainty: cautious estimate 47.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.038 per contract at our estimate (+7.4% per $1); -0.032 at the cautious estimate",
+     "13 size: full Kelly 7.6%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 53c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 46c or less (now 49c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
-    "hedge": "other side at 68c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "hedge": "other side at 53c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-40",
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-25",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Saquon Barkley: 40+ rushing yards",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Rico Dowdle: 25+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
-   "reason": "worth buying only at 19c or less (now 22c): positive at our estimate, not at the cautious one",
-   "p_est": 0.275,
+   "reason": "worth buying only at 36c or less (now 39c): positive at our estimate, not at the cautious one",
+   "p_est": 0.445,
    "p_se": 0.02304939400641467,
-   "p_market": 0.20999999999999996,
+   "p_market": 0.385,
    "p_model": null,
-   "ask": 0.22,
-   "fee": 0.012012000000000002,
-   "ev": 0.04298800000000002,
-   "ev_low": -0.02616018201924398,
-   "ret": 0.18528351981794053,
-   "kelly": 0.05597483294009806,
+   "ask": 0.39,
+   "fee": 0.016653000000000005,
+   "ev": 0.038347000000000075,
+   "ev_low": -0.030801182019243954,
+   "ret": 0.09429907070647475,
+   "kelly": 0.0646282866518244,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.36,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV27DENPIT"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:PITRDOWDLE13"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.030801182019243954,
+    "spread": 0.01,
+    "depth_dollars": 5.46,
+    "quote_age_s": 5e-06,
+    "rules": "If Rico Dowdle records 25+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 39c for NO; the market's own implied chance (mid) is 38.5%",
+     "last 6 games: reached 25+ rushing yards in 4 of them (average 33.3, last game 15); the price implies 62% tonight",
+     "PIT is priced 32% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 44.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 36c or less (now 39c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Rico Dowdle: 25+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-25], buy NO. Rule: If Rico Dowdle records 25+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.39, bid 0.38, spread 0.01, quote 0s old",
+     "3 book: 14 contracts offered within 2c of the ask (about $5); average fill 0.390",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 44.5%, standard error 2.3%",
+     "8 versus market: ours 44.5%, market mid 38.5%, ask 39.0%",
+     "9 costs: fee 1.67c a contract, spread 1c, slippage 0.0c; break-even chance 40.7%",
+     "10 uncertainty: cautious estimate 37.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.038 per contract at our estimate (+9.4% per $1); -0.031 at the cautious estimate",
+     "13 size: full Kelly 6.5%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 62c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 36c or less (now 39c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 62c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-20",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Rico Dowdle: 20+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 26c or less (now 29c): positive at our estimate, not at the cautious one",
+   "p_est": 0.345,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.28500000000000003,
+   "p_model": null,
+   "ask": 0.29,
+   "fee": 0.01450419140625,
+   "ev": 0.037370808593750006,
+   "ev_low": -0.03177737342549399,
+   "ret": 0.12148004688020242,
+   "kelly": 0.05397513605412188,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.26,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV27DENPIT"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:PITRDOWDLE13"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.03177737342549399,
+    "spread": 0.01,
+    "depth_dollars": 240.7,
+    "quote_age_s": 4e-06,
+    "rules": "If Rico Dowdle records 20+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 29c for NO; the market's own implied chance (mid) is 28.5%",
+     "last 6 games: reached 20+ rushing yards in 5 of them (average 33.3, last game 15); the price implies 72% tonight",
+     "PIT is priced 32% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 34.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 26c or less (now 29c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Rico Dowdle: 20+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-20], buy NO. Rule: If Rico Dowdle records 20+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.29, bid 0.28, spread 0.01, quote 0s old",
+     "3 book: 830 contracts offered within 2c of the ask (about $241); average fill 0.293",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 34.5%, standard error 2.3%",
+     "8 versus market: ours 34.5%, market mid 28.5%, ask 29.0%",
+     "9 costs: fee 1.45c a contract, spread 1c, slippage 0.3c; break-even chance 30.8%",
+     "10 uncertainty: cautious estimate 27.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.037 per contract at our estimate (+12.1% per $1); -0.032 at the cautious estimate",
+     "13 size: full Kelly 5.4%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 72c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 26c or less (now 29c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 72c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-15",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Rico Dowdle: 15+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 19c or less (now 21c): positive at our estimate, not at the cautious one",
+   "p_est": 0.265,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.19500000000000006,
+   "p_model": null,
+   "ask": 0.21,
+   "fee": 0.011613000000000002,
+   "ev": 0.04338700000000002,
+   "ev_low": -0.02576118201924395,
+   "ret": 0.1957782260065972,
+   "kelly": 0.05573962566178518,
    "stake": 0.0,
    "contracts": 0,
    "wait_price": 0.19,
@@ -965,36 +2006,36 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV27DENPIT"
     ],
     "teams": [],
     "players": [
-     "NFL:PHISBARKLEY26"
+     "NFL:PITRDOWDLE13"
     ],
     "sport": "NFL",
-    "ev_low": -0.02616018201924398,
-    "spread": 0.02,
-    "depth_dollars": 11.0,
-    "quote_age_s": 5e-06,
-    "rules": "If Saquon Barkley records 40+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "ev_low": -0.02576118201924395,
+    "spread": 0.03,
+    "depth_dollars": 115.5,
+    "quote_age_s": 7e-06,
+    "rules": "If Rico Dowdle records 15+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 22c for NO; the market's own implied chance (mid) is 21.0%",
-     "last 6 games: reached 40+ rushing yards in 3 of them (average 46.5, last game 75); the price implies 79% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 21c for NO; the market's own implied chance (mid) is 19.5%",
+     "last 6 games: reached 15+ rushing yards in 6 of them (average 33.3, last game 15); the price implies 80% tonight",
+     "PIT is priced 32% to win (underdog)"
     ],
     "model_outputs": [
-     "our probability 27.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+     "our probability 26.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
     ],
     "assumptions": [
      "the standard error covers model error as well as sampling error",
      "the quote can still be had at the size shown"
     ],
     "judgments": [
-     "worth buying only at 19c or less (now 22c): positive at our estimate, not at the cautious one"
+     "worth buying only at 19c or less (now 21c): positive at our estimate, not at the cautious one"
     ],
     "supporting": [
      "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
@@ -1009,34 +2050,699 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Saquon Barkley: 40+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHISBARKLEY26-40], buy NO. Rule: If Saquon Barkley records 40+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.22, bid 0.20, spread 0.02, quote 0s old",
-     "3 book: 50 contracts offered within 2c of the ask (about $11); average fill 0.220",
+     "1 market: Rico Dowdle: 15+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITRDOWDLE13-15], buy NO. Rule: If Rico Dowdle records 15+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.21, bid 0.18, spread 0.03, quote 0s old",
+     "3 book: 550 contracts offered within 2c of the ask (about $116); average fill 0.210",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 27.5%, standard error 2.3%",
-     "8 versus market: ours 27.5%, market mid 21.0%, ask 22.0%",
-     "9 costs: fee 1.20c a contract, spread 2c, slippage 0.0c; break-even chance 23.2%",
-     "10 uncertainty: cautious estimate 20.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.043 per contract at our estimate (+18.5% per $1); -0.026 at the cautious estimate",
+     "7 our probability: 26.5%, standard error 2.3%",
+     "8 versus market: ours 26.5%, market mid 19.5%, ask 21.0%",
+     "9 costs: fee 1.16c a contract, spread 3c, slippage 0.0c; break-even chance 22.2%",
+     "10 uncertainty: cautious estimate 19.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.043 per contract at our estimate (+19.6% per $1); -0.026 at the cautious estimate",
      "13 size: full Kelly 5.6%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 80c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 19c or less (now 22c): positive at our estimate, not at the cautious one",
+     "14 hedge: the other side costs 82c; buying both costs 103c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 19c or less (now 21c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
-    "hedge": "other side at 80c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "hedge": "other side at 82c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHIJMILTON10-50",
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-90",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Joe Milton III: 50+ rushing yards",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Jaylen Warren: 90+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 77c or less (now 80c): positive at our estimate, not at the cautious one",
+   "p_est": 0.855,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.775,
+   "p_model": null,
+   "ask": 0.8,
+   "fee": 0.011199999999999995,
+   "ev": 0.043799999999999846,
+   "ev_low": -0.025348182019244166,
+   "ret": 0.05399408284023649,
+   "kelly": 0.23199152542372808,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.77,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV27DENPIT"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:PITJWARREN30"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.025348182019244166,
+    "spread": 0.05,
+    "depth_dollars": 60.800000000000004,
+    "quote_age_s": 5e-06,
+    "rules": "If Jaylen Warren records 90+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 80c for NO; the market's own implied chance (mid) is 77.5%",
+     "last 6 games: reached 90+ rushing yards in 3 of them (average 73.0, last game 28); the price implies 22% tonight",
+     "PIT is priced 32% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 85.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 77c or less (now 80c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Jaylen Warren: 90+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-90], buy NO. Rule: If Jaylen Warren records 90+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.80, bid 0.75, spread 0.05, quote 0s old",
+     "3 book: 76 contracts offered within 2c of the ask (about $61); average fill 0.800",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 85.5%, standard error 2.3%",
+     "8 versus market: ours 85.5%, market mid 77.5%, ask 80.0%",
+     "9 costs: fee 1.12c a contract, spread 5c, slippage 0.0c; break-even chance 81.1%",
+     "10 uncertainty: cautious estimate 78.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.044 per contract at our estimate (+5.4% per $1); -0.025 at the cautious estimate",
+     "13 size: full Kelly 23.2%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 25c; buying both costs 105c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 77c or less (now 80c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 25c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-80",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Jaylen Warren: 80+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 68c or less (now 71c): positive at our estimate, not at the cautious one",
+   "p_est": 0.7649999999999999,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.6950000000000001,
+   "p_model": null,
+   "ask": 0.71,
+   "fee": 0.014163138888888892,
+   "ev": 0.03250352777777774,
+   "ev_low": -0.036644654241466255,
+   "ret": 0.044373630468375745,
+   "kelly": 0.12150691262950107,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.68,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV27DENPIT"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:PITJWARREN30"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.036644654241466255,
+    "spread": 0.03,
+    "depth_dollars": 36.21,
+    "quote_age_s": 6e-06,
+    "rules": "If Jaylen Warren records 80+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 71c for NO; the market's own implied chance (mid) is 69.5%",
+     "last 6 games: reached 80+ rushing yards in 3 of them (average 73.0, last game 28); the price implies 30% tonight",
+     "PIT is priced 32% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 76.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 68c or less (now 71c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Jaylen Warren: 80+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-80], buy NO. Rule: If Jaylen Warren records 80+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.71, bid 0.68, spread 0.03, quote 0s old",
+     "3 book: 51 contracts offered within 2c of the ask (about $36); average fill 0.718",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 76.5%, standard error 2.3%",
+     "8 versus market: ours 76.5%, market mid 69.5%, ask 71.0%",
+     "9 costs: fee 1.42c a contract, spread 3c, slippage 0.8c; break-even chance 73.2%",
+     "10 uncertainty: cautious estimate 69.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.033 per contract at our estimate (+4.4% per $1); -0.037 at the cautious estimate",
+     "13 size: full Kelly 12.2%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 32c; buying both costs 103c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 68c or less (now 71c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 32c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-70",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Jaylen Warren: 70+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 56c or less (now 59c): positive at our estimate, not at the cautious one",
+   "p_est": 0.645,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.575,
+   "p_model": null,
+   "ask": 0.59,
+   "fee": 0.016933000000000004,
+   "ev": 0.038067000000000045,
+   "ev_low": -0.031081182019243925,
+   "ret": 0.06272026731121895,
+   "kelly": 0.09684608476417532,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.56,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV27DENPIT"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:PITJWARREN30"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.031081182019243925,
+    "spread": 0.03,
+    "depth_dollars": 184.67,
+    "quote_age_s": 6e-06,
+    "rules": "If Jaylen Warren records 70+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 59c for NO; the market's own implied chance (mid) is 57.5%",
+     "last 6 games: reached 70+ rushing yards in 3 of them (average 73.0, last game 28); the price implies 43% tonight",
+     "PIT is priced 32% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 64.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 56c or less (now 59c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Jaylen Warren: 70+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-70], buy NO. Rule: If Jaylen Warren records 70+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.59, bid 0.56, spread 0.03, quote 0s old",
+     "3 book: 313 contracts offered within 2c of the ask (about $185); average fill 0.590",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 64.5%, standard error 2.3%",
+     "8 versus market: ours 64.5%, market mid 57.5%, ask 59.0%",
+     "9 costs: fee 1.69c a contract, spread 3c, slippage 0.0c; break-even chance 60.7%",
+     "10 uncertainty: cautious estimate 57.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.038 per contract at our estimate (+6.3% per $1); -0.031 at the cautious estimate",
+     "13 size: full Kelly 9.7%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 44c; buying both costs 103c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 56c or less (now 59c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 44c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-60",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Jaylen Warren: 60+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 44c or less (now 47c): positive at our estimate, not at the cautious one",
+   "p_est": 0.5249999999999999,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.45499999999999996,
+   "p_model": null,
+   "ask": 0.47,
+   "fee": 0.017437,
+   "ev": 0.03756299999999994,
+   "ev_low": -0.03158518201924403,
+   "ret": 0.07706226650828711,
+   "kelly": 0.07328464988694076,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.44,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV27DENPIT"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:PITJWARREN30"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.03158518201924403,
+    "spread": 0.03,
+    "depth_dollars": 7.989999999999999,
+    "quote_age_s": 6e-06,
+    "rules": "If Jaylen Warren records 60+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 47c for NO; the market's own implied chance (mid) is 45.5%",
+     "last 6 games: reached 60+ rushing yards in 3 of them (average 73.0, last game 28); the price implies 55% tonight",
+     "PIT is priced 32% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 52.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 44c or less (now 47c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Jaylen Warren: 60+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-60], buy NO. Rule: If Jaylen Warren records 60+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.47, bid 0.44, spread 0.03, quote 0s old",
+     "3 book: 17 contracts offered within 2c of the ask (about $8); average fill 0.470",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 52.5%, standard error 2.3%",
+     "8 versus market: ours 52.5%, market mid 45.5%, ask 47.0%",
+     "9 costs: fee 1.74c a contract, spread 3c, slippage 0.0c; break-even chance 48.7%",
+     "10 uncertainty: cautious estimate 45.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.038 per contract at our estimate (+7.7% per $1); -0.032 at the cautious estimate",
+     "13 size: full Kelly 7.3%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 56c; buying both costs 103c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 44c or less (now 47c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 56c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-50",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Jaylen Warren: 50+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 33c or less (now 36c): positive at our estimate, not at the cautious one",
+   "p_est": 0.415,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.35,
+   "p_model": null,
+   "ask": 0.36,
+   "fee": 0.016128,
+   "ev": 0.03887200000000002,
+   "ev_low": -0.030276182019244032,
+   "ret": 0.10334779649481034,
+   "kelly": 0.062307652851867054,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.33,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV27DENPIT"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:PITJWARREN30"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.030276182019244032,
+    "spread": 0.02,
+    "depth_dollars": 207.35999999999999,
+    "quote_age_s": 4e-06,
+    "rules": "If Jaylen Warren records 50+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 36c for NO; the market's own implied chance (mid) is 35.0%",
+     "last 6 games: reached 50+ rushing yards in 4 of them (average 73.0, last game 28); the price implies 65% tonight",
+     "PIT is priced 32% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 41.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 33c or less (now 36c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Jaylen Warren: 50+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-50], buy NO. Rule: If Jaylen Warren records 50+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.36, bid 0.34, spread 0.02, quote 0s old",
+     "3 book: 576 contracts offered within 2c of the ask (about $207); average fill 0.360",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 41.5%, standard error 2.3%",
+     "8 versus market: ours 41.5%, market mid 35.0%, ask 36.0%",
+     "9 costs: fee 1.61c a contract, spread 2c, slippage 0.0c; break-even chance 37.6%",
+     "10 uncertainty: cautious estimate 34.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.039 per contract at our estimate (+10.3% per $1); -0.030 at the cautious estimate",
+     "13 size: full Kelly 6.2%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 66c; buying both costs 102c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 33c or less (now 36c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 66c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-40",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV27DENPIT",
+   "title": "Jaylen Warren: 40+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 20c or less (now 23c): positive at our estimate, not at the cautious one",
+   "p_est": 0.28500000000000003,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.21499999999999997,
+   "p_model": null,
+   "ask": 0.23,
+   "fee": 0.012509770000000002,
+   "ev": 0.03949023000000004,
+   "ev_low": -0.029657952019243983,
+   "ret": 0.16084993277456958,
+   "kelly": 0.052340280138551354,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.2,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV27DENPIT"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:PITJWARREN30"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.029657952019243983,
+    "spread": 0.03,
+    "depth_dollars": 14.72,
+    "quote_age_s": 4e-06,
+    "rules": "If Jaylen Warren records 40+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 23c for NO; the market's own implied chance (mid) is 21.5%",
+     "last 6 games: reached 40+ rushing yards in 4 of them (average 73.0, last game 28); the price implies 78% tonight",
+     "PIT is priced 32% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 28.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 20c or less (now 23c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Jaylen Warren: 40+ rushing yards [KXNFLRSHYDS-26NOV27DENPIT-PITJWARREN30-40], buy NO. Rule: If Jaylen Warren records 40+ rushing yards in the Denver vs Pittsburgh professional football game originally scheduled for Nov 27, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.23, bid 0.20, spread 0.03, quote 0s old",
+     "3 book: 64 contracts offered within 2c of the ask (about $15); average fill 0.233",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 28.5%, standard error 2.3%",
+     "8 versus market: ours 28.5%, market mid 21.5%, ask 23.0%",
+     "9 costs: fee 1.25c a contract, spread 3c, slippage 0.3c; break-even chance 24.6%",
+     "10 uncertainty: cautious estimate 21.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.039 per contract at our estimate (+16.1% per $1); -0.030 at the cautious estimate",
+     "13 size: full Kelly 5.2%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 80c; buying both costs 103c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 20c or less (now 23c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 80c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-30",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Patrick Mahomes: 30+ rushing yards",
+   "tier": "core",
+   "decision": "WAIT",
+   "reason": "worth buying only at 83c or less (now 85c): positive at our estimate, not at the cautious one",
+   "p_est": 0.905,
+   "p_se": 0.02304939400641467,
+   "p_market": 0.845,
+   "p_model": null,
+   "ask": 0.85,
+   "fee": 0.008925000000000002,
+   "ev": 0.04607500000000006,
+   "ev_low": -0.02307318201924395,
+   "ret": 0.0536426346887098,
+   "kelly": 0.3265993265993271,
+   "stake": 0.0,
+   "contracts": 0,
+   "wait_price": 0.83,
+   "source": "category: rushing unders on 3+ point underdogs",
+   "vetoes": [],
+   "proposal": {
+    "stake": 0.0,
+    "tier": "core",
+    "kind": "single",
+    "games": [
+     "NFL:26NOV26KCBUF"
+    ],
+    "teams": [],
+    "players": [
+     "NFL:KCPMAHOMES15"
+    ],
+    "sport": "NFL",
+    "ev_low": -0.02307318201924395,
+    "spread": 0.01,
+    "depth_dollars": 2912.1,
+    "quote_age_s": 6e-06,
+    "rules": "If Patrick Mahomes records 30+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+   },
+   "max_loss": 0.0,
+   "pays": 0.0,
+   "thesis": {
+    "facts": [
+     "Kalshi asks 85c for NO; the market's own implied chance (mid) is 84.5%",
+     "last 6 games: reached 30+ rushing yards in 0 of them (average 9.8, last game 0); the price implies 16% tonight",
+     "KC is priced 40% to win (underdog)"
+    ],
+    "model_outputs": [
+     "our probability 90.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+    ],
+    "assumptions": [
+     "the standard error covers model error as well as sampling error",
+     "the quote can still be had at the size shown"
+    ],
+    "judgments": [
+     "worth buying only at 83c or less (now 85c): positive at our estimate, not at the cautious one"
+    ],
+    "supporting": [
+     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
+    ],
+    "contradicting": [],
+    "availability": [
+     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
+    ],
+    "failure_scenarios": [
+     "a late scratch or minutes limit",
+     "the game script departs from the usual (blowout, overtime)",
+     "the measured edge was a product of looking at many rules"
+    ],
+    "steps": [
+     "1 market: Patrick Mahomes: 30+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-30], buy NO. Rule: If Patrick Mahomes records 30+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.85, bid 0.84, spread 0.01, quote 0s old",
+     "3 book: 3426 contracts offered within 2c of the ask (about $2,912); average fill 0.850",
+     "4 sports data: no model output for this market",
+     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
+     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
+     "7 our probability: 90.5%, standard error 2.3%",
+     "8 versus market: ours 90.5%, market mid 84.5%, ask 85.0%",
+     "9 costs: fee 0.89c a contract, spread 1c, slippage 0.0c; break-even chance 85.9%",
+     "10 uncertainty: cautious estimate 83.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.046 per contract at our estimate (+5.4% per $1); -0.023 at the cautious estimate",
+     "13 size: full Kelly 32.7%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 16c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 83c or less (now 85c): positive at our estimate, not at the cautious one",
+     "16 recorded with this evidence and model version"
+    ],
+    "hedge": "other side at 16c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
+   }
+  },
+  {
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-25",
+   "side": "no",
+   "sport": "NFL",
+   "kind": "prop",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Patrick Mahomes: 25+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
    "reason": "worth buying only at 75c or less (now 78c): positive at our estimate, not at the cautious one",
@@ -1060,26 +2766,26 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV26KCBUF"
     ],
     "teams": [],
     "players": [
-     "NFL:PHIJMILTON10"
+     "NFL:KCPMAHOMES15"
     ],
     "sport": "NFL",
     "ev_low": -0.026160182019243954,
     "spread": 0.01,
-    "depth_dollars": 528.0600000000001,
-    "quote_age_s": 5e-06,
-    "rules": "If Joe Milton III records 50+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "depth_dollars": 978.12,
+    "quote_age_s": 6e-06,
+    "rules": "If Patrick Mahomes records 25+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
      "Kalshi asks 78c for NO; the market's own implied chance (mid) is 77.5%",
-     "last 6 games: reached 50+ rushing yards in 1 of them (average 20.2, last game 7); the price implies 22% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "last 6 games: reached 25+ rushing yards in 0 of them (average 9.8, last game 0); the price implies 22% tonight",
+     "KC is priced 40% to win (underdog)"
     ],
     "model_outputs": [
      "our probability 83.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
@@ -1104,9 +2810,9 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Joe Milton III: 50+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHIJMILTON10-50], buy NO. Rule: If Joe Milton III records 50+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "1 market: Patrick Mahomes: 25+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-25], buy NO. Rule: If Patrick Mahomes records 25+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
      "2 price: ask 0.78, bid 0.77, spread 0.01, quote 0s old",
-     "3 book: 677 contracts offered within 2c of the ask (about $528); average fill 0.780",
+     "3 book: 1254 contracts offered within 2c of the ask (about $978); average fill 0.780",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
@@ -1114,7 +2820,7 @@
      "8 versus market: ours 83.5%, market mid 77.5%, ask 78.0%",
      "9 costs: fee 1.20c a contract, spread 1c, slippage 0.0c; break-even chance 79.2%",
      "10 uncertainty: cautious estimate 76.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
      "12 expected value: +0.043 per contract at our estimate (+5.4% per $1); -0.026 at the cautious estimate",
      "13 size: full Kelly 20.7%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
      "14 hedge: the other side costs 23c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
@@ -1122,32 +2828,32 @@
      "16 recorded with this evidence and model version"
     ],
     "hedge": "other side at 23c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHIJMILTON10-40",
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-20",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Joe Milton III: 40+ rushing yards",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Patrick Mahomes: 20+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
-   "reason": "worth buying only at 61c or less (now 64c): positive at our estimate, not at the cautious one",
-   "p_est": 0.6950000000000001,
+   "reason": "worth buying only at 66c or less (now 69c): positive at our estimate, not at the cautious one",
+   "p_est": 0.7449999999999999,
    "p_se": 0.02304939400641467,
-   "p_market": 0.635,
+   "p_market": 0.685,
    "p_model": null,
-   "ask": 0.64,
-   "fee": 0.016128000000000003,
-   "ev": 0.03887200000000007,
-   "ev_low": -0.030276182019243952,
-   "ret": 0.05924453765119012,
-   "kelly": 0.11304206216266523,
+   "ask": 0.69,
+   "fee": 0.014973,
+   "ev": 0.04002699999999983,
+   "ev_low": -0.02912118201924417,
+   "ret": 0.0567780610037545,
+   "kelly": 0.1356723282953758,
    "stake": 0.0,
    "contracts": 0,
-   "wait_price": 0.61,
+   "wait_price": 0.66,
    "source": "category: rushing unders on 3+ point underdogs",
    "vetoes": [],
    "proposal": {
@@ -1155,36 +2861,36 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV26KCBUF"
     ],
     "teams": [],
     "players": [
-     "NFL:PHIJMILTON10"
+     "NFL:KCPMAHOMES15"
     ],
     "sport": "NFL",
-    "ev_low": -0.030276182019243952,
+    "ev_low": -0.02912118201924417,
     "spread": 0.01,
-    "depth_dollars": 160.0,
+    "depth_dollars": 5132.219999999999,
     "quote_age_s": 7e-06,
-    "rules": "If Joe Milton III records 40+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "rules": "If Patrick Mahomes records 20+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 64c for NO; the market's own implied chance (mid) is 63.5%",
-     "last 6 games: reached 40+ rushing yards in 2 of them (average 20.2, last game 7); the price implies 36% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 69c for NO; the market's own implied chance (mid) is 68.5%",
+     "last 6 games: reached 20+ rushing yards in 0 of them (average 9.8, last game 0); the price implies 31% tonight",
+     "KC is priced 40% to win (underdog)"
     ],
     "model_outputs": [
-     "our probability 69.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+     "our probability 74.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
     ],
     "assumptions": [
      "the standard error covers model error as well as sampling error",
      "the quote can still be had at the size shown"
     ],
     "judgments": [
-     "worth buying only at 61c or less (now 64c): positive at our estimate, not at the cautious one"
+     "worth buying only at 66c or less (now 69c): positive at our estimate, not at the cautious one"
     ],
     "supporting": [
      "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
@@ -1199,50 +2905,50 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Joe Milton III: 40+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHIJMILTON10-40], buy NO. Rule: If Joe Milton III records 40+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.64, bid 0.63, spread 0.01, quote 0s old",
-     "3 book: 250 contracts offered within 2c of the ask (about $160); average fill 0.640",
+     "1 market: Patrick Mahomes: 20+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-20], buy NO. Rule: If Patrick Mahomes records 20+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.69, bid 0.68, spread 0.01, quote 0s old",
+     "3 book: 7438 contracts offered within 2c of the ask (about $5,132); average fill 0.690",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 69.5%, standard error 2.3%",
-     "8 versus market: ours 69.5%, market mid 63.5%, ask 64.0%",
-     "9 costs: fee 1.61c a contract, spread 1c, slippage 0.0c; break-even chance 65.6%",
-     "10 uncertainty: cautious estimate 62.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.039 per contract at our estimate (+5.9% per $1); -0.030 at the cautious estimate",
-     "13 size: full Kelly 11.3%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 37c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 61c or less (now 64c): positive at our estimate, not at the cautious one",
+     "7 our probability: 74.5%, standard error 2.3%",
+     "8 versus market: ours 74.5%, market mid 68.5%, ask 69.0%",
+     "9 costs: fee 1.50c a contract, spread 1c, slippage 0.0c; break-even chance 70.5%",
+     "10 uncertainty: cautious estimate 67.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.040 per contract at our estimate (+5.7% per $1); -0.029 at the cautious estimate",
+     "13 size: full Kelly 13.6%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 32c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 66c or less (now 69c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
-    "hedge": "other side at 37c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "hedge": "other side at 32c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHIJMILTON10-30",
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-15",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Joe Milton III: 30+ rushing yards",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Patrick Mahomes: 15+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
-   "reason": "worth buying only at 42c or less (now 45c): positive at our estimate, not at the cautious one",
-   "p_est": 0.505,
+   "reason": "worth buying only at 54c or less (now 57c): positive at our estimate, not at the cautious one",
+   "p_est": 0.625,
    "p_se": 0.02304939400641467,
-   "p_market": 0.44499999999999995,
+   "p_market": 0.565,
    "p_model": null,
-   "ask": 0.45,
-   "fee": 0.017325000000000007,
-   "ev": 0.03767500000000004,
-   "ev_low": -0.031473182019243984,
-   "ret": 0.0806184133097952,
-   "kelly": 0.07072792978833249,
+   "ask": 0.57,
+   "fee": 0.017157000000000002,
+   "ev": 0.03784300000000004,
+   "ev_low": -0.03130518201924398,
+   "ret": 0.0644512455782696,
+   "kelly": 0.0916643857350132,
    "stake": 0.0,
    "contracts": 0,
-   "wait_price": 0.42,
+   "wait_price": 0.54,
    "source": "category: rushing unders on 3+ point underdogs",
    "vetoes": [],
    "proposal": {
@@ -1250,36 +2956,36 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV26KCBUF"
     ],
     "teams": [],
     "players": [
-     "NFL:PHIJMILTON10"
+     "NFL:KCPMAHOMES15"
     ],
     "sport": "NFL",
-    "ev_low": -0.031473182019243984,
+    "ev_low": -0.03130518201924398,
     "spread": 0.01,
-    "depth_dollars": 271.8,
-    "quote_age_s": 6e-06,
-    "rules": "If Joe Milton III records 30+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "depth_dollars": 169.85999999999999,
+    "quote_age_s": 1.5e-05,
+    "rules": "If Patrick Mahomes records 15+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 45c for NO; the market's own implied chance (mid) is 44.5%",
-     "last 6 games: reached 30+ rushing yards in 2 of them (average 20.2, last game 7); the price implies 56% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 57c for NO; the market's own implied chance (mid) is 56.5%",
+     "last 6 games: reached 15+ rushing yards in 2 of them (average 9.8, last game 0); the price implies 44% tonight",
+     "KC is priced 40% to win (underdog)"
     ],
     "model_outputs": [
-     "our probability 50.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+     "our probability 62.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
     ],
     "assumptions": [
      "the standard error covers model error as well as sampling error",
      "the quote can still be had at the size shown"
     ],
     "judgments": [
-     "worth buying only at 42c or less (now 45c): positive at our estimate, not at the cautious one"
+     "worth buying only at 54c or less (now 57c): positive at our estimate, not at the cautious one"
     ],
     "supporting": [
      "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
@@ -1294,50 +3000,50 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Joe Milton III: 30+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHIJMILTON10-30], buy NO. Rule: If Joe Milton III records 30+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.45, bid 0.44, spread 0.01, quote 0s old",
-     "3 book: 604 contracts offered within 2c of the ask (about $272); average fill 0.450",
+     "1 market: Patrick Mahomes: 15+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-15], buy NO. Rule: If Patrick Mahomes records 15+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.57, bid 0.56, spread 0.01, quote 0s old",
+     "3 book: 298 contracts offered within 2c of the ask (about $170); average fill 0.570",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 50.5%, standard error 2.3%",
-     "8 versus market: ours 50.5%, market mid 44.5%, ask 45.0%",
-     "9 costs: fee 1.73c a contract, spread 1c, slippage 0.0c; break-even chance 46.7%",
-     "10 uncertainty: cautious estimate 43.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.038 per contract at our estimate (+8.1% per $1); -0.031 at the cautious estimate",
-     "13 size: full Kelly 7.1%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 56c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 42c or less (now 45c): positive at our estimate, not at the cautious one",
+     "7 our probability: 62.5%, standard error 2.3%",
+     "8 versus market: ours 62.5%, market mid 56.5%, ask 57.0%",
+     "9 costs: fee 1.72c a contract, spread 1c, slippage 0.0c; break-even chance 58.7%",
+     "10 uncertainty: cautious estimate 55.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.038 per contract at our estimate (+6.4% per $1); -0.031 at the cautious estimate",
+     "13 size: full Kelly 9.2%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 44c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 54c or less (now 57c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
-    "hedge": "other side at 56c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "hedge": "other side at 44c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   },
   {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHIJMILTON10-25",
+   "ticker": "KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-10",
    "side": "no",
    "sport": "NFL",
    "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Joe Milton III: 25+ rushing yards",
+   "game_key": "NFL:26NOV26KCBUF",
+   "title": "Patrick Mahomes: 10+ rushing yards",
    "tier": "core",
    "decision": "WAIT",
-   "reason": "worth buying only at 34c or less (now 37c): positive at our estimate, not at the cautious one",
-   "p_est": 0.425,
+   "reason": "worth buying only at 38c or less (now 41c): positive at our estimate, not at the cautious one",
+   "p_est": 0.46499999999999997,
    "p_se": 0.02304939400641467,
-   "p_market": 0.365,
+   "p_market": 0.405,
    "p_model": null,
-   "ask": 0.37,
-   "fee": 0.016317,
-   "ev": 0.038683000000000106,
-   "ev_low": -0.03046518201924395,
-   "ret": 0.10013279249942433,
-   "kelly": 0.06303417236586317,
+   "ask": 0.41,
+   "fee": 0.016933000000000004,
+   "ev": 0.038067000000000045,
+   "ev_low": -0.03108118201924398,
+   "ret": 0.08916387348834605,
+   "kelly": 0.06642678779270132,
    "stake": 0.0,
    "contracts": 0,
-   "wait_price": 0.34,
+   "wait_price": 0.38,
    "source": "category: rushing unders on 3+ point underdogs",
    "vetoes": [],
    "proposal": {
@@ -1345,36 +3051,36 @@
     "tier": "core",
     "kind": "single",
     "games": [
-     "NFL:26NOV26PHIDAL"
+     "NFL:26NOV26KCBUF"
     ],
     "teams": [],
     "players": [
-     "NFL:PHIJMILTON10"
+     "NFL:KCPMAHOMES15"
     ],
     "sport": "NFL",
-    "ev_low": -0.03046518201924395,
+    "ev_low": -0.03108118201924398,
     "spread": 0.01,
-    "depth_dollars": 92.5,
+    "depth_dollars": 33.5995,
     "quote_age_s": 7e-06,
-    "rules": "If Joe Milton III records 25+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
+    "rules": "If Patrick Mahomes records 10+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
    },
    "max_loss": 0.0,
    "pays": 0.0,
    "thesis": {
     "facts": [
-     "Kalshi asks 37c for NO; the market's own implied chance (mid) is 36.5%",
-     "last 6 games: reached 25+ rushing yards in 2 of them (average 20.2, last game 7); the price implies 64% tonight",
-     "PHI is priced 20% to win (underdog)"
+     "Kalshi asks 41c for NO; the market's own implied chance (mid) is 40.5%",
+     "last 6 games: reached 10+ rushing yards in 3 of them (average 9.8, last game 0); the price implies 60% tonight",
+     "KC is priced 40% to win (underdog)"
     ],
     "model_outputs": [
-     "our probability 42.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
+     "our probability 46.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
     ],
     "assumptions": [
      "the standard error covers model error as well as sampling error",
      "the quote can still be had at the size shown"
     ],
     "judgments": [
-     "worth buying only at 34c or less (now 37c): positive at our estimate, not at the cautious one"
+     "worth buying only at 38c or less (now 41c): positive at our estimate, not at the cautious one"
     ],
     "supporting": [
      "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
@@ -1389,120 +3095,25 @@
      "the measured edge was a product of looking at many rules"
     ],
     "steps": [
-     "1 market: Joe Milton III: 25+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHIJMILTON10-25], buy NO. Rule: If Joe Milton III records 25+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.37, bid 0.36, spread 0.01, quote 0s old",
-     "3 book: 250 contracts offered within 2c of the ask (about $92); average fill 0.370",
+     "1 market: Patrick Mahomes: 10+ rushing yards [KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-10], buy NO. Rule: If Patrick Mahomes records 10+ rushing yards in the Kansas City vs Buffalo professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
+     "2 price: ask 0.41, bid 0.40, spread 0.01, quote 0s old",
+     "3 book: 82 contracts offered within 2c of the ask (about $34); average fill 0.410",
      "4 sports data: no model output for this market",
      "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
      "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 42.5%, standard error 2.3%",
-     "8 versus market: ours 42.5%, market mid 36.5%, ask 37.0%",
-     "9 costs: fee 1.63c a contract, spread 1c, slippage 0.0c; break-even chance 38.6%",
-     "10 uncertainty: cautious estimate 35.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.039 per contract at our estimate (+10.0% per $1); -0.030 at the cautious estimate",
-     "13 size: full Kelly 6.3%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 64c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 34c or less (now 37c): positive at our estimate, not at the cautious one",
+     "7 our probability: 46.5%, standard error 2.3%",
+     "8 versus market: ours 46.5%, market mid 40.5%, ask 41.0%",
+     "9 costs: fee 1.69c a contract, spread 1c, slippage 0.0c; break-even chance 42.7%",
+     "10 uncertainty: cautious estimate 39.6% (3 standard errors below)",
+     "11 portfolio: $0.00 already on this game, $0.00 on this team, $5.00 open in total",
+     "12 expected value: +0.038 per contract at our estimate (+8.9% per $1); -0.031 at the cautious estimate",
+     "13 size: full Kelly 6.6%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
+     "14 hedge: the other side costs 60c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
+     "15 decision: WAIT. worth buying only at 38c or less (now 41c): positive at our estimate, not at the cautious one",
      "16 recorded with this evidence and model version"
     ],
-    "hedge": "other side at 64c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
-   }
-  },
-  {
-   "ticker": "KXNFLRSHYDS-26NOV26PHIDAL-PHIJMILTON10-20",
-   "side": "no",
-   "sport": "NFL",
-   "kind": "prop",
-   "game_key": "NFL:26NOV26PHIDAL",
-   "title": "Joe Milton III: 20+ rushing yards",
-   "tier": "core",
-   "decision": "WAIT",
-   "reason": "worth buying only at 25c or less (now 28c): positive at our estimate, not at the cautious one",
-   "p_est": 0.335,
-   "p_se": 0.02304939400641467,
-   "p_market": 0.275,
-   "p_model": null,
-   "ask": 0.28,
-   "fee": 0.014112000000000001,
-   "ev": 0.040887999999999966,
-   "ev_low": -0.028260182019243976,
-   "ret": 0.13902186921988888,
-   "kelly": 0.05792420327304044,
-   "stake": 0.0,
-   "contracts": 0,
-   "wait_price": 0.25,
-   "source": "category: rushing unders on 3+ point underdogs",
-   "vetoes": [],
-   "proposal": {
-    "stake": 0.0,
-    "tier": "core",
-    "kind": "single",
-    "games": [
-     "NFL:26NOV26PHIDAL"
-    ],
-    "teams": [],
-    "players": [
-     "NFL:PHIJMILTON10"
-    ],
-    "sport": "NFL",
-    "ev_low": -0.028260182019243976,
-    "spread": 0.01,
-    "depth_dollars": 70.0,
-    "quote_age_s": 5e-06,
-    "rules": "If Joe Milton III records 20+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes."
-   },
-   "max_loss": 0.0,
-   "pays": 0.0,
-   "thesis": {
-    "facts": [
-     "Kalshi asks 28c for NO; the market's own implied chance (mid) is 27.5%",
-     "last 6 games: reached 20+ rushing yards in 2 of them (average 20.2, last game 7); the price implies 72% tonight",
-     "PHI is priced 20% to win (underdog)"
-    ],
-    "model_outputs": [
-     "our probability 33.5% +/- 2.3% (Kalshi's price (player props: every projection model tested here lost to the price; FINDINGS 2, 17, 19, 21))"
-    ],
-    "assumptions": [
-     "the standard error covers model error as well as sampling error",
-     "the quote can still be had at the size shown"
-    ],
-    "judgments": [
-     "worth buying only at 25c or less (now 28c): positive at our estimate, not at the cautious one"
-    ],
-    "supporting": [
-     "PREFER: rushing unders on 3+ point underdogs returned +2.4% last season and +9.3% this season after fees (all NFL unders: -1.9%)"
-    ],
-    "contradicting": [],
-    "availability": [
-     "NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet."
-    ],
-    "failure_scenarios": [
-     "a late scratch or minutes limit",
-     "the game script departs from the usual (blowout, overtime)",
-     "the measured edge was a product of looking at many rules"
-    ],
-    "steps": [
-     "1 market: Joe Milton III: 20+ rushing yards [KXNFLRSHYDS-26NOV26PHIDAL-PHIJMILTON10-20], buy NO. Rule: If Joe Milton III records 20+ rushing yards in the Philadelphia vs Dallas professional football game originally scheduled for Nov 26, 2026, then the market resolves to Yes.",
-     "2 price: ask 0.28, bid 0.27, spread 0.01, quote 0s old",
-     "3 book: 250 contracts offered within 2c of the ask (about $70); average fill 0.280",
-     "4 sports data: no model output for this market",
-     "5 availability: NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.",
-     "6 evidence: 1 supporting, 0 contradicting, 3 facts",
-     "7 our probability: 33.5%, standard error 2.3%",
-     "8 versus market: ours 33.5%, market mid 27.5%, ask 28.0%",
-     "9 costs: fee 1.41c a contract, spread 1c, slippage 0.0c; break-even chance 29.4%",
-     "10 uncertainty: cautious estimate 26.6% (3 standard errors below)",
-     "11 portfolio: $1.00 already on this game, $0.00 on this team, $6.00 open in total",
-     "12 expected value: +0.041 per contract at our estimate (+13.9% per $1); -0.028 at the cautious estimate",
-     "13 size: full Kelly 5.8%; 0.25 x Kelly on the cautious estimate, capped at 5%, risk scale 1 -> 0.00% of bankroll = $0.00 (0 contracts)",
-     "14 hedge: the other side costs 73c; buying both costs 101c plus two fees for a certain $1, so a hedge only makes sense after the price has moved in our favour",
-     "15 decision: WAIT. worth buying only at 25c or less (now 28c): positive at our estimate, not at the cautious one",
-     "16 recorded with this evidence and model version"
-    ],
-    "hedge": "other side at 73c",
-    "correlated": "$1.00 on this game, $0.00 on this team"
+    "hedge": "other side at 60c",
+    "correlated": "$0.00 on this game, $0.00 on this team"
    }
   }
  ],
@@ -1513,38 +3124,38 @@
   "diversified": "NO DIVERSIFIED CARD: this week's allowance is spent or the tier's pot is empty",
   "degen": "NO DEGEN CARD: this week's allowance is spent or the tier's pot is empty"
  },
- "pool": 6430,
- "pool_games": 116,
+ "pool": 5298,
+ "pool_games": 115,
  "sim": null,
  "errors": [],
  "disagreements": [
   {
    "title": "Tennessee Tech wins",
    "sport": "NCAAF",
-   "market": 0.915,
+   "market": 0.925,
    "model": 0.585,
-   "gap": -0.33
+   "gap": -0.34
   },
   {
    "title": "Dayton wins",
    "sport": "NCAAF",
-   "market": 0.085,
+   "market": 0.075,
    "model": 0.415,
-   "gap": 0.33
-  },
-  {
-   "title": "UCLA wins",
-   "sport": "NCAAF",
-   "market": 0.305,
-   "model": 0.57,
-   "gap": 0.265
+   "gap": 0.34
   },
   {
    "title": "New York J wins",
    "sport": "NFL",
-   "market": 0.665,
+   "market": 0.685,
    "model": 0.405,
-   "gap": -0.26
+   "gap": -0.28
+  },
+  {
+   "title": "Miami wins",
+   "sport": "NFL",
+   "market": 0.315,
+   "model": 0.595,
+   "gap": 0.28
   },
   {
    "title": "USC wins",
@@ -1554,10 +3165,10 @@
    "gap": -0.255
   },
   {
-   "title": "Miami wins",
-   "sport": "NFL",
-   "market": 0.345,
-   "model": 0.595,
+   "title": "UCLA wins",
+   "sport": "NCAAF",
+   "market": 0.32,
+   "model": 0.57,
    "gap": 0.25
   },
   {
