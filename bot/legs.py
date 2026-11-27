@@ -249,7 +249,40 @@ def nba_features(c: pd.DataFrame, ctx: dict) -> pd.DataFrame:
         rows.append((rest, g.minutes.tail(3).mean(), g.minutes.tail(10).mean(), float(rest == 1), 0.0))
     for i, col in enumerate(("days_rest", "min_l3", "min_l10", "b2b", "form_gap")):
         out[col] = [x[i] for x in rows]
+    out["inj_lines"] = nba_injury_lines(c, ctx)
     return out
+
+
+def nba_injury_lines(c: pd.DataFrame, ctx: dict, rotation_min: float = 24.0) -> list[list[str]]:
+    """For each NBA leg: the player's own line from tonight's injury report, and rotation teammates who are out.
+    Facts for the thesis and for availability checks; they move no estimate (no history to test them on yet)."""
+    from . import nba_injuries as NI
+    from .data import KALSHI_TO_LOG_TEAM, norm_name
+    rep = NI.fetch()
+    if rep.attrs.get("error") or rep.empty:
+        return [[] for _ in range(len(c))]
+    by = rep.set_index("key")
+    team_of, mins = {}, {}                                      # each listed player's team and recent minutes, from the game log
+    for (name, team), g in ctx["last"].items():
+        if name in by.index and len(g):
+            if name not in team_of or g.game_date.max() > team_of[name][1]:
+                team_of[name], mins[name] = (team, g.game_date.max()), float(g.minutes.tail(10).mean())
+    out_by_team = {}
+    recent = pd.Timestamp.now().normalize() - pd.Timedelta(days=21)        # a long absence is old news and already in the price
+    for name, (team, last) in team_of.items():
+        if by.loc[name].tag in ("out", "doubtful") and mins.get(name, 0) >= rotation_min and pd.Timestamp(last) >= recent:
+            out_by_team.setdefault(team, []).append((mins[name], by.loc[name].player, by.loc[name].tag))
+    lines = []
+    for r in c.itertuples():
+        name = norm_name(r.title.split(":")[0])
+        seg = r.ticker.split("-")[2]
+        team = KALSHI_TO_LOG_TEAM.get(seg[:3], seg[:3])
+        L = [NI.status_line(by.loc[name])] if name in by.index else ["injury report: not listed (expected to play)"]
+        mates = sorted((m for m in out_by_team.get(team, []) if norm_name(m[1]) != name), reverse=True)[:3]
+        if mates:
+            L.append("injury report: teammates out who played in the last 3 weeks: " + ", ".join(f"{n} ({mn:.0f} min a game, {t})" for mn, n, t in mates))
+        lines.append(L)
+    return lines
 
 
 def classify(feat: pd.DataFrame, sport: str) -> pd.DataFrame:
@@ -296,7 +329,7 @@ def nfl_why(r) -> list[str]:
     if getattr(r, "inj_checked", False):
         st = getattr(r, "status", None)
         if isinstance(st, str):
-            lines.append(f"injury report: {st} ({r.injury})")
+            lines.append(f"injury report: listed {st.upper()} ({str(r.injury).lower()})")
         elif getattr(r, "inj_posted", False):
             lines.append("injury report: his team's game statuses are posted and he has none (expected to play)")
         else:

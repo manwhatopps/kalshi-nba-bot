@@ -783,6 +783,24 @@ ask comes down to here", not "leave a bid here and expect the same edge".
 their current prices, the chance it still cashes and what it is worth. A combo cannot be sold back, so when one
 leg is left it prints the hedge three ways (break-even, Kelly, full lock) and what each gives up in expected value.
 
+## 26. NBA injury report connected (`python -m bot injuries`, 2026-11-27)
+
+NBA props were judged with "tonight's injury report: NOT VERIFIED". The report is now read on every run (ESPN's
+public feed, about 100 listed players a night) and turned into one tag per player: out, doubtful, questionable,
+probable, day-to-day. What it does:
+
+* Every NBA prop's reasoning states the player's status ("listed QUESTIONABLE (right foot strain), updated
+  Nov 26 7:08pm ET") or that he is not listed, and names rotation teammates (24+ minutes a game) who went out in
+  the last three weeks.
+* It is a gate: a prop on a player listed out or doubtful is NO BET; questionable is WAIT until his status is
+  final; none of the three can be a card leg. First night: 55 of 1,363 candidate legs (7 players) were held back.
+* It moves no estimate. There is no history of the report on file, so "questionable" or "a starter is out" cannot
+  be tested against Kalshi's price yet. Each night's tags are saved to `data/nba_injury_flags.parquet`; when a few
+  hundred settled props carry a tag they become leg categories in `bot/legs.py` and face the same test as the rest.
+
+Still not verified: the final status and starting lineup in the hour before tip-off, and minutes limits, which is
+the obvious risk for the one NBA category on the watch list (unders on a player's first game back after 7+ days).
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is

@@ -32,6 +32,7 @@ pkill -f "bot watch" 2>/dev/null   # no live watcher: every bet is placed before
   sec "THE FUND: tonight's allocation and what to expect" 90 python -m bot fund
   sec "SCENARIOS: player type vs defensive style, real and priced" 100 python -m bot scenarios
   sec "LEG CATEGORIES: what was knowable before the game, graded on real costs" 45 python -m bot legs
+  sec "NBA INJURY REPORT: who is out, doubtful or questionable tonight" 60 python -m bot injuries
   sec "QUANTSPORT: settle paper positions" 6 python -m quantsport settle
   sec "QUANTSPORT: daily investment analysis, four tiers (paper)" 120 python -m quantsport daily --mode paper
   sec "QUANTSPORT: open positions and hedges" 40 python -m quantsport positions

@@ -342,3 +342,39 @@ def test_resting_order_counts_a_fill_only_when_the_price_trades_through_the_bid(
     assert s["per_order"] == pytest.approx((1 - 0.48) / 4)
     cost = 0.5 + 0.07 * 0.25
     assert s["taker"] == pytest.approx((3 - 4 * cost) / (4 * cost))
+
+
+def test_nba_injury_tags_follow_the_reports_own_wording():
+    from bot import nba_injuries as NI
+    assert NI.tag_of("Out", "GTD", "Nurkic (foot) is questionable for Friday's game against the Nuggets.") == "questionable"
+    assert NI.tag_of("Out", "OUT", "Landale (hip) is out for Friday's game against the Celtics.") == "out"
+    assert NI.tag_of("Day-To-Day", "GTD", "Anunoby (calf) is doubtful for Friday.") == "doubtful"
+    assert NI.tag_of("Day-To-Day", "GTD", "Embiid is dealing with an illness.") == "day-to-day"
+    raw = {"injuries": [{"displayName": "Utah Jazz", "injuries": [
+        {"athlete": {"displayName": "Jusuf Nurkić"}, "status": "Out", "date": "2026-11-27T00:08Z", "shortComment": "Nurkic (foot) is questionable for Friday.",
+         "details": {"fantasyStatus": {"abbreviation": "GTD"}, "type": "Foot", "detail": "Strain", "side": "Right"}}]}]}
+    d = NI.parse(raw)
+    assert d.key[0] == "jusuf nurkic" and d.tag[0] == "questionable" and d.injury[0] == "right foot strain"      # accents never break the match
+    line = NI.status_line(d.iloc[0])
+    assert line.startswith("injury report: listed QUESTIONABLE (right foot strain)")
+    assert NI.blocks([line]) == "questionable" and NI.blocks(["injury report: listed PROBABLE (thumb), updated x"]) == ""
+    assert NI.blocks(["injury report: not listed (expected to play)", "injury report: teammates out who played in the last 3 weeks: A (30 min a game, out)"]) == ""
+    assert NI.blocks(["injury report: listed OUT (knee)"]) == "out"                                                 # the NFL line reads the same way
+
+
+def test_a_listed_player_is_never_accepted_and_never_on_a_card():
+    con = store.connect(":memory:")
+    c = cfg()
+    st = risk.state(con, c)
+    base = dict(ticker="KXNBAPTS-26NOV27UTADEN-UTAJNURKIC30-15", event_ticker="KXNBAPTS-26NOV27UTADEN", side="no", title="Jusuf Nurkić: 15+ points", sport="NBA", kind="prop",
+                game_key="NBA:26NOV27UTADEN", team_code="UTA", player="Jusuf Nurkić", ask=0.50, bid=0.48, mid=0.49, spread=0.02, ask_size=500, p_est=0.75, p_se=0.01,
+                p_model=float("nan"), source="category: x", rules="settles on the box score", scanned=datetime.now(timezone.utc), start=datetime.now(timezone.utc) + timedelta(hours=3))
+    ok = chain.decide(base | dict(why=["injury report: not listed (expected to play)"]), c, st, risk.Registry(con))
+    q = chain.decide(base | dict(why=["injury report: listed QUESTIONABLE (right foot strain), updated Nov 26 7:08pm ET"]), c, st, risk.Registry(con))
+    out = chain.decide(base | dict(why=["injury report: listed OUT (knee), updated Nov 26 7:08pm ET"]), c, st, risk.Registry(con))
+    assert ok["decision"] == "ACCEPT" and q["decision"] == "WAIT" and out["decision"] == "NO BET"
+    assert "questionable" in q["reason"] and "listed out" in out["reason"]
+    e = pd.DataFrame([dict(base, why=w, ret=-0.01, pref=0.0, ask=0.6) for w in (["injury report: not listed (expected to play)"], ["injury report: listed QUESTIONABLE (foot)"],
+                                                                         ["injury report: listed DOUBTFUL (calf)"])])
+    pool = tiers.leg_pool(e, c, {})
+    assert len(pool) == 1 and pool.iloc[0].why == ["injury report: not listed (expected to play)"]

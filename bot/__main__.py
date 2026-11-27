@@ -169,6 +169,7 @@ def main():
     hg.add_argument("--bankroll", type=float, default=None, help="money outside this ticket (default: bankroll in data/fund.json)")
     hg.add_argument("--price", type=float, default=0.5, help="without a link: price of the other side, e.g. 0.42")
     hg.add_argument("--chance", type=float, default=None, help="without a link: fair chance the leg hits (default 1 - price)")
+    sub.add_parser("injuries", help="tonight's NBA injury report (ESPN), as the prop logic reads it")
     rs = sub.add_parser("resting", help="resting orders on props: bid under the ask and wait; fill rate and return of the filled ones")
     rs.add_argument("--rebuild", action="store_true", help="re-read the raw fill files")
     ab = sub.add_parser("arb", help="arbitrage and middles inside Kalshi's own markets (two-sided games, player ladders)")
@@ -289,6 +290,9 @@ def main():
     elif cmd == "hedge":
         from .hedge import run
         run(args)
+    elif cmd == "injuries":
+        from .nba_injuries import run
+        run()
     elif cmd == "resting":
         from .resting import run
         run(["--rebuild"] if args.rebuild else [])

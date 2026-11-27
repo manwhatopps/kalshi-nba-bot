@@ -44,9 +44,11 @@ def availability(c) -> list[str]:
             notes.append(f"first game back after about {int(c['weeks_out'])} weeks out (from the game log)")
         inj = [w for w in (c.get("why") or []) if str(w).startswith("injury report:")]
         if inj and not any("not published" in w for w in inj):
-            notes += [w + " (official weekly report via nflverse, read today)" for w in inj]
-            notes.append("NOT VERIFIED: game-day inactives and the starting lineup, which come out 90 minutes before kickoff. "
-                         "Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.")
+            nba = c.get("sport") == "NBA"
+            notes += [w + (" (ESPN injury report, read on this run)" if nba else " (official weekly report via nflverse, read today)") for w in inj]
+            notes.append(("NOT VERIFIED: the final status and starting lineup, which firm up in the hour before tip-off, and any minutes limit. "
+                          if nba else "NOT VERIFIED: game-day inactives and the starting lineup, which come out 90 minutes before kickoff. ")
+                         + "Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.")
         else:
             notes.append("NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed for this sport or week). "
                          "Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.")
@@ -140,7 +142,13 @@ def decide(c: dict, cfg: dict, st: dict, reg: risk.Registry, book: dict | None =
                     depth_dollars=depth, quote_age_s=age, rules=c.get("rules"))
     vetoes = risk.audit(proposal, reg, st, cfg) if ev_low > cfg["min_ev"] and n > 0 else []
     wp = wait_price(p, se, z)
-    if ev_low > cfg["min_ev"] and n > 0 and not vetoes:
+    from bot.nba_injuries import blocks
+    listed = blocks(c.get("why")) if c.get("kind") == "prop" else ""
+    if listed and ev > 0:
+        decision = "NO BET" if listed in ("out", "doubtful") else "WAIT"
+        why = (f"the player is listed {listed} on the injury report: no bet on a prop for a player who is not expected to play" if decision == "NO BET"
+               else f"the player is listed questionable on the injury report: nothing is bought until his status is final (then only at {wp * 100:.0f}c or less)")
+    elif ev_low > cfg["min_ev"] and n > 0 and not vetoes:
         decision, why = "ACCEPT", f"positive expected value even at the cautious estimate ({ev_low:+.3f} per contract) and no limit breached"
     elif ev_low > cfg["min_ev"] and vetoes:
         decision, why = "VETO", "the risk auditor refused it: " + "; ".join(vetoes)

@@ -35,6 +35,9 @@ def leg_pool(e: pd.DataFrame, cfg: dict, rules: dict) -> pd.DataFrame:
     if rules:
         ok = [ev in rules and not (rules[ev][0] and s != "yes") for ev, s in zip(p.event_ticker, p.side)]
         p = p[ok]
+    if "why" in p:                                                   # no card leg on a player listed out, doubtful or questionable
+        from bot.nba_injuries import blocks
+        p = p[[not blocks(w) for w in p.why]]
     if "pref" in p:
         p = p[p.pref.fillna(0) >= 0]
     else:

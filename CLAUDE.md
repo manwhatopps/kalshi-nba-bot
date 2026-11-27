@@ -47,6 +47,9 @@ Read `docs/ARCHITECTURE.md` and `docs/OPERATING_GUIDE.md` first. Rules that must
 - Singles need positive EV at `z_edge` (3) standard errors below the estimate. NO BET on a whole slate is correct.
 - A graded category (`bot/legs.py`) moves an estimate only for PREFER categories, only inside the 20-85c range it was
   measured on, using that price band's gap and its wider error bar. Lean categories never move an estimate.
+- Availability: a prop on a player listed out or doubtful is NO BET, questionable is WAIT, and none of the three goes
+  on a card (`bot/nba_injuries.py` for NBA, nflverse for NFL). Injury status is a gate and a stated fact; it moves no
+  estimate until `data/nba_injury_flags.parquet` has enough settled nights to grade it as a category.
 - Cards: one leg per game, no game on two cards, pots and weekly allowances from `quantsport/config.py`
   (overrides in `data/quantsport.json`). Same-game needs the explicit `same_game_per_card` override.
 - `quantsport/execution.py` is the only path to an order: live_review mode + key + a signed, one-use approval
@@ -70,8 +73,9 @@ Raw trade files (`data/trades/`, ~25 MB per day) are not in git. Summaries (`dat
 lacks the full raw history.
 
 ## Network
-Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xethub.hf.co. stats.nba.com
+Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xethub.hf.co, site.api.espn.com
+(NBA injury report). stats.nba.com
 blocks cloud IPs; the Hugging Face game-log dataset is the stats source.
 
 ## Tests
-`python -m pytest -q tests` (35 tests, ~4 s).
+`python -m pytest -q tests` (37 tests, ~4 s).

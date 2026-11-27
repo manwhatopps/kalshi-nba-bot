@@ -76,6 +76,7 @@ def candidates(k, leagues=("NBA", "NFL"), hours: float = 14, lo: float = 0.50, h
         print(f"  (NBA context unavailable: {e})")
     # what is knowable before the game about each leg, and how that kind of leg has paid (bot/legs.py)
     c["pref"], c["cat_why"], c["nfl_why"] = 0.0, [[] for _ in range(len(c))], [[] for _ in range(len(c))]
+    c["inj_why"] = [[] for _ in range(len(c))]
     c["cats"] = [[] for _ in range(len(c))]
     try:
         from . import legs
@@ -91,6 +92,9 @@ def candidates(k, leagues=("NBA", "NFL"), hours: float = 14, lo: float = 0.50, h
             if lg == "NFL":
                 for i, r in zip(f.index, f.itertuples()):
                     c.at[i, "nfl_why"] = legs.nfl_why(r)
+            elif "inj_lines" in f:
+                for i, L in zip(f.index, f.inj_lines):
+                    c.at[i, "inj_why"] = L
     except Exception as e:
         print(f"  (leg categories unavailable: {e})")
     # the logical chain for every leg: NBA from form, minutes, matchup scenario, pace, rest; NFL from his game log and the game line
@@ -101,12 +105,12 @@ def candidates(k, leagues=("NBA", "NFL"), hours: float = 14, lo: float = 0.50, h
                 e = matchup.explain(ctx, r.title, r.series, r.ticker, r.game, r.side, r.cost)
             except Exception as ex:
                 e = dict(lines=[f"(chain failed: {ex})"], pro=0, con=0)
-            pro.append(e["pro"]); con.append(e["con"]); why.append(" | ".join(list(e["lines"][:7]) + list(r.cat_why)))
+            pro.append(e["pro"]); con.append(e["con"]); why.append(" | ".join(list(e["lines"][:7]) + list(r.inj_why) + list(r.cat_why)))
         else:
             pro.append(0); con.append(0); why.append(" | ".join(r.nfl_why) if r.nfl_why else "")
     c["pro"], c["con"], c["why"] = pro, con, why
     c["chain"] = c.pro - c.con
-    c = c.drop(columns=["cat_why", "nfl_why"])
+    c = c.drop(columns=["cat_why", "nfl_why", "inj_why"])
     c = c[c.pref >= 0]                                      # drop legs in a category that has trailed the baseline in both seasons
     return c[~((c.con >= 2) & (c.con > c.pro))]            # drop legs where the chain clearly says OVER
 

@@ -79,3 +79,9 @@ cut a swing that is too big for the bankroll, not as a habit. The monitor only r
 `python -m bot resting` measures what would have happened to bids left a few cents under the ask before games.
 Result: bids fill about a third of the time at 2c under, and the ones that fill lose more often, so the return is
 no better than paying the ask. A WAIT decision therefore means "buy if the ask itself drops to the wait price".
+
+## NBA injury report (added 2026-11-27)
+`python -m bot injuries` prints tonight's report as the prop logic reads it. A prop on a player listed out or doubtful
+is NO BET, questionable is WAIT, and none of them can be a card leg. The report is read at run time; a status can
+change in the hour before tip-off, so re-run close to the game before acting on any NBA prop. Needs the host
+`site.api.espn.com` in the environment's allowed hosts.
