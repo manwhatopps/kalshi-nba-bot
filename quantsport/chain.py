@@ -55,6 +55,23 @@ def availability(c) -> list[str]:
     return notes
 
 
+def resting_note(c: dict, step: int = 2) -> str:
+    """What history says about waiting with a resting bid instead of paying the ask (`python -m bot resting`)."""
+    if c.get("kind") != "prop" or not str(c.get("source", "")).startswith("category: "):
+        return ""
+    try:
+        from bot import legs, resting
+        name = c["source"].split("category: ", 1)[1]
+        r = resting.lookup(f"{c['sport']}: {name} ({legs.labels(c['sport'])[name]['label']})", step)
+    except Exception:
+        return ""
+    if not r or r.get("ret") is None:
+        return ""
+    return (f"a resting bid {step}c under the ask was filled before the game {r['fill']:.0%} of the time in this category ({r['orders']:,} orders, both seasons); the filled ones "
+            f"returned {r['ret']:+.1%} (+/- {r['se']:.1%}) against {r['taker']:+.1%} for paying the ask at once. Bids fill more often on the bets that go on to lose, "
+            "so waiting below the ask is not a proven improvement")
+
+
 def decide(c: dict, cfg: dict, st: dict, reg: risk.Registry, book: dict | None = None, tier: str = "core") -> dict:
     """Run one candidate (a row of the estimate table as a dict) through the chain."""
     now = datetime.now(timezone.utc)
@@ -133,6 +150,10 @@ def decide(c: dict, cfg: dict, st: dict, reg: risk.Registry, book: dict | None =
         decision, why = "NO BET", (f"expected value {ev:+.3f} per contract: the price is {'our estimate' if c.get('source') == 'price' else 'above fair'}"
                                    f"{', so the fee and the spread are a pure cost' if c.get('source') == 'price' else ''}")
     judge.append(why)
+    if decision == "WAIT":
+        rest = resting_note(c)
+        if rest:
+            judge.append(rest)
     assume += ["the standard error covers model error as well as sampling error", "the quote can still be had at the size shown"]
     fails = ["a late scratch or minutes limit" if c.get("kind") == "prop" else "an injury or weather change the model cannot see",
              "the game script departs from the usual (blowout, overtime)", "our estimate is the market's own price, so being 'right' still loses the fee"

@@ -35,6 +35,7 @@ data/prior_download*.log
 !data/slips/
 !data/scenario_table.json
 !data/leg_categories.json
+!data/resting_orders.json
 !data/quantsport.db
 !data/quantsport.json
 !data/quantsport/

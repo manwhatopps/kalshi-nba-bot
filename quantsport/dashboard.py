@@ -79,7 +79,7 @@ def render(o: dict, perf: dict, models: dict, positions: list[dict]) -> str:
   <h2>Portfolio</h2>
   <p class="muted small">If every pending card were bought at its walk-away payout: expected {sim.get('expected', 0):+.2f}, losing night {sim.get('p_loss', 0):.0%} of the time, average of the worst 5% {_m(sim.get('cvar95', 0))}.
   Limits: {cfg['limit']['event']:.0%} of bankroll per game, {cfg['limit']['team']:.0%} per team, {cfg['limit']['player']:.0%} per player, {cfg['limit']['sport']:.0%} per sport; stops at {cfg['max_daily_loss']:.0%} daily, {cfg['max_weekly_loss']:.0%} weekly, {cfg['max_drawdown']:.0%} drawdown.</p>
-  {_table(positions, [("label", "Open position", txt), ("tier", "Tier", txt), ("stake", "Stake", _m), ("pays", "Pays", _m), ("expires", "First game", lambda v: str(v)[:16].replace("T", " "))])}
+  {_positions(positions)}
   <h2>Performance</h2>
   {_table(perf.get('tiers', []), [("tier", "Tier", txt), ("positions", "Settled", num), ("won", "Won", num), ("staked", "Staked", _m), ("pnl", "P/L", lambda v: f"{v:+.2f}"), ("roi", "ROI", pct), ("verdict", "Sample", txt)])}
   {_shadow(perf.get('shadow') or {})}
@@ -93,6 +93,29 @@ def render(o: dict, perf: dict, models: dict, positions: list[dict]) -> str:
   {_table(o.get('disagreements', []), [("title", "Market", txt), ("sport", "Sport", txt), ("market", "Price", lambda v: f"{v:.0%}"), ("model", "Model", lambda v: f"{v:.0%}"), ("gap", "Gap", pct)])}
 </main>
 """
+
+
+def _positions(rows: list[dict]) -> str:
+    """Open cards with where they stand now; the hedge appears when one leg is left."""
+    if not rows:
+        return '<p class="muted small">No open positions.</p>'
+    if "legs_left" not in rows[0]:                                   # live status unavailable: the plain list
+        return _table(rows, [("label", "Open position", str), ("tier", "Tier", str), ("stake", "Stake", _m), ("pays", "Pays", _m)])
+    out = []
+    for r in rows:
+        state = "dead: a leg lost" if r["dead"] else "no live price" if r["value"] is None else f'{r["alive"]:.0%} to cash · worth about {_m(r["value"])}'
+        legs = "".join(f'<li>{"✗ lost" if l["state"] == "lost" else "to play"} · {e(l["side"].upper())} {e((l.get("title") or l["ticker"])[:70])}'
+                       + (f' · now {l["mid"]:.0%}' if l["state"] == "pending" and l.get("mid") is not None else "") + "</li>"
+                       for l in r["legs"] if l["state"] == "lost" or (l["state"] == "pending" and not r["dead"]))
+        hedge = ""
+        if r.get("hedge"):
+            h = r["hedge"]
+            hedge = (f'<p class="small" style="margin-top:6px"><b>Hedge</b> with {e(h["opposite"].upper())} on the last leg at {h["opposite_cost"] * 100:.0f}¢ a contract (fee included): '
+                     + "; ".join(f'{e(n)} = {v["contracts"]:.2f} contracts for {_m(v["cost"])} (hits {v["if_hits"]:+.2f}, misses {v["if_misses"]:+.2f}, gives up {_m(v["ev_given_up"])})'
+                                 for n, v in h["plans"].items()) + ".</p>")
+        out.append(f'<details class="card"><summary><b>{e(r["label"])}</b> · stake {_m(r["stake"])} · pays {_m(r["pays"])} · {r["legs_won"]} won, {r["legs_left"]} to play · {e(state)}</summary>'
+                   f'<p class="muted small" style="margin-top:6px">{e(r["note"])}</p><ul class="small">{legs}</ul>{hedge}</details>')
+    return '<div class="stack">' + "".join(out) + "</div>"
 
 
 def _shadow(sh: dict) -> str:
@@ -137,7 +160,11 @@ def write() -> str:
     except Exception:
         perf = {}
     models = json.loads(stack.MODELS.read_text()) if stack.MODELS.exists() else {}
-    pos = store.frame(con, "SELECT label, tier, stake, pays, expires FROM positions WHERE status='open' ORDER BY opened DESC LIMIT 40").to_dict("records")
+    try:
+        from . import monitor
+        pos = monitor.status(data_client(), con)
+    except Exception:
+        pos = store.frame(con, "SELECT label, tier, stake, pays, expires FROM positions WHERE status='open' ORDER BY opened DESC LIMIT 40").to_dict("records")
     out = pipeline.OUT / "dashboard.html"
     out.write_text(render(o, perf, models, pos))
     return str(out)

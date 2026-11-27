@@ -4,6 +4,7 @@
   daily         one full investment analysis (scan -> estimate -> chain -> audit -> tiers); --mode research|paper|live_review
   settle        grade open paper positions and past decisions
   performance   the performance audit: P&L by tier, calibration by sport and market
+  positions     where each open card stands now, and the hedge when one leg is left (read-only)
   backtest      walk-forward tests, the negative control, Monte Carlo of the card programme
   dashboard     write data/quantsport/dashboard.html from the latest run
   tickets       list order tickets from the latest run (LIVE REVIEW)
@@ -25,6 +26,7 @@ def main() -> None:
     d.add_argument("--hours", type=float, default=None)
     sub.add_parser("settle")
     sub.add_parser("performance")
+    sub.add_parser("positions")
     sub.add_parser("backtest")
     sub.add_parser("dashboard")
     sub.add_parser("tickets")
@@ -57,6 +59,10 @@ def main() -> None:
         from bot.kalshi import data_client
         from . import audit
         audit.report(data_client(), store.connect())
+    elif args.cmd == "positions":
+        from bot.kalshi import data_client
+        from . import monitor
+        print(monitor.report(monitor.status(data_client(), store.connect())))
     elif args.cmd == "backtest":
         from . import backtest
         backtest.run()

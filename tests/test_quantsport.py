@@ -309,3 +309,36 @@ def test_watch_list_record_counts_a_ladder_once_and_reports_closing_value(tmp_pa
     assert sh["n"] == 2 and sh["lines"] == 4 and sh["games"] == 1                    # one position per player; the NO BET is not on the watch list
     assert sh["won"] == 0.5 and abs(sh["needed"] - (0.49 + 0.56) / 2) < 1e-9
     assert abs(sh["ret"] - (1 - 0.49 - 0.56) / (0.49 + 0.56)) < 1e-9 and abs(sh["clv"] - 0.0) < 1e-9
+
+
+def test_position_monitor_values_a_card_and_hedges_only_the_last_leg():
+    from quantsport import monitor
+    pos = dict(label="small 2.0x", stake=1.0, pays=2.0)
+    won, lost = dict(ticker="A", side="yes", state="won"), dict(ticker="B", side="yes", state="lost")
+    p1 = dict(ticker="C", side="yes", state="pending", mid=0.6, opp_ask=0.42)
+    p2 = dict(ticker="D", side="no", state="pending", mid=0.5, opp_ask=0.52)
+    two = monitor.position_status(pos, [won, p1, p2], 100)
+    assert abs(two["alive"] - 0.3) < 1e-9 and abs(two["value"] - 0.6) < 1e-9 and two["hedge"] is None       # nothing to hedge with two legs left
+    one = monitor.position_status(pos, [won, p1], 100)
+    h = one["hedge"]
+    assert h["opposite"] == "no" and h["opposite_cost"] > 0.42                                         # the fee is in the hedge's cost
+    lock = h["plans"]["lock"]
+    assert abs(lock["if_hits"] - lock["if_misses"]) < 1e-9 and lock["ev_given_up"] > 0                 # a lock pays the same either way and costs EV
+    assert h["plans"]["break-even"]["if_misses"] == pytest.approx(0.0)
+    dead = monitor.position_status(pos, [won, lost, p1], 100)
+    assert dead["dead"] and dead["value"] == 0.0 and dead["hedge"] is None
+    done = monitor.position_status(pos, [won, dict(won, ticker="Z")], 100)
+    assert done["value"] == 2.0 and done["legs_left"] == 0
+    assert monitor.position_status(pos, [won, dict(p1, mid=None, opp_ask=None)], 100)["value"] is None    # no price: say so, do not guess
+
+
+def test_resting_order_counts_a_fill_only_when_the_price_trades_through_the_bid():
+    from bot import resting
+    o = pd.DataFrame(dict(ticker=list("abcd"), ask=[0.50, 0.50, 0.50, 0.50], low=[0.47, 0.48, 0.49, np.nan], win=[1.0, 0.0, 1.0, 1.0],
+                          game=["g1", "g1", "g2", "g3"], side="no", season="this season", league="NFL"))
+    s = resting.stat(o, 2)                                    # bid 48c: only the 47c print is a certain fill; 48c is a touch
+    assert s["orders"] == 4 and s["filled"] == 1 and s["fill"] == 0.25 and s["touch"] == 0.5
+    assert s["ret_touch"] == pytest.approx((1 - 0.48 - 0.48) / 0.96)
+    assert s["per_order"] == pytest.approx((1 - 0.48) / 4)
+    cost = 0.5 + 0.07 * 0.25
+    assert s["taker"] == pytest.approx((3 - 4 * cost) / (4 * cost))

@@ -34,6 +34,7 @@ pkill -f "bot watch" 2>/dev/null   # no live watcher: every bet is placed before
   sec "LEG CATEGORIES: what was knowable before the game, graded on real costs" 45 python -m bot legs
   sec "QUANTSPORT: settle paper positions" 6 python -m quantsport settle
   sec "QUANTSPORT: daily investment analysis, four tiers (paper)" 120 python -m quantsport daily --mode paper
+  sec "QUANTSPORT: open positions and hedges" 40 python -m quantsport positions
   sec "QUANTSPORT: performance audit" 40 python -m quantsport performance
   sec "TEAM STYLES: all 30 teams" 34 python -m bot styles
   sec "MATCHUP FACTORS vs Kalshi's price" 22 python -m bot matchup --rebuild

@@ -32,6 +32,8 @@ execution               the only code that can send an order; needs live_review 
 | Probability and mathematics | `mathx.py`, `models/stack.py`, `estimate.py` |
 | Portfolio manager | `risk.state`, `risk.Registry`, `risk.kelly_portfolio`, `config.py` |
 | Hedge analyst | `bot/hedge.py` (lock / break-even / Kelly hedge for a live card) |
+| Position monitor | `quantsport/monitor.py` (open cards: legs won, value now, last-leg hedge; `python -m quantsport positions`) |
+| Execution research | `bot/resting.py` (resting bids vs paying the ask on every pre-game prop fill) |
 | Strategy builder | `chain.py` (core), `tiers.py` (cards) |
 | Independent risk auditor | `risk.audit` (separate function, separate inputs, hard vetoes) |
 | Performance researcher | `audit.py`, `backtest.py`, `bot/walkforward.py` |

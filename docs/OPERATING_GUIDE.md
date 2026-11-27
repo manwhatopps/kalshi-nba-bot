@@ -66,3 +66,16 @@ honest sign an estimate has something in it.
 NFL prop theses quote the official weekly injury report (read fresh on each run). "Has not posted game statuses yet"
 means the team's Friday report is not out: availability is not confirmed. `python -m quantsport research` now also
 picks up new college football price history from `data/history_v2/` without needing the raw fill files.
+
+## Open positions and hedging (added 2026-11-27)
+`python -m quantsport positions` (also in the daily report and on the dashboard) shows each open card: legs won,
+legs still to play with their current prices, the chance it still cashes and what it is worth now. Kalshi combos
+cannot be sold back. When exactly one leg is left the monitor prints three hedges on the opposite side of that leg:
+break-even (get the stake back if it misses), Kelly (the size that maximises long-run growth; usually zero for
+small cards) and lock (same result either way). Every hedge gives up expected value, shown in dollars: hedge to
+cut a swing that is too big for the bankroll, not as a habit. The monitor only reads; it places nothing.
+
+## Resting orders (added 2026-11-27)
+`python -m bot resting` measures what would have happened to bids left a few cents under the ask before games.
+Result: bids fill about a third of the time at 2c under, and the ones that fill lose more often, so the return is
+no better than paying the ask. A WAIT decision therefore means "buy if the ask itself drops to the wait price".

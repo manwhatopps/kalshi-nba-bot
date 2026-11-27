@@ -741,11 +741,47 @@ blend the model's weight is negative (z -3.1): where the model disagreed with th
 The blend did not beat the price on later dates (0.5296 vs 0.5291), so the estimate for college totals stays
 Kalshi's price.
 
-**College football spreads: same answer (history still downloading).** With games from Sep 24 to Nov 7 in so far,
-7,230 settled spread markets on 264 games: model log-loss 0.577, price 0.529, model weight after the price
--0.17 (z -0.9), blend worse than the price on later dates (0.549 vs 0.546). `python -m quantsport research`
-re-tests it as the rest of the history arrives. That is 11 of 11 sport-and-market groups where the rating model
-adds nothing to Kalshi's price.
+**College football spreads: same answer.** 22,684 settled spread markets with a pre-game price; 12,310 on 446
+games match a rated game. Model log-loss 0.568, price 0.532, model weight after the price -0.15 (z -1.0), blend
+no better than the price on later dates (0.5441 vs 0.5433). That is 11 of 11 sport-and-market groups where the
+rating model adds nothing to Kalshi's price.
+
+## 25. Resting orders: does bidding under the ask and waiting beat paying it? (`python -m bot resting`, 2026-11-27)
+
+The watch list is made of bets that are positive at our estimate but not after the taker fee and the spread. A
+resting order on a player prop pays no fee (prop fee type `quadratic`: takers only) and buys below the ask, so
+the obvious question is whether waiting turns those into bets. Tested on every real pre-game prop fill on file
+(3.16M fills, both seasons): for 119,000 market-sides the first ask a taker paid between 3 hours and 30 minutes
+before the start is "the ask we saw"; we bid 1-5c under it; the bid counts as filled only if a later pre-game
+trade printed below it. Filled bids are graded at the bid with no fee.
+
+| group | 2c under: filled | return on filled | paying the ask at once | won minus ask: filled / not filled |
+|---|---|---|---|---|
+| NBA all prop unders (22,906 orders) | 34% | -2.0% +/- 1.3 | -2.3% +/- 0.8 | -3.0 / +2.0 points |
+| NFL all prop unders (11,677) | 32% | -0.2% +/- 2.6 | -0.7% +/- 1.5 | -2.1 / +2.6 |
+| NBA all prop overs (57,700) | 14% | -3.1% +/- 1.3 | -7.5% +/- 0.7 | -3.6 / -2.1 |
+| NFL all prop overs (26,328) | 16% | -4.0% +/- 2.7 | -9.0% +/- 1.4 | -3.9 / -2.7 |
+| NBA first game back after 7+ days (932) | 34% | +5.6% +/- 4.9 | +9.5% +/- 4.0 | +0.8 / +9.9 |
+| NFL rushing unders, 3+ point underdogs (801) | 34% | +8.6% +/- 7.2 | +5.3% +/- 4.7 | +2.5 / +5.5 |
+
+* **Adverse selection is real and about the size of the saving.** On NBA unders a bid 2c under the ask is filled
+  a third of the time, and the filled ones won 3 points less often than the ask implied while the unfilled ones
+  won 2 points more. Your bid gets hit when someone wants out, which is more often when the bet is about to lose.
+  The 2c and the fee you save are spent on that: -2.0% resting against -2.3% paying up.
+* **It does not rescue the watch list.** For the NBA first-game-back unders the filled bids did worse than paying
+  the ask (+5.6% vs +9.5%): the good ones are the ones nobody sold. For NFL underdog rushing unders the filled
+  bids did a little better (+8.6% vs +5.3%) with an error bar of 7. Season by season no group is over 1.2 standard
+  errors. No rule comes out of this.
+* Resting bids on overs lose about half as much as paying the ask, and still lose.
+* Bids deeper under the ask fill less (5c under: 11-14%) and are selected harder.
+
+What changed in the system: a wait-listed bet now quotes this ("a resting bid 2c under was filled 34% of the
+time; the filled ones returned ... against ... for paying the ask"), so the wait price is read as "buy if the
+ask comes down to here", not "leave a bid here and expect the same edge".
+
+**Open-position monitor** (`python -m quantsport positions`): each open card with legs won, legs to play at
+their current prices, the chance it still cashes and what it is worth. A combo cannot be sold back, so when one
+leg is left it prints the hedge three ways (break-even, Kelly, full lock) and what each gives up in expected value.
 
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
@@ -760,6 +796,8 @@ adds nothing to Kalshi's price.
   Kalshi's price on 68,262 props; they are printed as context for each leg, not used as an edge.
 * Kalshi's price is a better "will it hit" predictor than any model or simulation tested; pre-game,
   buyers lose a little in nearly every band and long shots under 20c lose the most.
+* Resting orders (bid under the ask and wait) do not beat paying the ask on props: the bids that fill
+  are the ones that go on to lose more often. Measured on 3.16M pre-game fills (section 25).
 * Combos are at best a fair bet: 3-8 legs priced 35-80c on tight books, bought within ~10% of the
   legs' mid value. Big lottery combos sold at about 15% of fair value in the one large example.
 * Kalshi accepts all-UNDER prop cards as one combo. Same-game legs hit together more often than

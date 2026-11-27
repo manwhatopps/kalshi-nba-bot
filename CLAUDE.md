@@ -27,6 +27,11 @@ seasons of unders at real taker prices and writes `data/leg_categories.json`; ca
 prefer legs first, and every category is also a candidate rule in `walk --pre`. A new idea about why legs hit
 or miss goes in `bot/legs.py` as a category, not into the card builder as a hunch.
 
+`python -m bot resting` tests resting orders (bid under the ask and wait) on every pre-game prop fill: adverse selection
+eats the saving, so WAIT means "buy if the ask comes down", never "leave a bid and assume the same edge" (FINDINGS 25).
+It needs the raw fills and is run by hand, not in the daily run. `python -m quantsport positions` is the read-only
+open-card monitor with the last-leg hedge.
+
 **Pre-game only (owner's decision 2026-11-23):** every bet is placed before the game. No live watcher, no
 in-game rules; `pre_game_only` in `data/fund.json`. The in-game double-double under (grade B) is therefore not
 bet. `python -m bot walk --pre` is the test that matters now; as of 2026-11-23 no pre-game rule clears it, so
@@ -69,4 +74,4 @@ Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xe
 blocks cloud IPs; the Hugging Face game-log dataset is the stats source.
 
 ## Tests
-`python -m pytest -q tests` (33 tests, ~4 s).
+`python -m pytest -q tests` (35 tests, ~4 s).
