@@ -86,8 +86,12 @@ def market_table(fits: dict | None = None, rebuild: bool = False) -> pd.DataFram
                     if len(hit) == 1:
                         names[game] = ({c: v[0] for c, v in got.items()}, hit.iloc[0])
             for r in m.itertuples():
-                if r.game in names and r.team_code in names[r.game][0]:
-                    g = names[r.game][1]
+                if r.game not in names:
+                    continue
+                g = names[r.game][1]
+                if r.kind == "total":                                  # no team in a game total
+                    rows.append((r, g, None))
+                elif r.team_code in names[r.game][0]:
                     rows.append((r, g, names[r.game][0][r.team_code] == g.home))
         else:
             cache = {}

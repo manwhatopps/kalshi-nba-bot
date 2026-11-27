@@ -251,3 +251,61 @@ def test_portfolio_simulation_and_kelly_portfolio():
     assert two["p_loss"] < 0.75                                                # hits more often than 25%: not independent
     f = risk.kelly_portfolio(np.array([0.62, 0.55, 0.70, 0.50]), np.array([0.55, 0.56, 0.60, 0.50]), ["a", "b", "a", "c"], cap=0.05, budget=0.5, group_cap=0.08)
     assert f[1] == 0 and f[3] == 0 and f[0] > 0 and f[2] > 0 and f[0] + f[2] <= 0.08 + 1e-6 and (f <= 0.05 + 1e-9).all()
+
+
+def test_injury_flags_use_only_what_was_known_before_the_week():
+    from bot import nfl_form as F
+    rows = []
+    for wk in range(1, 6):
+        d = pd.Timestamp("2026-09-06") + pd.Timedelta(days=7 * (wk - 1))
+        for pid, pos, tgt, car, att in (("QB1", "QB", 0, 2, 35), ("RB1", "RB", 3, 18, 0), ("RB2", "RB", 1, 5, 0), ("WR1", "WR", 9, 0, 0)):
+            rows.append(dict(player_id=pid, season=2026, week=wk, game_date=d, team="AAA", position=pos, targets=tgt, carries=car, attempts=att))
+    L = pd.DataFrame(rows)
+    inj = pd.DataFrame([dict(season=2026, week=5, gsis_id="RB1", report_status="Out", report_primary_injury="Knee", team="AAA"),
+                        dict(season=2026, week=5, gsis_id="WR1", report_status="Questionable", report_primary_injury="Ankle", team="AAA"),
+                        dict(season=2026, week=6, gsis_id="QB1", report_status="Out", report_primary_injury="Shoulder", team="AAA"),
+                        dict(season=2026, week=7, gsis_id="RB2", report_status=None, report_primary_injury="Hamstring", team="AAA")])
+    f = F.week_flags(L, inj, 2026, 5).set_index("player_id")
+    assert f.loc["RB2", "lead_out"] == 1.0 and f.loc["RB1", "lead_out"] == 0.0        # the backup benefits, not the injured starter himself
+    assert f.loc["WR1", "status"] == "Questionable" and f.loc["WR1", "lead_out"] == 0.0
+    assert f.qb_out.sum() == 0                                                          # next week's report is not visible in week 5
+    g = F.week_flags(L, inj, 2026, 6).set_index("player_id")
+    assert g.loc["WR1", "qb_out"] == 1.0 and g.loc["QB1", "qb_out"] == 0.0
+    assert g.team_posted.all() and not F.week_flags(L, inj, 2026, 7).team_posted.any()   # practice report only: statuses not posted yet
+
+
+def test_band_gaps_shrink_toward_the_overall_gap_and_never_claim_more_certainty():
+    from bot import legs
+    rng = np.random.default_rng(0)
+    cost = rng.uniform(0.2, 0.85, 3000)
+    sub = pd.DataFrame(dict(no_cost=cost, win=(rng.random(3000) < cost + 0.05).astype(float)))
+    b = legs.band_gaps(sub, 0.05, 0.02)
+    assert [x[:2] for x in b] == [list(x) for x in legs.BANDS] and sum(x[3] for x in b) == 3000
+    assert all(x[4] >= 0.02 for x in b)                                                 # a band is never surer than the whole category
+    raw = float((sub[sub.no_cost < 0.45].win - sub[sub.no_cost < 0.45].no_cost).mean())
+    assert min(raw, 0.05) - 1e-9 <= b[0][2] <= max(raw, 0.05) + 1e-9                    # between the band's own number and the overall one
+    assert legs.band_gaps(sub.iloc[:0], 0.05, 0.02)[0][2:] == [0.05, 0, 0.02]
+
+
+def test_a_players_ladder_is_one_position():
+    from quantsport import pipeline
+    e = pd.DataFrame([dict(sport="NFL", player="S Barkley", series="KXNFLRSHYDS", side="no", ticker=f"T{i}", ret_low=r) for i, r in enumerate((-0.05, -0.01, -0.03))]
+                     + [dict(sport="NFL", player="S Barkley", series="KXNFLREC", side="no", ticker="R1", ret_low=-0.02),
+                        dict(sport="NFL", player="", series="KXNFLGAME", side="yes", ticker="G1", ret_low=-0.04),
+                        dict(sport="NFL", player="", series="KXNFLGAME", side="yes", ticker="G2", ret_low=-0.06)])
+    out = pipeline.one_per_ladder(e)
+    assert sorted(out.ticker) == ["G1", "G2", "R1", "T1"]
+
+
+def test_watch_list_record_counts_a_ladder_once_and_reports_closing_value(tmp_path):
+    con = store.connect(tmp_path / "t.db")
+    base = dict(run_id="r", ts="2026-11-26T22:00:00+00:00", sport="NFL", kind="prop", side="no", decision="WAIT", fee=0.01, source="category: x")
+    for line, ask, res in ((50, 0.30, "lost"), (60, 0.48, "won"), (70, 0.60, "won")):
+        store.insert(con, "decisions", base | dict(ticker=f"KXNFLRSHYDS-26NOV26KCBUF-KCJOTT34-{line}", title="t", ask=ask, p_est=ask + 0.05, result=res, close_price=ask + 0.02))
+    store.insert(con, "decisions", base | dict(ticker="KXNFLRSHYDS-26NOV26KCBUF-KCPMAHOMES15-20", title="t", ask=0.55, p_est=0.6, result="lost", close_price=0.53))
+    store.insert(con, "decisions", base | dict(ticker="KXNFLRSHYDS-26NOV26KCBUF-BUFJALLEN17-30", title="t", ask=0.5, p_est=0.5, result="won", decision="NO BET"))
+    con.commit()
+    sh = audit.shadow_record(con)
+    assert sh["n"] == 2 and sh["lines"] == 4 and sh["games"] == 1                    # one position per player; the NO BET is not on the watch list
+    assert sh["won"] == 0.5 and abs(sh["needed"] - (0.49 + 0.56) / 2) < 1e-9
+    assert abs(sh["ret"] - (1 - 0.49 - 0.56) / (0.49 + 0.56)) < 1e-9 and abs(sh["clv"] - 0.0) < 1e-9

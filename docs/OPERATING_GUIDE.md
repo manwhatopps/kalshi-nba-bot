@@ -54,3 +54,15 @@ the leg probabilities, not what a market maker would actually pay.
 6. The sending call (`execution.place_approved`) and the combo quote path (`python -m bot slip --quote`) have never
    run against a live account. Test both on Kalshi's demo environment first.
 7. A track record: the chain has accepted zero singles so far. Do not enable live trading to "see what happens".
+
+## Reading the watch-list record (added 2026-11-27)
+`python -m quantsport performance` prints a WATCH-LIST RECORD: every bet the chain said WAIT on, graded as if it had
+been bought at the ask it saw, one position per player, prop type and day. It is the live test of the category
+estimates. Read it only when it says "enough to read" (200 positions over 40 games); before that the error bar is
+too wide to mean anything. "Closing-line value" is where the price for our side stood just before the game compared
+with the ask we saw: consistently positive means the market keeps moving toward our side, which is the earliest
+honest sign an estimate has something in it.
+
+NFL prop theses quote the official weekly injury report (read fresh on each run). "Has not posted game statuses yet"
+means the team's Friday report is not out: availability is not confirmed. `python -m quantsport research` now also
+picks up new college football price history from `data/history_v2/` without needing the raw fill files.

@@ -45,7 +45,7 @@ def logs(seasons=(2025, 2026), fresh: bool = False) -> pd.DataFrame:
     # nflverse spread_line is the home team's margin the market expects (positive = home favoured)
     w["team_spread"] = np.where(home, w.spread_line, -w.spread_line)
     w["team_total"] = w.total_line / 2 + w.team_spread / 2
-    cols = ["name_key", "player_display_name", "position", "team", "opponent_team", "game_id", "game_date", "week", "season", "team_spread", "team_total",
+    cols = ["player_id", "name_key", "player_display_name", "position", "team", "opponent_team", "game_id", "game_date", "week", "season", "team_spread", "team_total",
             "targets", "carries", "attempts"] + sorted({c for v in SERIES.values() for c in v})
     return w[cols].fillna({c: 0 for c in cols if c not in ("team_spread", "team_total")}).sort_values(["name_key", "game_date"]).reset_index(drop=True)
 
@@ -81,7 +81,7 @@ def form_for(L: pd.DataFrame, m: pd.DataFrame) -> pd.DataFrame:
         mm = m[m.series == series]
         if mm.empty:
             continue
-        v = L[["name_key", "game_date", "position", "team"]].copy()
+        v = L[["name_key", "game_date", "position", "team", "player_id"]].copy()
         v["val"] = L[list(cols)].sum(axis=1)
         v["usage"] = L.targets if "rec" in cols[0] else (L.carries if "rush" in cols[0] else L.attempts)
         j = mm[["ticker", "name_key", "game_date", "line"]].merge(v, on="name_key", suffixes=("", "_g"))
@@ -89,7 +89,7 @@ def form_for(L: pd.DataFrame, m: pd.DataFrame) -> pd.DataFrame:
         j["rk"] = j.groupby("ticker").game_date_g.rank(ascending=False, method="first")
         j = j[j.rk <= LAST]
         a = j.groupby("ticker").agg(n=("val", "size"), k=("val", lambda s: 0), avg=("val", "mean"), last_played=("game_date_g", "max"),
-                                    position=("position", "last"), team=("team", "last"), usage=("usage", "mean"))
+                                    position=("position", "last"), team=("team", "last"), usage=("usage", "mean"), player_id=("player_id", "last"))
         a["k"] = (j.val >= j.line).groupby(j.ticker).sum()
         a["last_val"] = j[j.rk == 1].set_index("ticker").val
         out.append(a)
@@ -102,12 +102,74 @@ def form_for(L: pd.DataFrame, m: pd.DataFrame) -> pd.DataFrame:
     return d
 
 
+def injuries(seasons=(2025, 2026), fresh: bool = False) -> pd.DataFrame:
+    """The official weekly injury report (nflverse `injuries`): one row per listed player and week with his game status."""
+    parts = []
+    for y in seasons:
+        f = config.DATA_DIR / "ext" / "nfl" / f"injuries_{y}.parquet"
+        if fresh and y == max(seasons) and f.exists():
+            f.unlink()
+        try:
+            parts.append(_get("injuries", f"injuries_{y}"))
+        except Exception as e:
+            print(f"  ! injury report {y} unavailable: {e}")
+    if not parts:
+        return pd.DataFrame(columns=["season", "week", "gsis_id", "report_status", "report_primary_injury", "team"])
+    i = pd.concat(parts, ignore_index=True)
+    i = i[i.season_type == "REG"] if "season_type" in i else i
+    return i[["season", "week", "gsis_id", "report_status", "report_primary_injury", "team"]].drop_duplicates(["season", "week", "gsis_id"], keep="last")
+
+
+def week_flags(L: pd.DataFrame, inj: pd.DataFrame, season: int, week: int) -> pd.DataFrame:
+    """What the injury report means for everyone on each team in one week, from what was known before kickoff:
+    status      the player's own listing (Questionable / Doubtful / Out)
+    lead_out    the teammate with the most targets+carries at his position over the previous four games is Out or Doubtful
+    qb_out      the team's quarterback (most attempts over the previous four games) is Out or Doubtful
+    team_posted whether his team has posted any game status for the week yet (they come out about two days before the game)"""
+    prior = L[(L.season < season) | ((L.season == season) & (L.week < week))]
+    prior = prior[prior.season >= season - 1]
+    last4 = prior.sort_values("game_date").groupby("player_id").tail(4)
+    u = last4.groupby("player_id").agg(use=("targets", "sum"), car=("carries", "sum"), att=("attempts", "sum"), n=("game_date", "size"),
+                                       team=("team", "last"), position=("position", "last"), last=("game_date", "max"))
+    u = u[u["last"] >= prior.game_date.max() - pd.Timedelta(days=45)] if len(prior) else u        # still on the team recently
+    u["touch"] = (u.use + u.car) / u.n
+    u["att"] = u.att / u.n
+    st = inj[(inj.season == season) & (inj.week == week)].set_index("gsis_id")
+    u["status"] = u.index.map(st.report_status.to_dict())
+    u["injury"] = u.index.map(st.report_primary_injury.to_dict())
+    bad = u.status.isin(["Out", "Doubtful"])
+    lead = u[u.position.isin(["RB", "WR", "TE"])].sort_values("touch", ascending=False).groupby(["team", "position"]).head(1)
+    lead_bad = {(r.team, r.position): r.Index for r in lead.itertuples() if bad.get(r.Index, False)}
+    qb = u[u.position == "QB"].sort_values("att", ascending=False).groupby("team").head(1)
+    qb_bad = {r.team for r in qb.itertuples() if bad.get(r.Index, False) and r.att >= 10}
+    u["lead_out"] = [float((t, p) in lead_bad and lead_bad[(t, p)] != i) for i, t, p in zip(u.index, u.team, u.position)]
+    u["qb_out"] = [float(t in qb_bad and p in ("RB", "WR", "TE")) for t, p in zip(u.team, u.position)]
+    posted = set(st[st.report_status.notna()].team) if "team" in st else set()      # teams whose game statuses are out for this week
+    u["team_posted"] = u.team.isin(posted)
+    return u[["status", "injury", "lead_out", "qb_out", "team_posted"]].assign(season=season, week=week).reset_index()
+
+
+def all_flags(L: pd.DataFrame | None = None, inj: pd.DataFrame | None = None) -> pd.DataFrame:
+    L = L if L is not None else logs()
+    inj = inj if inj is not None else injuries()
+    weeks = L[["season", "week"]].drop_duplicates().sort_values(["season", "week"])
+    return pd.concat([week_flags(L, inj, int(r.season), int(r.week)) for r in weeks.itertuples()], ignore_index=True)
+
+
 def dataset() -> pd.DataFrame:
     L = logs()
     d = form_for(L, markets())
     d = d[(d.n >= 3) & (d.p_mkt > 0.08) & (d.p_mkt < 0.92)].copy()
-    sp = L.groupby(["team", "game_date"])[["team_spread", "team_total"]].first().reset_index()
-    return d.merge(sp, on=["team", "game_date"], how="left")
+    sp = L.groupby(["team", "game_date"])[["team_spread", "team_total", "season", "week"]].first().reset_index().rename(columns={"season": "nfl_season"})
+    d = d.merge(sp, on=["team", "game_date"], how="left")
+    try:                                   # the injury report as it stood for that week
+        fl = all_flags(L).rename(columns={"season": "nfl_season"})
+        d = d.merge(fl, on=["player_id", "nfl_season", "week"], how="left")
+    except Exception as e:
+        print(f"  ! injury flags unavailable: {e}")
+        d["status"], d["lead_out"], d["qb_out"] = None, np.nan, np.nan
+    d[["lead_out", "qb_out"]] = d[["lead_out", "qb_out"]].fillna(0.0)
+    return d
 
 
 def _gap(g: pd.DataFrame) -> pd.Series:

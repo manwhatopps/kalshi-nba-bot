@@ -111,9 +111,12 @@ def add_estimates(d: pd.DataFrame, cfg: dict, categories: dict | None = None) ->
         for j, r in enumerate(out.itertuples()):
             for name in (r.cats or []):
                 c = lab.get(r.sport, {}).get(name)
-                if c and c["label"] == "PREFER" and c.get("gap") is not None and r.side == "no":
-                    out.iat[j, out.columns.get_loc("p_est")] = min(r.ask + c["gap"], 0.99)
-                    out.iat[j, out.columns.get_loc("p_se")] = c["gap_se"]
+                if c and c["label"] == "PREFER" and c.get("gap") is not None and r.side == "no" and botlegs.BANDS[0][0] <= r.ask < botlegs.BANDS[-1][1]:
+                    # only inside the price range the category was measured on (20-85c): no extrapolating to long shots
+                    band = next((b for b in (c.get("gap_bands") or []) if b[0] <= r.ask < b[1]), None)          # the gap measured at this price level
+                    gap, se = (band[2], band[4] if len(band) > 4 else c["gap_se"]) if band else (c["gap"], c["gap_se"])
+                    out.iat[j, out.columns.get_loc("p_est")] = min(r.ask + gap, 0.99)
+                    out.iat[j, out.columns.get_loc("p_se")] = max(se, c["gap_se"])
                     out.iat[j, out.columns.get_loc("source")] = f"category: {name}"
     out["fee"] = M.TAKER * out.ask * (1 - out.ask)
     out["ev"] = out.p_est * (1 - out.ask) - (1 - out.p_est) * out.ask - out.fee

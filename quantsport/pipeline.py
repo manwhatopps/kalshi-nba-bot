@@ -75,7 +75,12 @@ def run(mode: str | None = None, hours: float | None = None, top: int = 12, verb
     reg = risk.Registry(con)
     # strategy: core singles through the chain. Full chain for everything that is positive at our estimate, plus the closest misses.
     screen = e[(e.spread <= cfg["max_spread"]) & (e.ask >= 0.05) & (e.ask <= 0.95)]
-    cand = pd.concat([screen[screen.ev > 0], screen.sort_values("ret", ascending=False).head(top)]).drop_duplicates(["ticker", "side"])
+    pos_ev = screen[screen.ev > 0]
+    # a player's ladder (40+, 50+, 60+ ...) is one position, not eight: keep the line with the best cautious return
+    n_before = len(pos_ev)
+    pos_ev = one_per_ladder(pos_ev)
+    ladder_dropped = n_before - len(pos_ev)
+    cand = pd.concat([pos_ev, screen[screen.ev <= 0].sort_values("ret", ascending=False).head(top)]).drop_duplicates(["ticker", "side"])
     from bot import book as B
     books = B.orderbooks(k, list(cand.ticker.unique())) if len(cand) else {}
     decisions = []
@@ -132,7 +137,7 @@ def run(mode: str | None = None, hours: float | None = None, top: int = 12, verb
     summary = e.groupby(["sport", "kind"]).agg(sides=("ticker", "size"), games=("game_key", "nunique"), best_ret=("ret", "max")).reset_index()
     out = dict(run_id=run_id, ts=ts, mode=mode, cfg=cfg, state_before=st, state=st2, guard=guard_note, scanned=len(e), games=int(e.game_key.nunique()),
                identified=len(e.attrs.get("teams", {})), summary=summary.to_dict("records"), how={f"{a}:{b}": v for (a, b), v in how.items()},
-               decisions=decisions, accepted=len(accepted), cards=cards, tier_notes=built["notes"], pool=built["pool"], pool_games=built["pool_games"],
+               decisions=decisions, accepted=len(accepted), ladder_dropped=int(ladder_dropped), cards=cards, tier_notes=built["notes"], pool=built["pool"], pool_games=built["pool_games"],
                sim=({k_: v for k_, v in sim.items() if k_ != "pnl"} if sim else None), errors=raw.attrs.get("errors", []),
                disagreements=_disagreements(e), model_version=MODEL_VERSION)
     OUT.mkdir(parents=True, exist_ok=True)
@@ -141,6 +146,14 @@ def run(mode: str | None = None, hours: float | None = None, top: int = 12, verb
     if verbose:
         print(report(out))
     return out
+
+
+def one_per_ladder(e: pd.DataFrame) -> pd.DataFrame:
+    """A player's ladder of lines (40+, 50+, 60+ ... on one stat, one side) is one position: keep the line with the
+    best return at the cautious end of our estimate. Game-level markets (no player) pass through untouched."""
+    lad = e[e.player != ""]
+    best = lad.sort_values("ret_low", ascending=False).drop_duplicates(["sport", "player", "series", "side"])
+    return pd.concat([e[e.player == ""], best])
 
 
 def _disagreements(e: pd.DataFrame, n: int = 8) -> list[dict]:
@@ -174,6 +187,8 @@ def report(o: dict) -> str:
     L.append(f"\n3) TIER 1, CORE SINGLES: {len(acc)} accepted, {len(wait)} to wait on, {len(veto)} vetoed, out of {len(o['decisions'])} sent through the full chain.")
     if not acc:
         L.append("     NO BET on the whole slate. Nothing has a positive expected value at the cautious end of our estimate after the fee.")
+    if o.get("ladder_dropped"):
+        L.append(f"     ({o['ladder_dropped']} other lines for the same players were set aside: a player's ladder of lines is one position.)")
     for d in acc + wait + veto:
         L.append(f"     {d['decision']:6s} {d['side'].upper()} {d['title'][:52]:52s} ours {d['p_est']:.1%} vs ask {d['ask']:.1%}  EV {d['ev']:+.3f}/contract"
                  + (f"  stake {m(d['stake'])}" if d["decision"] == "ACCEPT" else f"  {d['reason'][:70]}"))

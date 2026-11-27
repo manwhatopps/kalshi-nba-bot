@@ -82,6 +82,7 @@ def render(o: dict, perf: dict, models: dict, positions: list[dict]) -> str:
   {_table(positions, [("label", "Open position", txt), ("tier", "Tier", txt), ("stake", "Stake", _m), ("pays", "Pays", _m), ("expires", "First game", lambda v: str(v)[:16].replace("T", " "))])}
   <h2>Performance</h2>
   {_table(perf.get('tiers', []), [("tier", "Tier", txt), ("positions", "Settled", num), ("won", "Won", num), ("staked", "Staked", _m), ("pnl", "P/L", lambda v: f"{v:+.2f}"), ("roi", "ROI", pct), ("verdict", "Sample", txt)])}
+  {_shadow(perf.get('shadow') or {})}
   <p class="muted small" style="margin-top:8px">Our probability against the outcome, and against the market's own (Brier score, lower is better). Maximum drawdown so far {perf.get('max_drawdown', 0):.1%}.</p>
   {_table(perf.get('calibration', []), [("sport", "Sport", txt), ("market", "Market", txt), ("settled", "Settled", num), ("brier_ours", "Ours", lambda v: f"{v:.4f}"), ("brier_market", "Market", lambda v: f"{v:.4f}"), ("hit", "Hit rate", lambda v: f"{v:.1%}"), ("avg_p", "Avg estimate", lambda v: f"{v:.1%}")])}
   <h2>Do the models beat the price?</h2>
@@ -92,6 +93,15 @@ def render(o: dict, perf: dict, models: dict, positions: list[dict]) -> str:
   {_table(o.get('disagreements', []), [("title", "Market", txt), ("sport", "Sport", txt), ("market", "Price", lambda v: f"{v:.0%}"), ("model", "Model", lambda v: f"{v:.0%}"), ("gap", "Gap", pct)])}
 </main>
 """
+
+
+def _shadow(sh: dict) -> str:
+    if not sh.get("n"):
+        return '<p class="muted small" style="margin-top:8px">Watch-list record: nothing wait-listed has settled yet.</p>'
+    clv = f" The price for our side closed {sh['clv'] * 100:+.1f}¢ from the ask we saw on {sh['clv_n']} of them." if sh.get("clv") is not None else ""
+    return (f'<p class="small" style="margin-top:8px"><b>Watch-list record</b> (as if every wait-listed bet had been bought at the ask it saw; one per player, prop and day): '
+            f'{sh["n"]} positions, won {sh["won"]:.1%}, needed {sh["needed"]:.1%}, return {sh["ret"]:+.1%} per $1 (± {sh["se"]:.1%}). '
+            f'{"Too few to judge." if sh["n"] < 200 or sh.get("games", 0) < 40 else ""}{clv}</p>')
 
 
 def _decision(d: dict) -> str:

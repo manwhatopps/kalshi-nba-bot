@@ -126,12 +126,39 @@ def match_name(name: str, options: list[str]) -> tuple[str | None, float]:
 
 
 # ---------------------------------------------------------------- Kalshi pre-game prices for game markets
-def build_pre(rebuild: bool = False) -> pd.DataFrame:
+def _ncaaf_pre() -> list[pd.DataFrame]:
+    """College football pre-game prices from the candle history files (`bot.history.download_series`)."""
+    out = []
+    h = config.DATA_DIR / "history_v2"
+    for s in GAME_SERIES["NCAAF"]:
+        f = h / f"{s}.parquet"
+        if f.exists():
+            c = pd.read_parquet(f)
+            c = c[c.result.isin(["yes", "no"]) & c.pre_bid.notna() & c.pre_ask.notna()]
+            c = c.assign(pre=(c.pre_bid + c.pre_ask) / 2, league="NCAAF")
+            out.append(c[["ticker", "series", "league", "game", "title", "floor_strike", "result", "tipoff", "pre"]])
+    return out
+
+
+def _finish(d: pd.DataFrame) -> pd.DataFrame:
+    d["kind"] = d.series.map(kind_of)
+    d["pre"] = d.pre.astype(float)
+    d["y"] = (d.result == "yes").astype(float)
+    d.to_parquet(PRE, index=False)
+    return d
+
+
+def build_pre(rebuild: bool = False, refresh_ncaaf: bool = False) -> pd.DataFrame:
     """Last traded YES price in the 3 hours before the start, for every settled NBA/NFL game-level market on file
-    (needs the raw fill files, like the other summaries), plus college football from the candle history."""
+    (needs the raw fill files, like the other summaries), plus college football from the candle history.
+    `refresh_ncaaf` re-reads only the college football files and keeps the NBA/NFL rows as they are, so it is
+    safe on a machine without the raw fills."""
     from bot.trades import PRIOR_DIR, PRIOR_RESULTS, RESULTS, TRADES_DIR
     if PRE.exists() and not rebuild:
-        return pd.read_parquet(PRE)
+        d = pd.read_parquet(PRE)
+        if not refresh_ncaaf:
+            return d
+        return _finish(pd.concat([d[d.league != "NCAAF"].drop(columns=["kind", "y"])] + _ncaaf_pre(), ignore_index=True))
     series = GAME_SERIES["NBA"] + GAME_SERIES["NFL"]
     out = []
     for res_f, tdir in ((PRIOR_RESULTS, PRIOR_DIR), (RESULTS, TRADES_DIR)):
@@ -163,17 +190,4 @@ def build_pre(rebuild: bool = False) -> pd.DataFrame:
         best = pd.DataFrame({"ticker": list(best), "pre": [v[0] for v in best.values()]}) if best else None
         if best is not None:
             out.append(r.merge(best, on="ticker"))
-    h = config.DATA_DIR / "history_v2"
-    for s in GAME_SERIES["NCAAF"]:
-        f = h / f"{s}.parquet"
-        if f.exists():
-            c = pd.read_parquet(f)
-            c = c[c.result.isin(["yes", "no"]) & c.pre_bid.notna() & c.pre_ask.notna()]
-            c = c.assign(pre=(c.pre_bid + c.pre_ask) / 2, league="NCAAF")
-            out.append(c[["ticker", "series", "league", "game", "title", "floor_strike", "result", "tipoff", "pre"]])
-    d = pd.concat(out, ignore_index=True)
-    d["kind"] = d.series.map(kind_of)
-    d["pre"] = d.pre.astype(float)
-    d["y"] = (d.result == "yes").astype(float)
-    d.to_parquet(PRE, index=False)
-    return d
+    return _finish(pd.concat(out + _ncaaf_pre(), ignore_index=True))

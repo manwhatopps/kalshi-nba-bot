@@ -42,8 +42,14 @@ def availability(c) -> list[str]:
             notes.append(f"last played {int(c['days_rest'])} day(s) before this game (from the game log)")
         if c.get("weeks_out") == c.get("weeks_out") and c.get("weeks_out") is not None and c.get("weeks_out", 0) >= 3:
             notes.append(f"first game back after about {int(c['weeks_out'])} weeks out (from the game log)")
-        notes.append("NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed is connected). "
-                     "Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.")
+        inj = [w for w in (c.get("why") or []) if str(w).startswith("injury report:")]
+        if inj and not any("not published" in w for w in inj):
+            notes += [w + " (official weekly report via nflverse, read today)" for w in inj]
+            notes.append("NOT VERIFIED: game-day inactives and the starting lineup, which come out 90 minutes before kickoff. "
+                         "Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.")
+        else:
+            notes.append("NOT VERIFIED: tonight's injury report and starting lineup (no timestamped injury feed for this sport or week). "
+                         "Kalshi settles a no-show leg at a fair price, so a scratch does not zero the bet.")
     else:
         notes.append("NOT VERIFIED: injuries, quarterback or star availability, weather. The rating model knows results only.")
     return notes

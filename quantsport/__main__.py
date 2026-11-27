@@ -36,7 +36,9 @@ def main() -> None:
     args = ap.parse_args()
     from . import config, store
     if args.cmd == "research":
+        from . import gamedata
         from .models import stack
+        gamedata.build_pre(refresh_ncaaf=True)                       # pick up any new college football price history
         fits = stack.fit_ratings()
         cur = json.loads(stack.MODELS.read_text()) if stack.MODELS.exists() else {}
         cur["ratings"] = {s: par for s, (_, _, par) in fits.items()}

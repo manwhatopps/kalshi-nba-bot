@@ -29,6 +29,7 @@ import pandas as pd
 from . import config
 
 TABLE = config.DATA_DIR / "leg_categories.json"
+BANDS, SHRINK = [(0.20, 0.45), (0.45, 0.65), (0.65, 0.851)], 300.0     # price bands for a category's gap; bets of prior toward the overall gap
 FEE, EDGE_PTS, Z_BAR = 0.07, 0.03, 2.0
 DOG, FAV = -3.0, 3.0                      # point spread for the player's team (history)
 DOG_P, FAV_P = 0.41, 0.59                 # the same thing read from Kalshi's own moneyline tonight
@@ -46,6 +47,9 @@ NFL = {  # name -> (mask function, plain description)
     "first game back after 3+ weeks out": lambda d: d.weeks_out >= 3,
     "unders his recent games already support (cold streak)": lambda d: d.form_gap < -0.4,
     "unders against a hot streak": lambda d: d.form_gap > 0.4,
+    "listed questionable on the injury report": lambda d: d.status == "Questionable",
+    "the lead player at his position is out": lambda d: d.lead_out == 1,
+    "his starting quarterback is out": lambda d: d.qb_out == 1,
 }
 NBA = {
     "points unders": lambda d: d.series == "KXNBAPTS",
@@ -126,9 +130,30 @@ def grade(sport: str, d: pd.DataFrame | None = None) -> pd.DataFrame:
             dl, dt = a["ret"] - base["last season"]["ret"], b["ret"] - base["this season"]["ret"]
             z = (p["ret"] - base["both"]["ret"]) / p["se"] if p["se"] and p["se"] > 0 else float("nan")
             lab = label(dl, dt, z)
+        bands = []                                   # the hit-minus-price gap by price band, shrunk toward the category's overall gap
+        if p.get("gap") is not None and p["bets"] >= 100:
+            bands = band_gaps(d[m], p["gap"], p["gap_se"])
         rows.append(dict(category=name, last=a["ret"], this=b["ret"], both=p["ret"], bets_last=a["bets"], bets_this=b["bets"],
-                         vs_base=p["ret"] - base["both"]["ret"], z=z, label=lab, gap=p.get("gap"), gap_se=p.get("gap_se"), ret_se=p["se"]))
+                         vs_base=p["ret"] - base["both"]["ret"], z=z, label=lab, gap=p.get("gap"), gap_se=p.get("gap_se"), ret_se=p["se"], gap_bands=bands))
     return pd.DataFrame(rows)
+
+
+def band_gaps(sub: pd.DataFrame, gap: float, gap_se: float) -> list[list]:
+    """A category's gap (win rate minus price paid) at each price level: [low, high, gap, bets, standard error].
+
+    The band's own average is pulled toward the category's overall gap with SHRINK bets of weight, because a band has a
+    third of the bets. Its standard error is never smaller than the overall one: the band's own error (the overall error
+    scaled up for the smaller sample) and the overall error are combined with their overlap counted."""
+    out, n_all = [], max(len(sub), 1)
+    for lo, hi in BANDS:
+        g_ = sub[(sub.no_cost >= lo) & (sub.no_cost < hi)]
+        n = len(g_)
+        gb = float((g_.win - g_.no_cost).mean()) if n else gap
+        w = n / (n + SHRINK)
+        se_b2 = gap_se ** 2 * n_all / max(n, 1)
+        se = float(np.sqrt(w ** 2 * se_b2 + (1 - w) ** 2 * gap_se ** 2 + 2 * w * (1 - w) * (n / n_all) * se_b2)) if n else gap_se
+        out.append([lo, hi, w * gb + (1 - w) * gap, int(n), max(se, gap_se)])
+    return out
 
 
 def save() -> dict:
@@ -177,6 +202,33 @@ def nfl_features(c: pd.DataFrame, win_prob: dict) -> pd.DataFrame:
     out["kteam"] = [next((t for t in win_prob if s.startswith(t)), None) for s in seg]
     out["team_win"] = out.kteam.map(win_prob)
     out["team_spread"] = np.where(out.team_win <= DOG_P, DOG - 1, np.where(out.team_win >= FAV_P, FAV + 1, 0.0))   # only the bucket matters
+    # this week's official injury report, read fresh: the player's own status, and whether his lead teammate or quarterback is out
+    out["status"], out["injury"], out["lead_out"], out["qb_out"], out["inj_checked"], out["inj_posted"] = None, None, 0.0, 0.0, False, False
+    try:
+        pid = out.ticker.map(f["player_id"]) if len(f) else pd.Series(index=out.index, dtype=object)
+        g = nfl_form._get("schedules", "games")
+        g = g[["season", "week", "gameday"]].drop_duplicates()
+        wk = {pd.Timestamp(r.gameday): (int(r.season), int(r.week)) for r in g.itertuples()}
+        inj = nfl_form.injuries(fresh=True)
+        flags = {}
+        for day in m.game_date.dropna().unique():
+            sw = wk.get(pd.Timestamp(day))
+            if sw and sw not in flags:
+                flags[sw] = (nfl_form.week_flags(L, inj, *sw).set_index("player_id"), bool(((inj.season == sw[0]) & (inj.week == sw[1])).any()))
+        for i, (day, p_) in enumerate(zip(m.game_date, pid)):
+            sw = wk.get(pd.Timestamp(day)) if pd.notna(day) else None
+            if sw is None or sw not in flags:
+                continue
+            fl, published = flags[sw]
+            out.iat[i, out.columns.get_loc("inj_checked")] = published
+            if p_ in fl.index:
+                r = fl.loc[p_]
+                out.iat[i, out.columns.get_loc("status")] = r.status if isinstance(r.status, str) else None
+                out.iat[i, out.columns.get_loc("injury")] = r.injury if isinstance(r.injury, str) else None
+                out.iat[i, out.columns.get_loc("lead_out")], out.iat[i, out.columns.get_loc("qb_out")] = float(r.lead_out), float(r.qb_out)
+                out.iat[i, out.columns.get_loc("inj_posted")] = bool(r.team_posted)
+    except Exception as e:
+        print(f"  (injury report unavailable: {e})")
     return out
 
 
@@ -241,6 +293,20 @@ def nfl_why(r) -> list[str]:
             lines.append(f"first game back after about {int(r.weeks_out)} weeks out")
     else:
         lines.append("no game log this season or last: nothing to judge him on")
+    if getattr(r, "inj_checked", False):
+        st = getattr(r, "status", None)
+        if isinstance(st, str):
+            lines.append(f"injury report: {st} ({r.injury})")
+        elif getattr(r, "inj_posted", False):
+            lines.append("injury report: his team's game statuses are posted and he has none (expected to play)")
+        else:
+            lines.append("injury report: his team has not posted game statuses yet (they come out about two days before the game), so availability is not confirmed")
+        if getattr(r, "lead_out", 0) == 1:
+            lines.append("injury report: the lead player at his position is out or doubtful, so his share of the work should rise")
+        if getattr(r, "qb_out", 0) == 1:
+            lines.append("injury report: his starting quarterback is out or doubtful")
+    else:
+        lines.append("injury report: this week's report is not published yet")
     if pd.notna(r.team_win):
         role = "underdog" if r.team_win <= DOG_P else ("favourite" if r.team_win >= FAV_P else "close game")
         lines.append(f"{r.kteam} is priced {r.team_win:.0%} to win ({role})")
@@ -257,6 +323,7 @@ def run(args=None) -> None:
         for col in ("last", "this", "both", "vs_base"):
             t[col] = t[col].map(lambda v: "" if v is None or v != v else f"{v:+.1%}")
         t["z"] = t.z.map(lambda v: "" if v is None or v != v else f"{v:+.1f}")
+        t = t.drop(columns=[c_ for c_ in ("gap", "gap_se", "ret_se", "gap_bands") if c_ in t])
         print(f"\n{sport} UNDERS by what was knowable before the game (return per $1 after the fee, real taker prices)")
         print(t.rename(columns={"last": "last_season", "this": "this_season", "both": "both_seasons", "vs_base": "vs_baseline"}).to_string(index=False))
     print("\nPREFER/AVOID = 3+ points better/worse than the baseline in BOTH seasons and 2+ standard errors pooled. 'lean' = both seasons, under 2 standard errors.")

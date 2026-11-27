@@ -40,6 +40,8 @@ Read `docs/ARCHITECTURE.md` and `docs/OPERATING_GUIDE.md` first. Rules that must
 - Our probability is Kalshi's price unless a model beat the price on later data (`models/stack.py`). Do not let
   an untested model move the estimate: that manufactures edges out of noise.
 - Singles need positive EV at `z_edge` (3) standard errors below the estimate. NO BET on a whole slate is correct.
+- A graded category (`bot/legs.py`) moves an estimate only for PREFER categories, only inside the 20-85c range it was
+  measured on, using that price band's gap and its wider error bar. Lean categories never move an estimate.
 - Cards: one leg per game, no game on two cards, pots and weekly allowances from `quantsport/config.py`
   (overrides in `data/quantsport.json`). Same-game needs the explicit `same_game_per_card` override.
 - `quantsport/execution.py` is the only path to an order: live_review mode + key + a signed, one-use approval
@@ -67,4 +69,4 @@ Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xe
 blocks cloud IPs; the Hugging Face game-log dataset is the stats source.
 
 ## Tests
-`python -m pytest -q tests` (29 tests, ~4 s).
+`python -m pytest -q tests` (33 tests, ~4 s).

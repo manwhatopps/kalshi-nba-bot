@@ -697,6 +697,56 @@ returned NO BET on everything. The best expected return available anywhere was -
 QuantSport specification). The earlier short-slate change that allowed five legs per game applies only to the old
 `python -m bot slip` cards, which the daily run no longer builds.
 
+## 24. Injury report, price-level error bars, the watch list's own record, college football totals (2026-11-27)
+
+**The NFL injury report is now read** (nflverse `injuries`, the official weekly report; `bot/nfl_form.py`
+`week_flags`). For each prop it gives the player's own game status and two things derived from it: whether the
+lead player at his position is out or doubtful, and whether his starting quarterback is. Each was tested as a leg
+category on two seasons of unders at real taker prices (`python -m bot legs`):
+
+| category | last season | this season | bets | vs all NFL unders | label |
+|---|---|---|---|---|---|
+| his starting quarterback is out | +8.0% | +9.7% | 123 / 255 | +11.1 points (z 0.9) | lean prefer |
+| listed questionable | | | under 100 in a season | | too few bets |
+| the lead player at his position is out | | | under 100 in a season | | too few bets |
+
+"Quarterback out" points the right way in both seasons but is 378 bets from a few dozen games, well short of
+significant. It is a lean, not a rule, and it moves no estimate. What the report does change today: the thesis on
+an NFL prop now states the player's status, or says plainly that his team has not posted game statuses yet
+(they come out about two days before the game). Game-day inactives are still not verified.
+
+**A category's edge is now measured at the price level it is applied to.** The watch list used one hit-minus-price
+gap per category for every line, which overstated cheap lines. The gap is now measured in three price bands
+(20-45c, 45-65c, 65-85c), pulled toward the overall gap, with a wider error bar than the category as a whole
+(a band has a third of the bets), and is not applied at all outside 20-85c:
+
+| category | overall gap | 20-45c | 45-65c | 65-85c |
+|---|---|---|---|---|
+| NFL rushing unders on 3+ point underdogs | 5.5c +/- 2.3 | 4.6 +/- 2.9 | 6.9 +/- 2.8 | 4.7 +/- 3.0 |
+| NBA first game back after 7+ days off | 5.7c +/- 1.9 | 6.8 +/- 2.5 | 5.5 +/- 2.4 | 4.6 +/- 2.6 |
+
+With the honest error bars neither clears the 3-standard-error bar for a single bet at any price level, so both
+stay on the watch list (WAIT), as before. A player's ladder of lines (40+, 50+, 60+ yards) now counts as one
+position, not eight.
+
+**The watch list now keeps its own record** (`python -m quantsport performance`). Every WAIT is graded as if it
+had been bought at the ask it saw, one position per player, prop type and day, with the error bar counted by game.
+The price just before the game is stored too (closing-line value). First read, two NFL games: 6 positions, 5 won,
+needing 53%. That is two games: it says nothing yet, and the report says so until there are 200 positions over
+40 games.
+
+**College football totals: the price wins again.** 16,216 settled total markets with a pre-game price were
+downloaded; 8,336 on 446 games match a rated game. Rating model log-loss 0.587, Kalshi's price 0.542. In the
+blend the model's weight is negative (z -3.1): where the model disagreed with the price, the price was right.
+The blend did not beat the price on later dates (0.5296 vs 0.5291), so the estimate for college totals stays
+Kalshi's price.
+
+**College football spreads: same answer (history still downloading).** With games from Sep 24 to Nov 7 in so far,
+7,230 settled spread markets on 264 games: model log-loss 0.577, price 0.529, model weight after the price
+-0.17 (z -0.9), blend worse than the price on later dates (0.549 vs 0.546). `python -m quantsport research`
+re-tests it as the rest of the history arrives. That is 11 of 11 sport-and-market groups where the rating model
+adds nothing to Kalshi's price.
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is
