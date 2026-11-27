@@ -378,3 +378,16 @@ def test_a_listed_player_is_never_accepted_and_never_on_a_card():
                                                                          ["injury report: listed DOUBTFUL (calf)"])])
     pool = tiers.leg_pool(e, c, {})
     assert len(pool) == 1 and pool.iloc[0].why == ["injury report: not listed (expected to play)"]
+
+
+def test_a_league_wide_break_is_not_a_players_own_absence(monkeypatch):
+    from bot import legs
+    days = [pd.Timestamp("2026-11-01") + pd.Timedelta(days=2 * i) for i in range(8)]            # the team plays every other day ...
+    monkeypatch.setattr(legs, "_TEAM_DATES", {"AAA": days + [pd.Timestamp("2026-11-30")], "__max__": [pd.Timestamp("2026-11-30")]})
+    assert legs.missed_games("AAA", "2026-11-15", 8) == 3            # he last played Nov 7; the team played Nov 9, 11, 13 without him
+    assert legs.team_idle("AAA", "2026-11-15") == 2
+    assert legs.missed_games("AAA", "2026-11-30", 15) == 0 and legs.team_idle("AAA", "2026-11-30") == 15     # the whole team was off
+    d = pd.DataFrame(dict(missed=[3.0, 0.0, 0.0], team_idle=[2.0, 15.0, 15.0], days_rest=[8.0, 15.0, 15.0], log_fresh=[1.0, 1.0, 0.0]))
+    own = legs.NBA["first game back after missing 2+ of his team's games"](d)
+    brk = legs.NBA["his team's first game after 7+ days without one (season opener, All-Star break)"](d)
+    assert list(own) == [True, False, False] and list(brk) == [False, True, False]                # a stale game log never calls a break

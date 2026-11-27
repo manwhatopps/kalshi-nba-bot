@@ -59,7 +59,10 @@ NBA = {
     "points+rebounds+assists unders": lambda d: d.series == "KXNBAPRA",
     "steals and blocks unders": lambda d: d.series.isin(["KXNBASTL", "KXNBABLK"]),
     "double-double unders": lambda d: d.series == "KXNBA2D",
-    "first game back after 7+ days off": lambda d: d.days_rest >= 7,
+    # "7+ days off" used to be one category. It mixed two different things (FINDINGS 27): the whole league coming back
+    # from a break, and one player coming back from his own absence. They are graded apart.
+    "first game back after missing 2+ of his team's games": lambda d: (d.missed >= 2) & (d.team_idle < 7),
+    "his team's first game after 7+ days without one (season opener, All-Star break)": lambda d: (d.team_idle >= 7) & (d.log_fresh == 1),
     "second night of a back-to-back": lambda d: d.b2b == 1,
     "minutes trending down": lambda d: d.min_l3 < 0.88 * d.min_l10,
     "minutes trending up": lambda d: d.min_l3 > 1.12 * d.min_l10,
@@ -71,6 +74,40 @@ CATS = {"NFL": NFL, "NBA": NBA}
 
 
 # ---------------------------------------------------------------- history
+_TEAM_DATES: dict = {}
+
+
+def team_dates() -> dict:
+    """{team: sorted dates it played}, from the game logs on file."""
+    if not _TEAM_DATES:
+        from .data import load_logs
+        g = load_logs(topup=False)
+        for t, x in g.groupby("team"):
+            _TEAM_DATES[t] = sorted(pd.to_datetime(x.game_date).unique())
+        _TEAM_DATES["__max__"] = [pd.to_datetime(g.game_date).max()]
+    return _TEAM_DATES
+
+
+def missed_games(team: str, day, rest) -> float:
+    """How many games his team played between his last game and this one: 0 means the team was off too."""
+    import bisect
+    d = team_dates().get(team)
+    if d is None or rest != rest:
+        return float("nan")
+    hi = pd.Timestamp(day)
+    return float(bisect.bisect_left(d, hi) - bisect.bisect_right(d, hi - pd.Timedelta(days=float(rest))))
+
+
+def team_idle(team: str, day) -> float:
+    """Days since his team's previous game (a property of the game, not the player): 7+ is a league-wide break."""
+    import bisect
+    d = team_dates().get(team)
+    if not d:
+        return float("nan")
+    i = bisect.bisect_left(d, pd.Timestamp(day))
+    return float((pd.Timestamp(day) - d[i - 1]).days) if i > 0 else float("nan")
+
+
 def _costs() -> pd.DataFrame:
     pre = pd.concat([pd.read_parquet(config.DATA_DIR / f) for f in ("prop_pre_prior.parquet", "prop_pre.parquet")
                      if (config.DATA_DIR / f).exists()])
@@ -85,6 +122,9 @@ def history(sport: str) -> pd.DataFrame:
     else:
         from . import matchup
         d = matchup.dataset().rename(columns={"season_label": "season"})
+        d["missed"] = [missed_games(t, day, r) for t, day, r in zip(d.team, d.game_date, d.days_rest)]
+        d["team_idle"] = [team_idle(t, day) for t, day in zip(d.team, d.game_date)]
+        d["log_fresh"] = 1.0
     d = d.merge(_costs(), on="ticker", how="inner")
     d = d[d.no_cost.between(0.20, 0.85)].copy()
     d["c"] = d.no_cost + FEE * d.no_cost * (1 - d.no_cost)
@@ -242,12 +282,14 @@ def nba_features(c: pd.DataFrame, ctx: dict) -> pd.DataFrame:
         seg = r.ticker.split("-")[2]
         g = ctx["last"].get((name, KALSHI_TO_LOG_TEAM.get(seg[:3], seg[:3])))
         if g is None or len(g) < 5:
-            rows.append((np.nan, np.nan, np.nan, 0.0, 0.0))
+            rows.append((np.nan, np.nan, np.nan, 0.0, 0.0, np.nan, 0.0, np.nan))
             continue
         day = slate_date(r.game)
         rest = (day - g.game_date.max()).days
-        rows.append((rest, g.minutes.tail(3).mean(), g.minutes.tail(10).mean(), float(rest == 1), 0.0))
-    for i, col in enumerate(("days_rest", "min_l3", "min_l10", "b2b", "form_gap")):
+        team = KALSHI_TO_LOG_TEAM.get(seg[:3], seg[:3])
+        fresh = float((pd.Timestamp(day) - team_dates()["__max__"][0]).days <= 3)       # a stale log cannot tell a break from a gap in the data
+        rows.append((rest, g.minutes.tail(3).mean(), g.minutes.tail(10).mean(), float(rest == 1), 0.0, missed_games(team, day, rest), fresh, team_idle(team, day)))
+    for i, col in enumerate(("days_rest", "min_l3", "min_l10", "b2b", "form_gap", "missed", "log_fresh", "team_idle")):
         out[col] = [x[i] for x in rows]
     out["inj_lines"] = nba_injury_lines(c, ctx)
     return out

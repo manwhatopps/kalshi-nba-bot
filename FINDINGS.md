@@ -801,6 +801,32 @@ probable, day-to-day. What it does:
 Still not verified: the final status and starting lineup in the hour before tip-off, and minutes limits, which is
 the obvious risk for the one NBA category on the watch list (unders on a player's first game back after 7+ days).
 
+## 27. Correction: the NBA "first game back after 7+ days" rule was two different things (2026-11-27)
+
+Sections 21, 24 and 25 graded "unders on a player's first game back after 7+ days off" PREFER (+8.3% last season,
++7.2% this season, 1,235 bets) and the watch list applied it to players returning from injury. Looking at how long
+each player had actually been away showed what the 1,235 bets were:
+
+| what it really was | bets | games | last season | this season |
+|---|---|---|---|---|
+| his team's first game after 7+ days without one (opening week Oct 20-22; the games after the All-Star break, Feb 19-20) | 940 | 31 | +14.1% | +5.5% |
+| his own absence: he missed 2+ of his team's games | 377 | 85 | **-10.3%** | +11.1% |
+
+* **A player returning from his own absence is not a rule.** It lost 10% last season and made 11% this season:
+  +5.3% pooled, 1.3 standard errors over all NBA unders, and it fails the both-seasons test. This is the case the
+  watch list was flagging night to night (for example a player back after missing five games). Those are no
+  longer wait-listed; with this split there is no NBA category that moves an estimate on an ordinary night.
+* **The league-wide break is where the result came from.** Unders in a team's first game after a week or more off
+  returned +14.1% (All-Star break, 15 games) and +5.5% (opening week, 16 games): PREFER by the grading rule, 2.7
+  standard errors. But it is five dates and two events, so the by-game error bar flatters it. It cannot be bet
+  again until the next break; the first real out-of-sample test is the 2027 All-Star break in February.
+* Why the first version was wrong: "days since his last game" is 190 for every player on opening night and 7+ for
+  every player after the All-Star break. One number, two causes. The category now separates them with the team's
+  own schedule (`bot/legs.py`: `missed_games`, `team_idle`).
+
+The lesson is the same as section 21's: a category has to be read for what its bets actually are before it is
+trusted, and sample size counted in events, not rows.
+
 ## Bottom line
 * **One confirmed rule:** the in-game NBA double-double under. A walk-forward backtest that never
   sees the future activated it on 2026-04-01 and it has returned +15.6% on 605 bets since. It is

@@ -27,6 +27,10 @@ seasons of unders at real taker prices and writes `data/leg_categories.json`; ca
 prefer legs first, and every category is also a candidate rule in `walk --pre`. A new idea about why legs hit
 or miss goes in `bot/legs.py` as a category, not into the card builder as a hunch.
 
+NBA "first game back" is two categories, not one (FINDINGS 27): a team's first game after a league-wide break (PREFER,
+but only two events: next test is the February 2027 All-Star break) and a player's own absence (neutral: lost last
+season). Count evidence in events and games, not rows, before trusting a category.
+
 `python -m bot resting` tests resting orders (bid under the ask and wait) on every pre-game prop fill: adverse selection
 eats the saving, so WAIT means "buy if the ask comes down", never "leave a bid and assume the same edge" (FINDINGS 25).
 It needs the raw fills and is run by hand, not in the daily run. `python -m quantsport positions` is the read-only
@@ -78,4 +82,4 @@ Needs: api.elections.kalshi.com, huggingface.co, us.aws.cdn.hf.co, cas-bridge.xe
 blocks cloud IPs; the Hugging Face game-log dataset is the stats source.
 
 ## Tests
-`python -m pytest -q tests` (37 tests, ~4 s).
+`python -m pytest -q tests` (38 tests, ~4 s).
